@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Matheria MVP - Sprint 0
 
-## Getting Started
+Ce projet est la validation commerciale (Sprint 0) pour l'application de révision en mathématiques **Matheria**. Il s'agit d'une landing page "mobile-first" avec un entonnoir de diagnostic gratuit pour collecter des leads.
 
-First, run the development server:
+## Lancement rapide
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Le projet a été initialisé avec Next.js 15, Tailwind CSS v4, et utilise `pnpm` (ou `npm`).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. **Installer les dépendances :**
+   ```bash
+   npm install
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. **Lancer le serveur de développement :**
+   ```bash
+   npm run dev
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Ouvrez [http://localhost:3000](http://localhost:3000) pour voir la landing page.
 
-## Learn More
+## Connexion Supabase
 
-To learn more about Next.js, take a look at the following resources:
+Pour activer l'enregistrement en base de données, Matheria nécessite une connexion à un projet Supabase.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Trouver vos identifiants Supabase :**
+   - **Project URL** : Dans votre tableau de bord Supabase, allez dans `Project Settings` > `API` > `Project URL`.
+   - **Publishable Key** : Toujours dans `Project Settings` > `API`, récupérez la clé `anon` / `public`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Créer le fichier d'environnement :**
+   Créez un fichier `.env.local` à la racine (basé sur `.env.local.example`) :
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=votre_url_supabase
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=votre_cle_anon_supabase
+   ```
+   *(Ce fichier est ignoré par Git).*
 
-## Deploy on Vercel
+3. **Exécuter le schéma de base de données :**
+   Allez dans le `SQL Editor` de Supabase et copiez/collez le contenu du fichier `supabase/schema.sql` pour créer la table `leads` et ses politiques de sécurité.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Tester l'enregistrement d'un lead :**
+   Lancez le projet avec `npm run dev`, remplissez le diagnostic et vérifiez dans le `Table Editor` de Supabase que le lead apparaît bien dans la table `leads`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Précommande Stripe Payment Link
+
+Pour tester l'intention d'achat réelle sans développer une intégration de paiement complète (Checkout / Webhooks), Matheria utilise un simple Payment Link Stripe.
+
+1. **Créer le produit Stripe :**
+   Dans votre tableau de bord Stripe, créez un produit "Pack Révision Express" à 39 € en paiement unique et générez un Payment Link.
+
+2. **Configuration :**
+   Ajoutez le lien obtenu dans votre fichier `.env.local` :
+   ```env
+   NEXT_PUBLIC_STRIPE_PAYMENT_LINK=https://buy.stripe.com/votre_lien_ici
+   ```
+
+3. **Comportement :**
+   - **Lien présent** : Les boutons de réservation ouvrent le lien de paiement Stripe dans un nouvel onglet, avec une mention rassurante de paiement sécurisé.
+   - **Lien absent** : L'application fonctionne normalement en redirigeant les boutons vers le tunnel de diagnostic, sans crash.
+
+## Fonctionnalités du Sprint 0
+
+- **Landing Page** (`/`) : Présentation du problème, de la solution et de l'offre.
+- **Diagnostic Gratuit** (`/diagnostic`) : Formulaire en 4 étapes fluide.
+- **Page Résultat** (`/diagnostic/resultat`) : Analyse dynamique en fonction des choix de l'utilisateur.
+
+## Technologies
+
+- [Next.js](https://nextjs.org/) (App Router)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Lucide React](https://lucide.dev/) (Icônes)
+- [Supabase](https://supabase.com/) (Database client)
