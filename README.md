@@ -63,6 +63,27 @@ Pour tester l'intention d'achat réelle sans développer une intégration de pai
 - **Diagnostic Gratuit** (`/diagnostic`) : Formulaire en 4 étapes fluide.
 - **Page Résultat** (`/diagnostic/resultat`) : Analyse dynamique en fonction des choix de l'utilisateur.
 
+## MVP Produit post-paiement (Sprint 1)
+
+Ce MVP permet aux utilisateurs ayant souscrit au Pack Révision Express d'accéder à un premier espace élève très pragmatique et utile, sans authentification complexe.
+
+1. **Variables d'environnement nécessaires :**
+   En plus des variables Supabase et Stripe de base, ajoutez celles-ci dans votre `.env.local` et sur Vercel :
+   ```env
+   SUPABASE_SERVICE_ROLE_KEY=votre_service_role_key_supabase
+   MATHERIA_BETA_ACCESS_CODE=MATHERIA2026
+   ```
+   *Attention : La `SUPABASE_SERVICE_ROLE_KEY` est un secret absolu, ne la préfixez jamais par `NEXT_PUBLIC_`.*
+
+2. **Exécuter le SQL :**
+   Ajoutez les tables `beta_access` et `practice_sessions` via le fichier `supabase/schema.sql` dans le SQL Editor de Supabase. Les données seront insérées de manière sécurisée par le serveur.
+
+3. **Comment tester le parcours complet :**
+   - Accédez à `/merci` et remplissez le formulaire avec le code `MATHERIA2026` (par défaut).
+   - Une fois validé, vous serez redirigé vers `/app`.
+   - Lancez une session sur `/app/session`, répondez aux questions.
+   - Les résultats seront affichés sur `/app/session/result` et enregistrés dans la table `practice_sessions` (ou loggés en console si la clé Service Role est manquante en local).
+
 ## Technologies
 
 - [Next.js](https://nextjs.org/) (App Router)

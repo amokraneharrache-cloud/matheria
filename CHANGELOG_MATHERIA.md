@@ -131,3 +131,64 @@ Audit passé avec succès. Aucun bug bloquant détecté.
 - `.env.local` est bien ignoré par Git.
 - Le build de production s'est terminé sans erreur.
 L'application est prête pour le déploiement.
+
+## 2026-04-27 — Déploiement Vercel Sprint 0
+
+### Modifications
+- Déploiement de la première version publique Sprint 0 sur Vercel
+- Configuration des variables d’environnement Supabase et Stripe en production
+- Test du tunnel diagnostic en production
+- Test de la collecte lead en production
+- Test du Payment Link Stripe
+
+### Résultat
+Déploiement effectué. 
+**Bug détecté :** Le bouton Stripe et la connexion Supabase semblent inactifs (mode fallback) sur la version en ligne, bien que les variables aient été renseignées dans l'interface Vercel.
+**Correction à appliquer :** Redéployer l'application. Sur Vercel, l'ajout de variables d'environnement (surtout celles préfixées par `NEXT_PUBLIC_`) nécessite de relancer un "Redeploy" pour qu'elles soient injectées dans le code lors du build.
+
+## 2026-04-27 — Validation production Sprint 0
+
+### Résultat
+- Site déployé sur Vercel
+- Variables d’environnement Supabase et Stripe prises en compte
+- Tunnel diagnostic fonctionnel en production
+- Collecte lead Supabase validée en production
+- Bouton de précommande Stripe à 39 € fonctionnel
+
+### Décision
+Le Sprint 0 est considéré comme prêt pour un premier test commercial contrôlé.
+
+## 2026-04-28 — MVP Produit post-paiement Sprint 1
+
+### Modifications
+- Ajout de la page `/merci`
+- Ajout de l'espace élève `/app`
+- Ajout du quiz `/app/session`
+- Ajout du résultat `/app/session/result`
+- Ajout d'une banque locale de questions
+- Ajout des Server Actions d'activation bêta et de sauvegarde session
+- Ajout du schéma Supabase pour `beta_access` et `practice_sessions`
+
+### Objectif
+Permettre à un utilisateur ayant payé le Pack Révision Express d'accéder immédiatement à une première session d'exercices utile.
+
+## 2026-04-28 — QA MVP Produit post-paiement Sprint 1
+
+### Vérifications
+- Activation bêta
+- Protection simple de /app
+- Session QCM
+- Correction immédiate
+- Score final
+- Sauvegarde Supabase
+- Sécurité variable service role
+- Build production
+
+### Résultat
+Audit QA terminé avec succès. Un bug a été détecté et corrigé.
+- L'activation bêta et la protection `/app` via localStorage fonctionnent parfaitement.
+- La session QCM génère correctement 5 questions ciblées, bloque les choix après sélection et affiche bien la correction.
+- La sécurité est assurée : la clé Supabase service role est confinée dans une Server Action et n'est jamais exposée au client.
+- **Bug corrigé** : Le calcul du score final était faussé, la dernière question correcte étant comptabilisée en double. Ce problème logique a été résolu dans `src/app/app/session/page.tsx`.
+- Le build de production passe sans erreur TypeScript ni de dépendances.
+Le Sprint 1 est robuste et prêt pour la mise en production.
