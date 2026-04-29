@@ -90,6 +90,18 @@ Le Sprint 2 transforme le MVP en un produit d'apprentissage complet avec progres
   - **Pas d'upload photo** : Le format reste textuel/QCM simple pour le mobile.
   - **Contenu bêta** : La couverture des programmes n'est pas exhaustive, c'est l'essence même de l'approche MVP/Bêta.
 
+## Plan de révision (Sprint 3)
+
+Le Sprint 3 ajoute un vrai plan de révision structuré pour augmenter la valeur perçue du produit :
+
+- **Route `/app/plan`** : Affiche un plan de révision personnalisé jour par jour.
+- **Plans disponibles** : 7 jours et 14 jours pour chaque objectif (Brevet, Bac Première, Terminale).
+- **Personnalisation** : L'historique local (`matheria_session_history`) est analysé pour détecter les chapitres faibles (score < 60 %) et les chapitres maîtrisés (score > 80 %). Les priorités sont affichées en haut du plan.
+- **CTA intégrés** : Le plan est accessible depuis le dashboard `/app`, la page `/app/progression` et la page de résultat `/app/session/result`.
+- **Prochaine étape recommandée** : Le dashboard affiche une carte de recommandation basée sur l'historique.
+- **Limites** :
+  - Les recommandations sont **déterministes** (basées sur des seuils de score), pas d'IA API.
+  - Les plans sont **statiques** (rédigés à l'avance), mais l'ordre des priorités est dynamique.
 ## Technologies
 
 - [Next.js](https://nextjs.org/) (App Router)

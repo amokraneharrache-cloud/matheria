@@ -245,3 +245,18 @@ Disposer d’une bêta réellement utilisable par les premiers clients avant int
 
 ### Résultat
 Audit QA complet passé avec succès. 3 corrections appliquées (2 math/orthographe, 1 marketing mineur). 1 risque marketing identifié (« coach IA »). Build production stable. Le Sprint 2 est prêt pour la mise en production.
+
+## 2026-04-29 — Sprint 3 Plan de révision examen
+
+### Modifications
+- Ajout de `/app/plan`
+- Ajout des plans de révision 7 jours et 14 jours (Brevet, Bac Première, Terminale)
+- Ajout de recommandations simples par chapitre (à renforcer / maîtrisé)
+- Ajout de la détection des chapitres faibles depuis l'historique local (seuil < 60 %)
+- Ajout de CTA vers le plan depuis le dashboard, la progression et les résultats
+- Ajout d'une carte "Prochaine étape recommandée" sur le dashboard
+- Mise à jour landing page avec la notion de plan de révision
+- Création de `src/data/revisionPlans.ts` (types + 6 plans)
+
+### Objectif
+Augmenter la valeur perçue du Pack Révision Express en donnant à l'élève un plan clair jusqu'à l'examen.

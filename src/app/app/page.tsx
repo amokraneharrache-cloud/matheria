@@ -3,8 +3,31 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Play, BookOpen, LineChart, Target } from "lucide-react";
-import { getAvailableTopics } from "@/data/questions";
+import { Play, BookOpen, LineChart, Target, CalendarCheck, Lightbulb } from "lucide-react";
+import { getAvailableTopics, ExamGoal } from "@/data/questions";
+
+function getWeakestTopic(examGoal: ExamGoal): string | null {
+  if (typeof window === "undefined") return null;
+  const historyStr = localStorage.getItem("matheria_session_history");
+  if (!historyStr) return null;
+  try {
+    const history = JSON.parse(historyStr);
+    const available = getAvailableTopics(examGoal);
+    let weakest: { label: string; avg: number } | null = null;
+    available.forEach(t => {
+      const tSessions = history.filter((h: any) => h.examGoal === examGoal && h.topics.length === 1 && h.topics[0] === t.topic);
+      if (tSessions.length > 0) {
+        const sum = tSessions.reduce((a: number, c: any) => a + c.score, 0);
+        const tot = tSessions.reduce((a: number, c: any) => a + c.totalQuestions, 0);
+        const avg = Math.round((sum / tot) * 100);
+        if (avg < 60 && (!weakest || avg < weakest.avg)) {
+          weakest = { label: t.label, avg };
+        }
+      }
+    });
+    return weakest ? (weakest as { label: string; avg: number }).label : null;
+  } catch { return null; }
+}
 
 export default function AppDashboardPage() {
   const router = useRouter();
@@ -12,6 +35,7 @@ export default function AppDashboardPage() {
   const [stats, setStats] = useState({ sessions: 0, avgScore: 0, lastScore: null as number | null });
   const [topicsCount, setTopicsCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [nextStepMessage, setNextStepMessage] = useState("");
 
   useEffect(() => {
     const storedProfile = localStorage.getItem("matheria_student_profile");
@@ -51,11 +75,21 @@ export default function AppDashboardPage() {
       }
     }
 
+    // Next step
+    const weakLabel = getWeakestTopic(parsedProfile.examGoal);
+    if (!historyStr || historyStr === "[]") {
+      setNextStepMessage("Fais une session rapide pour commencer");
+    } else if (weakLabel) {
+      setNextStepMessage(`Travaille ${weakLabel}`);
+    } else {
+      setNextStepMessage("Continue ton plan de révision");
+    }
+
     setLoading(false);
   }, [router]);
 
   if (loading) {
-    return <div className="text-center mt-20 text-slate-500">Chargement de l'espace élève...</div>;
+    return <div className="text-center mt-20 text-slate-500">Chargement de l&apos;espace élève...</div>;
   }
 
   const examGoalLabel = 
@@ -94,6 +128,15 @@ export default function AppDashboardPage() {
 
       <div className="p-6 space-y-4">
         
+        {/* Next Step Card */}
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+          <Lightbulb className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <h3 className="font-semibold text-amber-900 text-sm">Prochaine étape recommandée</h3>
+            <p className="text-sm text-amber-800 mt-0.5">{nextStepMessage}</p>
+          </div>
+        </div>
+
         <div className="mb-2">
           <p className="text-slate-600 text-sm font-medium">Programme : {topicsCount} chapitres disponibles</p>
         </div>
@@ -104,6 +147,14 @@ export default function AppDashboardPage() {
         >
           <Play size={20} className="fill-current" />
           Session rapide aléatoire
+        </Link>
+
+        <Link 
+          href="/app/plan"
+          className="w-full flex items-center justify-center gap-2 py-4 px-4 rounded-xl shadow-sm text-lg font-medium text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 transition-colors"
+        >
+          <CalendarCheck size={20} />
+          Voir mon plan de révision
         </Link>
 
         <Link 

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Award, Target, Home, RotateCcw, BookOpen, AlertCircle } from "lucide-react";
+import { Award, Target, Home, RotateCcw, BookOpen, AlertCircle, CalendarCheck } from "lucide-react";
 
 export default function SessionResultPage() {
   const router = useRouter();
@@ -25,19 +25,23 @@ export default function SessionResultPage() {
 
   let message = "";
   let recMessage = "";
+  let planAdvice = "";
   let icon = <Award size={48} className="text-indigo-500 mx-auto mb-4" />;
   
   if (pct === 100) {
     message = "Excellent travail ! Sans-faute absolu. 🌟";
     recMessage = "Tu peux passer à un autre chapitre !";
+    planAdvice = "Très bien, tu peux avancer au chapitre suivant";
     icon = <Award size={64} className="text-amber-400 mx-auto mb-4 drop-shadow-md" />;
   } else if (pct >= 60) {
     message = "Très bon début ! Les bases sont là. 👍";
     recMessage = "Encore un entraînement et ça va monter vers l'excellence.";
+    planAdvice = "Bon début, continue avec la prochaine étape";
     icon = <Target size={56} className="text-emerald-500 mx-auto mb-4" />;
   } else {
     message = "Pas grave, l'important c'est de s'entraîner ! 💪";
     recMessage = "Refais une session sur ce chapitre pour bien assimiler la correction.";
+    planAdvice = "Refais une session sur ce chapitre dans ton plan";
     icon = <Target size={48} className="text-indigo-400 mx-auto mb-4" />;
   }
 
@@ -56,13 +60,23 @@ export default function SessionResultPage() {
         {message}
       </p>
 
-      <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-8 text-left">
+      <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-4 text-left">
         <h3 className="font-semibold text-slate-800 flex items-center gap-2 mb-2">
           <AlertCircle className="w-5 h-5 text-indigo-500" />
           Notre conseil
         </h3>
         <p className="text-slate-600 text-sm">
           {recMessage}
+        </p>
+      </div>
+
+      <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-4 mb-8 text-left">
+        <h3 className="font-semibold text-indigo-800 flex items-center gap-2 mb-1 text-sm">
+          <CalendarCheck className="w-4 h-4 text-indigo-500" />
+          Pour ton plan
+        </h3>
+        <p className="text-indigo-700 text-sm">
+          {planAdvice}
         </p>
       </div>
 
@@ -73,6 +87,14 @@ export default function SessionResultPage() {
         >
           <RotateCcw size={20} />
           Refaire une session
+        </Link>
+
+        <Link 
+          href="/app/plan"
+          className="w-full flex items-center justify-center gap-2 py-4 px-4 rounded-xl shadow-sm text-lg font-medium text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 transition-colors"
+        >
+          <CalendarCheck size={20} />
+          Continuer mon plan
         </Link>
         
         <Link 
@@ -88,7 +110,7 @@ export default function SessionResultPage() {
           className="w-full flex items-center justify-center gap-2 py-4 px-4 text-slate-500 hover:text-slate-700 transition-colors"
         >
           <Home size={20} />
-          Retour à l'accueil
+          Retour à l&apos;accueil
         </Link>
       </div>
 

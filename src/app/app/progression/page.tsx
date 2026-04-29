@@ -178,8 +178,25 @@ export default function ProgressionPage() {
           </div>
         )}
 
+        {/* Plan CTA */}
+        <Link
+          href="/app/plan"
+          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 border-indigo-200 text-sm font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 transition-colors"
+        >
+          <CalendarCheckIcon className="w-4 h-4" />
+          Voir mon plan de révision
+        </Link>
+
       </div>
     </div>
+  );
+}
+
+function CalendarCheckIcon(props: any) {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/>
+    </svg>
   );
 }
 

@@ -34,7 +34,7 @@ export default function Home() {
               Prépare le brevet ou le bac de maths avec un <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-violet-600">coach IA personnalisé</span>
             </h1>
             <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
-              À quelques semaines de l’examen, Matheria aide votre enfant à savoir quoi réviser, à s’entraîner en sessions courtes et à progresser sans conflit à la maison.
+              Plan de révision, exercices ciblés et progression par chapitre. À quelques semaines de l'examen, Matheria aide votre enfant à savoir quoi réviser, à s'entraîner en sessions courtes et à progresser sans conflit à la maison.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/diagnostic" className="w-full sm:w-auto">
