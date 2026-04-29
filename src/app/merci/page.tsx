@@ -79,6 +79,7 @@ export default function MerciPage() {
               <option value="">Sélectionner...</option>
               <option value="brevet">Brevet des collèges</option>
               <option value="bac-premiere">Bac de maths (Première)</option>
+              <option value="terminale">Terminale (Bêta — chapitres prioritaires)</option>
             </select>
           </div>
 

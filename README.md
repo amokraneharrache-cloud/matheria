@@ -78,11 +78,17 @@ Ce MVP permet aux utilisateurs ayant souscrit au Pack Révision Express d'accéd
 2. **Exécuter le SQL :**
    Ajoutez les tables `beta_access` et `practice_sessions` via le fichier `supabase/schema.sql` dans le SQL Editor de Supabase. Les données seront insérées de manière sécurisée par le serveur.
 
-3. **Comment tester le parcours complet :**
-   - Accédez à `/merci` et remplissez le formulaire avec le code `MATHERIA2026` (par défaut).
-   - Une fois validé, vous serez redirigé vers `/app`.
-   - Lancez une session sur `/app/session`, répondez aux questions.
-   - Les résultats seront affichés sur `/app/session/result` et enregistrés dans la table `practice_sessions` (ou loggés en console si la clé Service Role est manquante en local).
+## Bêta Complète Sans IA (Sprint 2)
+
+Le Sprint 2 transforme le MVP en un produit d'apprentissage complet avec progression locale :
+
+- **Niveau Terminale** : Ajout du niveau Terminale (Bêta) sur les chapitres prioritaires (limites, dérivées, exponentielle, ln, etc.).
+- **Progression Locale** : L'historique des sessions (jusqu'à 20) est conservé de manière totalement anonyme dans le `localStorage` du navigateur. La page `/app/progression` l'analyse pour fournir des statistiques en temps réel.
+- **Choix de chapitres** : Possibilité de cibler une session QCM sur un sujet précis via `/app/chapitres`.
+- **Limites actuelles** :
+  - **Pas d'IA (API)** : Les questions et corrections (120 incluses) sont statiques et rédigées à l'avance.
+  - **Pas d'upload photo** : Le format reste textuel/QCM simple pour le mobile.
+  - **Contenu bêta** : La couverture des programmes n'est pas exhaustive, c'est l'essence même de l'approche MVP/Bêta.
 
 ## Technologies
 

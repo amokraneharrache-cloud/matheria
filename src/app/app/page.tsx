@@ -3,50 +3,123 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Play } from "lucide-react";
+import { Play, BookOpen, LineChart, Target } from "lucide-react";
+import { getAvailableTopics } from "@/data/questions";
 
 export default function AppDashboardPage() {
   const router = useRouter();
   const [profile, setProfile] = useState<any>(null);
+  const [stats, setStats] = useState({ sessions: 0, avgScore: 0, lastScore: null as number | null });
+  const [topicsCount, setTopicsCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedProfile = localStorage.getItem("matheria_student_profile");
     if (!storedProfile) {
       router.push("/merci");
-    } else {
-      setProfile(JSON.parse(storedProfile));
-      setLoading(false);
+      return;
     }
+    const parsedProfile = JSON.parse(storedProfile);
+    setProfile(parsedProfile);
+
+    // Calc topics
+    const available = getAvailableTopics(parsedProfile.examGoal);
+    setTopicsCount(available.length);
+
+    // Calc stats from history
+    const historyStr = localStorage.getItem("matheria_session_history");
+    if (historyStr) {
+      try {
+        const history = JSON.parse(historyStr);
+        if (Array.isArray(history) && history.length > 0) {
+          // Filter history for current goal just in case they switched
+          const relevantHistory = history.filter(h => h.examGoal === parsedProfile.examGoal);
+          if (relevantHistory.length > 0) {
+            const sumScores = relevantHistory.reduce((acc, curr) => acc + curr.score, 0);
+            const sumTotal = relevantHistory.reduce((acc, curr) => acc + curr.totalQuestions, 0);
+            const avg = Math.round((sumScores / sumTotal) * 100);
+            const last = relevantHistory[relevantHistory.length - 1].score;
+            setStats({
+              sessions: relevantHistory.length,
+              avgScore: avg,
+              lastScore: last
+            });
+          }
+        }
+      } catch (e) {
+        console.error("Error parsing history", e);
+      }
+    }
+
+    setLoading(false);
   }, [router]);
 
   if (loading) {
     return <div className="text-center mt-20 text-slate-500">Chargement de l'espace élève...</div>;
   }
 
-  const examGoalLabel = profile?.examGoal === "brevet" ? "Brevet des collèges" : "Bac de maths Première";
+  const examGoalLabel = 
+    profile?.examGoal === "brevet" ? "Brevet des collèges" : 
+    profile?.examGoal === "terminale" ? "Terminale (Bêta)" : 
+    "Bac de maths Première";
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-      <div className="p-6 bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
-        <h1 className="text-2xl font-bold">Salut {profile?.studentPseudo} 👋</h1>
-        <p className="mt-2 text-indigo-100 opacity-90">Objectif : {examGoalLabel}</p>
+      <div className="p-6 bg-gradient-to-br from-indigo-500 to-purple-600 text-white relative overflow-hidden">
+        {/* Decor */}
+        <div className="absolute top-0 right-0 p-4 opacity-10">
+          <Target size={120} />
+        </div>
+        
+        <h1 className="text-2xl font-bold relative z-10">Salut {profile?.studentPseudo} 👋</h1>
+        <p className="mt-2 text-indigo-100 opacity-90 relative z-10 flex flex-col sm:flex-row sm:gap-4 gap-1">
+          <span>Objectif : {examGoalLabel}</span>
+          <span className="hidden sm:inline">•</span>
+          <span>Niveau : {profile?.currentLevel === 'very_hard' ? 'Très en difficulté' : profile?.currentLevel === 'medium' ? 'Moyen' : profile?.currentLevel === 'good' ? 'Plutôt à l\'aise' : 'Très à l\'aise'}</span>
+        </p>
+
+        {stats.sessions > 0 && (
+          <div className="mt-6 flex gap-4 relative z-10">
+            <div className="bg-white/20 rounded-lg p-3 flex-1 backdrop-blur-sm">
+              <div className="text-sm text-indigo-100 mb-1">Sessions</div>
+              <div className="text-2xl font-bold">{stats.sessions}</div>
+            </div>
+            <div className="bg-white/20 rounded-lg p-3 flex-1 backdrop-blur-sm">
+              <div className="text-sm text-indigo-100 mb-1">Précision</div>
+              <div className="text-2xl font-bold">{stats.avgScore}%</div>
+            </div>
+          </div>
+        )}
       </div>
 
-      <div className="p-6 space-y-6">
-        <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-          <h2 className="font-semibold text-slate-800">Ta session du jour</h2>
-          <p className="text-sm text-slate-500 mt-1">
-            5 exercices ciblés, correction immédiate. Prêt(e) à t'entraîner ?
-          </p>
+      <div className="p-6 space-y-4">
+        
+        <div className="mb-2">
+          <p className="text-slate-600 text-sm font-medium">Programme : {topicsCount} chapitres disponibles</p>
         </div>
 
         <Link 
           href="/app/session"
-          className="w-full flex items-center justify-center gap-2 py-4 px-4 border border-transparent rounded-xl shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+          className="w-full flex items-center justify-center gap-2 py-4 px-4 rounded-xl shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition-colors"
         >
           <Play size={20} className="fill-current" />
-          Démarrer (10 min)
+          Session rapide aléatoire
+        </Link>
+
+        <Link 
+          href="/app/chapitres"
+          className="w-full flex items-center justify-center gap-2 py-4 px-4 rounded-xl border-2 border-slate-200 text-lg font-medium text-slate-700 bg-white hover:bg-slate-50 transition-colors"
+        >
+          <BookOpen size={20} />
+          Choisir un chapitre
+        </Link>
+
+        <Link 
+          href="/app/progression"
+          className="w-full flex items-center justify-center gap-2 py-4 px-4 rounded-xl border-2 border-slate-200 text-lg font-medium text-slate-700 bg-white hover:bg-slate-50 transition-colors"
+        >
+          <LineChart size={20} />
+          Voir ma progression
         </Link>
       </div>
     </div>

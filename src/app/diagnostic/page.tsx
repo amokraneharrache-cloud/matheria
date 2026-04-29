@@ -9,7 +9,8 @@ import { saveLead } from "../actions";
 
 const EXAMS = [
   { id: "brevet", label: "Brevet" },
-  { id: "bac", label: "Bac de maths en Première" },
+  { id: "bac-premiere", label: "Bac de maths en Première" },
+  { id: "terminale", label: "Terminale (Bêta — chapitres prioritaires)" },
 ];
 
 const LEVELS = [

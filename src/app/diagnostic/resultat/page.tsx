@@ -15,7 +15,8 @@ function ResultContent() {
   const difficulties = diffParams ? diffParams.split(",") : [];
 
   const isBrevet = exam === "brevet";
-  const examName = isBrevet ? "Brevet" : "Bac de maths";
+  const isTerminale = exam === "terminale";
+  const examName = isBrevet ? "Brevet" : isTerminale ? "Bac de Terminale" : "Bac de maths";
 
   const diffMap: Record<string, string> = {
     calcul: "Calcul & bases",
@@ -86,7 +87,7 @@ function ResultContent() {
                     ))
                   ) : (
                     <span className="bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full text-sm">
-                      Programme complet
+                      Révision générale
                     </span>
                   )}
                 </div>
