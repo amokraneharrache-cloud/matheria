@@ -44,7 +44,7 @@ export default function MerciPage() {
         <div className="text-center">
           <h1 className="text-3xl font-extrabold text-gray-900">Bienvenue sur Matheria</h1>
           <p className="mt-2 text-gray-600">
-            Votre accès bêta est presque prêt. Créez l’espace élève pour commencer les révisions.
+            Votre accès élève est presque prêt. Créez l’espace élève pour commencer les révisions.
           </p>
         </div>
 
@@ -79,7 +79,7 @@ export default function MerciPage() {
               <option value="">Sélectionner...</option>
               <option value="brevet">Brevet des collèges</option>
               <option value="bac-premiere">Bac de maths (Première)</option>
-              <option value="terminale">Terminale (Bêta — chapitres prioritaires)</option>
+              <option value="terminale">Bac Terminale</option>
             </select>
           </div>
 
@@ -99,7 +99,7 @@ export default function MerciPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Code d’accès bêta</label>
+            <label className="block text-sm font-medium text-gray-700">Code d’accès</label>
             <input 
               type="text" 
               name="accessCode" 

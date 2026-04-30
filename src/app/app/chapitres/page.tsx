@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { BookOpen, ArrowLeft, Target, PlayCircle } from "lucide-react";
 import { getAvailableTopics } from "@/data/questions";
+import { getProgram } from "@/data/programs";
 
 export default function ChapitresPage() {
   const router = useRouter();
-  const [topics, setTopics] = useState<{ topic: string; label: string; count: number; avgScore: number | null }[]>([]);
+  const [topics, setTopics] = useState<{ topic: string; label: string; count: number; avgScore: number | null; priority: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [goalLabel, setGoalLabel] = useState("");
 
@@ -22,10 +23,11 @@ export default function ChapitresPage() {
     
     setGoalLabel(
       profile.examGoal === "brevet" ? "Brevet" : 
-      profile.examGoal === "terminale" ? "Terminale" : 
+      profile.examGoal === "terminale" ? "Bac Terminale" : 
       "Bac Première"
     );
 
+    const program = getProgram(profile.examGoal);
     const available = getAvailableTopics(profile.examGoal);
     
     // Enrich with history if available
@@ -37,31 +39,39 @@ export default function ChapitresPage() {
       } catch (e) {}
     }
 
-    const enriched = available.map(t => {
-      // Find sessions for this exact topic
-      // Note: in quick sessions, topics is an array of all topics seen. 
-      // In chapter sessions, it's an array with one element.
-      // We estimate score by finding sessions where this topic was the MAIN topic (or only topic)
-      const topicSessions = history.filter(h => 
-        h.examGoal === profile.examGoal && 
-        h.topics.length === 1 && 
-        h.topics[0] === t.topic
-      );
+    if (program) {
+      const enriched = program.topics.map(t => {
+        // Find if we have questions for this topic
+        const availableData = available.find(a => a.topic === t.id);
+        const count = availableData ? availableData.count : 0;
 
-      let avgScore: number | null = null;
-      if (topicSessions.length > 0) {
-        const sumScores = topicSessions.reduce((acc, curr) => acc + curr.score, 0);
-        const sumTotal = topicSessions.reduce((acc, curr) => acc + curr.totalQuestions, 0);
-        avgScore = Math.round((sumScores / sumTotal) * 100);
-      }
+        // Find sessions for this exact topic
+        const topicSessions = history.filter(h => 
+          h.examGoal === profile.examGoal && 
+          h.topics.length === 1 && 
+          h.topics[0] === t.id
+        );
 
-      return {
-        ...t,
-        avgScore
-      };
-    });
+        let avgScore: number | null = null;
+        if (topicSessions.length > 0) {
+          const sumScores = topicSessions.reduce((acc, curr) => acc + curr.score, 0);
+          const sumTotal = topicSessions.reduce((acc, curr) => acc + curr.totalQuestions, 0);
+          avgScore = Math.round((sumScores / sumTotal) * 100);
+        }
 
-    setTopics(enriched);
+        return {
+          topic: t.id,
+          label: t.label,
+          count: count,
+          priority: t.priority,
+          avgScore
+        };
+      });
+
+      setTopics(enriched);
+    } else {
+      setTopics([]);
+    }
     setLoading(false);
   }, [router]);
 
@@ -72,10 +82,10 @@ export default function ChapitresPage() {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
       <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center gap-4">
-        <Link href="/app" className="p-2 -ml-2 rounded-full hover:bg-slate-200 transition-colors">
+        <Link href="/app/programme" className="p-2 -ml-2 rounded-full hover:bg-slate-200 transition-colors">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </Link>
-        <h1 className="text-xl font-bold text-slate-800">Programme {goalLabel}</h1>
+        <h1 className="text-xl font-bold text-slate-800">Chapitres {goalLabel}</h1>
       </div>
 
       <div className="p-4 space-y-3">
@@ -84,15 +94,24 @@ export default function ChapitresPage() {
         </p>
 
         {topics.map((t) => (
-          <div key={t.topic} className="flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div key={t.topic} className={`flex items-center justify-between p-4 rounded-xl border shadow-sm ${t.count === 0 ? 'bg-slate-50 border-slate-100 opacity-70' : 'bg-white border-slate-200'}`}>
             <div className="flex-1">
-              <h2 className="font-semibold text-slate-800 flex items-center gap-2">
-                <BookOpen className="w-4 h-4 text-indigo-500" />
-                {t.label}
-              </h2>
+              <div className="flex items-center gap-2">
+                <h2 className="font-semibold text-slate-800 flex items-center gap-2">
+                  <BookOpen className={`w-4 h-4 ${t.count > 0 ? 'text-indigo-500' : 'text-slate-400'}`} />
+                  {t.label}
+                </h2>
+                <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold uppercase ${
+                  t.priority === 'high' ? 'bg-red-100 text-red-700' :
+                  t.priority === 'medium' ? 'bg-amber-100 text-amber-700' :
+                  'bg-slate-100 text-slate-600'
+                }`}>
+                  {t.priority === 'high' ? 'Haute' : t.priority === 'medium' ? 'Moyenne' : 'Basse'}
+                </span>
+              </div>
               <div className="flex items-center gap-3 mt-1.5 text-xs font-medium text-slate-500">
                 <span className="bg-slate-100 px-2 py-0.5 rounded text-slate-600">
-                  {t.count} questions
+                  {t.count > 0 ? `${t.count} questions` : 'Questions à venir'}
                 </span>
                 {t.avgScore !== null && (
                   <span className={`flex items-center gap-1 ${
@@ -106,13 +125,19 @@ export default function ChapitresPage() {
               </div>
             </div>
             
-            <Link 
-              href={`/app/session?topic=${t.topic}`}
-              className="ml-4 p-3 rounded-full bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors shrink-0"
-              title="Réviser ce chapitre"
-            >
-              <PlayCircle className="w-6 h-6" />
-            </Link>
+            {t.count > 0 ? (
+              <Link 
+                href={`/app/session?topic=${t.topic}`}
+                className="ml-4 p-3 rounded-full bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors shrink-0"
+                title="Réviser ce chapitre"
+              >
+                <PlayCircle className="w-6 h-6" />
+              </Link>
+            ) : (
+              <div className="ml-4 p-3 rounded-full bg-slate-100 text-slate-300 shrink-0 cursor-not-allowed">
+                <PlayCircle className="w-6 h-6" />
+              </div>
+            )}
           </div>
         ))}
       </div>

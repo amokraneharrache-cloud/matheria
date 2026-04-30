@@ -94,7 +94,7 @@ export default function AppDashboardPage() {
 
   const examGoalLabel = 
     profile?.examGoal === "brevet" ? "Brevet des collèges" : 
-    profile?.examGoal === "terminale" ? "Terminale (Bêta)" : 
+    profile?.examGoal === "terminale" ? "Bac Terminale" : 
     "Bac de maths Première";
 
   return (
@@ -147,6 +147,14 @@ export default function AppDashboardPage() {
         >
           <Play size={20} className="fill-current" />
           Session rapide aléatoire
+        </Link>
+
+        <Link 
+          href="/app/programme"
+          className="w-full flex items-center justify-center gap-2 py-4 px-4 rounded-xl border-2 border-slate-200 text-lg font-medium text-slate-700 bg-white hover:bg-slate-50 transition-colors"
+        >
+          <BookOpen size={20} />
+          Voir mon programme
         </Link>
 
         <Link 

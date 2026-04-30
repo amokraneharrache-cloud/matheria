@@ -102,6 +102,15 @@ Le Sprint 3 ajoute un vrai plan de révision structuré pour augmenter la valeur
 - **Limites** :
   - Les recommandations sont **déterministes** (basées sur des seuils de score), pas d'IA API.
   - Les plans sont **statiques** (rédigés à l'avance), mais l'ordre des priorités est dynamique.
+## Sprint 4 : Offre commerciale crédible
+
+Ce sprint marque la transformation vers une offre mature (sans API IA).
+- **Suppression du label Bêta** : L'interface est désormais propre et finalisée.
+- **Nouvelle structure `programs.ts`** : Définition de 3 programmes complets (Brevet, Première, Terminale).
+- **Banque d'exercices enrichie** : Plus de 380 questions intégrées localement.
+- **Nouvelle page `/app/programme`** : Synthèse du programme et priorités.
+- **Mise à jour des chapitres** : Ordonnancement logique par programme plutôt que par quantité d'exercices.
+
 ## Technologies
 
 - [Next.js](https://nextjs.org/) (App Router)

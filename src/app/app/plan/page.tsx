@@ -55,7 +55,7 @@ export default function PlanPage() {
 
   if (loading || !profile) return <div className="text-center mt-20 text-slate-500">Chargement du plan...</div>;
 
-  const goalLabel = profile.examGoal === "brevet" ? "Brevet" : profile.examGoal === "terminale" ? "Terminale (Bêta)" : "Bac Première";
+  const goalLabel = profile.examGoal === "brevet" ? "Brevet" : profile.examGoal === "terminale" ? "Bac Terminale" : "Bac Première";
   const weakTopics = topicScores.filter(t => t.status === "weak").slice(0, 3);
   const hasHistory = topicScores.length > 0;
 

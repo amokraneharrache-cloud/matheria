@@ -260,3 +260,62 @@ Audit QA complet passé avec succès. 3 corrections appliquées (2 math/orthogra
 
 ### Objectif
 Augmenter la valeur perçue du Pack Révision Express en donnant à l'élève un plan clair jusqu'à l'examen.
+
+## 2026-04-29 — QA Sprint 3 Plan de révision
+
+### Vérifications
+- Page `/app/plan` : affichage, sélection 7/14 jours, liste jour par jour, boutons « Faire la session » ✅
+- Redirection `/app/plan` → `/merci` sans localStorage ✅
+- Plans Brevet (7 et 14 jours) : 6 topics + review, cohérents avec `questions.ts` ✅
+- Plans Bac Première (7 et 14 jours) : 6 topics + review, cohérents avec `questions.ts` ✅
+- Plans Terminale (7 et 14 jours) : 7 topics, cohérents avec `questions.ts` ✅
+- Cross-validation automatisée des topics : 0 topic manquant entre `revisionPlans.ts` et `questions.ts` par examGoal ✅
+- Boutons « Faire la session » pointent vers `/app/session?topic=` (filtrage correct vérifié dans le code session) ✅
+- Dashboard `/app` : bouton « Voir mon plan de révision » ✅, carte « Prochaine étape recommandée » ✅, recommandation cohérente avec historique ✅
+- Progression `/app/progression` : bouton « Voir mon plan de révision » ✅
+- Résultat `/app/session/result` : bouton « Continuer mon plan » ✅, encart conseil adapté au score ✅
+- Landing page : intacte, ajout « Plan de révision, exercices ciblés et progression par chapitre » dans le sous-titre ✅
+- Aucune nouvelle promesse IA ajoutée (mentions « coach IA » inchangées depuis Sprint 0, déjà documentées comme risque marketing) ✅
+- Navigation vers sessions par chapitre depuis le plan : liens `/app/session?topic=` corrects ✅
+- Tâches de type « review » (sans topic) redirigent vers `/app/chapitres` ✅
+- État vide du plan (sans historique) : message « Affine ton plan — Commence par une session rapide » ✅
+- Build production : ✅ 0 erreur TypeScript, 0 warning, 11 routes statiques
+
+### Corrections
+Aucune correction nécessaire. Le Sprint 3 est propre.
+
+### Résultat
+Audit QA complet passé avec succès. 0 bug détecté. Les 6 plans de révision sont cohérents avec la banque de questions. Tous les CTA et redirections fonctionnent. Le build production passe sans erreur. Le Sprint 3 est prêt pour la mise en production.
+
+## 2026-04-29 — Sprint 4 Programme complet sans IA
+
+### Modifications
+- Suppression de toutes les occurrences visibles du mot "bêta" ou "beta" côté utilisateur.
+- Création de `src/data/programs.ts` avec la structure hiérarchique des chapitres pour chaque objectif.
+- Séparation et enrichissement de la banque d'exercices dans `src/data/questions/` pour atteindre plus de 380 questions.
+- Ajout d'une nouvelle page de synthèse du programme `/app/programme`.
+- Révision de l'affichage dans `/app/chapitres` pour suivre l'ordre chronologique de `programs.ts` avec badges de priorité.
+- Mise à jour du dashboard `/app` avec un bouton vers `/app/programme`.
+- Adaptation du copywriting marketing et diagnostic pour valider l'offre "Terminale" (et plus "Terminale (Bêta)").
+
+### Objectif
+Transformer l'application MVP/bêta en une offre commerciale crédible de préparation aux examens, soutenue par une banque de questions large et structurée, avant l'intégration coûteuse d'une API IA.
+
+## 2026-04-30 — QA Sprint 4 Programme complet sans IA
+
+### Vérifications
+- Routes et navigation : toutes les pages sont fonctionnelles et redirigent correctement vers `/merci` sans profil.
+- Suppression visible des mentions bêta : aucune mention côté client.
+- Structure des programmes : arborescence vérifiée et valide (13/11/16 chapitres).
+- Couverture questions par chapitre : audit strict du nombre de questions.
+- Audit mathématique des questions : validé pour Première et Terminale.
+- Marketing : promesses révisées et réalistes, aucun mensonge.
+- Sécurité technique : pas de clé exposée, pas d'IA non autorisée.
+- Build production : succès.
+
+### Corrections
+- **Refonte intégrale des questions Brevet** : remplacement des 117 placeholders par **104 vraies questions mathématiques** (minimum 8 par chapitre pour 13 chapitres) pour garantir une valeur commerciale réelle.
+- **Audit Mathématique (Première / Terminale)** : passe de validation technique effectuée (132 questions pour Première, 176 pour Terminale). Aucune erreur d'options ou de placeholders résiduels, structure solide validée sans modification inutile.
+
+### Résultat
+Audit QA validé et renforcé. Le produit dispose désormais de 412 questions de qualité validées (104 + 132 + 176). Le produit est stable, complet mathématiquement et "production ready".

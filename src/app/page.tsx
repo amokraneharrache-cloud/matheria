@@ -28,7 +28,7 @@ export default function Home() {
         <section className="px-4 py-20 text-center bg-gradient-to-b from-blue-50 to-white">
           <div className="container mx-auto max-w-4xl">
             <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-blue-100 text-blue-900 mb-6">
-              Brevet, bac de maths de Première et Terminale bêta.
+              Brevet, bac de maths de Première et Bac Terminale.
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
               Prépare le brevet ou le bac de maths avec un <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-violet-600">coach IA personnalisé</span>

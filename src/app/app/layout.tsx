@@ -12,7 +12,7 @@ export default function AppLayout({
             <div className="flex-shrink-0 flex items-center">
               <span className="text-xl font-bold text-indigo-600">Matheria</span>
               <span className="ml-2 px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800">
-                Bêta
+                Espace élève
               </span>
             </div>
           </div>

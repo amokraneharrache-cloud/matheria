@@ -97,7 +97,7 @@ const bp14: RevisionPlan = {
 
 const tm7: RevisionPlan = {
   examGoal: "terminale", duration: "7-days",
-  title: "Plan 7 jours — Terminale (Bêta)",
+  title: "Plan 7 jours — Bac Terminale",
   subtitle: "Chapitres prioritaires pour une révision express.",
   tasks: [
     { id:"tm7-1", day:1, title:"Suites & Récurrence", description:"Récurrence, convergence monotone.", examGoal:"terminale", topic:"suites", estimatedMinutes:20, taskType:"session" },
@@ -112,7 +112,7 @@ const tm7: RevisionPlan = {
 
 const tm14: RevisionPlan = {
   examGoal: "terminale", duration: "14-days",
-  title: "Plan 14 jours — Terminale (Bêta)",
+  title: "Plan 14 jours — Bac Terminale",
   subtitle: "Deux passages complets sur les chapitres prioritaires.",
   tasks: [
     { id:"tm14-1", day:1, title:"Suites — Bases", description:"Récurrence, initialisation, hérédité.", examGoal:"terminale", topic:"suites", estimatedMinutes:20, taskType:"session" },
