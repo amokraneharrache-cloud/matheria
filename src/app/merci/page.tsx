@@ -33,7 +33,7 @@ export default function MerciPage() {
       }));
       router.push("/app");
     } else {
-      setError(result.message || "Une erreur est survenue.");
+      setError(result.message === "Invalid beta code" ? "Code incorrect. Vérifiez l’email de confirmation ou contactez-nous." : result.message || "Une erreur est survenue. Vérifiez l’email de confirmation ou contactez-nous.");
       setLoading(false);
     }
   };
@@ -42,10 +42,14 @@ export default function MerciPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6">
         <div className="text-center">
-          <h1 className="text-3xl font-extrabold text-gray-900">Bienvenue sur Matheria</h1>
+          <h1 className="text-3xl font-extrabold text-gray-900">Votre accès Matheria est prêt</h1>
           <p className="mt-2 text-gray-600">
-            Votre accès élève est presque prêt. Créez l’espace élève pour commencer les révisions.
+            Créez maintenant l’espace élève pour commencer les révisions.
           </p>
+        </div>
+
+        <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-800">
+          <strong>Vous venez de réserver le Pack Révision Express.</strong> Cette étape permet simplement de créer l’espace de révision de l’élève.
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -107,6 +111,9 @@ export default function MerciPage() {
               placeholder="MATHERIA..."
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
             />
+            <p className="mt-2 text-xs text-gray-500">
+              Le code d’accès est indiqué dans votre email de confirmation ou transmis après votre réservation.
+            </p>
           </div>
 
           {error && (

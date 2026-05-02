@@ -137,7 +137,30 @@ export default function AppDashboardPage() {
           </div>
         </div>
 
-        <div className="mb-2">
+        {profile?.examGoal === "terminale" && (
+          <div className="bg-indigo-50 border-2 border-indigo-200 rounded-xl p-5 mb-2 relative overflow-hidden shadow-sm">
+            <div className="absolute top-0 right-0 p-3 opacity-10">
+              <Target size={80} />
+            </div>
+            <h3 className="font-bold text-indigo-900 text-lg mb-1 relative z-10 flex items-center gap-2">
+              <Target className="w-5 h-5 text-indigo-600" />
+              Mode Bac Terminale
+            </h3>
+            <p className="text-sm text-indigo-800 mb-4 relative z-10">
+              Travaille des exercices guidés étape par étape, proches de l'esprit du bac.
+            </p>
+            <div className="flex gap-3 relative z-10">
+              <Link href="/app/bac" className="flex-1 py-2.5 px-3 bg-indigo-600 text-white text-sm font-bold rounded-lg text-center shadow-sm hover:bg-indigo-700 transition-colors">
+                Lancer le mode bac
+              </Link>
+              <Link href="/app/methodes" className="flex-1 py-2.5 px-3 bg-white text-indigo-700 text-sm font-bold rounded-lg text-center border border-indigo-200 hover:bg-indigo-50 transition-colors">
+                Voir les méthodes
+              </Link>
+            </div>
+          </div>
+        )}
+
+        <div className="mb-2 mt-4">
           <p className="text-slate-600 text-sm font-medium">Programme : {topicsCount} chapitres disponibles</p>
         </div>
 

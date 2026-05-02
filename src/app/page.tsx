@@ -15,11 +15,16 @@ export default function Home() {
             </div>
             <span className="font-bold text-xl text-blue-900">Matheria</span>
           </div>
-          <Link href="/diagnostic">
-            <Button size="sm" className="hidden sm:flex">
-              Faire le diagnostic gratuit
-            </Button>
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link href="/acces" className="text-sm font-medium text-slate-600 hover:text-slate-900 hidden sm:block">
+              J'ai déjà réservé
+            </Link>
+            <Link href="/diagnostic">
+              <Button size="sm" className="hidden sm:flex">
+                Faire le diagnostic gratuit
+              </Button>
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -34,9 +39,9 @@ export default function Home() {
               Prépare le brevet ou le bac de maths avec un <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-violet-600">coach IA personnalisé</span>
             </h1>
             <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
-              Plan de révision, exercices ciblés et progression par chapitre. À quelques semaines de l'examen, Matheria aide votre enfant à savoir quoi réviser, à s'entraîner en sessions courtes et à progresser sans conflit à la maison.
+              Plan de révision, exercices ciblés et progression par chapitre. À quelques semaines de l'examen, Matheria aide votre enfant à savoir quoi réviser, à s'entraîner en sessions courtes et à progresser sans conflit à la maison. <span className="block mt-2 text-blue-800 font-medium">Pour Terminale : exercices guidés type bac, méthodes et progression par chapitre.</span>
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-6">
               <Link href="/diagnostic" className="w-full sm:w-auto">
                 <Button size="lg" className="w-full sm:w-auto">
                   Faire le diagnostic gratuit
@@ -56,6 +61,9 @@ export default function Home() {
                 </Link>
               )}
             </div>
+            <Link href="/acces" className="text-sm font-medium text-slate-500 hover:text-slate-800 underline underline-offset-4 block mt-4">
+              J'ai déjà réservé mon accès
+            </Link>
           </div>
         </section>
 

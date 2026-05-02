@@ -111,9 +111,48 @@ Ce sprint marque la transformation vers une offre mature (sans API IA).
 - **Nouvelle page `/app/programme`** : Synthèse du programme et priorités.
 - **Mise à jour des chapitres** : Ordonnancement logique par programme plutôt que par quantité d'exercices.
 
+## Sprint 6 : Mode Bac Terminale
+
+Le Sprint 6 apporte une vraie profondeur pédagogique pour les élèves de Terminale préparant le baccalauréat, sans utiliser d'API IA.
+
+- **Exercices guidés pas-à-pas** : 12 entraînements type bac avec une approche guidée et correction immédiate.
+- **Fiches Méthodes** : 12 fiches détaillées reprenant les étapes, les erreurs fréquentes et des mini-exemples.
+- **Intégration Dashboard & Plan** : Des CTAs dédiés pour encourager les élèves de Terminale à travailler en "Mode Bac".
+- **Technologie** : Pas d'API IA. L'historique d'exercices guidés est sauvegardé localement (`localStorage`).
+
 ## Technologies
 
 - [Next.js](https://nextjs.org/) (App Router)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Lucide React](https://lucide.dev/) (Icônes)
 - [Supabase](https://supabase.com/) (Database client)
+
+## Configuration Stripe après paiement
+
+Dans Stripe Payment Link, il est indispensable de configurer l’URL de confirmation pour rediriger les clients vers la page de création d'accès.
+
+1. **URL de confirmation :** Configurez l'URL vers `https://votre-domaine/merci` (ou `http://localhost:3000/merci` en local).
+2. **Code d'accès :** Le code d'accès est provisoire (ex: MATHERIA2026) tant qu’il n’y a pas de webhook Stripe pour automatiser sa génération unique.
+3. **Cas de perte :** En cas de paiement sans création d’accès dans la foulée (abandon sur la page `/merci`), il faut retrouver le client dans Stripe et lui renvoyer le lien vers la page `/acces`.
+
+## Email manuel après réservation
+
+En attendant l'automatisation par Webhook, voici le modèle d'email à envoyer manuellement aux nouveaux clients :
+
+**Objet :** Votre accès Matheria — Pack Révision Express
+
+**Corps :**
+Bonjour,
+
+Merci pour votre réservation du Pack Révision Express Matheria.
+
+Pour créer l’espace de révision de votre enfant, cliquez ici :
+[LIEN /merci ou /acces]
+
+Code d’accès :
+MATHERIA2026
+
+Une fois l’espace créé, votre enfant pourra choisir son objectif, réviser par chapitre, suivre sa progression et utiliser son plan de révision.
+
+À bientôt,
+L’équipe Matheria

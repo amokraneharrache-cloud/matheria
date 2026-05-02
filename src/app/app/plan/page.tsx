@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Calendar, Clock, AlertTriangle, CheckCircle2, PlayCircle, BookOpen, Sparkles } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, AlertTriangle, CheckCircle2, PlayCircle, BookOpen, Sparkles, Target } from "lucide-react";
 import { getPlan, PlanDuration, RevisionPlan, RevisionTask } from "@/data/revisionPlans";
 import { getAvailableTopics, ExamGoal } from "@/data/questions";
 
@@ -110,6 +110,20 @@ export default function PlanPage() {
               <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{totalDays} jours</span>
               <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />~{avgMinPerDay} min/jour</span>
             </div>
+          </div>
+        )}
+
+        {/* CTAs Mode Bac */}
+        {profile.examGoal === "terminale" && (
+          <div className="flex gap-3">
+            <Link href="/app/bac" className="flex-1 py-3 px-2 bg-indigo-600 text-white text-sm font-bold rounded-xl text-center shadow-sm hover:bg-indigo-700 transition-colors flex items-center justify-center gap-1.5">
+              <Target className="w-4 h-4" />
+              Sujets type bac
+            </Link>
+            <Link href="/app/methodes" className="flex-1 py-3 px-2 bg-white border-2 border-slate-200 text-slate-700 text-sm font-bold rounded-xl text-center hover:bg-slate-50 transition-colors flex items-center justify-center gap-1.5">
+              <BookOpen className="w-4 h-4" />
+              Fiches méthodes
+            </Link>
           </div>
         )}
 

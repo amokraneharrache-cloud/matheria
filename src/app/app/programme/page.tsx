@@ -85,21 +85,32 @@ export default function ProgrammePage() {
         </div>
 
         {/* CTAs */}
-        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-slate-100">
-          <Link
-            href="/app/chapitres"
-            className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
-          >
-            <BookOpen className="w-4 h-4" />
-            Tous les chapitres
-          </Link>
-          <Link
-            href="/app/plan"
-            className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 border-indigo-600 bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition-colors"
-          >
-            <CalendarCheck className="w-4 h-4" />
-            Mon plan d'action
-          </Link>
+        <div className="flex flex-col gap-3 pt-4 border-t border-slate-100">
+          {profile?.examGoal === "terminale" && (
+            <Link
+              href="/app/bac"
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-indigo-700 text-sm font-bold hover:bg-indigo-100 transition-colors"
+            >
+              <Target className="w-4 h-4" />
+              Travailler en mode bac
+            </Link>
+          )}
+          <div className="grid grid-cols-2 gap-3">
+            <Link
+              href="/app/chapitres"
+              className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 border-slate-200 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+            >
+              <BookOpen className="w-4 h-4" />
+              Chapitres
+            </Link>
+            <Link
+              href="/app/plan"
+              className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 border-indigo-600 bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition-colors"
+            >
+              <CalendarCheck className="w-4 h-4" />
+              Plan d'action
+            </Link>
+          </div>
         </div>
       </div>
     </div>

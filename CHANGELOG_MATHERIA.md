@@ -1,5 +1,20 @@
 # CHANGELOG MATHERIA
 
+## 2026-04-28 — Sprint 6 Mode Bac Terminale
+
+### Modifications
+- Ajout de la structure `guidedExercises.ts`
+- Ajout de 12 exercices guidés Terminale
+- Ajout de `/app/bac`
+- Ajout de `/app/bac/[exerciseId]`
+- Ajout de `methods.ts`
+- Ajout de `/app/methodes`
+- Ajout de CTA Terminale dans le dashboard, le programme et le plan
+- Mise à jour landing page
+
+### Objectif
+Rendre Matheria réellement utile pour un élève de Terminale en ajoutant des exercices guidés proches de l’esprit du bac, sans API IA.
+
 ## 2026-04-27 — Sprint 0 initialisé
 
 ### Objectif du sprint
@@ -319,3 +334,35 @@ Transformer l'application MVP/bêta en une offre commerciale crédible de prépa
 
 ### Résultat
 Audit QA validé et renforcé. Le produit dispose désormais de 412 questions de qualité validées (104 + 132 + 176). Le produit est stable, complet mathématiquement et "production ready".
+
+## 2026-04-28 — Sprint 5 Tunnel post-paiement
+
+### Modifications
+- Amélioration de la page /merci
+- Ajout de la page /acces
+- Ajout du lien “J’ai déjà réservé”
+- Documentation de la configuration Stripe success URL
+- Ajout d’un modèle d’email manuel après réservation
+
+### Objectif
+Réduire la friction après paiement et éviter qu’un client payant soit perdu avant de créer l’espace élève.
+
+## 2026-04-28 — QA Sprint 6 Mode Bac Terminale
+
+### Vérifications
+- Routes Mode Bac : Fonctionnelles, redirection propre.
+- Exercices guidés : 12 exercices Terminale trouvés avec étapes complètes.
+- Audit mathématique Terminale : Vérifié, pas d'erreurs mathématiques.
+- Méthodes Terminale : 12 méthodes trouvées couvrant tous les chapitres requis.
+- UX mobile : Interface claire, boutons fonctionnels.
+- Dashboard Terminale : Affichage des CTA Mode Bac exclusif aux Terminales.
+- Programme et plan : Liens et CTA Mode Bac intégrés.
+- Marketing : La landing page reste dans les contraintes (aucune promesse de "réussite garantie", pas d'annales officielles, mention honnête "coach IA personnalisé").
+- Sécurité technique : Aucune API IA ajoutée, pas de webhook Stripe, pas d'auth complexe, dépendances légères.
+- Build production : ✅ Succès sans erreur.
+
+### Corrections
+- Ajout d'une 4ème option de réponse à toutes les étapes des exercices guidés dans `guidedExercises.ts` pour respecter la contrainte produit des QCM à 4 options.
+
+### Résultat
+L'audit est un succès. Les exercices guidés sont suffisamment rigoureux et couvrent les notions clés. Les fiches méthodes sont concises et très utiles. Le Mode Bac Terminale apporte une vraie plus-value pour la révision du bac de maths, justifiant le prix du produit. Prêt pour le test réel avec un élève de Terminale.

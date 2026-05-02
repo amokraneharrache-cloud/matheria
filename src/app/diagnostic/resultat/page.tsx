@@ -155,6 +155,11 @@ function ResultContent() {
                 Recevoir les infos par email
               </Button>
             </Link>
+            <div className="pt-4 mt-4 border-t border-slate-100">
+              <Link href="/acces" className="text-sm font-medium text-slate-500 hover:text-slate-800 underline underline-offset-4">
+                J'ai déjà réservé mon accès
+              </Link>
+            </div>
           </div>
         </div>
       </main>
