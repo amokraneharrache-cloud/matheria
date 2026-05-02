@@ -16,8 +16,8 @@ export default function Home() {
             <span className="font-bold text-xl text-blue-900">Matheria</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/acces" className="text-sm font-medium text-slate-600 hover:text-slate-900 hidden sm:block">
-              J'ai déjà réservé
+            <Link href="/connexion" className="text-sm font-medium text-slate-600 hover:text-slate-900 hidden sm:block">
+              Se connecter
             </Link>
             <Link href="/diagnostic">
               <Button size="sm" className="hidden sm:flex">
@@ -61,8 +61,8 @@ export default function Home() {
                 </Link>
               )}
             </div>
-            <Link href="/acces" className="text-sm font-medium text-slate-500 hover:text-slate-800 underline underline-offset-4 block mt-4">
-              J'ai déjà réservé mon accès
+            <Link href="/connexion" className="text-sm font-medium text-slate-500 hover:text-slate-800 underline underline-offset-4 block mt-4">
+              J&apos;ai déjà un espace élève — Se connecter
             </Link>
           </div>
         </section>

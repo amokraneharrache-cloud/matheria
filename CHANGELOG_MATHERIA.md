@@ -1,5 +1,18 @@
 # CHANGELOG MATHERIA
 
+## 2026-04-28 — Sprint 7 Reconnexion espace élève
+
+### Modifications
+- Ajout de `/connexion` (`src/app/connexion/page.tsx`) — formulaire email parent + code d'accès
+- Ajout de `restoreBetaAccess` dans `src/actions/beta.ts` — Server Action sécurisée via `SUPABASE_SERVICE_ROLE_KEY`
+- Mise à jour de `/acces` (`src/app/acces/page.tsx`) — deux cartes : « Se connecter » et « Créer l'espace élève »
+- Ajout d'un lien « Se connecter » discret sur `/merci`
+- Remplacement du lien « J'ai déjà réservé » par « Se connecter » → `/connexion` dans le header et le hero de la landing page
+- Documentation du fonctionnement de reconnexion dans README
+
+### Objectif
+Permettre à un utilisateur ayant déjà créé son espace élève de revenir dans Matheria sans recréer un compte depuis `/merci`. La reconnexion repose sur email parent + code d'accès, sans auth Supabase. Le profil est restauré dans `localStorage` au format attendu par `/app`.
+
 ## 2026-04-28 — Sprint 6 Mode Bac Terminale
 
 ### Modifications

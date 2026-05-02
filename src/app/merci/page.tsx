@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { activateBetaAccess } from "@/actions/beta";
 
 export default function MerciPage() {
@@ -51,6 +52,13 @@ export default function MerciPage() {
         <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-800">
           <strong>Vous venez de réserver le Pack Révision Express.</strong> Cette étape permet simplement de créer l’espace de révision de l’élève.
         </div>
+
+        <p className="text-center text-sm text-gray-500">
+          Vous avez déjà créé un espace ?{" "}
+          <Link href="/connexion" className="text-indigo-600 hover:underline font-medium">
+            Se connecter
+          </Link>
+        </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

@@ -71,6 +71,66 @@ export async function activateBetaAccess(data: {
   }
 }
 
+export async function restoreBetaAccess(data: {
+  parentEmail: string;
+  accessCode: string;
+}) {
+  try {
+    // 1. Validate fields
+    if (!data.parentEmail || !data.accessCode) {
+      return { success: false as const, message: "Veuillez remplir tous les champs." };
+    }
+
+    // 2. Verify access code
+    if (data.accessCode !== BETA_ACCESS_CODE) {
+      return { success: false as const, message: "Code d'accès invalide. Vérifiez le code indiqué dans votre email de confirmation." };
+    }
+
+    // 3. Lookup in Supabase
+    if (!supabaseAdmin) {
+      console.warn("Supabase Service Role non configuré. Impossible de restaurer l'accès en mode développement sans base de données.");
+      return {
+        success: false as const,
+        message: "Aucun espace élève trouvé avec cet email. Vérifiez l'email utilisé lors de la réservation ou créez l'espace élève.",
+      };
+    }
+
+    const { data: rows, error } = await supabaseAdmin
+      .from("beta_access")
+      .select("id, parent_email, student_pseudo, exam_goal, current_level")
+      .eq("parent_email", data.parentEmail)
+      .order("created_at", { ascending: false })
+      .limit(1);
+
+    if (error) {
+      console.error("restoreBetaAccess — Supabase error:", error.message);
+      return { success: false as const, message: "Une erreur est survenue. Veuillez réessayer." };
+    }
+
+    if (!rows || rows.length === 0) {
+      return {
+        success: false as const,
+        message: "Aucun espace élève trouvé avec cet email. Vérifiez l'email utilisé lors de la réservation ou créez l'espace élève.",
+      };
+    }
+
+    const row = rows[0];
+    return {
+      success: true as const,
+      profile: {
+        betaAccessId: row.id,
+        parentEmail: row.parent_email,
+        studentPseudo: row.student_pseudo,
+        examGoal: row.exam_goal,
+        currentLevel: row.current_level,
+      },
+    };
+  } catch (error) {
+    console.error("restoreBetaAccess error:", error);
+    return { success: false as const, message: "Une erreur est survenue." };
+  }
+}
+
 export async function savePracticeSession(data: {
   betaAccessId: string;
   parentEmail: string;

@@ -111,6 +111,23 @@ Ce sprint marque la transformation vers une offre mature (sans API IA).
 - **Nouvelle page `/app/programme`** : Synthèse du programme et priorités.
 - **Mise à jour des chapitres** : Ordonnancement logique par programme plutôt que par quantité d'exercices.
 
+## Reconnexion élève (Sprint 7)
+
+- `/merci` : sert à créer l'espace élève après le premier paiement.
+- `/connexion` : sert à retrouver un espace déjà créé (email parent + code d'accès). Aucune auth Supabase.
+- `/acces` : page d'aide proposant les deux parcours (se connecter ou créer un espace).
+
+La reconnexion fonctionne ainsi :
+1. L'utilisateur saisit son email parent et le code d'accès (`MATHERIA_BETA_ACCESS_CODE`).
+2. La Server Action `restoreBetaAccess` (dans `src/actions/beta.ts`) recherche la dernière ligne dans `beta_access` via la service role key côté serveur.
+3. Si trouvée, le profil est restauré dans `localStorage` sous `matheria_student_profile` (même format que lors de la création initiale).
+4. L'utilisateur est redirigé vers `/app`.
+
+Limites actuelles :
+- Ce n'est pas une authentification complète (pas de session serveur, pas de token).
+- La protection repose sur la connaissance du code d'accès + email exact.
+- En développement sans `SUPABASE_SERVICE_ROLE_KEY`, la restauration renvoie une erreur propre sans faux positif.
+
 ## Sprint 6 : Mode Bac Terminale
 
 Le Sprint 6 apporte une vraie profondeur pédagogique pour les élèves de Terminale préparant le baccalauréat, sans utiliser d'API IA.
