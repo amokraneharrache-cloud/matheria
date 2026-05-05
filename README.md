@@ -63,6 +63,62 @@ Pour tester l'intention d'achat réelle sans développer une intégration de pai
 - **Diagnostic Gratuit** (`/diagnostic`) : Formulaire en 4 étapes fluide.
 - **Page Résultat** (`/diagnostic/resultat`) : Analyse dynamique en fonction des choix de l'utilisateur.
 
+## SEO Foundation
+
+Matheria dispose désormais d'une base SEO technique pour commencer à positionner des pages publiques indexables sur les requêtes liées au brevet, au bac de maths Première et au bac de maths Terminale.
+
+### Stratégie SEO
+
+- Des pages publiques par objectif : brevet, bac Première, bac Terminale.
+- Des pages programme par niveau alimentées par `src/data/programs.ts`.
+- Des pages Terminale dédiées aux méthodes et aux exercices guidés.
+- Un maillage interne depuis la landing page et entre les pages SEO.
+- Des données structurées JSON-LD sans témoignage inventé, sans note agrégée et sans promesse automatique.
+
+### Pages publiques créées
+
+- `/bac-terminale-maths`
+- `/bac-premiere-maths`
+- `/brevet-maths`
+- `/programme-maths-terminale`
+- `/programme-maths-premiere`
+- `/programme-maths-brevet`
+- `/methodes-maths-terminale`
+- `/exercices-maths-terminale`
+
+### Configuration technique
+
+Ajoutez l'URL publique du site dans `.env.local` et sur Vercel :
+
+```env
+NEXT_PUBLIC_SITE_URL=https://matheria.fr
+```
+
+Cette variable sert à générer les URLs absolues des métadonnées, du sitemap, du robots.txt et des données structurées.
+
+### Sitemap et robots
+
+- `src/app/sitemap.ts` génère `/sitemap.xml` avec les pages publiques indexables.
+- `src/app/robots.ts` génère `/robots.txt`, autorise les pages publiques et déclare le sitemap.
+- Les chemins privés ou transactionnels sont désindexés : `/app/*`, `/merci`, `/connexion`, `/acces`, `/diagnostic/resultat`.
+- `/diagnostic` reste accessible aux robots, car elle peut aider la conversion.
+
+### Vérifications locales
+
+Après `npm run dev`, vérifier :
+
+- `http://localhost:3000/sitemap.xml`
+- `http://localhost:3000/robots.txt`
+- `http://localhost:3000/bac-terminale-maths`
+- `http://localhost:3000/programme-maths-terminale`
+- Le HTML de `/app`, `/merci`, `/connexion`, `/acces` et `/diagnostic/resultat` contient une balise robots `noindex`.
+
+Avant déploiement, lancer obligatoirement :
+
+```bash
+npm run build
+```
+
 ## MVP Produit post-paiement (Sprint 1)
 
 Ce MVP permet aux utilisateurs ayant souscrit au Pack Révision Express d'accéder à un premier espace élève très pragmatique et utile, sans authentification complexe.

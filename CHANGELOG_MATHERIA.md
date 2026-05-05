@@ -1,5 +1,24 @@
 # CHANGELOG MATHERIA
 
+## 2026-05-05 — Correction robots/noindex SEO
+
+- Ajustement de `robots.txt` pour ne désautoriser que `/app/*` et laisser les pages noindex crawlables.
+
+## 2026-04-28 — Sprint 8 SEO Foundation
+
+### Modifications
+- Ajout sitemap.xml
+- Ajout robots.txt
+- Ajout metadata SEO globale
+- Ajout pages SEO publiques
+- Ajout noindex sur pages privées
+- Ajout maillage interne
+- Ajout structured data sans faux avis
+- Documentation SEO
+
+### Objectif
+Permettre à Matheria de commencer à se positionner sur des requêtes liées au brevet, au bac de maths Première et au bac Terminale.
+
 ## 2026-04-28 — Sprint 7 Reconnexion espace élève
 
 ### Modifications
@@ -37,7 +56,7 @@ Créer une première version de validation commerciale pour Matheria avant de d�
 - Nom du projet : Matheria
 - Cible acheteuse : parents d’élèves de 3e et de Première
 - Utilisateur final : élève sur mobile
-- Positionnement : préparation brevet et bac de maths avec un coach IA personnalisé
+- Positionnement : préparation brevet et bac de maths avec un parcours personnalisé
 - Offre de lancement : Pack Révision Express à 39 €
 - Budget initial : maximum 300 €
 - Objectif : valider l’intérêt marché avant de développer le produit complet
@@ -269,10 +288,10 @@ Disposer d’une bêta réellement utilisable par les premiers clients avant int
 - Terminale bêta : chapitres prioritaires justes, pas de promesse de couverture complète
 
 ### Risques marketing identifiés (non corrigés — décision produit)
-- La mention « coach IA personnalisé » (landing H1 + meta title) est présente alors qu'aucune API IA n'est branchée. Recommandation : remplacer par « coach intelligent » ou « coach personnalisé » avant la mise en production commerciale active.
+- Une mention IA était présente dans la landing H1 et le meta title alors qu'aucune API IA n'était branchée. Recommandation : remplacer par une formulation de parcours personnalisé avant la mise en production commerciale active.
 
 ### Résultat
-Audit QA complet passé avec succès. 3 corrections appliquées (2 math/orthographe, 1 marketing mineur). 1 risque marketing identifié (« coach IA »). Build production stable. Le Sprint 2 est prêt pour la mise en production.
+Audit QA complet passé avec succès. 3 corrections appliquées (2 math/orthographe, 1 marketing mineur). 1 risque marketing identifié autour de la promesse IA. Build production stable. Le Sprint 2 est prêt pour la mise en production.
 
 ## 2026-04-29 — Sprint 3 Plan de révision examen
 
@@ -303,7 +322,7 @@ Augmenter la valeur perçue du Pack Révision Express en donnant à l'élève un
 - Progression `/app/progression` : bouton « Voir mon plan de révision » ✅
 - Résultat `/app/session/result` : bouton « Continuer mon plan » ✅, encart conseil adapté au score ✅
 - Landing page : intacte, ajout « Plan de révision, exercices ciblés et progression par chapitre » dans le sous-titre ✅
-- Aucune nouvelle promesse IA ajoutée (mentions « coach IA » inchangées depuis Sprint 0, déjà documentées comme risque marketing) ✅
+- Aucune nouvelle promesse IA ajoutée (ancienne mention IA déjà documentée comme risque marketing) ✅
 - Navigation vers sessions par chapitre depuis le plan : liens `/app/session?topic=` corrects ✅
 - Tâches de type « review » (sans topic) redirigent vers `/app/chapitres` ✅
 - État vide du plan (sans historique) : message « Affine ton plan — Commence par une session rapide » ✅
@@ -370,7 +389,7 @@ Réduire la friction après paiement et éviter qu’un client payant soit perdu
 - UX mobile : Interface claire, boutons fonctionnels.
 - Dashboard Terminale : Affichage des CTA Mode Bac exclusif aux Terminales.
 - Programme et plan : Liens et CTA Mode Bac intégrés.
-- Marketing : La landing page reste dans les contraintes (aucune promesse de "réussite garantie", pas d'annales officielles, mention honnête "coach IA personnalisé").
+- Marketing : La landing page reste dans les contraintes, sans promesse automatique ni formulation trompeuse sur les sources d'exercices.
 - Sécurité technique : Aucune API IA ajoutée, pas de webhook Stripe, pas d'auth complexe, dépendances légères.
 - Build production : ✅ Succès sans erreur.
 

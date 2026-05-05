@@ -1,7 +1,29 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2, BrainCircuit, Target, TrendingUp, ChevronDown } from "lucide-react";
+import { CheckCircle2, BrainCircuit, Target, TrendingUp, GraduationCap, BookOpen, School } from "lucide-react";
+import { absoluteUrl, SITE_NAME } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "Matheria | Réviser le brevet et le bac de maths",
+  },
+  description:
+    "Matheria aide les élèves à réviser les maths avec des exercices ciblés, un programme par chapitre, un plan de révision et un suivi de progression.",
+  alternates: {
+    canonical: absoluteUrl("/"),
+  },
+  openGraph: {
+    title: "Matheria | Réviser le brevet et le bac de maths",
+    description:
+      "Exercices ciblés, plan de révision, programme par chapitre et progression pour préparer le brevet, le bac de Première et le bac Terminale.",
+    url: absoluteUrl("/"),
+    siteName: SITE_NAME,
+    locale: "fr_FR",
+    type: "website",
+  },
+};
 
 export default function Home() {
   return (
@@ -36,7 +58,7 @@ export default function Home() {
               Brevet, bac de maths de Première et Bac Terminale.
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
-              Prépare le brevet ou le bac de maths avec un <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-violet-600">coach IA personnalisé</span>
+              Prépare le brevet ou le bac de maths avec un <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-violet-600">parcours personnalisé</span>
             </h1>
             <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
               Plan de révision, exercices ciblés et progression par chapitre. À quelques semaines de l'examen, Matheria aide votre enfant à savoir quoi réviser, à s'entraîner en sessions courtes et à progresser sans conflit à la maison. <span className="block mt-2 text-blue-800 font-medium">Pour Terminale : exercices guidés type bac, méthodes et progression par chapitre.</span>
@@ -64,6 +86,50 @@ export default function Home() {
             <Link href="/connexion" className="text-sm font-medium text-slate-500 hover:text-slate-800 underline underline-offset-4 block mt-4">
               J&apos;ai déjà un espace élève — Se connecter
             </Link>
+          </div>
+        </section>
+
+        {/* SEO Internal Links Section */}
+        <section className="px-4 py-16 bg-white">
+          <div className="container mx-auto max-w-5xl">
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-slate-900">Révisions par objectif</h2>
+              <p className="mt-3 text-slate-600 text-lg">
+                Choisissez le parcours adapté à l'examen préparé par votre enfant.
+              </p>
+            </div>
+            <div className="grid gap-5 md:grid-cols-3">
+              {[
+                {
+                  href: "/bac-terminale-maths",
+                  icon: GraduationCap,
+                  title: "Bac Terminale",
+                  text: "Exercices guidés type bac, méthodes Terminale, programme par chapitre et plan de révision.",
+                },
+                {
+                  href: "/bac-premiere-maths",
+                  icon: BookOpen,
+                  title: "Bac Première",
+                  text: "Automatismes, fonctions, second degré, dérivation, probabilités et sessions ciblées.",
+                },
+                {
+                  href: "/brevet-maths",
+                  icon: School,
+                  title: "Brevet",
+                  text: "Fractions, équations, fonctions, géométrie, Pythagore, Thalès et progression par chapitre.",
+                },
+              ].map((item) => (
+                <Link key={item.href} href={item.href} className="group block">
+                  <Card className="h-full border-slate-200 transition-colors group-hover:border-blue-200 group-hover:bg-blue-50/40">
+                    <CardContent className="p-6">
+                      <item.icon className="h-7 w-7 text-blue-800" />
+                      <h3 className="mt-4 text-xl font-bold text-slate-900">{item.title}</h3>
+                      <p className="mt-2 text-slate-600">{item.text}</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -147,7 +213,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="w-6 h-6 text-emerald-500 shrink-0" />
-                    <span className="text-slate-700 text-lg">Zéro distraction, focus total sur la réussite</span>
+                    <span className="text-slate-700 text-lg">Zéro distraction, focus total sur les révisions</span>
                   </li>
                 </ul>
               </div>

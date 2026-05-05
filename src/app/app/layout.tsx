@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+import { sharedNoindexRobots } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: "Espace élève",
+  robots: sharedNoindexRobots,
+};
+
 export default function AppLayout({
   children,
 }: {
