@@ -21,6 +21,7 @@ export const publicSeoRoutes = [
   "/programme-maths-brevet",
   "/methodes-maths-terminale",
   "/exercices-maths-terminale",
+  "/articles",
 ] as const;
 
 export type PublicSeoRoute = (typeof publicSeoRoutes)[number];
@@ -44,4 +45,3 @@ export const sharedNoindexRobots = {
     noimageindex: true,
   },
 } as const;
-

@@ -10,6 +10,7 @@ const links = [
   { href: "/programme-maths-terminale", label: "Programme maths Terminale" },
   { href: "/methodes-maths-terminale", label: "Méthodes Terminale" },
   { href: "/exercices-maths-terminale", label: "Exercices Terminale" },
+  { href: "/articles", label: "Articles Terminale" },
   { href: "/bac-premiere-maths", label: "Réviser le bac Première" },
   { href: "/programme-maths-premiere", label: "Programme maths Première" },
   { href: "/brevet-maths", label: "Réviser le brevet" },
@@ -39,4 +40,3 @@ export function InternalLinks({
     </section>
   );
 }
-

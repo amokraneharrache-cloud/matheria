@@ -9,6 +9,7 @@ const navLinks = [
   { href: "/bac-terminale-maths", label: "Bac Terminale" },
   { href: "/bac-premiere-maths", label: "Bac Première" },
   { href: "/brevet-maths", label: "Brevet" },
+  { href: "/articles", label: "Articles" },
   { href: "/diagnostic", label: "Diagnostic" },
 ];
 
@@ -55,4 +56,3 @@ export function SeoPageLayout({ children }: SeoPageLayoutProps) {
     </div>
   );
 }
-

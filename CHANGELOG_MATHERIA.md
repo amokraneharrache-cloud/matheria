@@ -1,5 +1,20 @@
 # CHANGELOG MATHERIA
 
+## 2026-04-28 — Sprint 10 Note virtuelle Bac + SEO articles
+
+### Modifications
+- Ajout du mode sujet type bac avec note virtuelle /20
+- Ajout de `mockBacSubjects.ts`
+- Amélioration du Mode Bac Terminale
+- Ajout de l’historique local des notes virtuelles
+- Ajout de 10 articles SEO Terminale
+- Ajout de la page /articles
+- Mise à jour sitemap
+- Mise à jour page SEO Bac Terminale
+
+### Objectif
+Rendre Matheria plus convaincant pour les élèves de Terminale et commencer une stratégie SEO de contenu autour du bac de maths.
+
 ## 2026-04-28 — Sprint 9 Codes d’accès uniques
 
 ### Modifications

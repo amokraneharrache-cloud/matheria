@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Clock, BarChart2, Play } from "lucide-react";
-import { guidedExercises, GuidedExercise } from "@/data/guidedExercises";
+import { ArrowLeft, Clock, BarChart2, Play, FileText, Target } from "lucide-react";
+import { guidedExercises } from "@/data/guidedExercises";
+import { mockBacSubjects } from "@/data/mockBacSubjects";
 
 export default function BacModePage() {
   const router = useRouter();
@@ -78,6 +79,59 @@ export default function BacModePage() {
           <p className="text-sm text-indigo-700">
             Travaille des exercices guidés étape par étape, très proches de l'esprit du baccalauréat. Maîtrise la méthode pour gagner des points le jour J.
           </p>
+        </div>
+
+        <section className="space-y-3">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <h2 className="font-bold text-slate-900 text-lg">Sujets type bac</h2>
+              <p className="text-sm text-slate-600">
+                Quatre exercices guidés pour obtenir une note virtuelle sur 20.
+              </p>
+            </div>
+            <Link
+              href="/app/bac/sujet"
+              className="shrink-0 rounded-full bg-indigo-600 p-3 text-white hover:bg-indigo-700 transition-colors"
+              aria-label="Commencer un sujet type bac"
+            >
+              <Target className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="space-y-3">
+            {mockBacSubjects.map((subject) => (
+              <article
+                key={subject.id}
+                className="rounded-xl border border-slate-200 bg-white p-4 hover:border-indigo-300 hover:shadow-sm transition-all"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-50 text-indigo-700">
+                    <FileText className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-bold text-slate-900">{subject.title}</h3>
+                    <p className="mt-1 text-sm text-slate-600">{subject.description}</p>
+                    <div className="mt-3 flex items-center justify-between gap-3">
+                      <span className="flex items-center gap-1 text-xs font-medium text-slate-500">
+                        <Clock className="h-3.5 w-3.5" />
+                        ~{subject.estimatedMinutes} min
+                      </span>
+                      <Link
+                        href={`/app/bac/sujet?subject=${subject.id}`}
+                        className="rounded-lg bg-indigo-600 px-3 py-2 text-xs font-bold text-white hover:bg-indigo-700 transition-colors"
+                      >
+                        Commencer le sujet
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <div>
+          <h2 className="font-bold text-slate-900 text-lg mb-3">Exercices guidés</h2>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">

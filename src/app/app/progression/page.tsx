@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Target, Trophy, Flame, PlayCircle } from "lucide-react";
+import { ArrowLeft, Target, Trophy, Flame, PlayCircle, Award } from "lucide-react";
 import { getAvailableTopics } from "@/data/questions";
 
 type SessionHistory = {
@@ -14,11 +14,30 @@ type SessionHistory = {
   topics: string[];
 };
 
+type BacMockExamHistory = {
+  date: string;
+  score20: number;
+  exercises: {
+    exerciseId: string;
+    topic: string;
+    score: number;
+    total: number;
+  }[];
+};
+
+type BacMockExamStats = {
+  count: number;
+  lastScore: number;
+  bestScore: number;
+  averageScore: number;
+};
+
 export default function ProgressionPage() {
   const router = useRouter();
   const [history, setHistory] = useState<SessionHistory[]>([]);
   const [stats, setStats] = useState({ totalSessions: 0, avgScore: 0, bestScore: 0 });
   const [topicStats, setTopicStats] = useState<{label: string, sessions: number, avg: number}[]>([]);
+  const [bacMockStats, setBacMockStats] = useState<BacMockExamStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<any>(null);
 
@@ -81,6 +100,28 @@ export default function ProgressionPage() {
       } catch (e) {}
     }
 
+    const bacMockHistoryStr = localStorage.getItem("matheria_bac_mock_exam_history");
+    if (bacMockHistoryStr) {
+      try {
+        const parsed: BacMockExamHistory[] = JSON.parse(bacMockHistoryStr);
+        const validHistory = Array.isArray(parsed)
+          ? parsed
+              .filter((entry) => Number.isFinite(entry.score20))
+              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+          : [];
+
+        if (validHistory.length > 0) {
+          const scoreSum = validHistory.reduce((sum, entry) => sum + entry.score20, 0);
+          setBacMockStats({
+            count: validHistory.length,
+            lastScore: validHistory[0].score20,
+            bestScore: Math.max(...validHistory.map((entry) => entry.score20)),
+            averageScore: Math.round((scoreSum / validHistory.length) * 10) / 10,
+          });
+        }
+      } catch (e) {}
+    }
+
     setLoading(false);
   }, [router]);
 
@@ -89,7 +130,7 @@ export default function ProgressionPage() {
   }
 
   // EMPTY STATE
-  if (history.length === 0) {
+  if (history.length === 0 && !bacMockStats) {
     return (
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden text-center p-8">
         <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -127,37 +168,72 @@ export default function ProgressionPage() {
 
       <div className="p-5 space-y-6">
         
-        {/* KPI Row */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-indigo-50 rounded-xl p-4 border border-indigo-100 text-center">
-            <Flame className="w-6 h-6 text-orange-500 mx-auto mb-1" />
-            <div className="text-3xl font-bold text-indigo-900">{stats.totalSessions}</div>
-            <div className="text-xs font-semibold text-indigo-600 uppercase tracking-wide mt-1">Sessions</div>
-          </div>
-          <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-100 text-center">
-            <Target className="w-6 h-6 text-emerald-500 mx-auto mb-1" />
-            <div className="text-3xl font-bold text-emerald-900">{stats.avgScore}%</div>
-            <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mt-1">Moyenne</div>
-          </div>
-        </div>
+        {history.length > 0 ? (
+          <>
+            {/* KPI Row */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-indigo-50 rounded-xl p-4 border border-indigo-100 text-center">
+                <Flame className="w-6 h-6 text-orange-500 mx-auto mb-1" />
+                <div className="text-3xl font-bold text-indigo-900">{stats.totalSessions}</div>
+                <div className="text-xs font-semibold text-indigo-600 uppercase tracking-wide mt-1">Sessions</div>
+              </div>
+              <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-100 text-center">
+                <Target className="w-6 h-6 text-emerald-500 mx-auto mb-1" />
+                <div className="text-3xl font-bold text-emerald-900">{stats.avgScore}%</div>
+                <div className="text-xs font-semibold text-emerald-600 uppercase tracking-wide mt-1">Moyenne</div>
+              </div>
+            </div>
 
-        {/* Message */}
-        <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 flex items-start gap-3">
-          <Trophy className="w-6 h-6 text-amber-500 shrink-0 mt-0.5" />
-          <div>
-            <h3 className="font-semibold text-slate-800">Meilleur score : {stats.bestScore}%</h3>
-            <p className="text-sm text-slate-600 mt-1">
-              {stats.avgScore < 50 
-                ? "Continue à t'entraîner, tes scores vont monter !" 
-                : stats.avgScore < 80 
-                ? "Très bonne régularité, vise le 100% !" 
-                : "Excellent niveau global, tu es prêt(e) !"}
-            </p>
+            {/* Message */}
+            <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 flex items-start gap-3">
+              <Trophy className="w-6 h-6 text-amber-500 shrink-0 mt-0.5" />
+              <div>
+                <h3 className="font-semibold text-slate-800">Meilleur score : {stats.bestScore}%</h3>
+                <p className="text-sm text-slate-600 mt-1">
+                  {stats.avgScore < 50
+                    ? "Continue à t'entraîner, tes scores vont monter !"
+                    : stats.avgScore < 80
+                    ? "Très bonne régularité, vise le 100% !"
+                    : "Très bon niveau global sur tes sessions récentes."}
+                </p>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 text-sm text-slate-600">
+            Aucune session QCM enregistrée pour le moment.
           </div>
-        </div>
+        )}
+
+        {bacMockStats && (
+          <section className="rounded-xl border border-indigo-100 bg-indigo-50 p-5">
+            <h2 className="font-bold text-indigo-950 mb-4 flex items-center gap-2">
+              <Award className="w-5 h-5 text-indigo-600" />
+              Notes virtuelles Bac Terminale
+            </h2>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-xl bg-white p-4 border border-indigo-100">
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Dernière note</div>
+                <div className="mt-1 text-2xl font-black text-indigo-700">{formatScore20(bacMockStats.lastScore)}</div>
+              </div>
+              <div className="rounded-xl bg-white p-4 border border-indigo-100">
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Meilleure note</div>
+                <div className="mt-1 text-2xl font-black text-indigo-700">{formatScore20(bacMockStats.bestScore)}</div>
+              </div>
+              <div className="rounded-xl bg-white p-4 border border-indigo-100">
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Moyenne</div>
+                <div className="mt-1 text-2xl font-black text-indigo-700">{formatScore20(bacMockStats.averageScore)}</div>
+              </div>
+              <div className="rounded-xl bg-white p-4 border border-indigo-100">
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Sujets faits</div>
+                <div className="mt-1 text-2xl font-black text-indigo-700">{bacMockStats.count}</div>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Topic Breakdown */}
-        {topicStats.length > 0 && (
+        {history.length > 0 && topicStats.length > 0 && (
           <div>
             <h2 className="font-bold text-slate-800 mb-3 flex items-center gap-2">
               Bilan par chapitre (ciblé)
@@ -190,6 +266,11 @@ export default function ProgressionPage() {
       </div>
     </div>
   );
+}
+
+function formatScore20(score: number) {
+  const formatted = Number.isInteger(score) ? String(score) : score.toFixed(1).replace(".", ",");
+  return `${formatted}/20`;
 }
 
 function CalendarCheckIcon(props: any) {

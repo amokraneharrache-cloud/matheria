@@ -3,7 +3,7 @@
 import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2, XCircle, ChevronRight, RefreshCw, BookOpen, Target } from "lucide-react";
+import { ArrowLeft, CheckCircle2, XCircle, ChevronRight, RefreshCw, BookOpen, Target, FileText } from "lucide-react";
 import { guidedExercises, GuidedExercise } from "@/data/guidedExercises";
 
 export default function GuidedExercisePage({ params }: { params: Promise<{ exerciseId: string }> }) {
@@ -68,7 +68,7 @@ export default function GuidedExercisePage({ params }: { params: Promise<{ exerc
         date: new Date().toISOString(),
         exerciseId: exercise.id,
         topic: exercise.topic,
-        score: score + (selectedOption === exercise.steps[currentStepIndex].correctOptionIndex ? 1 : 0),
+        score,
         totalSteps: exercise.steps.length
       };
       const updated = [newEntry, ...history].slice(0, 20); // Keep last 20
@@ -93,6 +93,13 @@ export default function GuidedExercisePage({ params }: { params: Promise<{ exerc
     const finalScore = score;
     const total = exercise.steps.length;
     const percentage = Math.round((finalScore / total) * 100);
+    const estimatedPoints = Math.round((finalScore / total) * 5);
+    const pointsMessage =
+      estimatedPoints === 5
+        ? "Très solide"
+        : estimatedPoints >= 3
+        ? "Bon niveau, quelques réflexes à consolider"
+        : "À retravailler avec la fiche méthode";
     
     return (
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
@@ -110,6 +117,18 @@ export default function GuidedExercisePage({ params }: { params: Promise<{ exerc
         </div>
 
         <div className="p-6">
+          <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-5 mb-6">
+            <h3 className="font-bold text-emerald-900 mb-2 flex items-center gap-2">
+              <Target className="w-5 h-5 text-emerald-600" />
+              Estimation de points
+            </h3>
+            <div className="flex items-end gap-2">
+              <span className="text-4xl font-black text-emerald-700">{estimatedPoints}</span>
+              <span className="mb-1 text-xl font-bold text-emerald-300">/5</span>
+            </div>
+            <p className="mt-2 text-sm font-semibold text-emerald-800">{pointsMessage}</p>
+          </div>
+
           <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-5 mb-8">
             <h3 className="font-bold text-indigo-900 mb-4 flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-indigo-600" />
@@ -141,6 +160,13 @@ export default function GuidedExercisePage({ params }: { params: Promise<{ exerc
             >
               <BookOpen className="w-5 h-5" />
               Voir mes fiches méthodes
+            </Link>
+            <Link
+              href="/app/bac/sujet"
+              className="w-full py-4 rounded-xl flex justify-center items-center gap-2 border-2 border-indigo-200 bg-indigo-50 text-indigo-700 font-bold hover:bg-indigo-100 transition-colors"
+            >
+              <FileText className="w-5 h-5" />
+              Faire un sujet type bac
             </Link>
             <Link
               href="/app/bac"

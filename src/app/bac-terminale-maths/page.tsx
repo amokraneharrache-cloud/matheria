@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, CalendarCheck, GraduationCap, LineChart, PenTool, Target } from "lucide-react";
+import { Award, BookOpen, CalendarCheck, FileText, GraduationCap, LineChart, PenTool, Target } from "lucide-react";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { InternalLinks } from "@/components/marketing/InternalLinks";
 import { SeoCta } from "@/components/marketing/SeoCta";
 import { SeoFaq } from "@/components/marketing/SeoFaq";
 import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
 import { guidedExercises } from "@/data/guidedExercises";
+import { mockBacSubjects } from "@/data/mockBacSubjects";
 import { getProgram } from "@/data/programs";
 import { methods } from "@/data/methods";
 import { absoluteUrl } from "@/lib/site";
@@ -161,6 +162,7 @@ export default function BacTerminaleMathsPage() {
                 {[
                   "Des exercices guidés type bac en plusieurs étapes.",
                   "Des fiches méthodes Terminale claires et actionnables.",
+                  "Des sujets guidés avec note virtuelle indicative sur 20.",
                   "Un programme par chapitre avec priorités.",
                   "Un plan de révision 7 ou 14 jours.",
                   "Un suivi de progression par session et par chapitre.",
@@ -171,6 +173,39 @@ export default function BacTerminaleMathsPage() {
                   </li>
                 ))}
               </ul>
+            </div>
+          </section>
+
+          <section className="grid gap-6 lg:grid-cols-[0.9fr_1fr] lg:items-start">
+            <div className="rounded-2xl bg-indigo-950 p-6 text-white">
+              <Award className="h-7 w-7 text-indigo-200" />
+              <h2 className="mt-4 text-3xl font-bold">
+                Note virtuelle sur 20
+              </h2>
+              <p className="mt-4 text-indigo-100">
+                Le mode Bac Terminale permet de s’entraîner sur des sujets guidés et d’obtenir une estimation de note sur 20. Cette note sert à identifier les chapitres à retravailler, sans remplacer une vraie correction de professeur.
+              </p>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-slate-950">
+                Sujets type bac guidés
+              </h2>
+              <p className="mt-3 text-slate-700">
+                Chaque sujet regroupe quatre exercices guidés pour travailler plusieurs réflexes dans une même séance : méthodes, calculs intermédiaires et correction étape par étape.
+              </p>
+              <div className="mt-5 grid gap-3">
+                {mockBacSubjects.map((subject) => (
+                  <article key={subject.id} className="rounded-xl border border-slate-200 bg-white p-4">
+                    <div className="flex items-start gap-3">
+                      <FileText className="mt-1 h-5 w-5 shrink-0 text-blue-800" />
+                      <div>
+                        <h3 className="font-bold text-slate-950">{subject.title}</h3>
+                        <p className="mt-1 text-sm text-slate-700">{subject.description}</p>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
           </section>
 
@@ -301,4 +336,3 @@ export default function BacTerminaleMathsPage() {
     </SeoPageLayout>
   );
 }
-

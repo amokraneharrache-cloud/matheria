@@ -4,7 +4,7 @@ Ce projet est la validation commerciale (Sprint 0) pour l'application de révisi
 
 ## Lancement rapide
 
-Le projet a été initialisé avec Next.js 15, Tailwind CSS v4, et utilise `pnpm` (ou `npm`).
+Le projet utilise Next.js 16, Tailwind CSS v4, et utilise `npm`.
 
 1. **Installer les dépendances :**
    ```bash
@@ -72,6 +72,7 @@ Matheria dispose désormais d'une base SEO technique pour commencer à positionn
 - Des pages publiques par objectif : brevet, bac Première, bac Terminale.
 - Des pages programme par niveau alimentées par `src/data/programs.ts`.
 - Des pages Terminale dédiées aux méthodes et aux exercices guidés.
+- Une page articles (`/articles`) et 10 articles SEO Terminale.
 - Un maillage interne depuis la landing page et entre les pages SEO.
 - Des données structurées JSON-LD sans témoignage inventé, sans note agrégée et sans promesse automatique.
 
@@ -85,6 +86,17 @@ Matheria dispose désormais d'une base SEO technique pour commencer à positionn
 - `/programme-maths-brevet`
 - `/methodes-maths-terminale`
 - `/exercices-maths-terminale`
+- `/articles`
+- `/articles/reviser-bac-maths-terminale-30-jours`
+- `/articles/methode-derivee-terminale`
+- `/articles/etudier-variations-fonction-terminale`
+- `/articles/exponentielle-terminale-methodes`
+- `/articles/logarithme-terminale-methodes`
+- `/articles/probabilites-loi-binomiale-terminale`
+- `/articles/integrales-terminale-methode`
+- `/articles/suites-recurrence-terminale`
+- `/articles/limites-formes-indeterminees-terminale`
+- `/articles/erreurs-frequentes-bac-maths-terminale`
 
 ### Configuration technique
 
@@ -99,6 +111,7 @@ Cette variable sert à générer les URLs absolues des métadonnées, du sitemap
 ### Sitemap et robots
 
 - `src/app/sitemap.ts` génère `/sitemap.xml` avec les pages publiques indexables.
+- Le sitemap inclut la page `/articles` et les articles SEO Terminale.
 - `src/app/robots.ts` génère `/robots.txt`, autorise les pages publiques et déclare le sitemap.
 - Les chemins privés ou transactionnels sont désindexés : `/app/*`, `/merci`, `/connexion`, `/acces`, `/diagnostic/resultat`.
 - `/diagnostic` reste accessible aux robots, car elle peut aider la conversion.
@@ -110,6 +123,7 @@ Après `npm run dev`, vérifier :
 - `http://localhost:3000/sitemap.xml`
 - `http://localhost:3000/robots.txt`
 - `http://localhost:3000/bac-terminale-maths`
+- `http://localhost:3000/articles`
 - `http://localhost:3000/programme-maths-terminale`
 - Le HTML de `/app`, `/merci`, `/connexion`, `/acces` et `/diagnostic/resultat` contient une balise robots `noindex`.
 
@@ -211,6 +225,22 @@ Le Sprint 6 apporte une vraie profondeur pédagogique pour les élèves de Termi
 - **Fiches Méthodes** : 12 fiches détaillées reprenant les étapes, les erreurs fréquentes et des mini-exemples.
 - **Intégration Dashboard & Plan** : Des CTAs dédiés pour encourager les élèves de Terminale à travailler en "Mode Bac".
 - **Technologie** : Pas d'API IA. L'historique d'exercices guidés est sauvegardé localement (`localStorage`).
+
+## Sprint 10 : Note virtuelle Bac + SEO articles
+
+Le Sprint 10 renforce la valeur perçue pour les élèves de Terminale et démarre une stratégie de contenu SEO autour du bac de maths.
+
+- **Note virtuelle /20** : Nouvelle page `/app/bac/sujet` pour faire un entraînement type bac guidé en quatre exercices et obtenir une estimation indicative sur 20.
+- **Sujets type bac** : Ajout de `src/data/mockBacSubjects.ts` avec 3 sujets Terminale composés d'exercices guidés existants.
+- **Historique local** : Les 10 dernières notes virtuelles sont stockées dans `localStorage` sous `matheria_bac_mock_exam_history` et affichées dans `/app/progression`.
+- **Articles SEO** : Ajout de `src/data/articles.ts`, de `/articles` et de 10 articles Terminale indexables.
+- **Sitemap articles** : `/articles` et les 10 articles sont ajoutés à `/sitemap.xml`. Les pages privées restent exclues du sitemap.
+- **Page Bac Terminale** : Ajout des sections "Note virtuelle sur 20" et "Sujets type bac guidés" sur `/bac-terminale-maths`.
+
+Limites importantes :
+- La note virtuelle est une estimation pédagogique indicative, pas une vraie correction de professeur.
+- Aucun appel à une API IA n'est ajouté.
+- Aucun upload photo, chat IA, Stripe Checkout custom ou webhook Stripe n'est ajouté.
 
 ## Technologies
 
