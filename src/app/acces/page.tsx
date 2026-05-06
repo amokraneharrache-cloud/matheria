@@ -24,7 +24,7 @@ export default function AccesPage() {
             J&apos;ai déjà créé un espace élève
           </h2>
           <p className="text-sm text-gray-600">
-            Reconnectez-vous avec l&apos;email parent et le code d&apos;accès.
+            Reconnectez-vous avec l&apos;email parent et le code d&apos;accès personnel.
           </p>
           <Link href="/connexion" className="block w-full">
             <Button size="lg" className="w-full text-base h-12 bg-indigo-600 hover:bg-indigo-700 text-white">

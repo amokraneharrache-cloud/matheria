@@ -34,7 +34,7 @@ export default function MerciPage() {
       }));
       router.push("/app");
     } else {
-      setError(result.message === "Invalid beta code" ? "Code incorrect. Vérifiez l’email de confirmation ou contactez-nous." : result.message || "Une erreur est survenue. Vérifiez l’email de confirmation ou contactez-nous.");
+      setError(result.message || "Une erreur est survenue. Vérifiez votre code d'accès personnel ou contactez-nous.");
       setLoading(false);
     }
   };
@@ -116,12 +116,16 @@ export default function MerciPage() {
               type="text" 
               name="accessCode" 
               required 
-              placeholder="MATHERIA..."
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+              placeholder="MATH-XXXX"
+              autoComplete="off"
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 uppercase"
             />
             <p className="mt-2 text-xs text-gray-500">
-              Le code d’accès est indiqué dans votre email de confirmation ou transmis après votre réservation.
+              Code d’accès personnel reçu après votre réservation.
             </p>
+            <Link href="/connexion" className="mt-2 inline-block text-xs font-medium text-indigo-600 hover:underline">
+              J&apos;ai déjà créé mon espace élève
+            </Link>
           </div>
 
           {error && (

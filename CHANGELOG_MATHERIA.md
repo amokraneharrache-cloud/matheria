@@ -1,5 +1,19 @@
 # CHANGELOG MATHERIA
 
+## 2026-04-28 — Sprint 9 Codes d’accès uniques
+
+### Modifications
+- Ajout de la table access_codes
+- Ajout d’une page admin /admin/codes
+- Génération de codes uniques MATH-XXXX
+- Code utilisable une seule fois
+- Mise à jour de /merci
+- Mise à jour de /connexion
+- Documentation du flux manuel après paiement
+
+### Objectif
+Éviter le partage d’un code commun et sécuriser l’accès au Pack Révision Express avant les premiers clients.
+
 ## 2026-05-05 — Correction robots/noindex SEO
 
 - Ajustement de `robots.txt` pour ne désautoriser que `/app/*` et laisser les pages noindex crawlables.

@@ -127,12 +127,14 @@ Ce MVP permet aux utilisateurs ayant souscrit au Pack Révision Express d'accéd
    En plus des variables Supabase et Stripe de base, ajoutez celles-ci dans votre `.env.local` et sur Vercel :
    ```env
    SUPABASE_SERVICE_ROLE_KEY=votre_service_role_key_supabase
+   MATHERIA_ADMIN_PASSWORD=mot_de_passe_admin
    MATHERIA_BETA_ACCESS_CODE=MATHERIA2026
    ```
    *Attention : La `SUPABASE_SERVICE_ROLE_KEY` est un secret absolu, ne la préfixez jamais par `NEXT_PUBLIC_`.*
+   `MATHERIA_BETA_ACCESS_CODE` reste uniquement un fallback de développement local si la service role Supabase n'est pas configurée. En production, les accès passent par des codes uniques.
 
 2. **Exécuter le SQL :**
-   Ajoutez les tables `beta_access` et `practice_sessions` via le fichier `supabase/schema.sql` dans le SQL Editor de Supabase. Les données seront insérées de manière sécurisée par le serveur.
+   Ajoutez les tables `beta_access`, `access_codes` et `practice_sessions` via le fichier `supabase/schema.sql` dans le SQL Editor de Supabase. Les données seront insérées de manière sécurisée par le serveur.
 
 ## Bêta Complète Sans IA (Sprint 2)
 
@@ -174,15 +176,32 @@ Ce sprint marque la transformation vers une offre mature (sans API IA).
 - `/acces` : page d'aide proposant les deux parcours (se connecter ou créer un espace).
 
 La reconnexion fonctionne ainsi :
-1. L'utilisateur saisit son email parent et le code d'accès (`MATHERIA_BETA_ACCESS_CODE`).
-2. La Server Action `restoreBetaAccess` (dans `src/actions/beta.ts`) recherche la dernière ligne dans `beta_access` via la service role key côté serveur.
+1. L'utilisateur saisit son email parent et son code d'accès personnel.
+2. La Server Action `restoreBetaAccess` (dans `src/actions/beta.ts`) vérifie que le code est `used` dans `access_codes`, puis retrouve le `beta_access` associé via la service role key côté serveur.
 3. Si trouvée, le profil est restauré dans `localStorage` sous `matheria_student_profile` (même format que lors de la création initiale).
 4. L'utilisateur est redirigé vers `/app`.
 
 Limites actuelles :
 - Ce n'est pas une authentification complète (pas de session serveur, pas de token).
-- La protection repose sur la connaissance du code d'accès + email exact.
+- La protection repose sur la connaissance du code d'accès personnel + email exact.
 - En développement sans `SUPABASE_SERVICE_ROLE_KEY`, la restauration renvoie une erreur propre sans faux positif.
+
+## Codes d'accès uniques (Sprint 9)
+
+Le code partagé historique est remplacé par des codes personnels à usage unique.
+
+- Table `access_codes` : stocke les codes `MATH-XXXX`, leur statut (`unused`, `used`, `revoked`), l'email client optionnel et le lien vers `beta_access` après activation.
+- `/admin/codes` : page admin noindex permettant au fondateur de générer, lister et révoquer les codes.
+- Chaque code est utilisable une seule fois sur `/merci`.
+- Après activation, le code passe en `used` et ne peut pas créer un second espace.
+- `/connexion` continue de fonctionner avec email parent + code personnel déjà activé.
+
+Flux manuel actuel après paiement :
+1. Le client paie via Stripe Payment Link.
+2. Le fondateur ouvre `/admin/codes`.
+3. Il saisit `MATHERIA_ADMIN_PASSWORD`, ajoute éventuellement l'email client, puis génère un code.
+4. Il envoie le code au client avec le modèle d'email ci-dessous.
+5. Le client crée son espace sur `/merci`, puis peut revenir via `/connexion`.
 
 ## Sprint 6 : Mode Bac Terminale
 
@@ -205,7 +224,7 @@ Le Sprint 6 apporte une vraie profondeur pédagogique pour les élèves de Termi
 Dans Stripe Payment Link, il est indispensable de configurer l’URL de confirmation pour rediriger les clients vers la page de création d'accès.
 
 1. **URL de confirmation :** Configurez l'URL vers `https://votre-domaine/merci` (ou `http://localhost:3000/merci` en local).
-2. **Code d'accès :** Le code d'accès est provisoire (ex: MATHERIA2026) tant qu’il n’y a pas de webhook Stripe pour automatiser sa génération unique.
+2. **Code d'accès :** Générez un code unique depuis `/admin/codes` après chaque paiement.
 3. **Cas de perte :** En cas de paiement sans création d’accès dans la foulée (abandon sur la page `/merci`), il faut retrouver le client dans Stripe et lui renvoyer le lien vers la page `/acces`.
 
 ## Email manuel après réservation
@@ -219,13 +238,14 @@ Bonjour,
 
 Merci pour votre réservation du Pack Révision Express Matheria.
 
-Pour créer l’espace de révision de votre enfant, cliquez ici :
-[LIEN /merci ou /acces]
+Voici votre code d’accès personnel :
+[CODE_UNIQUE]
 
-Code d’accès :
-MATHERIA2026
+Pour créer l’espace élève :
+[LIEN /merci]
 
-Une fois l’espace créé, votre enfant pourra choisir son objectif, réviser par chapitre, suivre sa progression et utiliser son plan de révision.
+Si vous avez déjà créé l’espace :
+[LIEN /connexion]
 
 À bientôt,
 L’équipe Matheria

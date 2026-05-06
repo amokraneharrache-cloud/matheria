@@ -54,7 +54,7 @@ export default function ConnexionPage() {
             Connexion à l&apos;espace élève
           </h1>
           <p className="mt-2 text-gray-600 text-sm">
-            Retrouvez l&apos;espace de révision créé après la réservation du Pack Révision Express.
+            Utilisez l&apos;email parent et le code d&apos;accès personnel reçu après réservation.
           </p>
         </div>
 
@@ -80,12 +80,12 @@ export default function ConnexionPage() {
               type="text"
               name="accessCode"
               required
-              placeholder="MATHERIA..."
+              placeholder="MATH-XXXX"
               autoComplete="off"
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 uppercase"
             />
             <p className="mt-1.5 text-xs text-gray-500">
-              Le code d&apos;accès est indiqué dans l&apos;email de confirmation.
+              Ce code personnel est celui reçu après votre réservation.
             </p>
           </div>
 

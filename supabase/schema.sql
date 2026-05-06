@@ -33,6 +33,20 @@ CREATE TABLE beta_access (
   access_code text NOT NULL
 );
 
+-- Sprint 9 : codes d'accès uniques post-paiement
+
+CREATE TABLE access_codes (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at timestamptz DEFAULT now() NOT NULL,
+  code text NOT NULL UNIQUE,
+  parent_email text,
+  status text NOT NULL DEFAULT 'unused',
+  used_at timestamptz,
+  beta_access_id uuid REFERENCES beta_access(id) ON DELETE SET NULL,
+  CONSTRAINT access_codes_status_check CHECK (status IN ('unused', 'used', 'revoked')),
+  CONSTRAINT access_codes_code_not_empty CHECK (length(btrim(code)) > 0)
+);
+
 CREATE TABLE practice_sessions (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
@@ -47,6 +61,7 @@ CREATE TABLE practice_sessions (
 
 -- Activation du Row Level Security (RLS) sur les nouvelles tables
 ALTER TABLE beta_access ENABLE ROW LEVEL SECURITY;
+ALTER TABLE access_codes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE practice_sessions ENABLE ROW LEVEL SECURITY;
 
 -- Note : Nous n'ajoutons PAS de politiques publiques (anon ou authenticated).
