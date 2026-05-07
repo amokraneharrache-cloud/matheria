@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
+import { LegalFooterLinks } from "@/components/legal/LegalFooterLinks";
 
 type SeoPageLayoutProps = {
   children: ReactNode;
@@ -51,6 +52,10 @@ export function SeoPageLayout({ children }: SeoPageLayoutProps) {
           <p className="mt-4">
             Révisions de maths pour le brevet, le bac de Première et le bac Terminale.
           </p>
+          <LegalFooterLinks
+            className="mt-5 gap-4 sm:gap-6"
+            linkClassName="hover:text-white transition-colors"
+          />
         </div>
       </footer>
     </div>

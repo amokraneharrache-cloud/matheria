@@ -57,6 +57,21 @@ Pour tester l'intention d'achat réelle sans développer une intégration de pai
    - **Lien présent** : Les boutons de réservation ouvrent le lien de paiement Stripe dans un nouvel onglet, avec une mention rassurante de paiement sécurisé.
    - **Lien absent** : L'application fonctionne normalement en redirigeant les boutons vers le tunnel de diagnostic, sans crash.
 
+## Pages légales
+
+Matheria dispose de pages légales minimales publiques avant les premiers paiements réels :
+
+- `/mentions-legales`
+- `/cgv`
+- `/politique-confidentialite`
+- `/remboursement`
+
+Ces pages sont reliées depuis le footer public avec un contact `mailto:contact@matheria.fr`. Elles sont indexables par défaut et déclarées dans le sitemap avec une priorité faible.
+
+Avant toute vente réelle, le fondateur doit compléter tous les placeholders entre crochets, notamment l'identité de l'éditeur, la forme juridique, l'adresse, le directeur de publication, les bases légales RGPD, les durées de conservation, le délai de remboursement et les clauses liées au droit de rétractation.
+
+Ces pages sont des modèles prudents de travail. Elles ne remplacent pas une validation juridique, comptable ou conformité adaptée à la situation exacte de l'entreprise.
+
 ## Fonctionnalités du Sprint 0
 
 - **Landing Page** (`/`) : Présentation du problème, de la solution et de l'offre.

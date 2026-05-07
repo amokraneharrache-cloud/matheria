@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { LegalFooterLinks } from "@/components/legal/LegalFooterLinks";
 import { CheckCircle2, BrainCircuit, Target, TrendingUp, GraduationCap, BookOpen, School } from "lucide-react";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
 
@@ -346,9 +347,10 @@ export default function Home() {
             <span className="font-bold text-white">Matheria</span>
           </div>
           <p className="mb-4">© {new Date().getFullYear()} Matheria. Tous droits réservés.</p>
-          <div className="flex justify-center gap-6 text-sm">
-            <a href="mailto:contact@matheria.fr" className="hover:text-white transition-colors">Contact</a>
-          </div>
+          <LegalFooterLinks
+            className="gap-4 sm:gap-6"
+            linkClassName="hover:text-white transition-colors"
+          />
         </div>
       </footer>
     </div>

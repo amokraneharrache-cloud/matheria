@@ -1,5 +1,17 @@
 # CHANGELOG MATHERIA
 
+## 2026-04-28 — Pages légales minimales
+
+### Modifications
+- Ajout /mentions-legales
+- Ajout /cgv
+- Ajout /politique-confidentialite
+- Ajout /remboursement
+- Footer mis à jour avec liens légaux
+
+### Objectif
+Rendre le site plus propre avant les premiers paiements réels.
+
 ## 2026-04-28 — Sprint 10 Note virtuelle Bac + SEO articles
 
 ### Modifications

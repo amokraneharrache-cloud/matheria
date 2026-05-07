@@ -26,6 +26,13 @@ export const publicSeoRoutes = [
 
 export type PublicSeoRoute = (typeof publicSeoRoutes)[number];
 
+export const legalRoutes = [
+  "/mentions-legales",
+  "/cgv",
+  "/politique-confidentialite",
+  "/remboursement",
+] as const;
+
 export const privateNoindexPaths = [
   "/app",
   "/app/",
