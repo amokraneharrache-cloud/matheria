@@ -17,13 +17,6 @@ import { mockBacSubjects } from "@/data/mockBacSubjects";
 
 const HISTORY_KEY = "matheria_bac_mock_exam_history";
 
-const blockLabels = [
-  "Exercice 1 : Suites ou probabilités",
-  "Exercice 2 : Fonction / dérivation / convexité",
-  "Exercice 3 : Exponentielle / logarithme / limites",
-  "Exercice 4 : Intégrales / géométrie espace / loi binomiale",
-];
-
 type StudentProfile = {
   examGoal?: string;
 };
@@ -268,7 +261,7 @@ export function BacMockExamClient() {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wider text-indigo-600">
-                    {blockLabels[exerciseIndex]} — /5
+                    Exercice {exerciseIndex + 1} : {exercise.topicLabel} — /5
                   </p>
                   <h2 className="mt-2 font-bold text-slate-900">{exercise.title}</h2>
                   <p className="mt-1 text-sm text-slate-600">{exercise.subtitle}</p>

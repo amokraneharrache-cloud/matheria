@@ -37,8 +37,8 @@ export default function Home() {
             </div>
             <span className="font-bold text-xl text-blue-900">Matheria</span>
           </div>
-          <div className="flex items-center gap-4">
-            <Link href="/connexion" className="text-sm font-medium text-slate-600 hover:text-slate-900 hidden sm:block">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <Link href="/connexion" className="text-sm font-medium text-slate-600 hover:text-slate-900">
               Se connecter
             </Link>
             <Link href="/diagnostic">
@@ -347,9 +347,7 @@ export default function Home() {
           </div>
           <p className="mb-4">© {new Date().getFullYear()} Matheria. Tous droits réservés.</p>
           <div className="flex justify-center gap-6 text-sm">
-            <Link href="#" className="hover:text-white transition-colors">Mentions légales</Link>
-            <Link href="#" className="hover:text-white transition-colors">CGV</Link>
-            <Link href="#" className="hover:text-white transition-colors">Contact</Link>
+            <a href="mailto:contact@matheria.fr" className="hover:text-white transition-colors">Contact</a>
           </div>
         </div>
       </footer>
