@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     canonical: absoluteUrl(pagePath),
   },
   openGraph: {
-    title: "Articles maths Terminale — Matheria",
+    title: "Articles maths Terminale — SprintMaths",
     description:
       "Guides de révision pour préparer le bac de maths Terminale avec méthode.",
     url: absoluteUrl(pagePath),

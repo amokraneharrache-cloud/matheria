@@ -10,7 +10,7 @@ import { guidedExercises } from "@/data/guidedExercises";
 import { mockBacSubjects } from "@/data/mockBacSubjects";
 import { getProgram } from "@/data/programs";
 import { methods } from "@/data/methods";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, TERMINALE_CONVERSION_TAGLINE } from "@/lib/site";
 import { breadcrumbJsonLd, faqJsonLd, productJsonLd, type FaqItem } from "@/lib/seo";
 
 const pagePath = "/bac-terminale-maths";
@@ -21,7 +21,7 @@ const description =
 export const metadata: Metadata = {
   title: {
     absolute:
-      "Réviser le bac de maths Terminale | Exercices guidés & méthodes — Matheria",
+      "Réviser le bac de maths Terminale | Exercices guidés & méthodes — SprintMaths",
   },
   description,
   alternates: {
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title:
-      "Réviser le bac de maths Terminale | Exercices guidés & méthodes — Matheria",
+      "Réviser le bac de maths Terminale | Exercices guidés & méthodes — SprintMaths",
     description,
     url: absoluteUrl(pagePath),
     type: "website",
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
 
 const faqItems: FaqItem[] = [
   {
-    question: "Matheria remplace-t-il les cours de maths en Terminale ?",
+    question: "SprintMaths remplace-t-il les cours de maths en Terminale ?",
     answer:
-      "Non. Matheria sert surtout à structurer les révisions, travailler les chapitres prioritaires et répéter les méthodes avec des exercices courts ou guidés.",
+      "Non. SprintMaths sert surtout à structurer les révisions, travailler les chapitres prioritaires et répéter les méthodes avec des exercices courts ou guidés.",
   },
   {
     question: "Les exercices guidés sont-ils adaptés au bac de maths Terminale ?",
@@ -48,7 +48,7 @@ const faqItems: FaqItem[] = [
       "Ils reprennent l'esprit des exercices attendus en Terminale : plusieurs étapes, choix de méthode, calculs intermédiaires et correction immédiate.",
   },
   {
-    question: "Peut-on utiliser Matheria si le bac approche ?",
+    question: "Peut-on utiliser SprintMaths si le bac approche ?",
     answer:
       "Oui. Le diagnostic, les priorités par chapitre et les plans de révision 7 ou 14 jours aident à organiser les dernières semaines sans tout reprendre au hasard.",
   },
@@ -80,11 +80,11 @@ export default function BacTerminaleMathsPage() {
               Bac de maths Terminale
             </p>
             <h1 className="text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
-              Réviser le bac de maths Terminale avec un parcours structuré
+              {TERMINALE_CONVERSION_TAGLINE}
             </h1>
             <p className="mt-5 max-w-3xl text-lg text-slate-700">
               En Terminale, il ne suffit pas d'enchaîner des réponses rapides.
-              Matheria aide l'élève à revoir le programme par chapitre, à
+              SprintMaths aide l'élève à revoir le programme par chapitre, à
               travailler les méthodes et à suivre une progression claire jusqu'à
               l'examen.
             </p>
@@ -147,7 +147,7 @@ export default function BacTerminaleMathsPage() {
                   l'effort de rédaction et de stratégie.
                 </p>
                 <p>
-                  Matheria combine donc des questions courtes, des exercices
+                  SprintMaths combine donc des questions courtes, des exercices
                   guidés type bac, des fiches méthodes et un plan de révision.
                   L'objectif est simple : donner à l'élève un cadre de travail
                   sérieux sans promettre de résultat automatique.
@@ -156,7 +156,7 @@ export default function BacTerminaleMathsPage() {
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
               <h3 className="text-xl font-bold text-slate-950">
-                Ce que Matheria propose pour Terminale
+                Ce que SprintMaths propose pour Terminale
               </h3>
               <ul className="mt-4 space-y-3 text-slate-700">
                 {[
@@ -283,7 +283,7 @@ export default function BacTerminaleMathsPage() {
               Chapitres travaillés
             </h2>
             <p className="mt-3 max-w-3xl text-slate-700">
-              Matheria s'appuie sur les grands chapitres de Terminale pour
+              SprintMaths s'appuie sur les grands chapitres de Terminale pour
               organiser les sessions et les priorités de révision.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

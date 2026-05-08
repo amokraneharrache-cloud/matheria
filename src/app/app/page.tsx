@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Play, BookOpen, LineChart, Target, CalendarCheck, Lightbulb } from "lucide-react";
 import { getAvailableTopics, ExamGoal } from "@/data/questions";
+import { getStorageItem } from "@/lib/storageKeys";
 
 function getWeakestTopic(examGoal: ExamGoal): string | null {
   if (typeof window === "undefined") return null;
-  const historyStr = localStorage.getItem("matheria_session_history");
+  const historyStr = getStorageItem("sessionHistory");
   if (!historyStr) return null;
   try {
     const history = JSON.parse(historyStr);
@@ -38,7 +39,7 @@ export default function AppDashboardPage() {
   const [nextStepMessage, setNextStepMessage] = useState("");
 
   useEffect(() => {
-    const storedProfile = localStorage.getItem("matheria_student_profile");
+    const storedProfile = getStorageItem("studentProfile");
     if (!storedProfile) {
       router.push("/merci");
       return;
@@ -51,7 +52,7 @@ export default function AppDashboardPage() {
     setTopicsCount(available.length);
 
     // Calc stats from history
-    const historyStr = localStorage.getItem("matheria_session_history");
+    const historyStr = getStorageItem("sessionHistory");
     if (historyStr) {
       try {
         const history = JSON.parse(historyStr);

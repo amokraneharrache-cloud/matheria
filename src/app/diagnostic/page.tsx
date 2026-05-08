@@ -1,11 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronLeft, Check, ArrowRight, Loader2 } from "lucide-react";
 import { saveLead } from "../actions";
+import {
+  trackDiagnosticCompleted,
+  trackDiagnosticStarted,
+  trackLead,
+} from "@/lib/tracking";
+import { setSessionStorageItem, storageEvents } from "@/lib/storageKeys";
 
 const EXAMS = [
   { id: "brevet", label: "Brevet" },
@@ -34,6 +40,7 @@ const DIFFICULTIES = [
 
 export default function DiagnosticPage() {
   const router = useRouter();
+  const diagnosticStartedTracked = useRef(false);
   const [step, setStep] = useState(1);
   const [exam, setExam] = useState("");
   const [level, setLevel] = useState("");
@@ -45,6 +52,18 @@ export default function DiagnosticPage() {
 
   const handleNext = () => setStep((s) => Math.min(s + 1, 4));
   const handlePrev = () => setStep((s) => Math.max(s - 1, 1));
+
+  const trackDiagnosticStart = (selectedExam: string) => {
+    if (diagnosticStartedTracked.current) {
+      return;
+    }
+
+    diagnosticStartedTracked.current = true;
+    trackDiagnosticStarted({
+      exam_goal: selectedExam,
+      source_page: "/diagnostic",
+    });
+  };
 
   const toggleDifficulty = (id: string) => {
     if (id === "nsp") {
@@ -85,12 +104,34 @@ export default function DiagnosticPage() {
         console.error("Erreur:", result.error);
         // We proceed anyway to not block the user if DB fails
       }
+
+      const trackingParams = {
+        exam_goal: exam,
+        level,
+        source_page: "/diagnostic",
+      };
+
+      trackDiagnosticCompleted(trackingParams);
+      trackLead(trackingParams);
+
+      try {
+        setSessionStorageItem(
+          "diagnosticResultContext",
+          JSON.stringify({
+            exam,
+            level,
+            difficulties,
+            pseudo,
+          }),
+        );
+        window.dispatchEvent(new Event(storageEvents.diagnosticResultContextChanged));
+      } catch {
+        // The result page can still render from the non-sensitive URL params.
+      }
       
       const query = new URLSearchParams({
         exam,
-        diff: difficulties.join(","),
         level,
-        pseudo
       });
       router.push(`/diagnostic/resultat?${query.toString()}`);
     } catch (err) {
@@ -109,9 +150,9 @@ export default function DiagnosticPage() {
         )}
         <div className="flex-1 flex items-center gap-2">
           <div className="w-6 h-6 bg-blue-900 rounded flex items-center justify-center">
-            <span className="text-white font-bold text-xs">M</span>
+            <span className="text-white font-bold text-xs">S</span>
           </div>
-          <span className="font-bold text-slate-900">Matheria</span>
+          <span className="font-bold text-slate-900">SprintMaths</span>
         </div>
         <div className="text-sm font-medium text-slate-500">
           Étape {step}/4
@@ -135,7 +176,7 @@ export default function DiagnosticPage() {
                 <Card 
                   key={item.id}
                   className={`cursor-pointer transition-all hover:border-blue-300 ${exam === item.id ? 'border-blue-600 bg-blue-50/50 ring-1 ring-blue-600' : 'border-slate-200'}`}
-                  onClick={() => { setExam(item.id); setTimeout(handleNext, 300); }}
+                  onClick={() => { setExam(item.id); trackDiagnosticStart(item.id); setTimeout(handleNext, 300); }}
                 >
                   <CardContent className="p-6 flex items-center justify-between">
                     <span className="text-lg font-medium text-slate-900">{item.label}</span>

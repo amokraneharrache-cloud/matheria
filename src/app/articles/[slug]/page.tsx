@@ -126,7 +126,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </section>
 
               <section className="rounded-2xl bg-blue-950 p-6 text-white">
-                <h2 className="text-2xl font-bold">Travailler ces méthodes dans Matheria</h2>
+                <h2 className="text-2xl font-bold">Travailler ces méthodes dans SprintMaths</h2>
                 <p className="mt-3 text-blue-100">
                   Le Mode Bac Terminale propose des exercices guidés, des fiches méthodes et une note virtuelle indicative pour repérer les chapitres à retravailler.
                 </p>

@@ -37,9 +37,9 @@ export function LegalPageLayout({
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
           <Link href="/" className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-900">
-              <span className="text-xl font-bold text-white">M</span>
+              <span className="text-xl font-bold text-white">S</span>
             </div>
-            <span className="text-xl font-bold text-blue-900">Matheria</span>
+            <span className="text-xl font-bold text-blue-900">SprintMaths</span>
           </Link>
           <Link
             href="/diagnostic"
@@ -85,9 +85,9 @@ export function LegalPageLayout({
             <div className="flex h-6 w-6 items-center justify-center rounded bg-slate-700 text-xs font-bold text-white">
               M
             </div>
-            <span className="font-bold text-white">Matheria</span>
+            <span className="font-bold text-white">SprintMaths</span>
           </Link>
-          <p className="mt-4">© {new Date().getFullYear()} Matheria. Tous droits réservés.</p>
+          <p className="mt-4">© {new Date().getFullYear()} SprintMaths. Tous droits réservés.</p>
           <LegalFooterLinks
             className="mt-5 gap-4 sm:gap-6"
             linkClassName="hover:text-white transition-colors"

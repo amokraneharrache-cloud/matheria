@@ -7,18 +7,18 @@ import { breadcrumbJsonLd } from "@/lib/seo";
 const pagePath = "/programme-maths-premiere";
 
 const description =
-  "Les grands chapitres de maths Première travaillés dans Matheria : fonctions, second degré, dérivation, suites, probabilités, statistiques et automatismes.";
+  "Les grands chapitres de maths Première travaillés dans SprintMaths : fonctions, second degré, dérivation, suites, probabilités, statistiques et automatismes.";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Programme maths Première | Chapitres & révision — Matheria",
+    absolute: "Programme maths Première | Chapitres & révision — SprintMaths",
   },
   description,
   alternates: {
     canonical: absoluteUrl(pagePath),
   },
   openGraph: {
-    title: "Programme maths Première | Chapitres & révision — Matheria",
+    title: "Programme maths Première | Chapitres & révision — SprintMaths",
     description,
     url: absoluteUrl(pagePath),
     type: "website",
@@ -38,7 +38,7 @@ export default function ProgrammeMathsPremierePage() {
       <ProgramSeoPage
         goal="bac-premiere"
         h1="Programme de maths Première : chapitres à travailler"
-        intro="Matheria organise les grands chapitres de Première pour aider l'élève à cibler les notions clés et à préparer ses révisions avec méthode."
+        intro="SprintMaths organise les grands chapitres de Première pour aider l'élève à cibler les notions clés et à préparer ses révisions avec méthode."
       />
     </>
   );

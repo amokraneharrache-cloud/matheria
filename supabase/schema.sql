@@ -1,4 +1,4 @@
--- Schema de la table leads pour Matheria
+-- Schema de la table leads pour SprintMaths
 
 CREATE TABLE leads (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,

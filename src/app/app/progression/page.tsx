@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Target, Trophy, Flame, PlayCircle, Award } from "lucide-react";
 import { getAvailableTopics } from "@/data/questions";
+import { getStorageItem } from "@/lib/storageKeys";
 
 type SessionHistory = {
   date: string;
@@ -42,7 +43,7 @@ export default function ProgressionPage() {
   const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
-    const storedProfile = localStorage.getItem("matheria_student_profile");
+    const storedProfile = getStorageItem("studentProfile");
     if (!storedProfile) {
       router.push("/merci");
       return;
@@ -50,7 +51,7 @@ export default function ProgressionPage() {
     const parsedProfile = JSON.parse(storedProfile);
     setProfile(parsedProfile);
 
-    const historyStr = localStorage.getItem("matheria_session_history");
+    const historyStr = getStorageItem("sessionHistory");
     if (historyStr) {
       try {
         const fullHistory: SessionHistory[] = JSON.parse(historyStr);
@@ -100,7 +101,7 @@ export default function ProgressionPage() {
       } catch (e) {}
     }
 
-    const bacMockHistoryStr = localStorage.getItem("matheria_bac_mock_exam_history");
+    const bacMockHistoryStr = getStorageItem("bacMockExamHistory");
     if (bacMockHistoryStr) {
       try {
         const parsed: BacMockExamHistory[] = JSON.parse(bacMockHistoryStr);

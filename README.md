@@ -1,98 +1,144 @@
-# Matheria MVP - Sprint 0
+# SprintMaths
 
-Ce projet est la validation commerciale (Sprint 0) pour l'application de révision en mathématiques **Matheria**. Il s'agit d'une landing page "mobile-first" avec un entonnoir de diagnostic gratuit pour collecter des leads.
+SprintMaths est une web app mobile-first de révision en mathématiques.
+
+Positionnement : **Le programme de révision maths du Brevet au Bac**.
+
+Promesse courte : des exercices guidés, un plan clair et une progression visible pour réviser efficacement.
+
+Le projet a été rebrandé vers **SprintMaths** le 2026-05-08 pour s'aligner avec le nouveau domaine `https://sprintmaths.fr`.
 
 ## Lancement rapide
 
-Le projet utilise Next.js 16, Tailwind CSS v4, et utilise `npm`.
+Le projet utilise Next.js 16, Tailwind CSS v4 et `npm`.
 
-1. **Installer les dépendances :**
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+npm run dev
+```
 
-2. **Lancer le serveur de développement :**
-   ```bash
-   npm run dev
-   ```
+Ouvrir [http://localhost:3000](http://localhost:3000) pour voir la landing page.
 
-Ouvrez [http://localhost:3000](http://localhost:3000) pour voir la landing page.
+Avant déploiement, lancer :
 
-## Connexion Supabase
+```bash
+npm run build
+```
 
-Pour activer l'enregistrement en base de données, Matheria nécessite une connexion à un projet Supabase.
+## Variables d'environnement
 
-1. **Trouver vos identifiants Supabase :**
-   - **Project URL** : Dans votre tableau de bord Supabase, allez dans `Project Settings` > `API` > `Project URL`.
-   - **Publishable Key** : Toujours dans `Project Settings` > `API`, récupérez la clé `anon` / `public`.
+Créer un fichier `.env.local` à la racine à partir de `.env.local.example`.
 
-2. **Créer le fichier d'environnement :**
-   Créez un fichier `.env.local` à la racine (basé sur `.env.local.example`) :
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=votre_url_supabase
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=votre_cle_anon_supabase
-   ```
-   *(Ce fichier est ignoré par Git).*
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SITE_URL=https://sprintmaths.fr
+NEXT_PUBLIC_STRIPE_PAYMENT_LINK=
+NEXT_PUBLIC_GTM_ID=
+NEXT_PUBLIC_GA4_ID=
+NEXT_PUBLIC_GOOGLE_ADS_ID=
+NEXT_PUBLIC_META_PIXEL_ID=
+NEXT_PUBLIC_TIKTOK_PIXEL_ID=
+NEXT_PUBLIC_SNAP_PIXEL_ID=
+NEXT_PUBLIC_TRACKING_MODE=
 
-3. **Exécuter le schéma de base de données :**
-   Allez dans le `SQL Editor` de Supabase et copiez/collez le contenu du fichier `supabase/schema.sql` pour créer la table `leads` et ses politiques de sécurité.
+SUPABASE_SERVICE_ROLE_KEY=
+SPRINTMATHS_ADMIN_PASSWORD=
+SPRINTMATHS_DEV_ACCESS_CODE=
 
-4. **Tester l'enregistrement d'un lead :**
-   Lancez le projet avec `npm run dev`, remplissez le diagnostic et vérifiez dans le `Table Editor` de Supabase que le lead apparaît bien dans la table `leads`.
+# Legacy fallbacks temporaires, supportés par le code pendant la migration.
+# MATHERIA_ADMIN_PASSWORD=
+# MATHERIA_BETA_ACCESS_CODE=
+```
 
-## Précommande Stripe Payment Link
+Les nouvelles variables `SPRINTMATHS_*` sont prioritaires. Les variables `MATHERIA_*` restent supportées comme fallback legacy pour éviter de casser un environnement Vercel déjà configuré.
 
-Pour tester l'intention d'achat réelle sans développer une intégration de paiement complète (Checkout / Webhooks), Matheria utilise un simple Payment Link Stripe.
+`SUPABASE_SERVICE_ROLE_KEY` est un secret serveur absolu : ne jamais le préfixer par `NEXT_PUBLIC_`.
 
-1. **Créer le produit Stripe :**
-   Dans votre tableau de bord Stripe, créez un produit "Pack Révision Express" à 39 € en paiement unique et générez un Payment Link.
+## Configuration centrale
 
-2. **Configuration :**
-   Ajoutez le lien obtenu dans votre fichier `.env.local` :
-   ```env
-   NEXT_PUBLIC_STRIPE_PAYMENT_LINK=https://buy.stripe.com/votre_lien_ici
-   ```
+La marque, le domaine, l'email de contact, le titre SEO par défaut et les routes sitemap/noindex sont centralisés dans `src/lib/site.ts`.
 
-3. **Comportement :**
-   - **Lien présent** : Les boutons de réservation ouvrent le lien de paiement Stripe dans un nouvel onglet, avec une mention rassurante de paiement sécurisé.
-   - **Lien absent** : L'application fonctionne normalement en redirigeant les boutons vers le tunnel de diagnostic, sans crash.
+Valeurs principales :
 
-## Pages légales
+- `SITE_NAME`: `SprintMaths`
+- `NEXT_PUBLIC_SITE_URL`: `https://sprintmaths.fr`
+- Email de contact public : `contact@sprintmaths.fr`
 
-Matheria dispose de pages légales minimales publiques avant les premiers paiements réels :
+À faire côté registrar ou fournisseur mail : créer `contact@sprintmaths.fr`.
 
-- `/mentions-legales`
-- `/cgv`
-- `/politique-confidentialite`
-- `/remboursement`
+## Supabase
 
-Ces pages sont reliées depuis le footer public avec un contact `mailto:contact@matheria.fr`. Elles sont indexables par défaut et déclarées dans le sitemap avec une priorité faible.
+SprintMaths utilise Supabase pour les leads, les codes d'accès et les sessions.
 
-Avant toute vente réelle, le fondateur doit compléter tous les placeholders entre crochets, notamment l'identité de l'éditeur, la forme juridique, l'adresse, le directeur de publication, les bases légales RGPD, les durées de conservation, le délai de remboursement et les clauses liées au droit de rétractation.
+Tables conservées :
 
-Ces pages sont des modèles prudents de travail. Elles ne remplacent pas une validation juridique, comptable ou conformité adaptée à la situation exacte de l'entreprise.
+- `leads`
+- `beta_access`
+- `access_codes`
+- `practice_sessions`
 
-## Fonctionnalités du Sprint 0
+Ne pas renommer ces tables pour le rebranding.
 
-- **Landing Page** (`/`) : Présentation du problème, de la solution et de l'offre.
-- **Diagnostic Gratuit** (`/diagnostic`) : Formulaire en 4 étapes fluide.
-- **Page Résultat** (`/diagnostic/resultat`) : Analyse dynamique en fonction des choix de l'utilisateur.
+Installer le schéma depuis `supabase/schema.sql` dans le SQL Editor Supabase.
 
-## SEO Foundation
+## Stripe Payment Link
 
-Matheria dispose désormais d'une base SEO technique pour commencer à positionner des pages publiques indexables sur les requêtes liées au brevet, au bac de maths Première et au bac de maths Terminale.
+Le tunnel Stripe reste volontairement simple : pas de webhook, pas de Checkout custom.
 
-### Stratégie SEO
+Checklist Stripe manuelle :
 
-- Des pages publiques par objectif : brevet, bac Première, bac Terminale.
-- Des pages programme par niveau alimentées par `src/data/programs.ts`.
-- Des pages Terminale dédiées aux méthodes et aux exercices guidés.
-- Une page articles (`/articles`) et 10 articles SEO Terminale.
-- Un maillage interne depuis la landing page et entre les pages SEO.
-- Des données structurées JSON-LD sans témoignage inventé, sans note agrégée et sans promesse automatique.
+- Renommer le produit Stripe en `SprintMaths - Pack Révision Express`.
+- Vérifier que le prix reste `39 €` en paiement unique.
+- Vérifier le Payment Link et renseigner `NEXT_PUBLIC_STRIPE_PAYMENT_LINK`.
+- Configurer la success URL : `https://sprintmaths.fr/merci`.
+- Si un code promo cousin est utilisé, conserver `COUSIN10`.
+- Si Stripe le permet sur le lien choisi, tester `prefilled_promo_code`.
 
-### Pages publiques créées
+## Tunnel post-paiement
 
+Flux manuel actuel :
+
+1. Le client paie via Stripe Payment Link.
+2. Le fondateur ouvre `/admin/codes`.
+3. Il saisit `SPRINTMATHS_ADMIN_PASSWORD`.
+4. Il génère un code personnel `MATH-XXXX`.
+5. Il envoie le code au client avec le modèle d'email ci-dessous.
+6. Le client crée son espace sur `/merci`.
+7. Le client peut revenir via `/connexion`.
+
+Les codes `MATH-XXXX` sont conservés pour simplicité et cohérence maths.
+
+## Email manuel après réservation
+
+Objet : `Votre accès SprintMaths - Pack Révision Express`
+
+Corps :
+
+```txt
+Bonjour,
+
+Merci pour votre réservation du Pack Révision Express SprintMaths.
+
+Voici votre code d'accès personnel :
+[CODE_UNIQUE]
+
+Pour créer l'espace élève :
+https://sprintmaths.fr/merci
+
+Si vous avez déjà créé l'espace :
+https://sprintmaths.fr/connexion
+
+À bientôt,
+L'équipe SprintMaths
+```
+
+## Pages publiques et SEO
+
+Pages publiques indexables :
+
+- `/`
+- `/diagnostic`
 - `/bac-terminale-maths`
 - `/bac-premiere-maths`
 - `/brevet-maths`
@@ -102,195 +148,130 @@ Matheria dispose désormais d'une base SEO technique pour commencer à positionn
 - `/methodes-maths-terminale`
 - `/exercices-maths-terminale`
 - `/articles`
-- `/articles/reviser-bac-maths-terminale-30-jours`
-- `/articles/methode-derivee-terminale`
-- `/articles/etudier-variations-fonction-terminale`
-- `/articles/exponentielle-terminale-methodes`
-- `/articles/logarithme-terminale-methodes`
-- `/articles/probabilites-loi-binomiale-terminale`
-- `/articles/integrales-terminale-methode`
-- `/articles/suites-recurrence-terminale`
-- `/articles/limites-formes-indeterminees-terminale`
-- `/articles/erreurs-frequentes-bac-maths-terminale`
+- `/articles/[slug]`
+- `/mentions-legales`
+- `/cgv`
+- `/politique-confidentialite`
+- `/preferences-confidentialite`
+- `/remboursement`
 
-### Configuration technique
+Le sitemap est généré par `src/app/sitemap.ts` et utilise `absoluteUrl()` depuis la config centrale.
 
-Ajoutez l'URL publique du site dans `.env.local` et sur Vercel :
+`src/app/robots.ts` déclare `/sitemap.xml`, autorise les pages publiques et désautorise notamment `/app/*` et `/admin/*`.
 
-```env
-NEXT_PUBLIC_SITE_URL=https://matheria.fr
+Pages privées ou transactionnelles noindex :
+
+- `/app/*`
+- `/merci`
+- `/connexion`
+- `/acces`
+- `/diagnostic/resultat`
+
+Les JSON-LD principaux sont dans `src/lib/seo.ts` et utilisent `SprintMaths` pour `Organization`, `WebSite`, `Product`, FAQ et breadcrumbs.
+
+## Tracking marketing préparé
+
+Le tracking est désactivé par défaut si `NEXT_PUBLIC_TRACKING_MODE` n'est pas configuré.
+
+Modes possibles :
+
+- `off`: aucun event `dataLayer`, aucun historique debug local.
+- `internal`: events first-party dans `window.dataLayer` et debug local.
+- `gtm-ready`: events `dataLayer` et chargement optionnel GTM si `NEXT_PUBLIC_GTM_ID` est défini.
+- `ads-ready`: base GTM plus helpers pixels directs disponibles.
+
+Events internes :
+
+- `sprintmaths_page_view`
+- `sprintmaths_diagnostic_started`
+- `sprintmaths_diagnostic_completed`
+- `sprintmaths_lead`
+- `sprintmaths_view_offer`
+- `sprintmaths_initiate_checkout`
+- `sprintmaths_complete_registration`
+
+Aucun event `sprintmaths_purchase` n'est déclenché tant qu'il n'y a pas de preuve serveur fiable du paiement Stripe.
+
+Les événements n'envoient pas l'email, le pseudo, les scores détaillés, les notes virtuelles, les chapitres faibles, l'historique pédagogique ou les réponses aux exercices.
+
+## Stockage local
+
+Les clés `localStorage` ont été migrées vers le préfixe `sprintmaths_*`.
+
+Clés principales :
+
+- `sprintmaths_student_profile`
+- `sprintmaths_session_history`
+- `sprintmaths_guided_exercise_history`
+- `sprintmaths_bac_mock_exam_history`
+- `sprintmaths_utm_context`
+- `sprintmaths_tracking_debug`
+- `sprintmaths_tracking_preference`
+- `sprintmaths_cookie_consent`
+
+Le helper `src/lib/storageKeys.ts` lit encore les anciennes clés legacy si une nouvelle clé n'existe pas, puis réécrit la valeur sous la clé SprintMaths.
+
+Tests utiles dans la console navigateur :
+
+```js
+localStorage.getItem("sprintmaths_utm_context")
+localStorage.getItem("sprintmaths_tracking_debug")
+localStorage.getItem("sprintmaths_student_profile")
 ```
 
-Cette variable sert à générer les URLs absolues des métadonnées, du sitemap, du robots.txt et des données structurées.
+## Produit
 
-### Sitemap et robots
+Fonctionnalités principales :
 
-- `src/app/sitemap.ts` génère `/sitemap.xml` avec les pages publiques indexables.
-- Le sitemap inclut la page `/articles` et les articles SEO Terminale.
-- `src/app/robots.ts` génère `/robots.txt`, autorise les pages publiques et déclare le sitemap.
-- Les chemins privés ou transactionnels sont désindexés : `/app/*`, `/merci`, `/connexion`, `/acces`, `/diagnostic/resultat`.
-- `/diagnostic` reste accessible aux robots, car elle peut aider la conversion.
+- Landing page mobile-first.
+- Diagnostic gratuit.
+- Résultat diagnostic.
+- Stripe Payment Link.
+- Codes d'accès uniques.
+- `/merci`, `/connexion`, `/acces`.
+- Espace élève `/app`.
+- Programme, chapitres, plan, progression.
+- Sessions QCM.
+- Mode Bac Terminale.
+- Sujets type bac guidés.
+- Note virtuelle indicative `/20`.
+- Fiches méthodes.
+- Articles SEO.
+- Pages légales.
+- Sitemap et robots.
 
-### Vérifications locales
+Limites assumées :
 
-Après `npm run dev`, vérifier :
+- Pas de promesse de réussite garantie.
+- Pas d'annales officielles.
+- Pas de surpromesse IA.
+- Pas de webhook Stripe pour l'instant.
+- Pas d'authentification serveur complète.
 
-- `http://localhost:3000/sitemap.xml`
-- `http://localhost:3000/robots.txt`
-- `http://localhost:3000/bac-terminale-maths`
-- `http://localhost:3000/articles`
-- `http://localhost:3000/programme-maths-terminale`
-- Le HTML de `/app`, `/merci`, `/connexion`, `/acces` et `/diagnostic/resultat` contient une balise robots `noindex`.
+## Vercel et domaine
 
-Avant déploiement, lancer obligatoirement :
+Checklist Vercel :
 
-```bash
-npm run build
-```
+- Ajouter `sprintmaths.fr` au projet Vercel.
+- Configurer les DNS chez le registrar selon les valeurs Vercel.
+- Définir `NEXT_PUBLIC_SITE_URL=https://sprintmaths.fr`.
+- Définir `SPRINTMATHS_ADMIN_PASSWORD`.
+- Définir `SPRINTMATHS_DEV_ACCESS_CODE` seulement pour le développement si nécessaire.
+- Conserver temporairement les fallbacks legacy `MATHERIA_*` si l'environnement les utilise déjà.
+- Redéployer après toute modification des variables `NEXT_PUBLIC_*`.
+- Vérifier `/sitemap.xml` et `/robots.txt` après déploiement.
 
-## MVP Produit post-paiement (Sprint 1)
+## Pages légales
 
-Ce MVP permet aux utilisateurs ayant souscrit au Pack Révision Express d'accéder à un premier espace élève très pragmatique et utile, sans authentification complexe.
+Les pages légales sont des modèles de travail à compléter avant toute vente réelle :
 
-1. **Variables d'environnement nécessaires :**
-   En plus des variables Supabase et Stripe de base, ajoutez celles-ci dans votre `.env.local` et sur Vercel :
-   ```env
-   SUPABASE_SERVICE_ROLE_KEY=votre_service_role_key_supabase
-   MATHERIA_ADMIN_PASSWORD=mot_de_passe_admin
-   MATHERIA_BETA_ACCESS_CODE=MATHERIA2026
-   ```
-   *Attention : La `SUPABASE_SERVICE_ROLE_KEY` est un secret absolu, ne la préfixez jamais par `NEXT_PUBLIC_`.*
-   `MATHERIA_BETA_ACCESS_CODE` reste uniquement un fallback de développement local si la service role Supabase n'est pas configurée. En production, les accès passent par des codes uniques.
+- identité de l'éditeur
+- forme juridique
+- adresse
+- directeur de publication
+- bases légales RGPD
+- durées de conservation
+- délai de remboursement
+- clauses liées au droit de rétractation
 
-2. **Exécuter le SQL :**
-   Ajoutez les tables `beta_access`, `access_codes` et `practice_sessions` via le fichier `supabase/schema.sql` dans le SQL Editor de Supabase. Les données seront insérées de manière sécurisée par le serveur.
-
-## Bêta Complète Sans IA (Sprint 2)
-
-Le Sprint 2 transforme le MVP en un produit d'apprentissage complet avec progression locale :
-
-- **Niveau Terminale** : Ajout du niveau Terminale (Bêta) sur les chapitres prioritaires (limites, dérivées, exponentielle, ln, etc.).
-- **Progression Locale** : L'historique des sessions (jusqu'à 20) est conservé de manière totalement anonyme dans le `localStorage` du navigateur. La page `/app/progression` l'analyse pour fournir des statistiques en temps réel.
-- **Choix de chapitres** : Possibilité de cibler une session QCM sur un sujet précis via `/app/chapitres`.
-- **Limites actuelles** :
-  - **Pas d'IA (API)** : Les questions et corrections (120 incluses) sont statiques et rédigées à l'avance.
-  - **Pas d'upload photo** : Le format reste textuel/QCM simple pour le mobile.
-  - **Contenu bêta** : La couverture des programmes n'est pas exhaustive, c'est l'essence même de l'approche MVP/Bêta.
-
-## Plan de révision (Sprint 3)
-
-Le Sprint 3 ajoute un vrai plan de révision structuré pour augmenter la valeur perçue du produit :
-
-- **Route `/app/plan`** : Affiche un plan de révision personnalisé jour par jour.
-- **Plans disponibles** : 7 jours et 14 jours pour chaque objectif (Brevet, Bac Première, Terminale).
-- **Personnalisation** : L'historique local (`matheria_session_history`) est analysé pour détecter les chapitres faibles (score < 60 %) et les chapitres maîtrisés (score > 80 %). Les priorités sont affichées en haut du plan.
-- **CTA intégrés** : Le plan est accessible depuis le dashboard `/app`, la page `/app/progression` et la page de résultat `/app/session/result`.
-- **Prochaine étape recommandée** : Le dashboard affiche une carte de recommandation basée sur l'historique.
-- **Limites** :
-  - Les recommandations sont **déterministes** (basées sur des seuils de score), pas d'IA API.
-  - Les plans sont **statiques** (rédigés à l'avance), mais l'ordre des priorités est dynamique.
-## Sprint 4 : Offre commerciale crédible
-
-Ce sprint marque la transformation vers une offre mature (sans API IA).
-- **Suppression du label Bêta** : L'interface est désormais propre et finalisée.
-- **Nouvelle structure `programs.ts`** : Définition de 3 programmes complets (Brevet, Première, Terminale).
-- **Banque d'exercices enrichie** : Plus de 380 questions intégrées localement.
-- **Nouvelle page `/app/programme`** : Synthèse du programme et priorités.
-- **Mise à jour des chapitres** : Ordonnancement logique par programme plutôt que par quantité d'exercices.
-
-## Reconnexion élève (Sprint 7)
-
-- `/merci` : sert à créer l'espace élève après le premier paiement.
-- `/connexion` : sert à retrouver un espace déjà créé (email parent + code d'accès). Aucune auth Supabase.
-- `/acces` : page d'aide proposant les deux parcours (se connecter ou créer un espace).
-
-La reconnexion fonctionne ainsi :
-1. L'utilisateur saisit son email parent et son code d'accès personnel.
-2. La Server Action `restoreBetaAccess` (dans `src/actions/beta.ts`) vérifie que le code est `used` dans `access_codes`, puis retrouve le `beta_access` associé via la service role key côté serveur.
-3. Si trouvée, le profil est restauré dans `localStorage` sous `matheria_student_profile` (même format que lors de la création initiale).
-4. L'utilisateur est redirigé vers `/app`.
-
-Limites actuelles :
-- Ce n'est pas une authentification complète (pas de session serveur, pas de token).
-- La protection repose sur la connaissance du code d'accès personnel + email exact.
-- En développement sans `SUPABASE_SERVICE_ROLE_KEY`, la restauration renvoie une erreur propre sans faux positif.
-
-## Codes d'accès uniques (Sprint 9)
-
-Le code partagé historique est remplacé par des codes personnels à usage unique.
-
-- Table `access_codes` : stocke les codes `MATH-XXXX`, leur statut (`unused`, `used`, `revoked`), l'email client optionnel et le lien vers `beta_access` après activation.
-- `/admin/codes` : page admin noindex permettant au fondateur de générer, lister et révoquer les codes.
-- Chaque code est utilisable une seule fois sur `/merci`.
-- Après activation, le code passe en `used` et ne peut pas créer un second espace.
-- `/connexion` continue de fonctionner avec email parent + code personnel déjà activé.
-
-Flux manuel actuel après paiement :
-1. Le client paie via Stripe Payment Link.
-2. Le fondateur ouvre `/admin/codes`.
-3. Il saisit `MATHERIA_ADMIN_PASSWORD`, ajoute éventuellement l'email client, puis génère un code.
-4. Il envoie le code au client avec le modèle d'email ci-dessous.
-5. Le client crée son espace sur `/merci`, puis peut revenir via `/connexion`.
-
-## Sprint 6 : Mode Bac Terminale
-
-Le Sprint 6 apporte une vraie profondeur pédagogique pour les élèves de Terminale préparant le baccalauréat, sans utiliser d'API IA.
-
-- **Exercices guidés pas-à-pas** : 12 entraînements type bac avec une approche guidée et correction immédiate.
-- **Fiches Méthodes** : 12 fiches détaillées reprenant les étapes, les erreurs fréquentes et des mini-exemples.
-- **Intégration Dashboard & Plan** : Des CTAs dédiés pour encourager les élèves de Terminale à travailler en "Mode Bac".
-- **Technologie** : Pas d'API IA. L'historique d'exercices guidés est sauvegardé localement (`localStorage`).
-
-## Sprint 10 : Note virtuelle Bac + SEO articles
-
-Le Sprint 10 renforce la valeur perçue pour les élèves de Terminale et démarre une stratégie de contenu SEO autour du bac de maths.
-
-- **Note virtuelle /20** : Nouvelle page `/app/bac/sujet` pour faire un entraînement type bac guidé en quatre exercices et obtenir une estimation indicative sur 20.
-- **Sujets type bac** : Ajout de `src/data/mockBacSubjects.ts` avec 3 sujets Terminale composés d'exercices guidés existants.
-- **Historique local** : Les 10 dernières notes virtuelles sont stockées dans `localStorage` sous `matheria_bac_mock_exam_history` et affichées dans `/app/progression`.
-- **Articles SEO** : Ajout de `src/data/articles.ts`, de `/articles` et de 10 articles Terminale indexables.
-- **Sitemap articles** : `/articles` et les 10 articles sont ajoutés à `/sitemap.xml`. Les pages privées restent exclues du sitemap.
-- **Page Bac Terminale** : Ajout des sections "Note virtuelle sur 20" et "Sujets type bac guidés" sur `/bac-terminale-maths`.
-
-Limites importantes :
-- La note virtuelle est une estimation pédagogique indicative, pas une vraie correction de professeur.
-- Aucun appel à une API IA n'est ajouté.
-- Aucun upload photo, chat IA, Stripe Checkout custom ou webhook Stripe n'est ajouté.
-
-## Technologies
-
-- [Next.js](https://nextjs.org/) (App Router)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Lucide React](https://lucide.dev/) (Icônes)
-- [Supabase](https://supabase.com/) (Database client)
-
-## Configuration Stripe après paiement
-
-Dans Stripe Payment Link, il est indispensable de configurer l’URL de confirmation pour rediriger les clients vers la page de création d'accès.
-
-1. **URL de confirmation :** Configurez l'URL vers `https://votre-domaine/merci` (ou `http://localhost:3000/merci` en local).
-2. **Code d'accès :** Générez un code unique depuis `/admin/codes` après chaque paiement.
-3. **Cas de perte :** En cas de paiement sans création d’accès dans la foulée (abandon sur la page `/merci`), il faut retrouver le client dans Stripe et lui renvoyer le lien vers la page `/acces`.
-
-## Email manuel après réservation
-
-En attendant l'automatisation par Webhook, voici le modèle d'email à envoyer manuellement aux nouveaux clients :
-
-**Objet :** Votre accès Matheria — Pack Révision Express
-
-**Corps :**
-Bonjour,
-
-Merci pour votre réservation du Pack Révision Express Matheria.
-
-Voici votre code d’accès personnel :
-[CODE_UNIQUE]
-
-Pour créer l’espace élève :
-[LIEN /merci]
-
-Si vous avez déjà créé l’espace :
-[LIEN /connexion]
-
-À bientôt,
-L’équipe Matheria
+Elles ne remplacent pas une validation juridique, comptable ou conformité adaptée à la situation exacte de l'entreprise.

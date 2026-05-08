@@ -32,7 +32,7 @@ export function productJsonLd(path: string) {
   return {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: "Pack Révision Express Matheria",
+    name: "Pack Révision Express SprintMaths",
     description:
       "Pack de révision de mathématiques avec exercices ciblés, programme par chapitre, plan de révision et suivi de progression.",
     brand: {
@@ -76,4 +76,3 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
     })),
   };
 }
-

@@ -27,7 +27,7 @@ export const articles: Article[] = [
         heading: "Commencer par un bilan honnête",
         body: [
           "Réviser le bac de maths Terminale en 30 jours ne veut pas dire reprendre tout le programme à la même intensité. La première étape consiste à identifier les chapitres qui rapportent régulièrement des points et ceux qui bloquent vraiment : suites, dérivation, limites, exponentielle, logarithme, probabilités, intégrales ou géométrie dans l'espace. Un élève gagne souvent du temps quand il arrête de réviser au hasard et qu'il accepte de regarder précisément ce qui lui coûte des points.",
-          "Le bilan doit rester simple. Il suffit de faire une session courte par chapitre, de noter les erreurs et de classer les notions en trois catégories : à consolider, à revoir en priorité, à entretenir. Cette méthode évite l'effet tunnel où l'on passe deux semaines sur un chapitre rassurant sans toucher les points faibles. Sur Matheria, le diagnostic et la progression par session servent justement à transformer ce bilan en plan de travail concret.",
+          "Le bilan doit rester simple. Il suffit de faire une session courte par chapitre, de noter les erreurs et de classer les notions en trois catégories : à consolider, à revoir en priorité, à entretenir. Cette méthode évite l'effet tunnel où l'on passe deux semaines sur un chapitre rassurant sans toucher les points faibles. Sur SprintMaths, le diagnostic et la progression par session servent justement à transformer ce bilan en plan de travail concret.",
         ],
       },
       {

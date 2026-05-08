@@ -8,11 +8,11 @@ export default function AccesPage() {
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-6">
             <div className="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-2xl">M</span>
+              <span className="text-white font-bold text-2xl">S</span>
             </div>
-            <span className="font-bold text-2xl text-blue-900">Matheria</span>
+            <span className="font-bold text-2xl text-blue-900">SprintMaths</span>
           </div>
-          <h1 className="text-3xl font-extrabold text-gray-900">Accéder à Matheria</h1>
+          <h1 className="text-3xl font-extrabold text-gray-900">Accéder à SprintMaths</h1>
           <p className="mt-3 text-gray-600">
             Vous avez réservé le Pack Révision Express ? Choisissez votre situation.
           </p>

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, XCircle, ChevronRight, RefreshCw, BookOpen, Target, FileText } from "lucide-react";
 import { guidedExercises, GuidedExercise } from "@/data/guidedExercises";
+import { getStorageItem, setStorageItem } from "@/lib/storageKeys";
 
 export default function GuidedExercisePage({ params }: { params: Promise<{ exerciseId: string }> }) {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function GuidedExercisePage({ params }: { params: Promise<{ exerc
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedProfile = localStorage.getItem("matheria_student_profile");
+    const storedProfile = getStorageItem("studentProfile");
     if (!storedProfile) {
       router.push("/merci");
       return;
@@ -62,7 +63,7 @@ export default function GuidedExercisePage({ params }: { params: Promise<{ exerc
     
     // Save locally
     try {
-      const historyStr = localStorage.getItem("matheria_guided_exercise_history");
+      const historyStr = getStorageItem("guidedExerciseHistory");
       const history = historyStr ? JSON.parse(historyStr) : [];
       const newEntry = {
         date: new Date().toISOString(),
@@ -72,7 +73,7 @@ export default function GuidedExercisePage({ params }: { params: Promise<{ exerc
         totalSteps: exercise.steps.length
       };
       const updated = [newEntry, ...history].slice(0, 20); // Keep last 20
-      localStorage.setItem("matheria_guided_exercise_history", JSON.stringify(updated));
+      setStorageItem("guidedExerciseHistory", JSON.stringify(updated));
     } catch (e) {
       console.error("Failed to save guided exercise history", e);
     }

@@ -102,7 +102,7 @@ export default function AdminCodesPage() {
       <div className="mx-auto max-w-5xl space-y-6">
         <header>
           <p className="text-sm font-bold uppercase tracking-wide text-indigo-300">
-            Administration Matheria
+            Administration SprintMaths
           </p>
           <h1 className="mt-2 text-3xl font-extrabold">Codes d'accès uniques</h1>
           <p className="mt-3 max-w-2xl text-sm text-slate-300">

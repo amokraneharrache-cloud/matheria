@@ -18,7 +18,7 @@ const description =
 export const metadata: Metadata = {
   title: {
     absolute:
-      "Réviser le bac de maths Première | Exercices & plan de révision — Matheria",
+      "Réviser le bac de maths Première | Exercices & plan de révision — SprintMaths",
   },
   description,
   alternates: {
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title:
-      "Réviser le bac de maths Première | Exercices & plan de révision — Matheria",
+      "Réviser le bac de maths Première | Exercices & plan de révision — SprintMaths",
     description,
     url: absoluteUrl(pagePath),
     type: "website",
@@ -37,7 +37,7 @@ const faqItems: FaqItem[] = [
   {
     question: "Quels chapitres de Première peut-on travailler ?",
     answer:
-      "Matheria couvre les grands chapitres utiles en Première : fonctions, second degré, dérivation, suites, probabilités, statistiques et automatismes.",
+      "SprintMaths couvre les grands chapitres utiles en Première : fonctions, second degré, dérivation, suites, probabilités, statistiques et automatismes.",
   },
   {
     question: "Le plan de révision convient-il aux dernières semaines ?",
@@ -83,7 +83,7 @@ export default function BacPremiereMathsPage() {
           <p className="mt-5 max-w-3xl text-lg text-slate-700">
             En Première, les difficultés viennent souvent d'un mélange entre
             automatismes fragiles, fonctions, probabilités et dérivation.
-            Matheria aide l'élève à cibler les chapitres importants, à
+            SprintMaths aide l'élève à cibler les chapitres importants, à
             s'entraîner en sessions courtes et à suivre ses progrès.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -116,7 +116,7 @@ export default function BacPremiereMathsPage() {
                 et répéter des exercices ciblés pour devenir plus régulier.
               </p>
               <p className="mt-4 text-slate-700">
-                Le parcours Matheria organise ce travail autour du diagnostic,
+                Le parcours SprintMaths organise ce travail autour du diagnostic,
                 des chapitres clés et d'un plan de révision simple à suivre.
               </p>
             </div>
@@ -138,7 +138,7 @@ export default function BacPremiereMathsPage() {
               Automatismes et chapitres clés
             </h2>
             <p className="mt-3 max-w-3xl text-slate-700">
-              Les chapitres affichés dans Matheria donnent une carte de travail
+              Les chapitres affichés dans SprintMaths donnent une carte de travail
               claire pour réviser sans confondre toutes les notions.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

@@ -21,9 +21,9 @@ export function SeoPageLayout({ children }: SeoPageLayoutProps) {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           <Link href="/" className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-900">
-              <span className="text-xl font-bold text-white">M</span>
+              <span className="text-xl font-bold text-white">S</span>
             </div>
-            <span className="text-xl font-bold text-blue-900">Matheria</span>
+            <span className="text-xl font-bold text-blue-900">SprintMaths</span>
           </Link>
           <nav className="hidden items-center gap-5 text-sm font-semibold text-slate-600 md:flex">
             {navLinks.map((link) => (
@@ -47,7 +47,7 @@ export function SeoPageLayout({ children }: SeoPageLayoutProps) {
             <div className="flex h-6 w-6 items-center justify-center rounded bg-slate-700 text-xs font-bold text-white">
               M
             </div>
-            <span className="font-bold text-white">Matheria</span>
+            <span className="font-bold text-white">SprintMaths</span>
           </Link>
           <p className="mt-4">
             Révisions de maths pour le brevet, le bac de Première et le bac Terminale.

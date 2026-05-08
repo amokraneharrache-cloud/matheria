@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { GoogleTagManager } from "@/components/tracking/GoogleTagManager";
+import { UtmCapture } from "@/components/tracking/UtmCapture";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
-import { absoluteUrl, siteUrl, SITE_NAME } from "@/lib/site";
+import { absoluteUrl, siteUrl, SITE_NAME, DEFAULT_DESCRIPTION, DEFAULT_TITLE } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,16 +15,14 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Matheria | Réviser le brevet et le bac de maths",
-    template: "%s | Matheria",
+    default: DEFAULT_TITLE,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Matheria aide les élèves à réviser les maths avec des exercices ciblés, un programme par chapitre, un plan de révision et un suivi de progression.",
+  description: DEFAULT_DESCRIPTION,
   applicationName: SITE_NAME,
   openGraph: {
-    title: "Matheria | Réviser le brevet et le bac de maths",
-    description:
-      "Exercices ciblés, plan de révision, programme par chapitre et progression pour préparer le brevet, le bac de Première et le bac Terminale.",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
     url: absoluteUrl("/"),
     siteName: SITE_NAME,
     locale: "fr_FR",
@@ -30,9 +30,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Matheria | Réviser le brevet et le bac de maths",
-    description:
-      "Une web app mobile-first pour réviser les maths avec exercices, méthodes, plan de révision et progression.",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
   },
   robots: {
     index: true,
@@ -57,6 +56,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-sans text-slate-900 bg-white">
         <JsonLd data={[websiteJsonLd(), organizationJsonLd()]} />
         {children}
+        <UtmCapture />
+        <GoogleTagManager />
       </body>
     </html>
   );

@@ -1,10 +1,29 @@
-export const SITE_NAME = "Matheria";
+export const BRAND_NAME = "SprintMaths";
 
-export const DEFAULT_SITE_URL = "https://matheria.fr";
+export const SITE_NAME = BRAND_NAME;
+export const ORGANIZATION_NAME = BRAND_NAME;
+export const CONTACT_EMAIL = "contact@sprintmaths.fr";
+export const DEFAULT_TITLE = `${SITE_NAME} | Réviser le brevet et le bac de maths`;
+export const DEFAULT_DESCRIPTION =
+  "Des exercices guidés, un plan clair et une progression visible pour réviser efficacement les maths du Brevet au Bac.";
+export const SITE_TAGLINE = "Le programme de révision maths du Brevet au Bac";
+export const TERMINALE_CONVERSION_TAGLINE = "Réviser le bac de maths sans s'éparpiller";
+
+export const DEFAULT_SITE_URL = "https://sprintmaths.fr";
 
 export const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL
 ).replace(/\/$/, "");
+
+export const siteConfig = {
+  brandName: BRAND_NAME,
+  siteName: SITE_NAME,
+  organizationName: ORGANIZATION_NAME,
+  defaultTitle: DEFAULT_TITLE,
+  defaultDescription: DEFAULT_DESCRIPTION,
+  contactEmail: CONTACT_EMAIL,
+  siteUrl,
+} as const;
 
 export function absoluteUrl(path = "/") {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
@@ -30,6 +49,7 @@ export const legalRoutes = [
   "/mentions-legales",
   "/cgv",
   "/politique-confidentialite",
+  "/preferences-confidentialite",
   "/remboursement",
 ] as const;
 

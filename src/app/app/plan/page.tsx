@@ -6,11 +6,12 @@ import Link from "next/link";
 import { ArrowLeft, Calendar, Clock, AlertTriangle, CheckCircle2, PlayCircle, BookOpen, Sparkles, Target } from "lucide-react";
 import { getPlan, PlanDuration, RevisionPlan, RevisionTask } from "@/data/revisionPlans";
 import { getAvailableTopics, ExamGoal } from "@/data/questions";
+import { getStorageItem } from "@/lib/storageKeys";
 
 type TopicScore = { topic: string; label: string; avg: number; status: "weak" | "ok" | "mastered" };
 
 function computeTopicScores(examGoal: ExamGoal): TopicScore[] {
-  const historyStr = typeof window !== "undefined" ? localStorage.getItem("matheria_session_history") : null;
+  const historyStr = getStorageItem("sessionHistory");
   if (!historyStr) return [];
   try {
     const history = JSON.parse(historyStr);
@@ -39,7 +40,7 @@ export default function PlanPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedProfile = localStorage.getItem("matheria_student_profile");
+    const storedProfile = getStorageItem("studentProfile");
     if (!storedProfile) { router.push("/merci"); return; }
     const p = JSON.parse(storedProfile);
     setProfile(p);

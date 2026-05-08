@@ -23,7 +23,8 @@ function normalizeCode(code: string) {
 }
 
 function verifyAdminPassword(adminPassword: string) {
-  const expectedPassword = process.env.MATHERIA_ADMIN_PASSWORD;
+  const expectedPassword =
+    process.env.SPRINTMATHS_ADMIN_PASSWORD ?? process.env.MATHERIA_ADMIN_PASSWORD;
 
   if (!expectedPassword) {
     return {
@@ -202,4 +203,3 @@ export async function revokeAccessCode(data: {
 
   return { success: true as const };
 }
-

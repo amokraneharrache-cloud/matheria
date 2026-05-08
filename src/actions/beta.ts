@@ -2,7 +2,10 @@
 
 import { getSupabaseAdmin, isLocalDevRuntime } from "@/lib/supabaseAdmin";
 
-const BETA_ACCESS_CODE = process.env.MATHERIA_BETA_ACCESS_CODE || "MATHERIA2026";
+const DEV_ACCESS_CODE =
+  process.env.SPRINTMATHS_DEV_ACCESS_CODE ??
+  process.env.MATHERIA_BETA_ACCESS_CODE ??
+  "SPRINTMATHS2026";
 
 function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
@@ -35,8 +38,10 @@ export async function activateBetaAccess(data: {
     const supabaseAdmin = getSupabaseAdmin();
 
     if (!supabaseAdmin) {
-      if (isLocalDevRuntime() && accessCode === BETA_ACCESS_CODE) {
-        console.warn("Mode développement local : accès autorisé via MATHERIA_BETA_ACCESS_CODE sans Service Role Supabase.");
+      if (isLocalDevRuntime() && accessCode === DEV_ACCESS_CODE) {
+        console.warn(
+          "Mode développement local : accès autorisé via SPRINTMATHS_DEV_ACCESS_CODE sans Service Role Supabase.",
+        );
         return {
           success: true,
           betaAccessId: "dev-beta-id-" + Math.random().toString(36).slice(2, 9),
@@ -186,7 +191,7 @@ export async function restoreBetaAccess(data: {
     if (codeRow.status === "revoked") {
       return {
         success: false as const,
-        message: "Ce code d'accès a été révoqué. Contactez le support Matheria.",
+        message: "Ce code d'accès a été révoqué. Contactez le support SprintMaths.",
       };
     }
 

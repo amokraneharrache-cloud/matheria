@@ -9,7 +9,7 @@ type SeoCtaProps = {
 
 export function SeoCta({
   title = "Commencer par un diagnostic gratuit",
-  description = "Matheria aide l'élève à choisir les bons chapitres, à travailler en sessions courtes et à suivre sa progression.",
+  description = "SprintMaths aide l'élève à choisir les bons chapitres, à travailler en sessions courtes et à suivre sa progression.",
   align = "center",
 }: SeoCtaProps) {
   const stripePaymentLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK;

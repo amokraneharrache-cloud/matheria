@@ -12,18 +12,18 @@ import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo";
 const pagePath = "/methodes-maths-terminale";
 
 const description =
-  "Retrouve les méthodes de maths Terminale travaillées dans Matheria : variations, convexité, logarithme, exponentielle, récurrence, limites et intégrales.";
+  "Retrouve les méthodes de maths Terminale travaillées dans SprintMaths : variations, convexité, logarithme, exponentielle, récurrence, limites et intégrales.";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Méthodes maths Terminale | Étapes & erreurs fréquentes — Matheria",
+    absolute: "Méthodes maths Terminale | Étapes & erreurs fréquentes — SprintMaths",
   },
   description,
   alternates: {
     canonical: absoluteUrl(pagePath),
   },
   openGraph: {
-    title: "Méthodes maths Terminale | Étapes & erreurs fréquentes — Matheria",
+    title: "Méthodes maths Terminale | Étapes & erreurs fréquentes — SprintMaths",
     description,
     url: absoluteUrl(pagePath),
     type: "website",
@@ -54,7 +54,7 @@ export default function MethodesMathsTerminalePage() {
             Méthodes de maths Terminale pour structurer les exercices
           </h1>
           <p className="mt-5 max-w-3xl text-lg text-slate-700">
-            Les fiches méthodes Matheria donnent des étapes concrètes, une
+            Les fiches méthodes SprintMaths donnent des étapes concrètes, une
             erreur fréquente à éviter et un mini-exemple pour aider l'élève à
             démarrer ses exercices de Terminale avec plus de méthode.
           </p>
@@ -170,7 +170,7 @@ export default function MethodesMathsTerminalePage() {
 
           <SeoCta
             title="Appliquer les méthodes dans un vrai parcours"
-            description="Après le diagnostic, l'élève peut travailler les chapitres associés et suivre sa progression dans Matheria."
+            description="Après le diagnostic, l'élève peut travailler les chapitres associés et suivre sa progression dans SprintMaths."
           />
           <InternalLinks currentPath={pagePath} />
         </div>

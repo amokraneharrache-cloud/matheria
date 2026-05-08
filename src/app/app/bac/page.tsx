@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowLeft, Clock, BarChart2, Play, FileText, Target } from "lucide-react";
 import { guidedExercises } from "@/data/guidedExercises";
 import { mockBacSubjects } from "@/data/mockBacSubjects";
+import { getStorageItem } from "@/lib/storageKeys";
 
 export default function BacModePage() {
   const router = useRouter();
@@ -13,7 +14,7 @@ export default function BacModePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedProfile = localStorage.getItem("matheria_student_profile");
+    const storedProfile = getStorageItem("studentProfile");
     if (!storedProfile) {
       router.push("/merci");
       return;

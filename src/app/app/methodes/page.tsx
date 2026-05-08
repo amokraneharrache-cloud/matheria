@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, AlertTriangle, Lightbulb, Target } from "lucide-react";
 import { methods, MethodCard } from "@/data/methods";
+import { getStorageItem } from "@/lib/storageKeys";
 
 export default function MethodesPage() {
   const router = useRouter();
@@ -12,7 +13,7 @@ export default function MethodesPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedProfile = localStorage.getItem("matheria_student_profile");
+    const storedProfile = getStorageItem("studentProfile");
     if (!storedProfile) {
       router.push("/merci");
       return;

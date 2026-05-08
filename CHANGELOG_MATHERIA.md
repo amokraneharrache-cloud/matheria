@@ -1,5 +1,32 @@
 # CHANGELOG MATHERIA
 
+## 2026-05-08 — Rebranding SprintMaths
+
+### Modifications
+- Remplacement des mentions visibles Matheria par SprintMaths
+- Mise à jour SEO, metadata, JSON-LD et sitemap
+- Mise à jour pages légales
+- Mise à jour emails et documentation
+- Mise à jour variables d’environnement avec fallback legacy
+- Mise à jour des clés localStorage avec migration douce vers `sprintmaths_*`
+
+### Objectif
+Aligner le produit avec le nouveau domaine et le nouveau nom de marque SprintMaths.
+
+## 2026-05-07 — Tracking marketing préparé
+
+### Modifications
+- Ajout capture UTM
+- Ajout tracking dataLayer centralisé
+- Ajout modes de tracking
+- Ajout événements diagnostic, lead, checkout et inscription
+- Ajout page préférences confidentialité
+- Mise à jour politique de confidentialité
+- Documentation tracking
+
+### Objectif
+Préparer les campagnes publicitaires et futures audiences lookalike sans envoyer de données pédagogiques sensibles.
+
 ## 2026-04-28 — Pages légales minimales
 
 ### Modifications

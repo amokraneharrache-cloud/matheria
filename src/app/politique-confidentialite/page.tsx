@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { LegalPageLayout, LegalSection } from "@/components/legal/LegalPageLayout";
-import { absoluteUrl, SITE_NAME } from "@/lib/site";
+import { absoluteUrl, CONTACT_EMAIL, SITE_NAME } from "@/lib/site";
 
 const pagePath = "/politique-confidentialite";
 
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
   description:
-    "Politique de confidentialité de Matheria : données collectées, finalités, prestataires, conservation, cookies et droits RGPD.",
+    "Politique de confidentialité de SprintMaths : données collectées, finalités, prestataires, conservation, cookies et droits RGPD.",
   alternates: {
     canonical: absoluteUrl(pagePath),
   },
   openGraph: {
     title: `Politique de confidentialité | ${SITE_NAME}`,
     description:
-      "Informations sur le traitement des données personnelles dans Matheria.",
+      "Informations sur le traitement des données personnelles dans SprintMaths.",
     url: absoluteUrl(pagePath),
     type: "website",
   },
@@ -28,19 +29,19 @@ export default function PolitiqueConfidentialitePage() {
   return (
     <LegalPageLayout
       title="Politique de confidentialité"
-      description="Cette politique décrit les données personnelles susceptibles d’être collectées par Matheria, leurs finalités, les prestataires utilisés et les droits des utilisateurs."
+      description="Cette politique décrit les données personnelles susceptibles d’être collectées par SprintMaths, leurs finalités, les prestataires utilisés et les droits des utilisateurs."
     >
       <LegalSection title="Responsable du traitement">
         <p>
           Le responsable du traitement est [NOM / SOCIÉTÉ À COMPLÉTER], [FORME
           JURIDIQUE À COMPLÉTER], situé à [ADRESSE À COMPLÉTER].
         </p>
-        <p>Contact : contact@matheria.fr.</p>
+        <p>Contact : {CONTACT_EMAIL}.</p>
       </LegalSection>
 
       <LegalSection title="Données collectées">
         <p>
-          Selon l’utilisation du service, Matheria peut collecter les données
+          Selon l’utilisation du service, SprintMaths peut collecter les données
           suivantes :
         </p>
         <ul className="list-disc space-y-2 pl-6">
@@ -58,7 +59,7 @@ export default function PolitiqueConfidentialitePage() {
       <LegalSection title="Finalités">
         <p>Ces données peuvent être utilisées pour :</p>
         <ul className="list-disc space-y-2 pl-6">
-          <li>Fournir l’accès au Pack Révision Express Matheria.</li>
+          <li>Fournir l’accès au Pack Révision Express SprintMaths.</li>
           <li>Créer ou retrouver un espace élève.</li>
           <li>Adapter l’expérience de révision au niveau et à l’objectif indiqués.</li>
           <li>Enregistrer les résultats de sessions et afficher la progression.</li>
@@ -66,6 +67,45 @@ export default function PolitiqueConfidentialitePage() {
           <li>Suivre les demandes issues du diagnostic gratuit.</li>
           <li>Assurer la sécurité et le bon fonctionnement technique du service.</li>
         </ul>
+      </LegalSection>
+
+      <LegalSection title="Mesure d’audience et campagnes publicitaires">
+        <p>
+          SprintMaths prépare une infrastructure de mesure d’audience afin de
+          comprendre les grandes étapes du tunnel public : démarrage du
+          diagnostic, diagnostic terminé, affichage de l’offre, clic vers le
+          paiement Stripe et création réussie de l’espace élève.
+        </p>
+        <p>
+          Lorsque l’adresse d’arrivée contient des paramètres de campagne,
+          SprintMaths peut conserver localement des paramètres UTM tels que
+          utm_source, utm_medium, utm_campaign, utm_content ou utm_term.
+        </p>
+        <p>
+          Selon le mode de tracking configuré, SprintMaths peut utiliser Google Tag
+          Manager, Google Analytics 4, Google Ads, Meta, TikTok ou Snapchat pour
+          mesurer des campagnes publicitaires futures. Lorsque le mode est off ou
+          internal, ces pixels publicitaires ne sont pas activés directement par
+          le site.
+        </p>
+        <p>
+          SprintMaths exclut volontairement des événements envoyés aux outils de
+          mesure publicitaire :
+        </p>
+        <ul className="list-disc space-y-2 pl-6">
+          <li>le pseudo ou prénom de l’élève ;</li>
+          <li>les scores détaillés ;</li>
+          <li>les notes virtuelles ;</li>
+          <li>les chapitres faibles ;</li>
+          <li>l’historique pédagogique et les détails de progression.</li>
+        </ul>
+        <p>
+          Une préférence locale peut être gérée depuis la page{" "}
+          <Link href="/preferences-confidentialite" className="font-semibold text-blue-900 underline underline-offset-4">
+            Préférences confidentialité
+          </Link>
+          .
+        </p>
       </LegalSection>
 
       <LegalSection title="Bases légales">
@@ -92,7 +132,7 @@ export default function PolitiqueConfidentialitePage() {
       </LegalSection>
 
       <LegalSection title="Prestataires techniques">
-        <p>Matheria utilise des prestataires techniques pour fournir le service :</p>
+        <p>SprintMaths utilise des prestataires techniques pour fournir le service :</p>
         <ul className="list-disc space-y-2 pl-6">
           <li>Supabase : base de données et services techniques associés.</li>
           <li>Stripe : traitement sécurisé des paiements.</li>
@@ -100,7 +140,7 @@ export default function PolitiqueConfidentialitePage() {
         </ul>
         <p>
           Ces prestataires peuvent traiter certaines données pour le compte de
-          Matheria, selon leurs propres conditions et politiques de
+          SprintMaths, selon leurs propres conditions et politiques de
           confidentialité.
         </p>
       </LegalSection>
@@ -113,7 +153,7 @@ export default function PolitiqueConfidentialitePage() {
           ou la portabilité de leurs données.
         </p>
         <p>
-          Pour exercer ces droits, il est possible d’écrire à contact@matheria.fr.
+          Pour exercer ces droits, il est possible d’écrire à {CONTACT_EMAIL}.
           Une vérification d’identité peut être demandée lorsque cela est
           nécessaire.
         </p>
@@ -125,22 +165,22 @@ export default function PolitiqueConfidentialitePage() {
 
       <LegalSection title="Cookies et stockage local">
         <p>
-          À ce stade, Matheria utilise uniquement des cookies ou mécanismes de
-          stockage strictement techniques nécessaires au fonctionnement du site,
-          lorsque c’est le cas.
+          SprintMaths utilise des mécanismes de stockage local pour le bon
+          fonctionnement du service et pour la mesure d’audience lorsque le mode
+          de tracking le permet.
         </p>
         <p>
           Le service peut utiliser le stockage local du navigateur pour conserver
-          le profil élève et l’historique de progression sur l’appareil de
-          l’utilisateur. [À VÉRIFIER SI DES OUTILS DE MESURE D’AUDIENCE OU DE
-          MARKETING SONT AJOUTÉS]
+          le profil élève, l’historique de progression sur l’appareil de
+          l’utilisateur, les paramètres UTM de campagne et la préférence locale
+          de mesure d’audience.
         </p>
       </LegalSection>
 
       <LegalSection title="Contact">
         <p>
           Pour toute question relative à cette politique ou aux données
-          personnelles, contactez : contact@matheria.fr.
+          personnelles, contactez : {CONTACT_EMAIL}.
         </p>
       </LegalSection>
     </LegalPageLayout>

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, Target, CalendarCheck } from "lucide-react";
 import { getProgram, Program } from "@/data/programs";
+import { getStorageItem } from "@/lib/storageKeys";
 
 export default function ProgrammePage() {
   const router = useRouter();
@@ -13,7 +14,7 @@ export default function ProgrammePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedProfile = localStorage.getItem("matheria_student_profile");
+    const storedProfile = getStorageItem("studentProfile");
     if (!storedProfile) {
       router.push("/merci");
       return;

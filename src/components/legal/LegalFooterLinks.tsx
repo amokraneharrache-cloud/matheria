@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CONTACT_EMAIL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 type LegalFooterLinksProps = {
@@ -10,6 +11,7 @@ const footerLinks = [
   { href: "/mentions-legales", label: "Mentions légales" },
   { href: "/cgv", label: "CGV" },
   { href: "/politique-confidentialite", label: "Confidentialité" },
+  { href: "/preferences-confidentialite", label: "Préférences confidentialité" },
   { href: "/remboursement", label: "Remboursement" },
 ];
 
@@ -27,7 +29,7 @@ export function LegalFooterLinks({
           {link.label}
         </Link>
       ))}
-      <a href="mailto:contact@matheria.fr" className={linkClassName}>
+      <a href={`mailto:${CONTACT_EMAIL}`} className={linkClassName}>
         Contact
       </a>
     </nav>

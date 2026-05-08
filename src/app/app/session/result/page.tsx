@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Award, Target, Home, RotateCcw, BookOpen, AlertCircle, CalendarCheck } from "lucide-react";
+import { getStorageItem } from "@/lib/storageKeys";
 
 export default function SessionResultPage() {
   const router = useRouter();
   const [result, setResult] = useState<{score: number, totalQuestions: number, topics: string[]} | null>(null);
 
   useEffect(() => {
-    const storedResult = localStorage.getItem("matheria_last_session_result");
+    const storedResult = getStorageItem("lastSessionResult");
     if (!storedResult) {
       router.push("/app");
     } else {

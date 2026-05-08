@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { restoreBetaAccess } from "@/actions/beta";
+import { setStorageItem } from "@/lib/storageKeys";
 
 export default function ConnexionPage() {
   const router = useRouter();
@@ -22,8 +23,8 @@ export default function ConnexionPage() {
     });
 
     if (result.success) {
-      localStorage.setItem(
-        "matheria_student_profile",
+      setStorageItem(
+        "studentProfile",
         JSON.stringify({
           betaAccessId: result.profile.betaAccessId,
           parentEmail: result.profile.parentEmail,
@@ -46,9 +47,9 @@ export default function ConnexionPage() {
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <div className="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-2xl">M</span>
+              <span className="text-white font-bold text-2xl">S</span>
             </div>
-            <span className="font-bold text-2xl text-blue-900">Matheria</span>
+            <span className="font-bold text-2xl text-blue-900">SprintMaths</span>
           </div>
           <h1 className="text-2xl font-extrabold text-gray-900">
             Connexion à l&apos;espace élève

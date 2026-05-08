@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { activateBetaAccess } from "@/actions/beta";
+import { setStorageItem } from "@/lib/storageKeys";
+import { trackCompleteRegistration } from "@/lib/tracking";
 
 export default function MerciPage() {
   const router = useRouter();
@@ -27,8 +29,13 @@ export default function MerciPage() {
     const result = await activateBetaAccess(data);
 
     if (result.success && result.betaAccessId) {
-      // Store student profile in localStorage
-      localStorage.setItem("matheria_student_profile", JSON.stringify({
+      trackCompleteRegistration({
+        exam_goal: data.examGoal,
+        level: data.currentLevel,
+        source_page: "/merci",
+      });
+
+      setStorageItem("studentProfile", JSON.stringify({
         ...data,
         betaAccessId: result.betaAccessId,
       }));
@@ -43,7 +50,7 @@ export default function MerciPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6">
         <div className="text-center">
-          <h1 className="text-3xl font-extrabold text-gray-900">Votre accès Matheria est prêt</h1>
+          <h1 className="text-3xl font-extrabold text-gray-900">Votre accès SprintMaths est prêt</h1>
           <p className="mt-2 text-gray-600">
             Créez maintenant l’espace élève pour commencer les révisions.
           </p>

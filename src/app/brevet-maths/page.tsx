@@ -18,7 +18,7 @@ const description =
 export const metadata: Metadata = {
   title: {
     absolute:
-      "Réviser le brevet de maths | Exercices, programme & progression — Matheria",
+      "Réviser le brevet de maths | Exercices, programme & progression — SprintMaths",
   },
   description,
   alternates: {
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title:
-      "Réviser le brevet de maths | Exercices, programme & progression — Matheria",
+      "Réviser le brevet de maths | Exercices, programme & progression — SprintMaths",
     description,
     url: absoluteUrl(pagePath),
     type: "website",
@@ -37,7 +37,7 @@ const faqItems: FaqItem[] = [
   {
     question: "Quels thèmes de maths du brevet sont travaillés ?",
     answer:
-      "Matheria travaille notamment fractions, équations, fonctions, géométrie, Pythagore, Thalès, proportionnalité, probabilités et statistiques.",
+      "SprintMaths travaille notamment fractions, équations, fonctions, géométrie, Pythagore, Thalès, proportionnalité, probabilités et statistiques.",
   },
   {
     question: "Les sessions sont-elles longues ?",
@@ -78,7 +78,7 @@ export default function BrevetMathsPage() {
           <p className="mt-5 max-w-3xl text-lg text-blue-100">
             Pour le brevet, l'élève a besoin de revoir les bases, de pratiquer
             régulièrement et de savoir quels chapitres reprendre en premier.
-            Matheria transforme le programme en sessions courtes et en
+            SprintMaths transforme le programme en sessions courtes et en
             progression visible.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -107,7 +107,7 @@ export default function BrevetMathsPage() {
               </h2>
               <p className="mt-4 text-slate-700">
                 Beaucoup d'élèves de 3e se perdent entre calcul, géométrie,
-                fonctions et probabilités. Matheria remet les chapitres dans un
+                fonctions et probabilités. SprintMaths remet les chapitres dans un
                 cadre lisible, avec des exercices courts et des priorités.
               </p>
               <p className="mt-4 text-slate-700">

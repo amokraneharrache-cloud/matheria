@@ -3,20 +3,21 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LegalFooterLinks } from "@/components/legal/LegalFooterLinks";
+import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { CheckCircle2, BrainCircuit, Target, TrendingUp, GraduationCap, BookOpen, School } from "lucide-react";
-import { absoluteUrl, SITE_NAME } from "@/lib/site";
+import { absoluteUrl, SITE_NAME, SITE_TAGLINE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Matheria | Réviser le brevet et le bac de maths",
+    absolute: "SprintMaths | Réviser le brevet et le bac de maths",
   },
   description:
-    "Matheria aide les élèves à réviser les maths avec des exercices ciblés, un programme par chapitre, un plan de révision et un suivi de progression.",
+    "SprintMaths aide les élèves à réviser les maths avec des exercices ciblés, un programme par chapitre, un plan de révision et un suivi de progression.",
   alternates: {
     canonical: absoluteUrl("/"),
   },
   openGraph: {
-    title: "Matheria | Réviser le brevet et le bac de maths",
+    title: "SprintMaths | Réviser le brevet et le bac de maths",
     description:
       "Exercices ciblés, plan de révision, programme par chapitre et progression pour préparer le brevet, le bac de Première et le bac Terminale.",
     url: absoluteUrl("/"),
@@ -27,6 +28,15 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const stripePaymentLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK;
+  const diagnosticStartedParams = { source_page: "/" };
+  const checkoutParams = {
+    source_page: "/",
+    offer: "pack_revision_express",
+    price: 39,
+    currency: "EUR",
+  };
+
   return (
     <div className="flex min-h-screen flex-col">
       {/* Header */}
@@ -34,19 +44,23 @@ export default function Home() {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-blue-900 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">M</span>
+              <span className="text-white font-bold text-xl">S</span>
             </div>
-            <span className="font-bold text-xl text-blue-900">Matheria</span>
+            <span className="font-bold text-xl text-blue-900">SprintMaths</span>
           </div>
           <div className="flex items-center gap-3 sm:gap-4">
             <Link href="/connexion" className="text-sm font-medium text-slate-600 hover:text-slate-900">
               Se connecter
             </Link>
-            <Link href="/diagnostic">
+            <TrackedLink
+              href="/diagnostic"
+              eventName="sprintmaths_diagnostic_started"
+              eventParams={diagnosticStartedParams}
+            >
               <Button size="sm" className="hidden sm:flex">
                 Faire le diagnostic gratuit
               </Button>
-            </Link>
+            </TrackedLink>
           </div>
         </div>
       </header>
@@ -56,26 +70,38 @@ export default function Home() {
         <section className="px-4 py-20 text-center bg-gradient-to-b from-blue-50 to-white">
           <div className="container mx-auto max-w-4xl">
             <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-blue-100 text-blue-900 mb-6">
-              Brevet, bac de maths de Première et Bac Terminale.
+              {SITE_TAGLINE}
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
-              Prépare le brevet ou le bac de maths avec un <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-violet-600">parcours personnalisé</span>
+              Réviser les maths du Brevet au Bac avec un <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-violet-600">parcours structuré</span>
             </h1>
             <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
-              Plan de révision, exercices ciblés et progression par chapitre. À quelques semaines de l'examen, Matheria aide votre enfant à savoir quoi réviser, à s'entraîner en sessions courtes et à progresser sans conflit à la maison. <span className="block mt-2 text-blue-800 font-medium">Pour Terminale : exercices guidés type bac, méthodes et progression par chapitre.</span>
+              Plan de révision, exercices ciblés et progression par chapitre. À quelques semaines de l'examen, SprintMaths aide votre enfant à savoir quoi réviser, à s'entraîner en sessions courtes et à progresser sans conflit à la maison. <span className="block mt-2 text-blue-800 font-medium">Pour Terminale : exercices guidés type bac, méthodes et progression par chapitre.</span>
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-6">
-              <Link href="/diagnostic" className="w-full sm:w-auto">
+              <TrackedLink
+                href="/diagnostic"
+                className="w-full sm:w-auto"
+                eventName="sprintmaths_diagnostic_started"
+                eventParams={diagnosticStartedParams}
+              >
                 <Button size="lg" className="w-full sm:w-auto">
                   Faire le diagnostic gratuit
                 </Button>
-              </Link>
-              {process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK ? (
-                <a href={process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+              </TrackedLink>
+              {stripePaymentLink ? (
+                <TrackedLink
+                  href={stripePaymentLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto"
+                  eventName="sprintmaths_initiate_checkout"
+                  eventParams={checkoutParams}
+                >
                   <Button variant="outline" size="lg" className="w-full sm:w-auto">
                     Réserver le Pack — 39 €
                   </Button>
-                </a>
+                </TrackedLink>
               ) : (
                 <Link href="#pricing" className="w-full sm:w-auto">
                   <Button variant="outline" size="lg" className="w-full sm:w-auto">
@@ -176,7 +202,7 @@ export default function Home() {
         {/* Solution Section */}
         <section className="px-4 py-20 bg-blue-900 text-white rounded-3xl mx-2 sm:mx-8 my-8">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl font-bold mb-12">La méthode Matheria en 3 étapes</h2>
+            <h2 className="text-3xl font-bold mb-12">La méthode SprintMaths en 3 étapes</h2>
             <div className="grid sm:grid-cols-3 gap-8">
               <div className="flex flex-col items-center">
                 <div className="w-16 h-16 bg-blue-800 rounded-full flex items-center justify-center text-2xl font-bold mb-4">1</div>
@@ -280,23 +306,35 @@ export default function Home() {
                     <span>Accessible sur téléphone, tablette et PC</span>
                   </li>
                 </ul>
-                {process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK ? (
+                {stripePaymentLink ? (
                   <div className="space-y-2 w-full">
-                    <a href={process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK} target="_blank" rel="noopener noreferrer" className="block w-full">
+                    <TrackedLink
+                      href={stripePaymentLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full"
+                      eventName="sprintmaths_initiate_checkout"
+                      eventParams={checkoutParams}
+                    >
                       <Button size="lg" className="w-full text-lg h-14">
                         Réserver le Pack — 39 €
                       </Button>
-                    </a>
+                    </TrackedLink>
                     <p className="text-xs text-center text-slate-500 font-medium">
                       Paiement sécurisé par Stripe. Paiement unique, sans abonnement.
                     </p>
                   </div>
                 ) : (
-                  <Link href="/diagnostic" className="w-full block">
+                  <TrackedLink
+                    href="/diagnostic"
+                    className="w-full block"
+                    eventName="sprintmaths_diagnostic_started"
+                    eventParams={diagnosticStartedParams}
+                  >
                     <Button size="lg" className="w-full text-lg h-14">
                       Commencer avec le diagnostic
                     </Button>
-                  </Link>
+                  </TrackedLink>
                 )}
               </CardContent>
             </Card>
@@ -311,7 +349,7 @@ export default function Home() {
               {[
                 { q: "Mon enfant est très en difficulté, est-ce adapté ?", a: "Oui, notre diagnostic initial permet de repérer précisément les bases manquantes pour proposer des exercices adaptés, sans le décourager." },
                 { q: "Dois-je payer un abonnement tous les mois ?", a: "Non. Le Pack Révision Express à 39€ est un paiement unique qui donne un accès complet jusqu'à la date de l'examen." },
-                { q: "Sur quels supports ça fonctionne ?", a: "Matheria est une application web accessible directement depuis le navigateur de n'importe quel smartphone, tablette ou ordinateur." }
+                { q: "Sur quels supports ça fonctionne ?", a: "SprintMaths est une application web accessible directement depuis le navigateur de n'importe quel smartphone, tablette ou ordinateur." }
               ].map((faq, i) => (
                 <Card key={i} className="border border-slate-200">
                   <CardContent className="p-6">
@@ -331,11 +369,15 @@ export default function Home() {
           <div className="container mx-auto max-w-3xl">
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">Prêt à aider votre enfant à progresser avant l’examen ?</h2>
             <p className="text-xl text-blue-200 mb-10">Commencez dès aujourd'hui par une évaluation gratuite de son niveau.</p>
-            <Link href="/diagnostic">
+            <TrackedLink
+              href="/diagnostic"
+              eventName="sprintmaths_diagnostic_started"
+              eventParams={diagnosticStartedParams}
+            >
               <Button size="lg" variant="secondary" className="text-lg px-10 h-14">
                 Faire le diagnostic gratuit
               </Button>
-            </Link>
+            </TrackedLink>
           </div>
         </section>
       </main>
@@ -343,10 +385,10 @@ export default function Home() {
       <footer className="bg-slate-900 text-slate-400 py-12 px-4 text-center">
         <div className="container mx-auto">
           <div className="flex items-center justify-center gap-2 mb-6">
-            <div className="w-6 h-6 bg-slate-700 rounded text-xs flex items-center justify-center text-white font-bold">M</div>
-            <span className="font-bold text-white">Matheria</span>
+            <div className="w-6 h-6 bg-slate-700 rounded text-xs flex items-center justify-center text-white font-bold">S</div>
+            <span className="font-bold text-white">SprintMaths</span>
           </div>
-          <p className="mb-4">© {new Date().getFullYear()} Matheria. Tous droits réservés.</p>
+          <p className="mb-4">© {new Date().getFullYear()} SprintMaths. Tous droits réservés.</p>
           <LegalFooterLinks
             className="gap-4 sm:gap-6"
             linkClassName="hover:text-white transition-colors"

@@ -7,18 +7,18 @@ import { breadcrumbJsonLd } from "@/lib/seo";
 const pagePath = "/programme-maths-terminale";
 
 const description =
-  "Découvre les grands chapitres de maths Terminale travaillés dans Matheria : suites, limites, dérivation, logarithme, exponentielle, probabilités et intégrales.";
+  "Découvre les grands chapitres de maths Terminale travaillés dans SprintMaths : suites, limites, dérivation, logarithme, exponentielle, probabilités et intégrales.";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Programme maths Terminale | Chapitres & priorités — Matheria",
+    absolute: "Programme maths Terminale | Chapitres & priorités — SprintMaths",
   },
   description,
   alternates: {
     canonical: absoluteUrl(pagePath),
   },
   openGraph: {
-    title: "Programme maths Terminale | Chapitres & priorités — Matheria",
+    title: "Programme maths Terminale | Chapitres & priorités — SprintMaths",
     description,
     url: absoluteUrl(pagePath),
     type: "website",
@@ -38,7 +38,7 @@ export default function ProgrammeMathsTerminalePage() {
       <ProgramSeoPage
         goal="terminale"
         h1="Programme de maths Terminale : chapitres et priorités de révision"
-        intro="Retrouve les grands chapitres travaillés dans Matheria pour organiser les révisions de Terminale, repérer les priorités et relier le programme aux exercices."
+        intro="Retrouve les grands chapitres travaillés dans SprintMaths pour organiser les révisions de Terminale, repérer les priorités et relier le programme aux exercices."
       />
     </>
   );

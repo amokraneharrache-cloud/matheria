@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { sharedNoindexRobots } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Accès Matheria",
+  title: "Accès SprintMaths",
   robots: sharedNoindexRobots,
 };
 

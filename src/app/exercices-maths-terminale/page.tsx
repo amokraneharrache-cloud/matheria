@@ -14,19 +14,19 @@ import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo";
 const pagePath = "/exercices-maths-terminale";
 
 const description =
-  "Découvre les exercices de maths Terminale dans Matheria : exercices guidés type bac, sessions par chapitre et progression sans afficher toute la base de réponses.";
+  "Découvre les exercices de maths Terminale dans SprintMaths : exercices guidés type bac, sessions par chapitre et progression sans afficher toute la base de réponses.";
 
 export const metadata: Metadata = {
   title: {
     absolute:
-      "Exercices maths Terminale | Guidés type bac & chapitres — Matheria",
+      "Exercices maths Terminale | Guidés type bac & chapitres — SprintMaths",
   },
   description,
   alternates: {
     canonical: absoluteUrl(pagePath),
   },
   openGraph: {
-    title: "Exercices maths Terminale | Guidés type bac & chapitres — Matheria",
+    title: "Exercices maths Terminale | Guidés type bac & chapitres — SprintMaths",
     description,
     url: absoluteUrl(pagePath),
     type: "website",
@@ -64,7 +64,7 @@ export default function ExercicesMathsTerminalePage() {
             Exercices de maths Terminale avec guidage et progression
           </h1>
           <p className="mt-5 max-w-3xl text-lg text-slate-700">
-            Matheria propose des sessions par chapitre et des exercices guidés
+            SprintMaths propose des sessions par chapitre et des exercices guidés
             type bac pour travailler les méthodes sans donner toute la base de
             réponses en accès libre. L'objectif est d'aider l'élève à pratiquer,
             pas seulement à lire une correction.
@@ -125,7 +125,7 @@ export default function ExercicesMathsTerminalePage() {
             </h2>
             <p className="mt-3 max-w-3xl text-slate-700">
               Les sessions Terminale s'appuient sur les chapitres structurés du
-              programme Matheria, avec un nombre d'exercices adapté à chaque
+              programme SprintMaths, avec un nombre d'exercices adapté à chaque
               notion.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

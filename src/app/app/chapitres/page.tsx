@@ -6,6 +6,7 @@ import Link from "next/link";
 import { BookOpen, ArrowLeft, Target, PlayCircle } from "lucide-react";
 import { getAvailableTopics } from "@/data/questions";
 import { getProgram } from "@/data/programs";
+import { getStorageItem } from "@/lib/storageKeys";
 
 export default function ChapitresPage() {
   const router = useRouter();
@@ -14,7 +15,7 @@ export default function ChapitresPage() {
   const [goalLabel, setGoalLabel] = useState("");
 
   useEffect(() => {
-    const storedProfile = localStorage.getItem("matheria_student_profile");
+    const storedProfile = getStorageItem("studentProfile");
     if (!storedProfile) {
       router.push("/merci");
       return;
@@ -31,7 +32,7 @@ export default function ChapitresPage() {
     const available = getAvailableTopics(profile.examGoal);
     
     // Enrich with history if available
-    const historyStr = localStorage.getItem("matheria_session_history");
+    const historyStr = getStorageItem("sessionHistory");
     let history: any[] = [];
     if (historyStr) {
       try {

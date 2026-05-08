@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getQuestionsByExamGoal, getQuestionsByTopic, pickRandomQuestions, Question } from "@/data/questions";
 import { savePracticeSession } from "@/actions/beta";
+import { getStorageItem, setStorageItem } from "@/lib/storageKeys";
 import { CheckCircle2, XCircle, ArrowRight } from "lucide-react";
 
 function SessionContent() {
@@ -20,7 +21,7 @@ function SessionContent() {
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    const storedProfile = localStorage.getItem("matheria_student_profile");
+    const storedProfile = getStorageItem("studentProfile");
     if (!storedProfile) {
       router.push("/merci");
       return;
@@ -71,19 +72,17 @@ function SessionContent() {
         topics: topicsSeen
       };
 
-      // 1. Update matheria_last_session_result (for the result page)
-      localStorage.setItem("matheria_last_session_result", JSON.stringify(sessionResult));
+      setStorageItem("lastSessionResult", JSON.stringify(sessionResult));
 
-      // 2. Update matheria_session_history (for progression)
       try {
-        const historyStr = localStorage.getItem("matheria_session_history");
+        const historyStr = getStorageItem("sessionHistory");
         let history = historyStr ? JSON.parse(historyStr) : [];
         history.push(sessionResult);
         // Keep only the last 20 sessions to avoid bloating localStorage
         if (history.length > 20) {
           history = history.slice(history.length - 20);
         }
-        localStorage.setItem("matheria_session_history", JSON.stringify(history));
+        setStorageItem("sessionHistory", JSON.stringify(history));
       } catch(e) {
         console.error("Error saving history to local storage", e);
       }

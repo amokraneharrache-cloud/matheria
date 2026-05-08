@@ -18,7 +18,7 @@ export default function AppLayout({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex-shrink-0 flex items-center">
-              <span className="text-xl font-bold text-indigo-600">Matheria</span>
+              <span className="text-xl font-bold text-indigo-600">SprintMaths</span>
               <span className="ml-2 px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800">
                 Espace élève
               </span>

@@ -14,8 +14,7 @@ import {
 } from "lucide-react";
 import { guidedExercises, type GuidedExercise } from "@/data/guidedExercises";
 import { mockBacSubjects } from "@/data/mockBacSubjects";
-
-const HISTORY_KEY = "matheria_bac_mock_exam_history";
+import { getStorageItem, setStorageItem } from "@/lib/storageKeys";
 
 type StudentProfile = {
   examGoal?: string;
@@ -84,7 +83,7 @@ export function BacMockExamClient() {
   const [result, setResult] = useState<ExamResult | null>(null);
 
   useEffect(() => {
-    const storedProfile = localStorage.getItem("matheria_student_profile");
+    const storedProfile = getStorageItem("studentProfile");
     if (!storedProfile) {
       router.push("/merci");
       return;
@@ -140,7 +139,7 @@ export function BacMockExamClient() {
 
   const saveHistory = (examResult: ExamResult) => {
     try {
-      const storedHistory = localStorage.getItem(HISTORY_KEY);
+      const storedHistory = getStorageItem("bacMockExamHistory");
       const parsed = storedHistory ? JSON.parse(storedHistory) : [];
       const history: StoredExamHistory[] = Array.isArray(parsed) ? parsed : [];
       const entry: StoredExamHistory = {
@@ -154,7 +153,7 @@ export function BacMockExamClient() {
         })),
       };
 
-      localStorage.setItem(HISTORY_KEY, JSON.stringify([entry, ...history].slice(0, 10)));
+      setStorageItem("bacMockExamHistory", JSON.stringify([entry, ...history].slice(0, 10)));
     } catch (error) {
       console.error("Failed to save mock bac exam history", error);
     }
