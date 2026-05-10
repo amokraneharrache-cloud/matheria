@@ -7,7 +7,7 @@ const pagePath = "/remboursement";
 export const metadata: Metadata = {
   title: "Politique de remboursement",
   description:
-    "Politique de remboursement SprintMaths : délai de demande, accès non reçu, erreur de paiement, droit de rétractation à valider.",
+    "Politique de remboursement SprintMaths : demande possible sous 7 jours, accès non reçu, erreur de paiement et absence de garantie de résultat scolaire.",
   alternates: {
     canonical: absoluteUrl(pagePath),
   },
@@ -32,23 +32,21 @@ export default function RemboursementPage() {
     >
       <LegalSection title="Principe général">
         <p>
-          SprintMaths souhaite traiter les demandes de remboursement de manière
-          claire et raisonnable, notamment en cas de problème d’accès, d’erreur
-          de paiement ou de situation exceptionnelle.
+          SprintMaths propose une garantie 7 jours : si l’accès ne correspond
+          pas à vos attentes, vous pouvez demander un remboursement dans les 7
+          jours suivant l’achat.
         </p>
         <p>
-          Cette politique doit être relue et validée avant une vente réelle afin
-          d’être cohérente avec le parcours de paiement Stripe et les obligations
-          applicables aux services numériques.
+          La demande est étudiée selon les CGV, le parcours de paiement Stripe
+          et les obligations applicables aux services numériques.
         </p>
       </LegalSection>
 
       <LegalSection title="Délai de demande">
         <p>
-          [DÉLAI À COMPLÉTER / VALIDER] Toute demande de remboursement doit être
-          adressée à {CONTACT_EMAIL} dans un délai de [X JOURS À COMPLÉTER]
-          après le paiement, avec l’email utilisé lors de l’achat et, si possible,
-          le reçu Stripe.
+          Toute demande de remboursement doit être adressée à {CONTACT_EMAIL}
+          dans les 7 jours suivant le paiement, avec l’email utilisé lors de
+          l’achat et, si possible, le reçu Stripe.
         </p>
       </LegalSection>
 
@@ -78,25 +76,31 @@ export default function RemboursementPage() {
 
       <LegalSection title="Droit de rétractation">
         <p>
-          [SECTION À COMPLÉTER / FAIRE VALIDER JURIDIQUEMENT] Le Pack Révision
-          Express SprintMaths est un service numérique. Selon le parcours de
-          paiement et le moment où l’accès est fourni, le droit de rétractation
-          du consommateur peut s’appliquer ou être écarté si les conditions
-          légales sont remplies.
+          Le Pack Révision Express SprintMaths est un service numérique. Selon
+          le parcours de paiement et le moment où l’accès est fourni, le droit de
+          rétractation du consommateur peut s’appliquer ou être écarté si les
+          conditions légales sont remplies.
         </p>
         <p>
-          Avant les ventes réelles, il faut vérifier que le consentement exprès à
-          l’exécution immédiate du service et la reconnaissance de la perte du
-          droit de rétractation, si utilisés, sont correctement recueillis.
+          Les modalités applicables dépendent des informations affichées au
+          moment du paiement et des consentements effectivement recueillis.
         </p>
       </LegalSection>
 
-      <LegalSection title="Cas non remboursables à préciser">
+      <LegalSection title="Cas pouvant limiter le remboursement">
         <p>
-          [À COMPLÉTER / VALIDER] Certaines demandes peuvent être refusées,
-          notamment lorsque l’accès a été fourni, utilisé normalement, et qu’aucun
-          dysfonctionnement bloquant n’est constaté. Cette clause doit être
-          adaptée au parcours réel et validée juridiquement.
+          Certaines demandes peuvent être refusées, notamment lorsque l’accès a
+          été fourni, utilisé normalement, et qu’aucun dysfonctionnement bloquant
+          n’est constaté.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="Absence de garantie de résultat scolaire">
+        <p>
+          SprintMaths aide à structurer les révisions et à s’entraîner, mais ne
+          garantit ni une note au bac, ni une mention, ni une progression
+          déterminée. La note indicative /20 affichée dans le service sert
+          uniquement de repère dans SprintMaths.
         </p>
       </LegalSection>
 

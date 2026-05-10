@@ -28,7 +28,7 @@ export function LegalSection({ title, children }: LegalSectionProps) {
 export function LegalPageLayout({
   title,
   description,
-  updatedAt = "[DATE DE MISE À JOUR À COMPLÉTER]",
+  updatedAt = "10 mai 2026",
   children,
 }: LegalPageLayoutProps) {
   return (
@@ -68,9 +68,9 @@ export function LegalPageLayout({
           </div>
 
           <div className="mb-10 rounded-lg border border-amber-200 bg-amber-50 p-5 text-sm leading-6 text-amber-950">
-            Document de travail à compléter par le fondateur et à faire valider
-            avant vente réelle. Les mentions entre crochets sont des placeholders
-            à remplacer.
+            Ces informations sont fournies à titre de transparence et peuvent
+            être mises à jour pour rester alignées avec le service et le cadre
+            applicable.
           </div>
 
           <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
@@ -83,7 +83,7 @@ export function LegalPageLayout({
         <div className="mx-auto max-w-5xl">
           <Link href="/" className="inline-flex items-center justify-center gap-2">
             <div className="flex h-6 w-6 items-center justify-center rounded bg-slate-700 text-xs font-bold text-white">
-              M
+              S
             </div>
             <span className="font-bold text-white">SprintMaths</span>
           </Link>

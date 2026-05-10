@@ -210,7 +210,7 @@ export default function ProgressionPage() {
           <section className="rounded-xl border border-indigo-100 bg-indigo-50 p-5">
             <h2 className="font-bold text-indigo-950 mb-4 flex items-center gap-2">
               <Award className="w-5 h-5 text-indigo-600" />
-              Notes virtuelles Bac Terminale
+              Notes indicatives Bac Terminale
             </h2>
             <div className="grid grid-cols-2 gap-3">
               <div className="rounded-xl bg-white p-4 border border-indigo-100">

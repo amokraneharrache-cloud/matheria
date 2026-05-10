@@ -87,7 +87,7 @@ export default function BacModePage() {
             <div>
               <h2 className="font-bold text-slate-900 text-lg">Sujets type bac</h2>
               <p className="text-sm text-slate-600">
-                Quatre exercices guidés pour obtenir une note virtuelle sur 20.
+                Quatre exercices guidés pour obtenir une note indicative /20.
               </p>
             </div>
             <Link

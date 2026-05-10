@@ -399,7 +399,7 @@ export const articles: Article[] = [
         heading: "Ne pas corriger ses erreurs avec méthode",
         body: [
           "Relire une correction ne suffit pas toujours. Il faut comprendre à quel moment l'erreur est apparue : mauvaise formule, mauvais domaine, signe perdu, conclusion absente, calcul non simplifié. Un carnet d'erreurs très court peut suffire : chapitre, type d'erreur, réflexe à installer. C'est souvent plus utile qu'une longue fiche recopiée.",
-          "Les notes virtuelles sur des sujets type bac peuvent servir à repérer les chapitres à retravailler, à condition de rester lucide : ce sont des estimations indicatives, pas une correction de professeur. Leur intérêt est de donner une direction. Ensuite, les fiches méthodes et les exercices ciblés permettent de corriger précisément ce qui bloque.",
+          "Les notes indicatives /20 sur des sujets type bac peuvent servir à repérer les chapitres à retravailler, à condition de rester lucide : ce sont des repères internes à SprintMaths, pas une correction de professeur ni une prédiction. Leur intérêt est de donner une direction. Ensuite, les fiches méthodes et les exercices ciblés permettent de corriger précisément ce qui bloque.",
         ],
       },
     ],

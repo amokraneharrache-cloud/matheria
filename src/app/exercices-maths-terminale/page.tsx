@@ -44,7 +44,7 @@ export default function ExercicesMathsTerminalePage() {
   );
 
   return (
-    <SeoPageLayout>
+    <SeoPageLayout urgencySourcePage={pagePath}>
       <JsonLd
         data={[
           productJsonLd(pagePath),
@@ -77,10 +77,10 @@ export default function ExercicesMathsTerminalePage() {
               Faire le diagnostic gratuit
             </Link>
             <Link
-              href="/methodes-maths-terminale"
+              href="/bac-maths-terminale-2026"
               className="rounded-full border border-blue-900 px-6 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
             >
-              Voir les méthodes Terminale
+              Commencer ma révision Bac 2026
             </Link>
           </div>
         </div>
@@ -211,4 +211,3 @@ export default function ExercicesMathsTerminalePage() {
     </SeoPageLayout>
   );
 }
-

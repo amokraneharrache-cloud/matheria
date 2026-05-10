@@ -34,7 +34,7 @@ export default function MethodesMathsTerminalePage() {
   const terminaleMethods = methods.filter((method) => method.examGoal === "terminale");
 
   return (
-    <SeoPageLayout>
+    <SeoPageLayout urgencySourcePage={pagePath}>
       <JsonLd
         data={[
           productJsonLd(pagePath),
@@ -60,10 +60,10 @@ export default function MethodesMathsTerminalePage() {
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
-              href="/bac-terminale-maths"
+              href="/bac-maths-terminale-2026"
               className="rounded-full bg-blue-900 px-6 py-3 text-center font-bold text-white hover:bg-blue-800"
             >
-              Réviser le bac Terminale
+              Commencer ma révision Bac 2026
             </Link>
             <Link
               href="/diagnostic"
@@ -178,4 +178,3 @@ export default function MethodesMathsTerminalePage() {
     </SeoPageLayout>
   );
 }
-

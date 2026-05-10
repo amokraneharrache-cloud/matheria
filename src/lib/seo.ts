@@ -28,7 +28,11 @@ export function organizationJsonLd() {
   };
 }
 
-export function productJsonLd(path: string) {
+type ProductJsonLdOptions = {
+  price?: string;
+};
+
+export function productJsonLd(path: string, options: ProductJsonLdOptions = {}) {
   return {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -41,7 +45,7 @@ export function productJsonLd(path: string) {
     },
     offers: {
       "@type": "Offer",
-      price: "39",
+      price: options.price ?? "39",
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
       url: absoluteUrl(path),

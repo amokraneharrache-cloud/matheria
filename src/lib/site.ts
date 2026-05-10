@@ -2,14 +2,14 @@ export const BRAND_NAME = "SprintMaths";
 
 export const SITE_NAME = BRAND_NAME;
 export const ORGANIZATION_NAME = BRAND_NAME;
-export const CONTACT_EMAIL = "contact@sprintmaths.fr";
+export const CONTACT_EMAIL = "contact@sprintmaths.com";
 export const DEFAULT_TITLE = `${SITE_NAME} | Réviser le brevet et le bac de maths`;
 export const DEFAULT_DESCRIPTION =
   "Des exercices guidés, un plan clair et une progression visible pour réviser efficacement les maths du Brevet au Bac.";
 export const SITE_TAGLINE = "Le programme de révision maths du Brevet au Bac";
 export const TERMINALE_CONVERSION_TAGLINE = "Réviser le bac de maths sans s'éparpiller";
 
-export const DEFAULT_SITE_URL = "https://sprintmaths.fr";
+export const DEFAULT_SITE_URL = "https://www.sprintmaths.com";
 
 export const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL || DEFAULT_SITE_URL
@@ -32,6 +32,7 @@ export function absoluteUrl(path = "/") {
 
 export const publicSeoRoutes = [
   "/",
+  "/bac-maths-terminale-2026",
   "/bac-terminale-maths",
   "/bac-premiere-maths",
   "/brevet-maths",

@@ -4,7 +4,7 @@ import { sharedNoindexRobots } from "@/lib/site";
 import { BacMockExamClient } from "./BacMockExamClient";
 
 export const metadata: Metadata = {
-  title: "Sujet type bac — note virtuelle",
+  title: "Sujet type bac — note indicative",
   robots: sharedNoindexRobots,
 };
 

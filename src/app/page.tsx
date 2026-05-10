@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { GuaranteeNote } from "@/components/marketing/GuaranteeNote";
+import { UrgencyBanner } from "@/components/marketing/UrgencyBanner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LegalFooterLinks } from "@/components/legal/LegalFooterLinks";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
-import { CheckCircle2, BrainCircuit, Target, TrendingUp, GraduationCap, BookOpen, School } from "lucide-react";
+import { CheckCircle2, BrainCircuit, Target, TrendingUp, GraduationCap, BookOpen, School, CalendarCheck } from "lucide-react";
+import {
+  BAC_2026_OFFER_PRICE,
+  BAC_2026_PROMO_CODE,
+  PACK_REVISION_EXPRESS_PRICE,
+} from "@/lib/offers";
 import { absoluteUrl, SITE_NAME, SITE_TAGLINE } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -32,9 +39,10 @@ export default function Home() {
   const diagnosticStartedParams = { source_page: "/" };
   const checkoutParams = {
     source_page: "/",
-    offer: "pack_revision_express",
-    price: 39,
+    offer: "bac2026",
+    price: BAC_2026_OFFER_PRICE,
     currency: "EUR",
+    coupon_code: BAC_2026_PROMO_CODE,
   };
 
   return (
@@ -64,6 +72,7 @@ export default function Home() {
           </div>
         </div>
       </header>
+      <UrgencyBanner sourcePage="/" />
 
       <main className="flex-1">
         {/* Hero Section */}
@@ -95,17 +104,17 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto"
-                  eventName="sprintmaths_initiate_checkout"
-                  eventParams={checkoutParams}
+                  eventName="bac2026_primary_cta_click"
+                  eventParams={{ ...checkoutParams, cta_location: "home_hero" }}
                 >
                   <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                    Réserver le Pack — 39 €
+                    Profiter de l'offre à {BAC_2026_OFFER_PRICE} €
                   </Button>
                 </TrackedLink>
               ) : (
                 <Link href="#pricing" className="w-full sm:w-auto">
                   <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                    Réserver le Pack — 39 €
+                    Profiter de l'offre à {BAC_2026_OFFER_PRICE} €
                   </Button>
                 </Link>
               )}
@@ -125,8 +134,14 @@ export default function Home() {
                 Choisissez le parcours adapté à l'examen préparé par votre enfant.
               </p>
             </div>
-            <div className="grid gap-5 md:grid-cols-3">
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
               {[
+                {
+                  href: "/bac-maths-terminale-2026",
+                  icon: CalendarCheck,
+                  title: "Bac Maths 2026",
+                  text: "Page dédiée à la dernière ligne droite : exercices guidés type bac, téléphone, prix Bac 2026 et garantie 7 jours.",
+                },
                 {
                   href: "/bac-terminale-maths",
                   icon: GraduationCap,
@@ -275,19 +290,24 @@ export default function Home() {
         {/* Pricing Section */}
         <section id="pricing" className="px-4 py-20 bg-slate-50">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Un investissement simple et transparent</h2>
-            <p className="text-lg text-slate-600 mb-12">Le prix d'une seule heure de cours particulier, pour un accompagnement jusqu'au jour J.</p>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Offre Bac 2026 claire et sans abonnement</h2>
+            <p className="text-lg text-slate-600 mb-12">
+              Le Pack Révision Express est en paiement unique. Code {BAC_2026_PROMO_CODE} : {BAC_2026_OFFER_PRICE} € au lieu de {PACK_REVISION_EXPRESS_PRICE} €.
+            </p>
             
             <Card className="max-w-md mx-auto border-2 border-blue-900 shadow-xl relative">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-900 text-white px-4 py-1 rounded-full text-sm font-bold tracking-wide">
-                OFFRE DE LANCEMENT
+                OFFRE BAC 2026
               </div>
               <CardContent className="p-8">
                 <h3 className="text-2xl font-bold text-slate-900 mb-2">Pack Révision Express</h3>
-                <div className="flex items-baseline justify-center gap-2 mb-6">
-                  <span className="text-5xl font-extrabold text-slate-900">39€</span>
+                <div className="flex items-end justify-center gap-3 mb-3">
+                  <span className="text-5xl font-extrabold text-slate-900">{BAC_2026_OFFER_PRICE}€</span>
+                  <span className="pb-2 text-lg font-bold text-slate-400 line-through">{PACK_REVISION_EXPRESS_PRICE}€</span>
                 </div>
-                <p className="text-slate-600 mb-6 font-medium">Paiement unique. Accès complet jusqu’à l’examen. Pas d’abonnement caché.</p>
+                <p className="text-slate-600 mb-6 font-medium">
+                  Avec le code {BAC_2026_PROMO_CODE}. Paiement unique. Accès complet jusqu’à l’examen. Pas d’abonnement.
+                </p>
                 <ul className="space-y-4 mb-8 text-left">
                   <li className="flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
@@ -306,6 +326,11 @@ export default function Home() {
                     <span>Accessible sur téléphone, tablette et PC</span>
                   </li>
                 </ul>
+                <GuaranteeNote
+                  className="mb-6"
+                  sourcePage="/"
+                  variant="compact"
+                />
                 {stripePaymentLink ? (
                   <div className="space-y-2 w-full">
                     <TrackedLink
@@ -313,11 +338,11 @@ export default function Home() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="block w-full"
-                      eventName="sprintmaths_initiate_checkout"
-                      eventParams={checkoutParams}
+                      eventName="pricing_cta_click"
+                      eventParams={{ ...checkoutParams, cta_location: "home_pricing" }}
                     >
                       <Button size="lg" className="w-full text-lg h-14">
-                        Réserver le Pack — 39 €
+                        Profiter de l'offre à {BAC_2026_OFFER_PRICE} €
                       </Button>
                     </TrackedLink>
                     <p className="text-xs text-center text-slate-500 font-medium">
@@ -332,7 +357,7 @@ export default function Home() {
                     eventParams={diagnosticStartedParams}
                   >
                     <Button size="lg" className="w-full text-lg h-14">
-                      Commencer avec le diagnostic
+                      Faire le diagnostic gratuit
                     </Button>
                   </TrackedLink>
                 )}
@@ -348,7 +373,7 @@ export default function Home() {
             <div className="space-y-6">
               {[
                 { q: "Mon enfant est très en difficulté, est-ce adapté ?", a: "Oui, notre diagnostic initial permet de repérer précisément les bases manquantes pour proposer des exercices adaptés, sans le décourager." },
-                { q: "Dois-je payer un abonnement tous les mois ?", a: "Non. Le Pack Révision Express à 39€ est un paiement unique qui donne un accès complet jusqu'à la date de l'examen." },
+                { q: "Dois-je payer un abonnement tous les mois ?", a: `Non. Le Pack Révision Express est un paiement unique. Prix public : ${PACK_REVISION_EXPRESS_PRICE} €. Offre Bac 2026 : ${BAC_2026_OFFER_PRICE} € avec le code ${BAC_2026_PROMO_CODE}.` },
                 { q: "Sur quels supports ça fonctionne ?", a: "SprintMaths est une application web accessible directement depuis le navigateur de n'importe quel smartphone, tablette ou ordinateur." }
               ].map((faq, i) => (
                 <Card key={i} className="border border-slate-200">

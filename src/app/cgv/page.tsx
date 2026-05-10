@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import { LegalPageLayout, LegalSection } from "@/components/legal/LegalPageLayout";
+import {
+  BAC_2026_OFFER_PRICE,
+  BAC_2026_PROMO_CODE,
+  PACK_REVISION_EXPRESS_PRICE,
+} from "@/lib/offers";
 import { absoluteUrl, CONTACT_EMAIL, SITE_NAME } from "@/lib/site";
 
 const pagePath = "/cgv";
@@ -28,13 +33,13 @@ export default function CgvPage() {
   return (
     <LegalPageLayout
       title="Conditions générales de vente"
-      description="Ces conditions générales de vente encadrent l’achat du Pack Révision Express SprintMaths par des particuliers en France. Elles doivent être complétées et validées avant une commercialisation réelle."
+      description="Ces conditions générales de vente encadrent l’achat du Pack Révision Express SprintMaths par des particuliers en France. Elles peuvent évoluer pour rester alignées avec le service et les obligations applicables."
     >
       <LegalSection title="Objet">
         <p>
           Les présentes conditions générales de vente ont pour objet de définir
-          les conditions dans lesquelles [NOM / SOCIÉTÉ À COMPLÉTER] vend aux
-          consommateurs un accès numérique au service SprintMaths.
+          les conditions dans lesquelles SprintMaths vend aux consommateurs un
+          accès numérique au service SprintMaths.
         </p>
       </LegalSection>
 
@@ -53,8 +58,13 @@ export default function CgvPage() {
 
       <LegalSection title="Prix et paiement">
         <p>
-          Le prix du Pack Révision Express SprintMaths est de 39 € TTC, en paiement
-          unique.
+          Le prix public du Pack Révision Express SprintMaths est de{" "}
+          {PACK_REVISION_EXPRESS_PRICE} € TTC, en paiement unique.
+        </p>
+        <p>
+          Une offre promotionnelle peut être proposée, notamment l’offre Bac
+          2026 à {BAC_2026_OFFER_PRICE} € avec le code {BAC_2026_PROMO_CODE},
+          ou des codes partenaires créés par SprintMaths.
         </p>
         <p>
           Le paiement est effectué via Stripe, prestataire de paiement sécurisé.
@@ -68,9 +78,8 @@ export default function CgvPage() {
           unique permettant de créer l’espace élève sur SprintMaths.
         </p>
         <p>
-          À ce stade, tant qu’aucun webhook Stripe n’est encore intégré, l’envoi
-          ou la génération du code peut nécessiter une intervention manuelle du
-          fondateur. En cas de difficulté d’accès après paiement, l’acheteur peut
+          Le code est envoyé automatiquement par email après confirmation du
+          paiement. En cas de difficulté d’accès après paiement, l’acheteur peut
           contacter {CONTACT_EMAIL}.
         </p>
       </LegalSection>
@@ -105,9 +114,8 @@ export default function CgvPage() {
 
       <LegalSection title="Droit de rétractation">
         <p>
-          [SECTION À COMPLÉTER / FAIRE VALIDER JURIDIQUEMENT] Pour les contenus
-          ou services numériques fournis avant la fin du délai légal de
-          rétractation, le droit de rétractation peut être écarté si le
+          Pour les contenus ou services numériques fournis avant la fin du délai
+          légal de rétractation, le droit de rétractation peut être écarté si le
           consommateur a donné son accord exprès pour l’exécution immédiate du
           service et reconnu qu’il perd son droit de rétractation.
         </p>
@@ -121,8 +129,10 @@ export default function CgvPage() {
 
       <LegalSection title="Remboursement">
         <p>
-          Les demandes de remboursement sont traitées selon la politique de
-          remboursement publiée sur la page Remboursement de SprintMaths.
+          Une demande de remboursement peut être adressée à {CONTACT_EMAIL}
+          dans les 7 jours suivant l’achat si l’accès ne correspond pas aux
+          attentes de l’acheteur. La demande est étudiée selon les présentes CGV
+          et la politique de remboursement publiée par SprintMaths.
         </p>
         <p>
           En cas de double paiement, d’erreur de paiement ou d’accès non reçu
@@ -138,8 +148,10 @@ export default function CgvPage() {
           un professeur, ni un accompagnement individualisé complet.
         </p>
         <p>
-          SprintMaths ne garantit pas une note, une progression déterminée, ni la
-          réussite à un examen.
+          Les scores et notes /20 affichés dans SprintMaths sont indicatifs. Ils
+          servent à suivre le travail dans le service et ne constituent pas une
+          prédiction de note au bac. SprintMaths ne garantit pas une note, une
+          progression déterminée, ni la réussite à un examen.
         </p>
       </LegalSection>
 
@@ -161,8 +173,9 @@ export default function CgvPage() {
 
       <LegalSection title="Droit applicable">
         <p>
-          Les présentes conditions sont soumises au droit français. [CLAUSE DE
-          MÉDIATION / TRIBUNAL COMPÉTENT À COMPLÉTER SI NÉCESSAIRE]
+          Les présentes conditions sont soumises au droit français. En cas de
+          différend, les parties sont invitées à rechercher une solution amiable
+          avant toute autre démarche.
         </p>
       </LegalSection>
     </LegalPageLayout>

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function ArticlesPage() {
   return (
-    <SeoPageLayout>
+    <SeoPageLayout urgencySourcePage={pagePath}>
       <section className="bg-gradient-to-b from-blue-50 to-white px-4 py-16 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <p className="mb-4 inline-flex rounded-full bg-blue-100 px-3 py-1 text-sm font-bold text-blue-900">

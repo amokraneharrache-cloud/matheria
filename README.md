@@ -6,7 +6,7 @@ Positionnement : **Le programme de révision maths du Brevet au Bac**.
 
 Promesse courte : des exercices guidés, un plan clair et une progression visible pour réviser efficacement.
 
-Le projet a été rebrandé vers **SprintMaths** le 2026-05-08 pour s'aligner avec le nouveau domaine `https://sprintmaths.fr`.
+Le projet a été rebrandé vers **SprintMaths** le 2026-05-08 pour s'aligner avec le nouveau domaine `https://www.sprintmaths.com`.
 
 ## Lancement rapide
 
@@ -32,7 +32,7 @@ Créer un fichier `.env.local` à la racine à partir de `.env.local.example`.
 ```env
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
-NEXT_PUBLIC_SITE_URL=https://sprintmaths.fr
+NEXT_PUBLIC_SITE_URL=https://www.sprintmaths.com
 NEXT_PUBLIC_STRIPE_PAYMENT_LINK=
 NEXT_PUBLIC_GTM_ID=
 NEXT_PUBLIC_GA4_ID=
@@ -46,8 +46,8 @@ SUPABASE_SERVICE_ROLE_KEY=
 STRIPE_SECRET_KEY=sk_live_xxx
 STRIPE_WEBHOOK_SECRET=whsec_xxx
 RESEND_API_KEY=re_xxx
-SPRINTMATHS_EMAIL_FROM="SprintMaths <contact@sprintmaths.fr>"
-SPRINTMATHS_EMAIL_REPLY_TO=contact@sprintmaths.fr
+SPRINTMATHS_EMAIL_FROM="SprintMaths <contact@sprintmaths.com>"
+SPRINTMATHS_EMAIL_REPLY_TO=contact@sprintmaths.com
 SPRINTMATHS_ADMIN_PASSWORD=
 SPRINTMATHS_DEV_ACCESS_CODE=
 SPRINTMATHS_TEST_CUSTOMER_EMAIL=
@@ -85,10 +85,10 @@ La marque, le domaine, l'email de contact, le titre SEO par défaut et les route
 Valeurs principales :
 
 - `SITE_NAME`: `SprintMaths`
-- `NEXT_PUBLIC_SITE_URL`: `https://sprintmaths.fr`
-- Email de contact public : `contact@sprintmaths.fr`
+- `NEXT_PUBLIC_SITE_URL`: `https://www.sprintmaths.com`
+- Email de contact public : `contact@sprintmaths.com`
 
-À faire côté registrar ou fournisseur mail : créer `contact@sprintmaths.fr`.
+À faire côté registrar ou fournisseur mail : créer `contact@sprintmaths.com`.
 
 ## Supabase
 
@@ -115,10 +115,11 @@ Checklist Payment Link :
 
 - Produit : `SprintMaths - Pack Révision Express`.
 - Prix : `39 €` en paiement unique.
+- Offre Bac 2026 : `29 €` avec le code public `BAC2026`.
 - Vérifier le Payment Link et renseigner `NEXT_PUBLIC_STRIPE_PAYMENT_LINK`.
-- Configurer la success URL : `https://sprintmaths.fr/merci`.
+- Configurer la success URL : `https://www.sprintmaths.com/merci`.
 - Rendre l'email client obligatoire côté Stripe.
-- Autoriser les codes promotionnels si `COUSIN10` est utilisé.
+- Autoriser les codes promotionnels pour `BAC2026` et les codes partenaires.
 
 ## Configuration Stripe webhook
 
@@ -126,7 +127,7 @@ Checklist Payment Link :
 2. Aller dans Developers.
 3. Aller dans Webhooks.
 4. Cliquer sur Add endpoint.
-5. URL : `https://sprintmaths.fr/api/stripe/webhook`.
+5. URL : `https://www.sprintmaths.com/api/stripe/webhook`.
 6. Events : `checkout.session.completed`.
 7. Copier le Signing secret dans `STRIPE_WEBHOOK_SECRET`.
 8. Ajouter `STRIPE_SECRET_KEY`.
@@ -135,16 +136,16 @@ Checklist Payment Link :
 ## Configuration Resend
 
 1. Créer un compte Resend.
-2. Ajouter le domaine `sprintmaths.fr`.
+2. Ajouter le domaine `sprintmaths.com`.
 3. Ajouter les DNS SPF/DKIM fournis par Resend dans Vercel DNS.
 4. Vérifier le domaine.
 5. Créer une API key.
 6. Ajouter `RESEND_API_KEY` dans Vercel.
-7. Configurer `SPRINTMATHS_EMAIL_FROM="SprintMaths <contact@sprintmaths.fr>"`.
-8. Configurer `SPRINTMATHS_EMAIL_REPLY_TO=contact@sprintmaths.fr`.
+7. Configurer `SPRINTMATHS_EMAIL_FROM="SprintMaths <contact@sprintmaths.com>"`.
+8. Configurer `SPRINTMATHS_EMAIL_REPLY_TO=contact@sprintmaths.com`.
 
 Ne pas utiliser l'email OVH SMTP pour l'envoi applicatif. OVH peut servir à
-recevoir `contact@sprintmaths.fr` si configuré, mais les emails transactionnels
+recevoir `contact@sprintmaths.com` si configuré, mais les emails transactionnels
 partent via Resend.
 
 ## Tunnel post-paiement
@@ -181,10 +182,10 @@ Voici votre code d'accès personnel :
 [CODE_UNIQUE]
 
 Pour créer l'espace élève :
-https://sprintmaths.fr/merci
+https://www.sprintmaths.com/merci
 
 Si vous avez déjà créé l'espace :
-https://sprintmaths.fr/connexion
+https://www.sprintmaths.com/connexion
 
 Ce code est personnel et utilisable une seule fois pour créer l'espace élève.
 
@@ -280,11 +281,17 @@ Events internes :
 - `sprintmaths_view_offer`
 - `sprintmaths_initiate_checkout`
 - `sprintmaths_complete_registration`
+- `urgency_banner_click`
+- `bac2026_primary_cta_click`
+- `bac2026_secondary_cta_click`
+- `guarantee_view`
+- `faq_expand`
+- `pricing_cta_click`
 
 Aucun event `sprintmaths_purchase` n'est déclenché depuis `/merci`. Toute mesure
 d'achat doit rester liée à une preuve serveur fiable du paiement Stripe.
 
-Les événements n'envoient pas l'email, le pseudo, les scores détaillés, les notes virtuelles, les chapitres faibles, l'historique pédagogique ou les réponses aux exercices.
+Les événements n'envoient pas l'email, le pseudo, les scores détaillés, les notes indicatives `/20`, les chapitres faibles, l'historique pédagogique ou les réponses aux exercices.
 
 ## Stockage local
 
@@ -326,7 +333,7 @@ Fonctionnalités principales :
 - Sessions QCM.
 - Mode Bac Terminale.
 - Sujets type bac guidés.
-- Note virtuelle indicative `/20`.
+- Note indicative `/20`.
 - Fiches méthodes.
 - Articles SEO.
 - Pages légales.
@@ -336,21 +343,21 @@ Limites assumées :
 
 - Pas de promesse de réussite garantie.
 - Pas d'annales officielles.
-- Pas de surpromesse IA.
+- Pas de surpromesse technologique.
 - Pas d'authentification serveur complète.
 
 ## Vercel et domaine
 
 Checklist Vercel :
 
-- Ajouter `sprintmaths.fr` au projet Vercel.
+- Ajouter `www.sprintmaths.com` au projet Vercel.
 - Configurer les DNS chez le registrar selon les valeurs Vercel.
-- Définir `NEXT_PUBLIC_SITE_URL=https://sprintmaths.fr`.
+- Définir `NEXT_PUBLIC_SITE_URL=https://www.sprintmaths.com`.
 - Définir `STRIPE_SECRET_KEY`.
 - Définir `STRIPE_WEBHOOK_SECRET`.
 - Définir `RESEND_API_KEY`.
-- Définir `SPRINTMATHS_EMAIL_FROM="SprintMaths <contact@sprintmaths.fr>"`.
-- Définir `SPRINTMATHS_EMAIL_REPLY_TO=contact@sprintmaths.fr`.
+- Définir `SPRINTMATHS_EMAIL_FROM="SprintMaths <contact@sprintmaths.com>"`.
+- Définir `SPRINTMATHS_EMAIL_REPLY_TO=contact@sprintmaths.com`.
 - Définir `SPRINTMATHS_ADMIN_PASSWORD`.
 - Définir `SPRINTMATHS_DEV_ACCESS_CODE` seulement pour le développement si nécessaire.
 - Conserver temporairement les fallbacks legacy `MATHERIA_*` si l'environnement les utilise déjà.

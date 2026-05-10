@@ -33,8 +33,9 @@ export default function PolitiqueConfidentialitePage() {
     >
       <LegalSection title="Responsable du traitement">
         <p>
-          Le responsable du traitement est [NOM / SOCIÉTÉ À COMPLÉTER], [FORME
-          JURIDIQUE À COMPLÉTER], situé à [ADRESSE À COMPLÉTER].
+          Le responsable du traitement est l’éditeur du service SprintMaths. Les
+          informations administratives complètes de l’éditeur sont en cours de
+          finalisation et seront tenues à jour sur les mentions légales.
         </p>
         <p>Contact : {CONTACT_EMAIL}.</p>
       </LegalSection>
@@ -95,7 +96,7 @@ export default function PolitiqueConfidentialitePage() {
         <ul className="list-disc space-y-2 pl-6">
           <li>le pseudo ou prénom de l’élève ;</li>
           <li>les scores détaillés ;</li>
-          <li>les notes virtuelles ;</li>
+          <li>les notes indicatives /20 ;</li>
           <li>les chapitres faibles ;</li>
           <li>l’historique pédagogique et les détails de progression.</li>
         </ul>
@@ -110,20 +111,19 @@ export default function PolitiqueConfidentialitePage() {
 
       <LegalSection title="Bases légales">
         <p>
-          [À COMPLÉTER / FAIRE VALIDER] Les bases légales susceptibles de
-          s’appliquer sont notamment l’exécution d’un contrat pour fournir
-          l’accès au service acheté, l’intérêt légitime pour assurer la sécurité
-          et répondre au support, le consentement lorsque celui-ci est requis, et
-          le respect d’obligations légales le cas échéant.
+          Les bases légales susceptibles de s’appliquer sont notamment
+          l’exécution d’un contrat pour fournir l’accès au service acheté,
+          l’intérêt légitime pour assurer la sécurité et répondre au support, le
+          consentement lorsque celui-ci est requis, et le respect d’obligations
+          légales le cas échéant.
         </p>
       </LegalSection>
 
       <LegalSection title="Conservation">
         <p>
-          [DURÉES À COMPLÉTER / FAIRE VALIDER] Les données sont conservées pour
-          une durée proportionnée aux finalités poursuivies : gestion de l’accès,
-          suivi de progression, support client, obligations comptables ou
-          fiscales éventuelles.
+          Les données sont conservées pour une durée proportionnée aux finalités
+          poursuivies : gestion de l’accès, suivi de progression, support
+          client, obligations comptables ou fiscales éventuelles.
         </p>
         <p>
           L’historique local stocké dans le navigateur peut être supprimé par
@@ -136,6 +136,7 @@ export default function PolitiqueConfidentialitePage() {
         <ul className="list-disc space-y-2 pl-6">
           <li>Supabase : base de données et services techniques associés.</li>
           <li>Stripe : traitement sécurisé des paiements.</li>
+          <li>Resend : envoi des emails transactionnels liés à l’accès.</li>
           <li>Vercel : hébergement et déploiement du site et de l’application.</li>
         </ul>
         <p>

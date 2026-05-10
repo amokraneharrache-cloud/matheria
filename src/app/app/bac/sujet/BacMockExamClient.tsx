@@ -199,7 +199,7 @@ export function BacMockExamClient() {
           </div>
           <h2 className="text-xl font-bold text-slate-900 mb-2">Pensé pour Terminale</h2>
           <p className="text-slate-600 mb-8">
-            Le sujet type bac avec note virtuelle est pensé pour les élèves de Terminale. Tu peux continuer à t&apos;entraîner avec ton programme actuel.
+            Le sujet type bac avec note indicative /20 est pensé pour les élèves de Terminale. Tu peux continuer à t&apos;entraîner avec ton programme actuel.
           </p>
           <div className="flex flex-col gap-3">
             <Link
@@ -227,9 +227,9 @@ export function BacMockExamClient() {
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </Link>
         <div>
-          <h1 className="text-xl font-bold text-slate-800">Sujet type bac — note virtuelle</h1>
+          <h1 className="text-xl font-bold text-slate-800">Sujet type bac — note indicative</h1>
           <p className="text-sm text-slate-600 mt-1">
-            Entraîne-toi sur plusieurs exercices guidés et obtiens une estimation sur 20.
+            Entraîne-toi sur plusieurs exercices guidés et obtiens une note indicative /20.
           </p>
         </div>
       </div>
@@ -348,12 +348,12 @@ export function BacMockExamClient() {
                 : "bg-slate-100 text-slate-400 cursor-not-allowed"
             }`}
           >
-            Corriger le sujet et calculer la note /20
+            Corriger le sujet et calculer la note indicative /20
           </button>
         ) : (
           <section className="rounded-xl border border-indigo-100 bg-indigo-50 p-5">
             <div className="text-center">
-              <p className="text-sm font-bold uppercase tracking-wider text-indigo-600">Note virtuelle</p>
+              <p className="text-sm font-bold uppercase tracking-wider text-indigo-600">Note indicative</p>
               <div className="mt-2 flex items-end justify-center gap-2">
                 <span className="text-5xl font-black text-indigo-700">{formatScore(result.score20)}</span>
                 <span className="mb-1 text-2xl font-bold text-indigo-300">/20</span>
@@ -395,7 +395,7 @@ export function BacMockExamClient() {
                 </p>
               </div>
               <p className="text-xs text-indigo-700">
-                Cette note est une estimation indicative pour cibler les révisions. Elle ne remplace pas une vraie correction de professeur.
+                Cette note indicative sert à cibler les révisions. Elle ne remplace pas une vraie correction de professeur et ne prédit pas la note au bac.
               </p>
             </div>
 

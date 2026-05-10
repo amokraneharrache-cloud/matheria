@@ -6,6 +6,7 @@ type InternalLinksProps = {
 };
 
 const links = [
+  { href: "/bac-maths-terminale-2026", label: "Révision Bac Maths 2026" },
   { href: "/bac-terminale-maths", label: "Réviser le bac Terminale" },
   { href: "/programme-maths-terminale", label: "Programme maths Terminale" },
   { href: "/methodes-maths-terminale", label: "Méthodes Terminale" },

@@ -472,7 +472,7 @@ Réduire la friction après paiement et éviter qu’un client payant soit perdu
 - Dashboard Terminale : Affichage des CTA Mode Bac exclusif aux Terminales.
 - Programme et plan : Liens et CTA Mode Bac intégrés.
 - Marketing : La landing page reste dans les contraintes, sans promesse automatique ni formulation trompeuse sur les sources d'exercices.
-- Sécurité technique : Aucune API IA ajoutée, pas de webhook Stripe, pas d'auth complexe, dépendances légères.
+- Sécurité technique : aucune API IA ajoutée, pas d'auth complexe, dépendances légères.
 - Build production : ✅ Succès sans erreur.
 
 ### Corrections

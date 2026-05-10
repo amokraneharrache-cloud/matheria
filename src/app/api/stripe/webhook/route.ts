@@ -17,7 +17,7 @@ function getWebhookSecret() {
 }
 
 function getSiteUrl() {
-  return (process.env.NEXT_PUBLIC_SITE_URL || "https://sprintmaths.fr").replace(/\/+$/, "");
+  return (process.env.NEXT_PUBLIC_SITE_URL || "https://www.sprintmaths.com").replace(/\/+$/, "");
 }
 
 function getCustomerEmail(session: Stripe.Checkout.Session) {

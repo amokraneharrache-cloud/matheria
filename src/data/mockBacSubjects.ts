@@ -26,7 +26,7 @@ export const mockBacSubjects: MockBacSubject[] = [
     id: "probabilites-fonctions",
     title: "Sujet type bac — Probabilités & fonctions",
     description:
-      "Un sujet guidé pour enchaîner probabilités, convexité, logarithme et loi binomiale avec une estimation sur 20.",
+      "Un sujet guidé pour enchaîner probabilités, convexité, logarithme et loi binomiale avec une note indicative /20.",
     examGoal: "terminale",
     estimatedMinutes: 35,
     exerciseIds: [

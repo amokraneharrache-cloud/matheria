@@ -65,8 +65,8 @@ export default function MerciPage() {
         <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 text-sm text-amber-900">
           Vous venez de payer et vous ne voyez pas l’email ? Vérifiez vos spams
           ou contactez{" "}
-          <a href="mailto:contact@sprintmaths.fr" className="font-semibold underline">
-            contact@sprintmaths.fr
+          <a href="mailto:contact@sprintmaths.com" className="font-semibold underline">
+            contact@sprintmaths.com
           </a>
           .
         </div>

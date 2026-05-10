@@ -89,7 +89,7 @@ export default function PreferencesConfidentialitePage() {
             </p>
             <p>
               Sont exclus des événements publicitaires : pseudo ou prénom de
-              l’élève, email, scores détaillés, notes virtuelles, chapitres
+              l’élève, email, scores détaillés, notes indicatives /20, chapitres
               faibles et historique pédagogique.
             </p>
           </section>

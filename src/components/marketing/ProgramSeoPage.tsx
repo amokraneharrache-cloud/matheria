@@ -37,7 +37,7 @@ export function ProgramSeoPage({ goal, h1, intro }: ProgramSeoPageProps) {
   }
 
   return (
-    <SeoPageLayout>
+    <SeoPageLayout urgencySourcePage={pagePaths[goal]}>
       <section className="bg-slate-50 px-4 py-16 sm:py-20">
         <div className="mx-auto max-w-5xl">
           <p className="mb-4 inline-flex rounded-full bg-blue-100 px-3 py-1 text-sm font-bold text-blue-900">
@@ -139,4 +139,3 @@ export function ProgramSeoPage({ goal, h1, intro }: ProgramSeoPageProps) {
     </SeoPageLayout>
   );
 }
-

@@ -2,6 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { GuaranteeNote } from "@/components/marketing/GuaranteeNote";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
@@ -9,6 +10,11 @@ import { CheckCircle2, AlertCircle, ArrowRight, Target, BrainCircuit } from "luc
 import { Suspense, useEffect, useMemo, useRef, useSyncExternalStore } from "react";
 import { trackViewOffer } from "@/lib/tracking";
 import { getSessionStorageItem, storageEvents } from "@/lib/storageKeys";
+import {
+  BAC_2026_OFFER_PRICE,
+  BAC_2026_PROMO_CODE,
+  PACK_REVISION_EXPRESS_PRICE,
+} from "@/lib/offers";
 
 type DiagnosticResultContext = {
   exam?: string;
@@ -114,8 +120,9 @@ function ResultContent() {
       exam_goal: exam,
       level,
       offer: "pack_revision_express",
-      price: 39,
+      price: BAC_2026_OFFER_PRICE,
       currency: "EUR",
+      coupon_code: BAC_2026_PROMO_CODE,
       source_page: "/diagnostic/resultat",
     }),
     [exam, level],
@@ -208,9 +215,13 @@ function ResultContent() {
           <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-600 to-violet-600"></div>
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Passez à l'action aujourd'hui</h2>
           <div className="flex items-baseline justify-center gap-2 mb-6">
-            <span className="text-4xl font-extrabold text-slate-900">39€</span>
+            <span className="text-4xl font-extrabold text-slate-900">{BAC_2026_OFFER_PRICE}€</span>
+            <span className="text-lg font-bold text-slate-400 line-through">{PACK_REVISION_EXPRESS_PRICE}€</span>
             <span className="text-slate-500 font-medium">paiement unique</span>
           </div>
+          <p className="mb-6 text-sm font-semibold text-blue-900">
+            Code {BAC_2026_PROMO_CODE} : {BAC_2026_OFFER_PRICE} € au lieu de {PACK_REVISION_EXPRESS_PRICE} €.
+          </p>
           
           <ul className="space-y-3 mb-8 text-left max-w-sm mx-auto">
             <li className="flex items-center gap-3">
@@ -223,9 +234,15 @@ function ResultContent() {
             </li>
             <li className="flex items-center gap-3">
               <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
-              <span className="text-slate-700">Garanti sans abonnement caché</span>
+              <span className="text-slate-700">Paiement unique, sans abonnement</span>
             </li>
           </ul>
+
+          <GuaranteeNote
+            className="mb-6"
+            sourcePage="/diagnostic/resultat"
+            variant="compact"
+          />
 
           <div className="space-y-3">
             {stripePaymentLink ? (
@@ -235,11 +252,14 @@ function ResultContent() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full"
-                  eventName="sprintmaths_initiate_checkout"
-                  eventParams={offerTrackingParams}
+                  eventName="pricing_cta_click"
+                  eventParams={{
+                    ...offerTrackingParams,
+                    cta_location: "diagnostic_result_offer",
+                  }}
                 >
                   <Button size="lg" className="w-full text-lg h-14 shadow-lg bg-blue-600 hover:bg-blue-700 text-white">
-                    Réserver le Pack Révision Express — 39 €
+                    Profiter de l'offre à {BAC_2026_OFFER_PRICE} €
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                 </TrackedLink>
@@ -250,7 +270,7 @@ function ResultContent() {
             ) : (
               <Link href="/diagnostic" className="block w-full">
                 <Button size="lg" className="w-full text-lg h-14 shadow-lg bg-blue-600 hover:bg-blue-700 text-white">
-                  Réserver le Pack Révision Express — 39 €
+                  Faire le diagnostic gratuit
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>

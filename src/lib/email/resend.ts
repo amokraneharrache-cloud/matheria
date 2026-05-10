@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 type SendAccessCodeEmailParams = {
   to: string;
@@ -67,6 +68,8 @@ ${connexionUrl}
 
 Ce code est personnel et utilisable une seule fois pour créer l'espace élève.
 
+Besoin d'aide ? Écrivez à ${CONTACT_EMAIL}.
+
 À bientôt,
 L'équipe SprintMaths`;
 
@@ -79,6 +82,7 @@ L'équipe SprintMaths`;
       <p>Pour créer l'espace élève :<br><a href="${merciUrl}">${merciUrl}</a></p>
       <p>Si vous avez déjà créé l'espace :<br><a href="${connexionUrl}">${connexionUrl}</a></p>
       <p>Ce code est personnel et utilisable une seule fois pour créer l'espace élève.</p>
+      <p>Besoin d'aide ? Écrivez à <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>.</p>
       <p>À bientôt,<br>L'équipe SprintMaths</p>
     </div>
   `;

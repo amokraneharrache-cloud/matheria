@@ -1,5 +1,10 @@
 import Link from "next/link";
+import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { Button } from "@/components/ui/button";
+import {
+  BAC_2026_OFFER_PRICE,
+  BAC_2026_PROMO_CODE,
+} from "@/lib/offers";
 
 type SeoCtaProps = {
   title?: string;
@@ -33,30 +38,38 @@ export function SeoCta({
           </Button>
         </Link>
         {stripePaymentLink ? (
-          <a
+          <TrackedLink
             href={stripePaymentLink}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full sm:w-auto"
+            eventName="pricing_cta_click"
+            eventParams={{
+              source_page: "seo_cta",
+              offer: "bac2026",
+              price: BAC_2026_OFFER_PRICE,
+              currency: "EUR",
+              coupon_code: BAC_2026_PROMO_CODE,
+              cta_location: "seo_cta",
+            }}
           >
             <Button variant="outline" size="lg" className="w-full sm:w-auto">
-              Réserver le Pack — 39 €
+              Profiter de l&apos;offre à {BAC_2026_OFFER_PRICE} €
             </Button>
-          </a>
+          </TrackedLink>
         ) : (
           <Link href="/#pricing" className="w-full sm:w-auto">
             <Button variant="outline" size="lg" className="w-full sm:w-auto">
-              Voir le Pack — 39 €
+              Voir l&apos;offre Bac 2026
             </Button>
           </Link>
         )}
       </div>
       {stripePaymentLink && (
         <p className="mt-3 text-xs font-medium text-slate-500">
-          Paiement unique sécurisé par Stripe, sans abonnement caché.
+          Paiement unique sécurisé par Stripe, sans abonnement.
         </p>
       )}
     </div>
   );
 }
-

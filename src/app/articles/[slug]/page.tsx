@@ -62,7 +62,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     .slice(0, 3);
 
   return (
-    <SeoPageLayout>
+    <SeoPageLayout urgencySourcePage={`/articles/${article.slug}`}>
       <JsonLd
         data={[
           breadcrumbJsonLd([
@@ -120,7 +120,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     Les liens internes en bas de page permettent aussi de circuler entre les chapitres liés. Par exemple, une difficulté sur les variations renvoie souvent à la dérivée, au tableau de signes ou aux limites. Une difficulté en probabilités peut renvoyer aux arbres pondérés ou à la loi binomiale. Réviser par connexions aide à construire une vision plus solide du programme.
                   </p>
                   <p>
-                    Enfin, il faut garder une attente réaliste : une note virtuelle, une fiche méthode ou un diagnostic ne remplacent pas une correction de professeur. Ces outils servent à rendre le travail plus clair, à choisir les prochains chapitres et à installer de meilleurs réflexes. C&apos;est déjà beaucoup lorsque les révisions deviennent régulières et moins dispersées.
+                    Enfin, il faut garder une attente réaliste : une note indicative /20, une fiche méthode ou un diagnostic ne remplacent pas une correction de professeur. Ces outils servent à rendre le travail plus clair, à choisir les prochains chapitres et à installer de meilleurs réflexes. C&apos;est déjà beaucoup lorsque les révisions deviennent régulières et moins dispersées.
                   </p>
                 </div>
               </section>
@@ -128,14 +128,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <section className="rounded-2xl bg-blue-950 p-6 text-white">
                 <h2 className="text-2xl font-bold">Travailler ces méthodes dans SprintMaths</h2>
                 <p className="mt-3 text-blue-100">
-                  Le Mode Bac Terminale propose des exercices guidés, des fiches méthodes et une note virtuelle indicative pour repérer les chapitres à retravailler.
+                  Le Mode Bac Terminale propose des exercices guidés, des fiches méthodes et une note indicative /20 pour repérer les chapitres à retravailler.
                 </p>
                 <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                   <Link
-                    href="/bac-terminale-maths"
+                    href="/bac-maths-terminale-2026"
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 font-bold text-blue-950 hover:bg-blue-50"
                   >
-                    Voir le Mode Bac Terminale
+                    Commencer ma révision Bac 2026
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                   <Link

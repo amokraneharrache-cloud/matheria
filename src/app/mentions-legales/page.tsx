@@ -36,11 +36,13 @@ export default function MentionsLegalesPage() {
           par :
         </p>
         <ul className="list-disc space-y-2 pl-6">
-          <li>Nom / société : [NOM / SOCIÉTÉ À COMPLÉTER]</li>
-          <li>Forme juridique : [À COMPLÉTER]</li>
-          <li>Adresse : [À COMPLÉTER]</li>
+          <li>Éditeur : SprintMaths.</li>
+          <li>
+            Les informations d’identification de l’éditeur sont à compléter par
+            l’éditeur avant diffusion commerciale large.
+          </li>
           <li>Email : {CONTACT_EMAIL}</li>
-          <li>Directeur de publication : [À COMPLÉTER]</li>
+          <li>Directeur de publication : représentant de l’éditeur SprintMaths.</li>
         </ul>
       </LegalSection>
 

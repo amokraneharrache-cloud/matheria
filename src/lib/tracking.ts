@@ -17,7 +17,13 @@ export type SprintMathsEventName =
   | "sprintmaths_lead"
   | "sprintmaths_view_offer"
   | "sprintmaths_initiate_checkout"
-  | "sprintmaths_complete_registration";
+  | "sprintmaths_complete_registration"
+  | "urgency_banner_click"
+  | "bac2026_primary_cta_click"
+  | "bac2026_secondary_cta_click"
+  | "guarantee_view"
+  | "faq_expand"
+  | "pricing_cta_click";
 
 export type TrackingParams = {
   event_name?: string;
@@ -27,6 +33,8 @@ export type TrackingParams = {
   price?: number;
   currency?: string;
   coupon_code?: string;
+  cta_location?: string;
+  faq_question?: string;
   source_page?: string;
   utm_source?: string;
   utm_medium?: string;
@@ -60,6 +68,8 @@ const ALLOWED_STRING_PARAMS = [
   "offer",
   "currency",
   "coupon_code",
+  "cta_location",
+  "faq_question",
   "source_page",
   "utm_source",
   "utm_medium",

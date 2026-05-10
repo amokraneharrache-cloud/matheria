@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Award, BookOpen, CalendarCheck, FileText, GraduationCap, LineChart, PenTool, Target } from "lucide-react";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { GuaranteeNote } from "@/components/marketing/GuaranteeNote";
 import { InternalLinks } from "@/components/marketing/InternalLinks";
 import { SeoCta } from "@/components/marketing/SeoCta";
 import { SeoFaq } from "@/components/marketing/SeoFaq";
@@ -10,6 +11,11 @@ import { guidedExercises } from "@/data/guidedExercises";
 import { mockBacSubjects } from "@/data/mockBacSubjects";
 import { getProgram } from "@/data/programs";
 import { methods } from "@/data/methods";
+import {
+  BAC_2026_OFFER_PRICE,
+  BAC_2026_PROMO_CODE,
+  PACK_REVISION_EXPRESS_PRICE,
+} from "@/lib/offers";
 import { absoluteUrl, TERMINALE_CONVERSION_TAGLINE } from "@/lib/site";
 import { breadcrumbJsonLd, faqJsonLd, productJsonLd, type FaqItem } from "@/lib/seo";
 
@@ -62,7 +68,7 @@ export default function BacTerminaleMathsPage() {
   );
 
   return (
-    <SeoPageLayout>
+    <SeoPageLayout urgencySourcePage={pagePath}>
       <JsonLd
         data={[
           productJsonLd(pagePath),
@@ -96,10 +102,10 @@ export default function BacTerminaleMathsPage() {
                 Faire le diagnostic gratuit
               </Link>
               <Link
-                href="/programme-maths-terminale"
+                href="/bac-maths-terminale-2026"
                 className="rounded-full border border-blue-900 px-6 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
               >
-                Voir le programme Terminale
+                Commencer ma révision Bac 2026
               </Link>
             </div>
           </div>
@@ -162,7 +168,7 @@ export default function BacTerminaleMathsPage() {
                 {[
                   "Des exercices guidés type bac en plusieurs étapes.",
                   "Des fiches méthodes Terminale claires et actionnables.",
-                  "Des sujets guidés avec note virtuelle indicative sur 20.",
+                  "Des sujets guidés avec note indicative /20.",
                   "Un programme par chapitre avec priorités.",
                   "Un plan de révision 7 ou 14 jours.",
                   "Un suivi de progression par session et par chapitre.",
@@ -180,10 +186,10 @@ export default function BacTerminaleMathsPage() {
             <div className="rounded-2xl bg-indigo-950 p-6 text-white">
               <Award className="h-7 w-7 text-indigo-200" />
               <h2 className="mt-4 text-3xl font-bold">
-                Note virtuelle sur 20
+                Note indicative /20
               </h2>
               <p className="mt-4 text-indigo-100">
-                Le mode Bac Terminale permet de s’entraîner sur des sujets guidés et d’obtenir une estimation de note sur 20. Cette note sert à identifier les chapitres à retravailler, sans remplacer une vraie correction de professeur.
+                Le mode Bac Terminale permet de s’entraîner sur des sujets guidés et d’obtenir une note indicative /20. Cette note sert à identifier les chapitres à retravailler, sans remplacer une vraie correction de professeur ni prédire une note au bac.
               </p>
             </div>
             <div>
@@ -314,7 +320,7 @@ export default function BacTerminaleMathsPage() {
               {
                 icon: BookOpen,
                 title: "Prix du Pack Révision Express",
-                text: "39 € en paiement unique, avec accès aux exercices, méthodes, programme, plan et progression.",
+                text: `${PACK_REVISION_EXPRESS_PRICE} € en paiement unique. Offre Bac 2026 : ${BAC_2026_OFFER_PRICE} € avec le code ${BAC_2026_PROMO_CODE}.`,
               },
             ].map((item) => (
               <article key={item.title} className="rounded-2xl bg-blue-950 p-6 text-white">
@@ -329,6 +335,7 @@ export default function BacTerminaleMathsPage() {
             title="Préparer Terminale avec un parcours concret"
             description="Le diagnostic gratuit aide à choisir les bons chapitres avant de lancer un plan de révision et des sessions ciblées."
           />
+          <GuaranteeNote sourcePage={pagePath} />
           <SeoFaq items={faqItems} />
           <InternalLinks currentPath={pagePath} />
         </div>
