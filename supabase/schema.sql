@@ -40,12 +40,32 @@ CREATE TABLE access_codes (
   created_at timestamptz DEFAULT now() NOT NULL,
   code text NOT NULL UNIQUE,
   parent_email text,
+  source text NOT NULL DEFAULT 'manual',
+  stripe_session_id text,
+  stripe_payment_intent_id text,
+  amount_total integer,
+  currency text,
   status text NOT NULL DEFAULT 'unused',
   used_at timestamptz,
   beta_access_id uuid REFERENCES beta_access(id) ON DELETE SET NULL,
   CONSTRAINT access_codes_status_check CHECK (status IN ('unused', 'used', 'revoked')),
   CONSTRAINT access_codes_code_not_empty CHECK (length(btrim(code)) > 0)
 );
+
+-- Migration idempotente pour les bases existantes avant l'automatisation Stripe.
+ALTER TABLE access_codes ADD COLUMN IF NOT EXISTS source text DEFAULT 'manual';
+ALTER TABLE access_codes ADD COLUMN IF NOT EXISTS stripe_session_id text;
+ALTER TABLE access_codes ADD COLUMN IF NOT EXISTS stripe_payment_intent_id text;
+ALTER TABLE access_codes ADD COLUMN IF NOT EXISTS amount_total integer;
+ALTER TABLE access_codes ADD COLUMN IF NOT EXISTS currency text;
+
+UPDATE access_codes SET source = 'manual' WHERE source IS NULL;
+ALTER TABLE access_codes ALTER COLUMN source SET DEFAULT 'manual';
+ALTER TABLE access_codes ALTER COLUMN source SET NOT NULL;
+
+CREATE UNIQUE INDEX IF NOT EXISTS access_codes_stripe_session_id_key
+  ON access_codes(stripe_session_id)
+  WHERE stripe_session_id IS NOT NULL;
 
 CREATE TABLE practice_sessions (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,

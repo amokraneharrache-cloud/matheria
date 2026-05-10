@@ -22,6 +22,11 @@ const statusLabels: Record<AdminAccessCodeRow["status"], string> = {
   revoked: "Révoqué",
 };
 
+const sourceLabels: Record<AdminAccessCodeRow["source"], string> = {
+  manual: "manual",
+  stripe: "stripe",
+};
+
 export default function AdminCodesPage() {
   const [adminPassword, setAdminPassword] = useState("");
   const [parentEmail, setParentEmail] = useState("");
@@ -78,6 +83,12 @@ export default function AdminCodesPage() {
     setMessage("Code copié.");
   };
 
+  const handleCopyClientCode = async (row: AdminAccessCodeRow) => {
+    const value = row.parentEmail ? `${row.parentEmail} — ${row.code}` : row.code;
+    await navigator.clipboard.writeText(value);
+    setMessage("Email client + code copiés.");
+  };
+
   const handleRevoke = async (code: string) => {
     setLoading(true);
     setError("");
@@ -104,10 +115,10 @@ export default function AdminCodesPage() {
           <p className="text-sm font-bold uppercase tracking-wide text-indigo-300">
             Administration SprintMaths
           </p>
-          <h1 className="mt-2 text-3xl font-extrabold">Codes d'accès uniques</h1>
+          <h1 className="mt-2 text-3xl font-extrabold">Codes d&apos;accès uniques</h1>
           <p className="mt-3 max-w-2xl text-sm text-slate-300">
-            Génère un code personnel après paiement Stripe, puis transmets-le au
-            client pour créer son espace élève.
+            Génère un code manuel si besoin, dépanne un client et vérifie les
+            codes créés automatiquement par Stripe.
           </p>
         </header>
 
@@ -197,6 +208,7 @@ export default function AdminCodesPage() {
               <thead className="bg-slate-950 text-xs uppercase text-slate-400">
                 <tr>
                   <th className="px-4 py-3">Code</th>
+                  <th className="px-4 py-3">Source</th>
                   <th className="px-4 py-3">Email</th>
                   <th className="px-4 py-3">Statut</th>
                   <th className="px-4 py-3">Créé</th>
@@ -207,7 +219,7 @@ export default function AdminCodesPage() {
               <tbody className="divide-y divide-slate-800">
                 {codes.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-4 py-8 text-center text-slate-400">
+                    <td colSpan={7} className="px-4 py-8 text-center text-slate-400">
                       Aucun code chargé.
                     </td>
                   </tr>
@@ -216,6 +228,9 @@ export default function AdminCodesPage() {
                     <tr key={row.code}>
                       <td className="whitespace-nowrap px-4 py-3 font-mono font-bold text-slate-100">
                         {row.code}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 text-slate-300">
+                        {sourceLabels[row.source]}
                       </td>
                       <td className="whitespace-nowrap px-4 py-3 text-slate-300">
                         {row.parentEmail || "—"}
@@ -240,18 +255,25 @@ export default function AdminCodesPage() {
                         {formatDate(row.usedAt)}
                       </td>
                       <td className="whitespace-nowrap px-4 py-3">
-                        {row.status === "unused" ? (
+                        <div className="flex items-center gap-2">
                           <button
                             type="button"
-                            onClick={() => handleRevoke(row.code)}
-                            disabled={loading}
-                            className="rounded-lg border border-red-800 px-3 py-2 text-xs font-bold text-red-200 hover:bg-red-950 disabled:opacity-50"
+                            onClick={() => handleCopyClientCode(row)}
+                            className="rounded-lg border border-slate-700 px-3 py-2 text-xs font-bold text-slate-200 hover:bg-slate-800"
                           >
-                            Révoquer
+                            Copier
                           </button>
-                        ) : (
-                          <span className="text-slate-500">—</span>
-                        )}
+                          {row.status === "unused" ? (
+                            <button
+                              type="button"
+                              onClick={() => handleRevoke(row.code)}
+                              disabled={loading}
+                              className="rounded-lg border border-red-800 px-3 py-2 text-xs font-bold text-red-200 hover:bg-red-950 disabled:opacity-50"
+                            >
+                              Révoquer
+                            </button>
+                          ) : null}
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -264,4 +286,3 @@ export default function AdminCodesPage() {
     </main>
   );
 }
-

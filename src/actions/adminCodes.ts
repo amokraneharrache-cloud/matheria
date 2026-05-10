@@ -1,13 +1,14 @@
 "use server";
 
-import { randomInt } from "crypto";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
+import { createAccessCodeForEmail, type AccessCodeSource } from "@/lib/accessCodes";
 
 type AccessCodeStatus = "unused" | "used" | "revoked";
 
 export type AdminAccessCodeRow = {
   code: string;
   parentEmail: string | null;
+  source: AccessCodeSource;
   status: AccessCodeStatus;
   createdAt: string;
   usedAt: string | null;
@@ -43,16 +44,6 @@ function verifyAdminPassword(adminPassword: string) {
   return { success: true as const };
 }
 
-const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-function createShortCode() {
-  let suffix = "";
-  for (let i = 0; i < 4; i += 1) {
-    suffix += CODE_ALPHABET[randomInt(0, CODE_ALPHABET.length)];
-  }
-  return `MATH-${suffix}`;
-}
-
 export async function generateAccessCode(data: {
   adminPassword: string;
   parentEmail?: string;
@@ -72,34 +63,20 @@ export async function generateAccessCode(data: {
 
   const parentEmail = normalizeEmail(data.parentEmail);
 
-  for (let attempt = 0; attempt < 8; attempt += 1) {
-    const code = createShortCode();
-    const { data: row, error } = await supabaseAdmin
-      .from("access_codes")
-      .insert({
-        code,
-        parent_email: parentEmail,
-        status: "unused",
-      })
-      .select("code")
-      .single();
+  try {
+    const createdCode = await createAccessCodeForEmail({
+      parentEmail,
+      source: "manual",
+    });
 
-    if (!error && row?.code) {
-      return { success: true as const, code: row.code };
-    }
-
-    if (error?.code !== "23505") {
-      return {
-        success: false as const,
-        message: "Impossible de générer le code. Veuillez réessayer.",
-      };
-    }
+    return { success: true as const, code: createdCode.code };
+  } catch (error) {
+    console.error("generateAccessCode error:", error);
+    return {
+      success: false as const,
+      message: "Impossible de générer le code. Veuillez réessayer.",
+    };
   }
-
-  return {
-    success: false as const,
-    message: "Collision de code répétée. Relancez la génération.",
-  };
 }
 
 export async function listAccessCodes(data: { adminPassword: string }) {
@@ -118,7 +95,7 @@ export async function listAccessCodes(data: { adminPassword: string }) {
 
   const { data: rows, error } = await supabaseAdmin
     .from("access_codes")
-    .select("code, parent_email, status, created_at, used_at")
+    .select("code, parent_email, source, status, created_at, used_at")
     .order("created_at", { ascending: false })
     .limit(50);
 
@@ -134,6 +111,7 @@ export async function listAccessCodes(data: { adminPassword: string }) {
     codes: (rows || []).map((row) => ({
       code: row.code,
       parentEmail: row.parent_email,
+      source: (row.source || "manual") as AccessCodeSource,
       status: row.status as AccessCodeStatus,
       createdAt: row.created_at,
       usedAt: row.used_at,

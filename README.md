@@ -43,8 +43,15 @@ NEXT_PUBLIC_SNAP_PIXEL_ID=
 NEXT_PUBLIC_TRACKING_MODE=
 
 SUPABASE_SERVICE_ROLE_KEY=
+STRIPE_SECRET_KEY=sk_live_xxx
+STRIPE_WEBHOOK_SECRET=whsec_xxx
+RESEND_API_KEY=re_xxx
+SPRINTMATHS_EMAIL_FROM="SprintMaths <contact@sprintmaths.fr>"
+SPRINTMATHS_EMAIL_REPLY_TO=contact@sprintmaths.fr
 SPRINTMATHS_ADMIN_PASSWORD=
 SPRINTMATHS_DEV_ACCESS_CODE=
+SPRINTMATHS_TEST_CUSTOMER_EMAIL=
+RESEND_ACCESS_CODE_ON_DUPLICATE=false
 
 # Legacy fallbacks temporaires, supportés par le code pendant la migration.
 # MATHERIA_ADMIN_PASSWORD=
@@ -54,6 +61,22 @@ SPRINTMATHS_DEV_ACCESS_CODE=
 Les nouvelles variables `SPRINTMATHS_*` sont prioritaires. Les variables `MATHERIA_*` restent supportées comme fallback legacy pour éviter de casser un environnement Vercel déjà configuré.
 
 `SUPABASE_SERVICE_ROLE_KEY` est un secret serveur absolu : ne jamais le préfixer par `NEXT_PUBLIC_`.
+
+Secrets serveur à ne jamais préfixer par `NEXT_PUBLIC_` :
+
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
+- `RESEND_API_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+
+Variables à ajouter dans Vercel Production :
+
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
+- `RESEND_API_KEY`
+- `SPRINTMATHS_EMAIL_FROM`
+- `SPRINTMATHS_EMAIL_REPLY_TO`
+- `NEXT_PUBLIC_SITE_URL`
 
 ## Configuration centrale
 
@@ -84,34 +107,68 @@ Installer le schéma depuis `supabase/schema.sql` dans le SQL Editor Supabase.
 
 ## Stripe Payment Link
 
-Le tunnel Stripe reste volontairement simple : pas de webhook, pas de Checkout custom.
+Le tunnel Stripe reste volontairement simple : Payment Link Stripe, sans Checkout custom.
+Le webhook `checkout.session.completed` automatise la génération du code d'accès
+et l'envoi email.
 
-Checklist Stripe manuelle :
+Checklist Payment Link :
 
-- Renommer le produit Stripe en `SprintMaths - Pack Révision Express`.
-- Vérifier que le prix reste `39 €` en paiement unique.
+- Produit : `SprintMaths - Pack Révision Express`.
+- Prix : `39 €` en paiement unique.
 - Vérifier le Payment Link et renseigner `NEXT_PUBLIC_STRIPE_PAYMENT_LINK`.
 - Configurer la success URL : `https://sprintmaths.fr/merci`.
-- Si un code promo cousin est utilisé, conserver `COUSIN10`.
-- Si Stripe le permet sur le lien choisi, tester `prefilled_promo_code`.
+- Rendre l'email client obligatoire côté Stripe.
+- Autoriser les codes promotionnels si `COUSIN10` est utilisé.
+
+## Configuration Stripe webhook
+
+1. Ouvrir le Stripe Dashboard.
+2. Aller dans Developers.
+3. Aller dans Webhooks.
+4. Cliquer sur Add endpoint.
+5. URL : `https://sprintmaths.fr/api/stripe/webhook`.
+6. Events : `checkout.session.completed`.
+7. Copier le Signing secret dans `STRIPE_WEBHOOK_SECRET`.
+8. Ajouter `STRIPE_SECRET_KEY`.
+9. Redéployer Vercel.
+
+## Configuration Resend
+
+1. Créer un compte Resend.
+2. Ajouter le domaine `sprintmaths.fr`.
+3. Ajouter les DNS SPF/DKIM fournis par Resend dans Vercel DNS.
+4. Vérifier le domaine.
+5. Créer une API key.
+6. Ajouter `RESEND_API_KEY` dans Vercel.
+7. Configurer `SPRINTMATHS_EMAIL_FROM="SprintMaths <contact@sprintmaths.fr>"`.
+8. Configurer `SPRINTMATHS_EMAIL_REPLY_TO=contact@sprintmaths.fr`.
+
+Ne pas utiliser l'email OVH SMTP pour l'envoi applicatif. OVH peut servir à
+recevoir `contact@sprintmaths.fr` si configuré, mais les emails transactionnels
+partent via Resend.
 
 ## Tunnel post-paiement
 
-Flux manuel actuel :
+Flux automatique :
 
 1. Le client paie via Stripe Payment Link.
-2. Le fondateur ouvre `/admin/codes`.
-3. Il saisit `SPRINTMATHS_ADMIN_PASSWORD`.
-4. Il génère un code personnel `MATH-XXXX`.
-5. Il envoie le code au client avec le modèle d'email ci-dessous.
-6. Le client crée son espace sur `/merci`.
-7. Le client peut revenir via `/connexion`.
+2. Stripe appelle `/api/stripe/webhook`.
+3. La signature du webhook est vérifiée avec `STRIPE_WEBHOOK_SECRET`.
+4. SprintMaths récupère l'email client de la session Stripe.
+5. Un code unique `MATH-XXXX` est créé dans `access_codes`.
+6. `stripe_session_id` empêche une double génération lors des retries Stripe.
+7. Resend envoie automatiquement le code au client.
+8. Le client crée son espace sur `/merci`.
+9. Le client peut revenir via `/connexion`.
 
 Les codes `MATH-XXXX` sont conservés pour simplicité et cohérence maths.
 
-## Email manuel après réservation
+`/admin/codes` reste disponible pour générer un code manuel, dépanner un client
+ou vérifier les derniers codes créés.
 
-Objet : `Votre accès SprintMaths - Pack Révision Express`
+## Email automatique après réservation
+
+Objet : `Votre code d'accès SprintMaths`
 
 Corps :
 
@@ -129,9 +186,43 @@ https://sprintmaths.fr/merci
 Si vous avez déjà créé l'espace :
 https://sprintmaths.fr/connexion
 
+Ce code est personnel et utilisable une seule fois pour créer l'espace élève.
+
 À bientôt,
 L'équipe SprintMaths
 ```
+
+L'email ne contient aucune donnée élève et aucun pixel de tracking.
+
+## Test local Stripe webhook
+
+Installer Stripe CLI si besoin, puis lancer :
+
+```bash
+stripe listen --forward-to localhost:3000/api/stripe/webhook
+```
+
+Copier le webhook signing secret local dans `.env.local` :
+
+```env
+STRIPE_WEBHOOK_SECRET=whsec_...
+```
+
+Lancer l'application :
+
+```bash
+npm run dev
+```
+
+Déclencher un événement test :
+
+```bash
+stripe trigger checkout.session.completed
+```
+
+L'event généré par Stripe CLI peut ne pas contenir un email réaliste. En
+développement uniquement, renseigner `SPRINTMATHS_TEST_CUSTOMER_EMAIL` pour
+tester le flux complet d'insertion et d'envoi email.
 
 ## Pages publiques et SEO
 
@@ -190,7 +281,8 @@ Events internes :
 - `sprintmaths_initiate_checkout`
 - `sprintmaths_complete_registration`
 
-Aucun event `sprintmaths_purchase` n'est déclenché tant qu'il n'y a pas de preuve serveur fiable du paiement Stripe.
+Aucun event `sprintmaths_purchase` n'est déclenché depuis `/merci`. Toute mesure
+d'achat doit rester liée à une preuve serveur fiable du paiement Stripe.
 
 Les événements n'envoient pas l'email, le pseudo, les scores détaillés, les notes virtuelles, les chapitres faibles, l'historique pédagogique ou les réponses aux exercices.
 
@@ -245,7 +337,6 @@ Limites assumées :
 - Pas de promesse de réussite garantie.
 - Pas d'annales officielles.
 - Pas de surpromesse IA.
-- Pas de webhook Stripe pour l'instant.
 - Pas d'authentification serveur complète.
 
 ## Vercel et domaine
@@ -255,6 +346,11 @@ Checklist Vercel :
 - Ajouter `sprintmaths.fr` au projet Vercel.
 - Configurer les DNS chez le registrar selon les valeurs Vercel.
 - Définir `NEXT_PUBLIC_SITE_URL=https://sprintmaths.fr`.
+- Définir `STRIPE_SECRET_KEY`.
+- Définir `STRIPE_WEBHOOK_SECRET`.
+- Définir `RESEND_API_KEY`.
+- Définir `SPRINTMATHS_EMAIL_FROM="SprintMaths <contact@sprintmaths.fr>"`.
+- Définir `SPRINTMATHS_EMAIL_REPLY_TO=contact@sprintmaths.fr`.
 - Définir `SPRINTMATHS_ADMIN_PASSWORD`.
 - Définir `SPRINTMATHS_DEV_ACCESS_CODE` seulement pour le développement si nécessaire.
 - Conserver temporairement les fallbacks legacy `MATHERIA_*` si l'environnement les utilise déjà.

@@ -57,7 +57,18 @@ export default function MerciPage() {
         </div>
 
         <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-800">
-          <strong>Vous venez de réserver le Pack Révision Express.</strong> Cette étape permet simplement de créer l’espace de révision de l’élève.
+          <strong>Vous venez de réserver le Pack Révision Express.</strong> Après
+          paiement, votre code d’accès personnel est envoyé automatiquement par
+          email. Collez-le ici pour créer l’espace élève.
+        </div>
+
+        <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 text-sm text-amber-900">
+          Vous venez de payer et vous ne voyez pas l’email ? Vérifiez vos spams
+          ou contactez{" "}
+          <a href="mailto:contact@sprintmaths.fr" className="font-semibold underline">
+            contact@sprintmaths.fr
+          </a>
+          .
         </div>
 
         <p className="text-center text-sm text-gray-500">
@@ -112,8 +123,8 @@ export default function MerciPage() {
               <option value="">Sélectionner...</option>
               <option value="very_hard">Très en difficulté</option>
               <option value="medium">Moyen</option>
-              <option value="good">Plutôt à l'aise</option>
-              <option value="very_good">Très à l'aise</option>
+              <option value="good">Plutôt à l&apos;aise</option>
+              <option value="very_good">Très à l&apos;aise</option>
             </select>
           </div>
 
@@ -128,7 +139,7 @@ export default function MerciPage() {
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 uppercase"
             />
             <p className="mt-2 text-xs text-gray-500">
-              Code d’accès personnel reçu après votre réservation.
+              Après paiement, votre code d’accès personnel est envoyé automatiquement par email.
             </p>
             <Link href="/connexion" className="mt-2 inline-block text-xs font-medium text-indigo-600 hover:underline">
               J&apos;ai déjà créé mon espace élève

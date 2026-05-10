@@ -1,5 +1,19 @@
 # CHANGELOG MATHERIA
 
+## 2026-05-09 — Automatisation paiement vers code d’accès
+
+### Modifications
+- Ajout webhook Stripe checkout.session.completed
+- Génération automatique de code d’accès après paiement
+- Envoi email automatique via Resend
+- Ajout idempotence stripe_session_id
+- Mise à jour /merci
+- Mise à jour /admin/codes
+- Documentation Stripe webhook et Resend
+
+### Objectif
+Donner automatiquement accès au client après paiement, sans génération manuelle de code.
+
 ## 2026-05-08 — Rebranding SprintMaths
 
 ### Modifications
