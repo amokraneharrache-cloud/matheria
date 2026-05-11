@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { GoogleTagManager } from "@/components/tracking/GoogleTagManager";
 import { UtmCapture } from "@/components/tracking/UtmCapture";
@@ -58,6 +59,7 @@ export default function RootLayout({
         {children}
         <UtmCapture />
         <GoogleTagManager />
+        <Analytics />
       </body>
     </html>
   );
