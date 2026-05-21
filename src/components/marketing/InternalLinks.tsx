@@ -6,12 +6,13 @@ type InternalLinksProps = {
 };
 
 const links = [
-  { href: "/bac-maths-terminale-2026", label: "Révision Bac Maths 2026" },
+  { href: "/bac-maths-2027", label: "Révision Bac Maths 2027" },
   { href: "/bac-terminale-maths", label: "Réviser le bac Terminale" },
   { href: "/programme-maths-terminale", label: "Programme maths Terminale" },
   { href: "/methodes-maths-terminale", label: "Méthodes Terminale" },
   { href: "/exercices-maths-terminale", label: "Exercices Terminale" },
   { href: "/articles", label: "Articles Terminale" },
+  { href: "/bac-maths-terminale-2026", label: "Ancienne page Bac Maths 2026" },
   { href: "/bac-premiere-maths", label: "Réviser le bac Première" },
   { href: "/programme-maths-premiere", label: "Programme maths Première" },
   { href: "/brevet-maths", label: "Réviser le brevet" },

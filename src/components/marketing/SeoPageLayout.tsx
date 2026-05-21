@@ -5,11 +5,12 @@ import { UrgencyBanner } from "@/components/marketing/UrgencyBanner";
 
 type SeoPageLayoutProps = {
   children: ReactNode;
+  showUrgencyBanner?: boolean;
   urgencySourcePage?: string;
 };
 
 const navLinks = [
-  { href: "/bac-maths-terminale-2026", label: "Bac 2026" },
+  { href: "/bac-maths-2027", label: "Bac 2027" },
   { href: "/bac-terminale-maths", label: "Bac Terminale" },
   { href: "/bac-premiere-maths", label: "Bac Première" },
   { href: "/brevet-maths", label: "Brevet" },
@@ -19,6 +20,7 @@ const navLinks = [
 
 export function SeoPageLayout({
   children,
+  showUrgencyBanner = true,
   urgencySourcePage = "seo_page",
 }: SeoPageLayoutProps) {
   return (
@@ -46,7 +48,7 @@ export function SeoPageLayout({
           </Link>
         </div>
       </header>
-      <UrgencyBanner sourcePage={urgencySourcePage} />
+      {showUrgencyBanner && <UrgencyBanner sourcePage={urgencySourcePage} />}
       <main>{children}</main>
       <footer className="border-t border-slate-200 bg-slate-950 px-4 py-10 text-center text-sm text-slate-400">
         <div className="mx-auto max-w-6xl">

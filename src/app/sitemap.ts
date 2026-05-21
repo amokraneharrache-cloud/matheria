@@ -3,7 +3,7 @@ import { articles } from "@/data/articles";
 import { absoluteUrl, legalRoutes, publicSeoRoutes } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date("2026-05-10T00:00:00.000Z");
+  const lastModified = new Date("2026-05-21T00:00:00.000Z");
 
   const staticRoutes: MetadataRoute.Sitemap = publicSeoRoutes.map((route) => ({
     url: absoluteUrl(route),
@@ -12,11 +12,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:
       route === "/"
         ? 1
-        : route === "/bac-maths-terminale-2026"
-          ? 0.95
-          : route.includes("terminale")
-            ? 0.9
-            : 0.8,
+        : route === "/bac-maths-2027"
+          ? 0.98
+          : route === "/bac-maths-terminale-2026"
+            ? 0.85
+            : route.includes("terminale")
+              ? 0.9
+              : 0.8,
   }));
 
   const legalSitemapRoutes: MetadataRoute.Sitemap = legalRoutes.map((route) => ({
