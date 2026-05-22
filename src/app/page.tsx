@@ -36,13 +36,14 @@ export const metadata: Metadata = {
 
 export default function Home() {
   const stripePaymentLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK;
-  const diagnosticStartedParams = { source_page: "/" };
+  const diagnosticClickParams = { source_page: "/" };
   const checkoutParams = {
     source_page: "/",
     offer: "bac2026",
     price: BAC_2026_OFFER_PRICE,
     currency: "EUR",
     coupon_code: BAC_2026_PROMO_CODE,
+    payment_provider: "stripe",
   };
 
   return (
@@ -62,8 +63,11 @@ export default function Home() {
             </Link>
             <TrackedLink
               href="/diagnostic"
-              eventName="sprintmaths_diagnostic_started"
-              eventParams={diagnosticStartedParams}
+              eventName="click_diagnostic"
+              eventParams={{
+                ...diagnosticClickParams,
+                cta_location: "home_header",
+              }}
             >
               <Button size="sm" className="hidden sm:flex">
                 Faire le diagnostic gratuit
@@ -91,8 +95,11 @@ export default function Home() {
               <TrackedLink
                 href="/diagnostic"
                 className="w-full sm:w-auto"
-                eventName="sprintmaths_diagnostic_started"
-                eventParams={diagnosticStartedParams}
+                eventName="click_diagnostic"
+                eventParams={{
+                  ...diagnosticClickParams,
+                  cta_location: "home_hero_primary",
+                }}
               >
                 <Button size="lg" className="w-full sm:w-auto">
                   Faire le diagnostic gratuit
@@ -104,7 +111,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto"
-                  eventName="bac2026_primary_cta_click"
+                  eventName="stripe_click"
                   eventParams={{ ...checkoutParams, cta_location: "home_hero" }}
                 >
                   <Button variant="outline" size="lg" className="w-full sm:w-auto">
@@ -112,11 +119,20 @@ export default function Home() {
                   </Button>
                 </TrackedLink>
               ) : (
-                <Link href="#pricing" className="w-full sm:w-auto">
+                <TrackedLink
+                  href="#pricing"
+                  className="w-full sm:w-auto"
+                  eventName="click_offer"
+                  eventParams={{
+                    ...checkoutParams,
+                    payment_provider: undefined,
+                    cta_location: "home_hero_offer_fallback",
+                  }}
+                >
                   <Button variant="outline" size="lg" className="w-full sm:w-auto">
                     Profiter de l'offre à {BAC_2026_OFFER_PRICE} €
                   </Button>
-                </Link>
+                </TrackedLink>
               )}
             </div>
             <Link href="/connexion" className="text-sm font-medium text-slate-500 hover:text-slate-800 underline underline-offset-4 block mt-4">
@@ -338,7 +354,7 @@ export default function Home() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="block w-full"
-                      eventName="pricing_cta_click"
+                      eventName="stripe_click"
                       eventParams={{ ...checkoutParams, cta_location: "home_pricing" }}
                     >
                       <Button size="lg" className="w-full text-lg h-14">
@@ -353,8 +369,11 @@ export default function Home() {
                   <TrackedLink
                     href="/diagnostic"
                     className="w-full block"
-                    eventName="sprintmaths_diagnostic_started"
-                    eventParams={diagnosticStartedParams}
+                    eventName="click_diagnostic"
+                    eventParams={{
+                      ...diagnosticClickParams,
+                      cta_location: "home_pricing_fallback",
+                    }}
                   >
                     <Button size="lg" className="w-full text-lg h-14">
                       Faire le diagnostic gratuit
@@ -396,8 +415,11 @@ export default function Home() {
             <p className="text-xl text-blue-200 mb-10">Commencez dès aujourd'hui par une évaluation gratuite de son niveau.</p>
             <TrackedLink
               href="/diagnostic"
-              eventName="sprintmaths_diagnostic_started"
-              eventParams={diagnosticStartedParams}
+              eventName="click_diagnostic"
+              eventParams={{
+                ...diagnosticClickParams,
+                cta_location: "home_final_cta",
+              }}
             >
               <Button size="lg" variant="secondary" className="text-lg px-10 h-14">
                 Faire le diagnostic gratuit

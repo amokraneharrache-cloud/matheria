@@ -49,6 +49,13 @@ function shouldResendDuplicateEmail() {
   return process.env.RESEND_ACCESS_CODE_ON_DUPLICATE === "true";
 }
 
+function logServerFunnelEvent(event: string, params: Record<string, unknown>) {
+  console.info("SprintMaths server funnel event:", {
+    event,
+    ...params,
+  });
+}
+
 export async function POST(request: Request) {
   const signature = request.headers.get("stripe-signature");
   if (!signature) {
@@ -96,14 +103,34 @@ export async function POST(request: Request) {
       return Response.json({ error: "Missing customer email" }, { status: 500 });
     }
 
+    const paymentIntentId = getPaymentIntentId(session);
+    const baseLogParams = {
+      stripeSessionId: session.id,
+      paymentIntentId,
+      amountTotal: session.amount_total,
+      currency: session.currency,
+    };
+
+    logServerFunnelEvent("purchase", {
+      ...baseLogParams,
+      paymentStatus: session.payment_status || "paid",
+    });
+
     const createdCode = await createAccessCodeForEmail({
       parentEmail: customerEmail,
       source: "stripe",
       stripeSessionId: session.id,
-      stripePaymentIntentId: getPaymentIntentId(session),
+      stripePaymentIntentId: paymentIntentId,
       amountTotal: session.amount_total,
       currency: session.currency,
     });
+
+    if (!createdCode.alreadyExisted) {
+      logServerFunnelEvent("access_code_created", {
+        ...baseLogParams,
+        accessCodeId: createdCode.id,
+      });
+    }
 
     if (createdCode.alreadyExisted && !shouldResendDuplicateEmail()) {
       console.info("Stripe webhook replay ignored, access code already exists:", {
@@ -113,17 +140,37 @@ export async function POST(request: Request) {
       return Response.json({ received: true, duplicate: true });
     }
 
-    await sendAccessCodeEmail({
+    const emailResult = await sendAccessCodeEmail({
       to: customerEmail,
       customerEmail,
       accessCode: createdCode.code,
       siteUrl: getSiteUrl(),
     });
 
+    const emailSent = !emailResult.error;
+
+    if (emailResult.error) {
+      console.error("Resend access code email failed:", {
+        stripeSessionId: session.id,
+        accessCodeId: createdCode.id,
+        errorName: emailResult.error.name,
+        statusCode: emailResult.error.statusCode,
+        message: emailResult.error.message,
+      });
+    } else {
+      logServerFunnelEvent("access_code_email_sent", {
+        ...baseLogParams,
+        accessCodeId: createdCode.id,
+        resendEmailId: emailResult.data.id,
+        duplicate: createdCode.alreadyExisted,
+      });
+    }
+
     return Response.json({
       received: true,
       accessCodeCreated: !createdCode.alreadyExisted,
       duplicate: createdCode.alreadyExisted,
+      emailSent,
     });
   } catch (error) {
     console.error("Stripe webhook checkout.session.completed error:", error);

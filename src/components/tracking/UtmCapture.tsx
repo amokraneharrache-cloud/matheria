@@ -3,7 +3,18 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { captureUtmContext } from "@/lib/utm";
-import { trackEvent } from "@/lib/tracking";
+import { trackPageView } from "@/lib/tracking";
+
+function canTrackPageView(pathname: string) {
+  return !(
+    pathname.startsWith("/app") ||
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/api") ||
+    pathname === "/merci" ||
+    pathname === "/connexion" ||
+    pathname === "/acces"
+  );
+}
 
 export function UtmCapture() {
   const pathname = usePathname();
@@ -12,9 +23,9 @@ export function UtmCapture() {
   useEffect(() => {
     captureUtmContext();
 
-    if (pathname === "/" && !trackedPageViews.current.has(pathname)) {
+    if (canTrackPageView(pathname) && !trackedPageViews.current.has(pathname)) {
       trackedPageViews.current.add(pathname);
-      trackEvent("sprintmaths_page_view", { source_page: "/" });
+      trackPageView({ source_page: pathname });
     }
   }, [pathname]);
 

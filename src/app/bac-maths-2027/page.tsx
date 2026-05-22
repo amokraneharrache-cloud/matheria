@@ -179,6 +179,11 @@ export default function BacMaths2027Page() {
     price: PACK_REVISION_EXPRESS_PRICE,
     currency: "EUR",
   };
+  const planningEventParams = {
+    ...baseEventParams,
+    lead_magnet: "planning_bac_maths_2027",
+    level: "terminale",
+  };
 
   return (
     <SeoPageLayout showUrgencyBanner={false} urgencySourcePage={pagePath}>
@@ -196,8 +201,8 @@ export default function BacMaths2027Page() {
       />
 
       <section className="bg-gradient-to-b from-blue-50 via-white to-white px-4 py-14 sm:py-20">
-        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,1fr)_390px] lg:items-center">
-          <div>
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_390px] lg:items-center">
+          <div className="min-w-0">
             <p className="mb-4 inline-flex rounded-full bg-blue-100 px-3 py-1 text-sm font-bold text-blue-900">
               Objectif Bac Maths 2027 — Terminale spécialité maths
             </p>
@@ -210,7 +215,7 @@ export default function BacMaths2027Page() {
               exercices guidés étape par étape, des méthodes claires, une
               progression et une note indicative.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <TrackedLink
                 href="/diagnostic"
                 eventName="click_bac2027_diagnostic"
@@ -237,6 +242,20 @@ export default function BacMaths2027Page() {
                   Voir les exercices type bac
                 </Button>
               </TrackedLink>
+              <TrackedLink
+                href="/planning-revision-bac-maths"
+                eventName="click_lead_magnet_planning"
+                eventParams={{
+                  ...planningEventParams,
+                  cta_location: "bac2027_hero_planning",
+                }}
+                className="w-full sm:w-auto"
+              >
+                <Button variant="outline" size="lg" className="w-full px-4 text-base sm:w-auto sm:px-8 sm:text-lg">
+                  <CalendarDays className="h-4 w-4" />
+                  Recevoir le planning 30 jours
+                </Button>
+              </TrackedLink>
             </div>
             <p className="mt-4 text-sm font-semibold text-slate-600">
               Pas d&apos;abonnement. Accès simple par code. Garantie 7 jours.
@@ -255,7 +274,7 @@ export default function BacMaths2027Page() {
             </TrackedLink>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="grid grid-cols-2 gap-3">
               {screenshots.slice(0, 2).map((screenshot) => (
                 <div key={screenshot.src} className="rounded-xl bg-slate-950 p-2">
@@ -420,13 +439,27 @@ export default function BacMaths2027Page() {
                   mélangent raisonnement, calcul et rédaction.
                 </p>
               </div>
-              <Link
-                href="/programme-maths-terminale"
-                className="inline-flex items-center gap-2 font-bold text-blue-900 hover:underline"
-              >
-                Voir le programme Terminale
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <Link
+                  href="/programme-maths-terminale"
+                  className="inline-flex items-center gap-2 font-bold text-blue-900 hover:underline"
+                >
+                  Voir le programme Terminale
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <TrackedLink
+                  href="/planning-revision-bac-maths"
+                  eventName="click_lead_magnet_planning"
+                  eventParams={{
+                    ...planningEventParams,
+                    cta_location: "bac2027_chapters_planning",
+                  }}
+                  className="inline-flex items-center gap-2 font-bold text-emerald-700 hover:underline"
+                >
+                  Recevoir le planning 30 jours
+                  <ArrowRight className="h-4 w-4" />
+                </TrackedLink>
+              </div>
             </div>
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
               {chapters.map((chapter) => (
@@ -441,8 +474,8 @@ export default function BacMaths2027Page() {
             </div>
           </section>
 
-          <section className="grid gap-8 rounded-2xl bg-slate-50 p-6 sm:p-8 lg:grid-cols-[0.9fr_1fr] lg:items-center">
-            <div>
+          <section className="grid grid-cols-1 gap-8 rounded-2xl bg-slate-50 p-6 sm:p-8 lg:grid-cols-[0.9fr_1fr] lg:items-center">
+            <div className="min-w-0">
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
                 Diagnostic
               </p>
@@ -455,7 +488,7 @@ export default function BacMaths2027Page() {
                 réviser sans se disperser.
               </p>
             </div>
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
               <ListChecks className="h-7 w-7 text-blue-800" />
               <h3 className="mt-4 text-2xl font-bold text-slate-950">
                 Une première étape sans paiement
@@ -473,7 +506,7 @@ export default function BacMaths2027Page() {
                 }}
                 className="mt-5 block w-full"
               >
-                <Button size="lg" className="w-full">
+                <Button size="lg" className="w-full px-4 text-base sm:px-8 sm:text-lg">
                   Faire le diagnostic gratuit
                 </Button>
               </TrackedLink>
@@ -482,9 +515,9 @@ export default function BacMaths2027Page() {
 
           <section
             id="offre"
-            className="grid gap-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:grid-cols-[1fr_0.9fr] lg:items-center"
+            className="grid grid-cols-1 gap-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:grid-cols-[1fr_0.9fr] lg:items-center"
           >
-            <div>
+            <div className="min-w-0">
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
                 Pack Révision Express
               </p>
@@ -507,7 +540,7 @@ export default function BacMaths2027Page() {
               </div>
             </div>
 
-            <div className="rounded-2xl border-2 border-blue-900 bg-blue-50 p-6">
+            <div className="min-w-0 rounded-2xl border-2 border-blue-900 bg-blue-50 p-6">
               <p className="text-sm font-bold uppercase text-blue-900">
                 Paiement unique
               </p>
@@ -543,11 +576,12 @@ export default function BacMaths2027Page() {
                 eventName={offerEventName}
                 eventParams={{
                   ...baseEventParams,
+                  payment_provider: stripePaymentLink ? "stripe" : undefined,
                   cta_location: "bac2027_offer_card",
                 }}
                 className="mt-6 block w-full"
               >
-                <Button size="lg" className="w-full">
+                <Button size="lg" className="w-full whitespace-normal px-4 text-base sm:px-8 sm:text-lg">
                   {stripePaymentLink
                     ? "Accéder au Pack Révision Express"
                     : "Voir le Pack Révision Express"}
@@ -666,32 +700,33 @@ export default function BacMaths2027Page() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6">
+          <section className="rounded-2xl border border-dashed border-blue-200 bg-blue-50 p-6">
             <h2 className="text-2xl font-bold text-slate-950">
-              Bientôt : planning 30 jours par email
+              Planning 30 jours gratuit par email
             </h2>
             <p className="mt-3 leading-7 text-slate-700">
-              Cette page est prête à accueillir un formulaire email pour recevoir
-              un planning de révision Bac Maths en 30 jours. En attendant, le
-              diagnostic gratuit permet déjà de démarrer.
+              Reçois un planning de révision Bac Maths 2027 sur 30 jours :
+              chapitres prioritaires, exercices type bac et méthode de travail
+              sans créer de compte.
             </p>
             <TrackedLink
-              href="/diagnostic"
-              eventName="click_bac2027_diagnostic"
+              href="/planning-revision-bac-maths"
+              eventName="click_lead_magnet_planning"
               eventParams={{
-                ...baseEventParams,
-                cta_location: "bac2027_planning_placeholder",
+                ...planningEventParams,
+                cta_location: "bac2027_final_planning",
               }}
               className="mt-5 inline-flex"
             >
               <Button>
-                Préparer mon diagnostic
+                Recevoir le planning 30 jours
               </Button>
             </TrackedLink>
           </section>
 
           <InternalLinks
             currentPath={pagePath}
+            excludeHrefs={["/bac-maths-terminale-2026"]}
             title="Continuer les révisions Bac Maths"
           />
         </div>

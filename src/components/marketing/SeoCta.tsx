@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,24 +31,33 @@ export function SeoCta({
           align === "center" ? "sm:justify-center" : ""
         }`}
       >
-        <Link href="/diagnostic" className="w-full sm:w-auto">
+        <TrackedLink
+          href="/diagnostic"
+          className="w-full sm:w-auto"
+          eventName="click_diagnostic"
+          eventParams={{
+            source_page: "seo_cta",
+            cta_location: "seo_cta_primary",
+          }}
+        >
           <Button size="lg" className="w-full sm:w-auto">
             Faire le diagnostic gratuit
           </Button>
-        </Link>
+        </TrackedLink>
         {stripePaymentLink ? (
           <TrackedLink
             href={stripePaymentLink}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full sm:w-auto"
-            eventName="pricing_cta_click"
+            eventName="stripe_click"
             eventParams={{
               source_page: "seo_cta",
               offer: "bac2026",
               price: BAC_2026_OFFER_PRICE,
               currency: "EUR",
               coupon_code: BAC_2026_PROMO_CODE,
+              payment_provider: "stripe",
               cta_location: "seo_cta",
             }}
           >
@@ -58,11 +66,23 @@ export function SeoCta({
             </Button>
           </TrackedLink>
         ) : (
-          <Link href="/#pricing" className="w-full sm:w-auto">
+          <TrackedLink
+            href="/#pricing"
+            className="w-full sm:w-auto"
+            eventName="click_offer"
+            eventParams={{
+              source_page: "seo_cta",
+              offer: "bac2026",
+              price: BAC_2026_OFFER_PRICE,
+              currency: "EUR",
+              coupon_code: BAC_2026_PROMO_CODE,
+              cta_location: "seo_cta_offer_fallback",
+            }}
+          >
             <Button variant="outline" size="lg" className="w-full sm:w-auto">
               Voir l&apos;offre Bac 2026
             </Button>
-          </Link>
+          </TrackedLink>
         )}
       </div>
       {stripePaymentLink && (

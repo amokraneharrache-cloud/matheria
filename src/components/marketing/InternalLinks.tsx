@@ -2,10 +2,12 @@ import Link from "next/link";
 
 type InternalLinksProps = {
   currentPath?: string;
+  excludeHrefs?: string[];
   title?: string;
 };
 
 const links = [
+  { href: "/planning-revision-bac-maths", label: "Planning Bac Maths 30 jours" },
   { href: "/bac-maths-2027", label: "Révision Bac Maths 2027" },
   { href: "/bac-terminale-maths", label: "Réviser le bac Terminale" },
   { href: "/programme-maths-terminale", label: "Programme maths Terminale" },
@@ -21,14 +23,17 @@ const links = [
 
 export function InternalLinks({
   currentPath,
+  excludeHrefs = [],
   title = "Continuer les révisions par objectif",
 }: InternalLinksProps) {
+  const excludedHrefSet = new Set(excludeHrefs);
+
   return (
     <section className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
       <h2 className="text-2xl font-bold text-slate-950">{title}</h2>
       <div className="mt-5 flex flex-wrap gap-3">
         {links
-          .filter((link) => link.href !== currentPath)
+          .filter((link) => link.href !== currentPath && !excludedHrefSet.has(link.href))
           .map((link) => (
             <Link
               key={link.href}

@@ -5,6 +5,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { InternalLinks } from "@/components/marketing/InternalLinks";
 import { SeoCta } from "@/components/marketing/SeoCta";
 import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
+import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { methods } from "@/data/methods";
 import { absoluteUrl } from "@/lib/site";
 import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo";
@@ -59,18 +60,29 @@ export default function MethodesMathsTerminalePage() {
             démarrer ses exercices de Terminale avec plus de méthode.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
+            <TrackedLink
               href="/bac-maths-terminale-2026"
+              eventName="click_offer"
+              eventParams={{
+                source_page: pagePath,
+                offer: "bac2026",
+                cta_location: "methods_hero_offer",
+              }}
               className="rounded-full bg-blue-900 px-6 py-3 text-center font-bold text-white hover:bg-blue-800"
             >
               Commencer ma révision Bac 2026
-            </Link>
-            <Link
+            </TrackedLink>
+            <TrackedLink
               href="/diagnostic"
+              eventName="click_diagnostic"
+              eventParams={{
+                source_page: pagePath,
+                cta_location: "methods_hero_secondary",
+              }}
               className="rounded-full border border-blue-900 px-6 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
             >
               Faire le diagnostic
-            </Link>
+            </TrackedLink>
           </div>
         </div>
       </section>
@@ -156,12 +168,17 @@ export default function MethodesMathsTerminalePage() {
                     >
                       Parcours Terminale
                     </Link>
-                    <Link
+                    <TrackedLink
                       href="/diagnostic"
+                      eventName="click_diagnostic"
+                      eventParams={{
+                        source_page: pagePath,
+                        cta_location: "methods_card",
+                      }}
                       className="rounded-full bg-blue-900 px-4 py-2 text-center text-sm font-bold text-white hover:bg-blue-800"
                     >
                       Diagnostic gratuit
-                    </Link>
+                    </TrackedLink>
                   </div>
                 </article>
               ))}

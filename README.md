@@ -77,6 +77,8 @@ Variables à ajouter dans Vercel Production :
 - `SPRINTMATHS_EMAIL_FROM`
 - `SPRINTMATHS_EMAIL_REPLY_TO`
 - `NEXT_PUBLIC_SITE_URL`
+- `NEXT_PUBLIC_TRACKING_MODE=gtm-ready` si le tracking marketing doit être actif
+- `NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX` avec l'ID du conteneur GTM SprintMaths
 
 ## Configuration centrale
 
@@ -249,11 +251,12 @@ Pages publiques indexables :
 
 Le sitemap est généré par `src/app/sitemap.ts` et utilise `absoluteUrl()` depuis la config centrale.
 
-`src/app/robots.ts` déclare `/sitemap.xml`, autorise les pages publiques et désautorise notamment `/app/*` et `/admin/*`.
+`src/app/robots.ts` déclare `/sitemap.xml`, autorise les pages publiques et désautorise notamment `/app/*`, `/admin/*` et `/api/*`.
 
 Pages privées ou transactionnelles noindex :
 
 - `/app/*`
+- `/admin/*`
 - `/merci`
 - `/connexion`
 - `/acces`
@@ -261,37 +264,147 @@ Pages privées ou transactionnelles noindex :
 
 Les JSON-LD principaux sont dans `src/lib/seo.ts` et utilisent `SprintMaths` pour `Organization`, `WebSite`, `Product`, FAQ et breadcrumbs.
 
-## Tracking marketing préparé
+## Tracking / Analytics
 
-Le tracking est désactivé par défaut si `NEXT_PUBLIC_TRACKING_MODE` n'est pas configuré.
+Le tracking est désactivé par défaut. Si `NEXT_PUBLIC_TRACKING_MODE` est absent,
+vide ou différent des valeurs autorisées, `src/lib/tracking.ts` retourne `off` :
+aucun event n'est poussé dans `window.dataLayer` et aucun historique debug local
+n'est écrit.
 
-Modes possibles :
+Variables d'environnement :
 
-- `off`: aucun event `dataLayer`, aucun historique debug local.
-- `internal`: events first-party dans `window.dataLayer` et debug local.
-- `gtm-ready`: events `dataLayer` et chargement optionnel GTM si `NEXT_PUBLIC_GTM_ID` est défini.
-- `ads-ready`: base GTM plus helpers pixels directs disponibles.
+- `NEXT_PUBLIC_TRACKING_MODE`: mode global du helper tracking.
+- `NEXT_PUBLIC_GTM_ID`: conteneur Google Tag Manager chargé en mode `gtm-ready`
+  ou `ads-ready`.
+- `NEXT_PUBLIC_GA4_ID`: présent dans les exemples d'environnement, mais non lu
+  par le code aujourd'hui.
+- `NEXT_PUBLIC_GOOGLE_ADS_ID`, `NEXT_PUBLIC_META_PIXEL_ID`,
+  `NEXT_PUBLIC_TIKTOK_PIXEL_ID`, `NEXT_PUBLIC_SNAP_PIXEL_ID`: réservés aux
+  pixels directs en mode `ads-ready`; les scripts fournisseurs ne sont pas
+  chargés par le code actuel.
 
-Events internes :
+Exemple local ou Vercel Production pour activer le tracking GTM :
 
+```env
+NEXT_PUBLIC_TRACKING_MODE=gtm-ready
+NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
+```
+
+Valeurs possibles de `NEXT_PUBLIC_TRACKING_MODE` :
+
+- `off`: no-op complet.
+- `internal`: events poussés dans `window.dataLayer` et debug local seulement ;
+  aucun provider externe n'est chargé.
+- `gtm-ready`: events `dataLayer` plus chargement de GTM si `NEXT_PUBLIC_GTM_ID`
+  est défini.
+- `ads-ready`: base `gtm-ready` plus helpers pixels directs disponibles, mais
+  seulement si les scripts pixels sont chargés ailleurs.
+
+Providers actuellement branchés :
+
+- GA4 : non branché directement ; pas de script `gtag.js` initialisé par
+  `NEXT_PUBLIC_GA4_ID`.
+- Vercel Analytics : non installé.
+- Plausible : non installé.
+- PostHog : non installé.
+- Console/dev only : les events serveur Stripe sont des `console.info`.
+- No-op : oui, comportement par défaut si le mode est absent ou invalide.
+- GTM : branché via `src/components/tracking/GoogleTagManager.tsx` avec
+  `NEXT_PUBLIC_TRACKING_MODE=gtm-ready` et `NEXT_PUBLIC_GTM_ID`.
+
+À mettre dans Vercel avant publicité :
+
+```env
+NEXT_PUBLIC_TRACKING_MODE=gtm-ready
+NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
+```
+
+Le conteneur GTM doit ensuite publier les tags GA4/Ads et les triggers basés sur
+les events `dataLayer`. Sans conteneur GTM publié, les events client existent
+localement mais ne sont pas envoyés à un outil analytics externe.
+
+Vérifier en local :
+
+1. Ajouter les deux variables ci-dessus dans `.env.local`.
+2. Redémarrer `npm run dev`, car les variables `NEXT_PUBLIC_*` sont injectées au
+   build/dev server.
+3. Ouvrir une page publique, cliquer sur un CTA tracké, puis vérifier dans la
+   console navigateur :
+
+```js
+window.dataLayer
+localStorage.getItem("sprintmaths_tracking_debug")
+```
+
+4. Si un vrai `NEXT_PUBLIC_GTM_ID` est configuré, vérifier aussi dans le preview
+   Google Tag Manager que les events arrivent.
+
+Vérifier en production :
+
+1. Dans Vercel Production, définir `NEXT_PUBLIC_TRACKING_MODE=gtm-ready` et
+   `NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX`.
+2. Redéployer : les variables `NEXT_PUBLIC_*` sont figées dans le bundle client
+   au moment du build.
+3. Ouvrir `https://www.sprintmaths.com`, vérifier que `window.dataLayer`
+   contient `gtm.js` puis les events SprintMaths après interaction.
+4. Vérifier dans GTM Preview/Tag Assistant, puis dans le provider final configuré
+   depuis GTM, par exemple GA4 DebugView si GA4 est branché dans le conteneur.
+
+Events réellement émis côté client aujourd'hui :
+
+- `page_view`
+- `click_diagnostic`
+- `click_exercises`
+- `click_offer`
+- `stripe_click`
+- `diagnostic_start`
+- `diagnostic_complete`
+- `email_optin`
+- `account_created`
+- `sprintmaths_view_offer`
+- `urgency_banner_click`
+- `click_bac2027_diagnostic`
+- `click_bac2027_exercises`
+- `click_bac2027_offer`
+- `click_bac2027_stripe`
+- `guarantee_view`
+- `faq_expand`
+
+Events disponibles dans le type mais non émis côté client aujourd'hui :
+
+- `lead_magnet_download`
+- `free_exercise_start`
+- `free_exercise_complete`
+- `purchase`
+- `access_code_created`
+- `first_session_start`
+- `session_complete`
+- `refund_request`
 - `sprintmaths_page_view`
 - `sprintmaths_diagnostic_started`
 - `sprintmaths_diagnostic_completed`
 - `sprintmaths_lead`
-- `sprintmaths_view_offer`
 - `sprintmaths_initiate_checkout`
 - `sprintmaths_complete_registration`
-- `urgency_banner_click`
 - `bac2026_primary_cta_click`
 - `bac2026_secondary_cta_click`
-- `guarantee_view`
-- `faq_expand`
 - `pricing_cta_click`
 
-Aucun event `sprintmaths_purchase` n'est déclenché depuis `/merci`. Toute mesure
-d'achat doit rester liée à une preuve serveur fiable du paiement Stripe.
+Logs serveur non sensibles :
 
-Les événements n'envoient pas l'email, le pseudo, les scores détaillés, les notes indicatives `/20`, les chapitres faibles, l'historique pédagogique ou les réponses aux exercices.
+- `purchase`: loggé dans `/api/stripe/webhook` après `checkout.session.completed`
+  payé.
+- `access_code_created`: loggé quand un nouveau code est créé.
+- `access_code_email_sent`: loggé quand Resend confirme l'envoi.
+
+Ne jamais envoyer dans analytics : email, code d'accès, pseudo, réponses aux
+exercices, scores détaillés, notes indicatives `/20`, chapitres faibles,
+historique pédagogique ou toute autre donnée personnelle. Les events client
+actuels passent par `sanitizeTrackingParams()` et ne doivent rester composés que
+de paramètres marketing non sensibles.
+
+Toute mesure d'achat doit rester liée à une preuve serveur fiable du paiement
+Stripe. Le client ne déclenche pas d'event `purchase`.
 
 ## Stockage local
 

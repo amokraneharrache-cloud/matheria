@@ -14,11 +14,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ? 1
         : route === "/bac-maths-2027"
           ? 0.98
-          : route === "/bac-maths-terminale-2026"
-            ? 0.85
-            : route.includes("terminale")
-              ? 0.9
-              : 0.8,
+          : route === "/planning-revision-bac-maths"
+            ? 0.92
+            : route === "/bac-maths-terminale-2026"
+              ? 0.85
+              : route.includes("terminale")
+                ? 0.9
+                : 0.8,
   }));
 
   const legalSitemapRoutes: MetadataRoute.Sitemap = legalRoutes.map((route) => ({

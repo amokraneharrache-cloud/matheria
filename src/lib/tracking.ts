@@ -11,6 +11,25 @@ export const TRACKING_PREFERENCE_KEY = storageKeys.trackingPreference;
 export type TrackingMode = "off" | "internal" | "gtm-ready" | "ads-ready";
 
 export type SprintMathsEventName =
+  | "page_view"
+  | "click_diagnostic"
+  | "click_exercises"
+  | "click_offer"
+  | "stripe_click"
+  | "diagnostic_start"
+  | "diagnostic_complete"
+  | "click_lead_magnet_planning"
+  | "email_optin"
+  | "lead_magnet_request"
+  | "lead_magnet_download"
+  | "free_exercise_start"
+  | "free_exercise_complete"
+  | "purchase"
+  | "access_code_created"
+  | "account_created"
+  | "first_session_start"
+  | "session_complete"
+  | "refund_request"
   | "sprintmaths_page_view"
   | "sprintmaths_diagnostic_started"
   | "sprintmaths_diagnostic_completed"
@@ -39,6 +58,8 @@ export type TrackingParams = {
   coupon_code?: string;
   cta_location?: string;
   faq_question?: string;
+  lead_magnet?: string;
+  payment_provider?: string;
   source_page?: string;
   utm_source?: string;
   utm_medium?: string;
@@ -74,6 +95,8 @@ const ALLOWED_STRING_PARAMS = [
   "coupon_code",
   "cta_location",
   "faq_question",
+  "lead_magnet",
+  "payment_provider",
   "source_page",
   "utm_source",
   "utm_medium",
@@ -201,16 +224,40 @@ export function trackEvent(eventName: SprintMathsEventName | string, params: Tra
   writeDebugEvent(dataLayerEvent);
 }
 
+export function trackPageView(params: TrackingParams = {}) {
+  trackEvent("page_view", params);
+}
+
+export function trackClickDiagnostic(params: TrackingParams = {}) {
+  trackEvent("click_diagnostic", params);
+}
+
+export function trackClickExercises(params: TrackingParams = {}) {
+  trackEvent("click_exercises", params);
+}
+
+export function trackClickOffer(params: TrackingParams = {}) {
+  trackEvent("click_offer", params);
+}
+
+export function trackStripeClick(params: TrackingParams = {}) {
+  trackEvent("stripe_click", params);
+}
+
+export function trackEmailOptin(params: TrackingParams = {}) {
+  trackEvent("email_optin", params);
+}
+
 export function trackLead(params: TrackingParams = {}) {
-  trackEvent("sprintmaths_lead", params);
+  trackEmailOptin(params);
 }
 
 export function trackDiagnosticStarted(params: TrackingParams = {}) {
-  trackEvent("sprintmaths_diagnostic_started", params);
+  trackEvent("diagnostic_start", params);
 }
 
 export function trackDiagnosticCompleted(params: TrackingParams = {}) {
-  trackEvent("sprintmaths_diagnostic_completed", params);
+  trackEvent("diagnostic_complete", params);
 }
 
 export function trackViewOffer(params: TrackingParams = {}) {
@@ -218,9 +265,9 @@ export function trackViewOffer(params: TrackingParams = {}) {
 }
 
 export function trackInitiateCheckout(params: TrackingParams = {}) {
-  trackEvent("sprintmaths_initiate_checkout", params);
+  trackStripeClick(params);
 }
 
 export function trackCompleteRegistration(params: TrackingParams = {}) {
-  trackEvent("sprintmaths_complete_registration", params);
+  trackEvent("account_created", params);
 }

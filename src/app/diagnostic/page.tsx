@@ -9,7 +9,7 @@ import { saveLead } from "../actions";
 import {
   trackDiagnosticCompleted,
   trackDiagnosticStarted,
-  trackLead,
+  trackEmailOptin,
 } from "@/lib/tracking";
 import { setSessionStorageItem, storageEvents } from "@/lib/storageKeys";
 
@@ -112,7 +112,10 @@ export default function DiagnosticPage() {
       };
 
       trackDiagnosticCompleted(trackingParams);
-      trackLead(trackingParams);
+      trackEmailOptin({
+        ...trackingParams,
+        cta_location: "diagnostic_email_step",
+      });
 
       try {
         setSessionStorageItem(

@@ -32,6 +32,7 @@ export function absoluteUrl(path = "/") {
 
 export const publicSeoRoutes = [
   "/",
+  "/planning-revision-bac-maths",
   "/bac-maths-2027",
   "/bac-maths-terminale-2026",
   "/bac-terminale-maths",
@@ -63,6 +64,15 @@ export const privateNoindexPaths = [
   "/connexion",
   "/acces",
   "/diagnostic/resultat",
+] as const;
+
+export const robotsDisallowPaths = [
+  "/app",
+  "/app/*",
+  "/admin",
+  "/admin/*",
+  "/api",
+  "/api/*",
 ] as const;
 
 export const sharedNoindexRobots = {

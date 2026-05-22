@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import { LegalFooterLinks } from "@/components/legal/LegalFooterLinks";
 import { UrgencyBanner } from "@/components/marketing/UrgencyBanner";
+import { TrackedLink } from "@/components/tracking/TrackedLink";
 
 type SeoPageLayoutProps = {
   children: ReactNode;
@@ -40,12 +41,17 @@ export function SeoPageLayout({
               </Link>
             ))}
           </nav>
-          <Link
+          <TrackedLink
             href="/diagnostic"
+            eventName="click_diagnostic"
+            eventParams={{
+              source_page: urgencySourcePage,
+              cta_location: "seo_header",
+            }}
             className="rounded-full bg-blue-900 px-4 py-2 text-sm font-bold text-white hover:bg-blue-800"
           >
             Diagnostic
-          </Link>
+          </TrackedLink>
         </div>
       </header>
       {showUrgencyBanner && <UrgencyBanner sourcePage={urgencySourcePage} />}

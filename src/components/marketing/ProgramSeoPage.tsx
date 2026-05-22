@@ -4,6 +4,7 @@ import { getProgram, ProgramGoal } from "@/data/programs";
 import { InternalLinks } from "@/components/marketing/InternalLinks";
 import { SeoCta } from "@/components/marketing/SeoCta";
 import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
+import { TrackedLink } from "@/components/tracking/TrackedLink";
 
 const priorityLabels = {
   high: "Priorité forte",
@@ -48,12 +49,17 @@ export function ProgramSeoPage({ goal, h1, intro }: ProgramSeoPageProps) {
           </h1>
           <p className="mt-5 max-w-3xl text-lg text-slate-700">{intro}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
+            <TrackedLink
               href="/diagnostic"
+              eventName="click_diagnostic"
+              eventParams={{
+                source_page: pagePaths[goal],
+                cta_location: "program_hero_primary",
+              }}
               className="rounded-full bg-blue-900 px-6 py-3 text-center font-bold text-white hover:bg-blue-800"
             >
               Faire le diagnostic gratuit
-            </Link>
+            </TrackedLink>
             <Link
               href={levelPages[goal]}
               className="rounded-full border border-blue-900 px-6 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"

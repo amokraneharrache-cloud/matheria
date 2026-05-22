@@ -134,12 +134,15 @@ export default function BacMathsTerminale2026Page() {
   const checkoutCtaHref = stripePaymentLink ?? "/diagnostic";
   const checkoutTarget = stripePaymentLink ? "_blank" : undefined;
   const checkoutRel = stripePaymentLink ? "noopener noreferrer" : undefined;
+  const primaryCtaEventName = stripePaymentLink ? "stripe_click" : "click_offer";
+  const checkoutCtaEventName = stripePaymentLink ? "stripe_click" : "click_diagnostic";
   const primaryCtaParams = {
     source_page: pagePath,
     offer: "bac2026",
     price: BAC_2026_OFFER_PRICE,
     currency: "EUR",
     coupon_code: BAC_2026_PROMO_CODE,
+    payment_provider: stripePaymentLink ? "stripe" : undefined,
     cta_location: "bac2026_hero",
   };
   const pricingCtaParams = {
@@ -190,7 +193,7 @@ export default function BacMathsTerminale2026Page() {
                 href={primaryCtaHref}
                 target={checkoutTarget}
                 rel={checkoutRel}
-                eventName="bac2026_primary_cta_click"
+                eventName={primaryCtaEventName}
                 eventParams={primaryCtaParams}
                 className="w-full sm:w-auto"
               >
@@ -200,7 +203,7 @@ export default function BacMathsTerminale2026Page() {
               </TrackedLink>
               <TrackedLink
                 href="/diagnostic"
-                eventName="bac2026_secondary_cta_click"
+                eventName="click_diagnostic"
                 eventParams={{
                   source_page: pagePath,
                   cta_location: "bac2026_hero_secondary",
@@ -371,7 +374,7 @@ export default function BacMathsTerminale2026Page() {
                 href={checkoutCtaHref}
                 target={checkoutTarget}
                 rel={checkoutRel}
-                eventName="pricing_cta_click"
+                eventName={checkoutCtaEventName}
                 eventParams={pricingCtaParams}
                 className="mt-6 block w-full"
               >
@@ -429,7 +432,7 @@ export default function BacMathsTerminale2026Page() {
                 href={checkoutCtaHref}
                 target={checkoutTarget}
                 rel={checkoutRel}
-                eventName="bac2026_primary_cta_click"
+                eventName={checkoutCtaEventName}
                 eventParams={{
                   ...primaryCtaParams,
                   cta_location: "bac2026_final",
@@ -442,7 +445,7 @@ export default function BacMathsTerminale2026Page() {
               </TrackedLink>
               <TrackedLink
                 href="/diagnostic"
-                eventName="bac2026_secondary_cta_click"
+                eventName="click_diagnostic"
                 eventParams={{
                   source_page: pagePath,
                   cta_location: "bac2026_final_secondary",

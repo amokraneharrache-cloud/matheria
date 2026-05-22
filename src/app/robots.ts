@@ -1,12 +1,12 @@
 import type { MetadataRoute } from "next";
-import { absoluteUrl } from "@/lib/site";
+import { absoluteUrl, robotsDisallowPaths } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
       allow: ["/", "/diagnostic"],
-      disallow: ["/app/*", "/admin/*"],
+      disallow: [...robotsDisallowPaths],
     },
     sitemap: absoluteUrl("/sitemap.xml"),
   };

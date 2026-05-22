@@ -252,9 +252,10 @@ function ResultContent() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full"
-                  eventName="pricing_cta_click"
+                  eventName="stripe_click"
                   eventParams={{
                     ...offerTrackingParams,
+                    payment_provider: "stripe",
                     cta_location: "diagnostic_result_offer",
                   }}
                 >
@@ -268,12 +269,20 @@ function ResultContent() {
                 </p>
               </div>
             ) : (
-              <Link href="/diagnostic" className="block w-full">
+              <TrackedLink
+                href="/diagnostic"
+                className="block w-full"
+                eventName="click_diagnostic"
+                eventParams={{
+                  source_page: "/diagnostic/resultat",
+                  cta_location: "diagnostic_result_offer_fallback",
+                }}
+              >
                 <Button size="lg" className="w-full text-lg h-14 shadow-lg bg-blue-600 hover:bg-blue-700 text-white">
                   Faire le diagnostic gratuit
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
-              </Link>
+              </TrackedLink>
             )}
             <Link href="/" className="block">
               <Button variant="ghost" className="w-full">

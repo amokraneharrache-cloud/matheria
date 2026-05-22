@@ -7,6 +7,7 @@ import { InternalLinks } from "@/components/marketing/InternalLinks";
 import { SeoCta } from "@/components/marketing/SeoCta";
 import { SeoFaq } from "@/components/marketing/SeoFaq";
 import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
+import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { guidedExercises } from "@/data/guidedExercises";
 import { mockBacSubjects } from "@/data/mockBacSubjects";
 import { getProgram } from "@/data/programs";
@@ -95,18 +96,32 @@ export default function BacTerminaleMathsPage() {
               l'examen.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
+              <TrackedLink
                 href="/diagnostic"
+                eventName="click_diagnostic"
+                eventParams={{
+                  source_page: pagePath,
+                  cta_location: "terminale_hero_primary",
+                }}
                 className="rounded-full bg-blue-900 px-6 py-3 text-center font-bold text-white hover:bg-blue-800"
               >
                 Faire le diagnostic gratuit
-              </Link>
-              <Link
+              </TrackedLink>
+              <TrackedLink
                 href="/bac-maths-terminale-2026"
+                eventName="click_offer"
+                eventParams={{
+                  source_page: pagePath,
+                  offer: "bac2026",
+                  price: BAC_2026_OFFER_PRICE,
+                  currency: "EUR",
+                  coupon_code: BAC_2026_PROMO_CODE,
+                  cta_location: "terminale_hero_offer",
+                }}
                 className="rounded-full border border-blue-900 px-6 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
               >
                 Commencer ma révision Bac 2026
-              </Link>
+              </TrackedLink>
             </div>
           </div>
         </div>
@@ -227,12 +242,17 @@ export default function BacTerminaleMathsPage() {
                   conclure proprement.
                 </p>
               </div>
-              <Link
+              <TrackedLink
                 href="/exercices-maths-terminale"
+                eventName="click_exercises"
+                eventParams={{
+                  source_page: pagePath,
+                  cta_location: "terminale_exercises_section",
+                }}
                 className="font-bold text-blue-900 hover:underline"
               >
                 Voir les exercices Terminale
-              </Link>
+              </TrackedLink>
             </div>
             <div className="mt-6 grid gap-4 md:grid-cols-3">
               {terminaleExercises.slice(0, 6).map((exercise) => (

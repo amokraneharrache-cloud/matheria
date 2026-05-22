@@ -6,6 +6,7 @@ import { InternalLinks } from "@/components/marketing/InternalLinks";
 import { SeoCta } from "@/components/marketing/SeoCta";
 import { SeoFaq } from "@/components/marketing/SeoFaq";
 import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
+import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { getProgram } from "@/data/programs";
 import { absoluteUrl } from "@/lib/site";
 import { breadcrumbJsonLd, faqJsonLd, productJsonLd, type FaqItem } from "@/lib/seo";
@@ -82,12 +83,17 @@ export default function BrevetMathsPage() {
             progression visible.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
+            <TrackedLink
               href="/diagnostic"
+              eventName="click_diagnostic"
+              eventParams={{
+                source_page: pagePath,
+                cta_location: "brevet_hero_primary",
+              }}
               className="rounded-full bg-white px-6 py-3 text-center font-bold text-blue-950 hover:bg-blue-50"
             >
               Faire le diagnostic gratuit
-            </Link>
+            </TrackedLink>
             <Link
               href="/programme-maths-brevet"
               className="rounded-full border border-white px-6 py-3 text-center font-bold text-white hover:bg-white/10"
@@ -192,4 +198,3 @@ export default function BrevetMathsPage() {
     </SeoPageLayout>
   );
 }
-
