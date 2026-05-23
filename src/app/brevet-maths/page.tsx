@@ -77,7 +77,7 @@ export default function BrevetMathsPage() {
             Réviser le brevet de maths avec des chapitres clairs
           </h1>
           <p className="mt-5 max-w-3xl text-lg text-blue-100">
-            Pour le brevet, l'élève a besoin de revoir les bases, de pratiquer
+            Pour le brevet, l&apos;élève a besoin de revoir les bases, de pratiquer
             régulièrement et de savoir quels chapitres reprendre en premier.
             SprintMaths transforme le programme en sessions courtes et en
             progression visible.
@@ -112,12 +112,12 @@ export default function BrevetMathsPage() {
                 Préparer le brevet de maths efficacement
               </h2>
               <p className="mt-4 text-slate-700">
-                Beaucoup d'élèves de 3e se perdent entre calcul, géométrie,
+                Beaucoup d&apos;élèves de 3e se perdent entre calcul, géométrie,
                 fonctions et probabilités. SprintMaths remet les chapitres dans un
                 cadre lisible, avec des exercices courts et des priorités.
               </p>
               <p className="mt-4 text-slate-700">
-                Le but est d'aider l'élève à savoir quoi faire aujourd'hui :
+                Le but est d&apos;aider l&apos;élève à savoir quoi faire aujourd&apos;hui :
                 revoir une notion, lancer une session ou suivre son plan.
               </p>
             </div>

@@ -4,12 +4,16 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, Target, CalendarCheck } from "lucide-react";
-import { getProgram, Program } from "@/data/programs";
+import { getProgram, Program, ProgramGoal } from "@/data/programs";
 import { getStorageItem } from "@/lib/storageKeys";
+
+type StudentProfile = {
+  examGoal: ProgramGoal;
+};
 
 export default function ProgrammePage() {
   const router = useRouter();
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [program, setProgram] = useState<Program | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -19,7 +23,7 @@ export default function ProgrammePage() {
       router.push("/merci");
       return;
     }
-    const p = JSON.parse(storedProfile);
+    const p = JSON.parse(storedProfile) as StudentProfile;
     setProfile(p);
     setProgram(getProgram(p.examGoal) || null);
     setLoading(false);
@@ -77,7 +81,7 @@ export default function ProgrammePage() {
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition-colors"
                   >
                     <Target className="w-3.5 h-3.5" />
-                    S'entraîner
+                    S&apos;entraîner
                   </Link>
                 </div>
               </div>
@@ -109,7 +113,7 @@ export default function ProgrammePage() {
               className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl border-2 border-indigo-600 bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition-colors"
             >
               <CalendarCheck className="w-4 h-4" />
-              Plan d'action
+              Plan d&apos;action
             </Link>
           </div>
         </div>

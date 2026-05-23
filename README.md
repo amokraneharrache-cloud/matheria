@@ -28,6 +28,7 @@ npm run build
 ## Variables d'environnement
 
 Créer un fichier `.env.local` à la racine à partir de `.env.local.example`.
+Voir aussi la checklist Vercel complète dans `docs/deployment.md`.
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=
@@ -43,9 +44,9 @@ NEXT_PUBLIC_SNAP_PIXEL_ID=
 NEXT_PUBLIC_TRACKING_MODE=
 
 SUPABASE_SERVICE_ROLE_KEY=
-STRIPE_SECRET_KEY=sk_live_xxx
-STRIPE_WEBHOOK_SECRET=whsec_xxx
-RESEND_API_KEY=re_xxx
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+RESEND_API_KEY=
 SPRINTMATHS_EMAIL_FROM="SprintMaths <contact@sprintmaths.com>"
 SPRINTMATHS_EMAIL_REPLY_TO=contact@sprintmaths.com
 SPRINTMATHS_ADMIN_PASSWORD=
@@ -106,6 +107,98 @@ Tables conservées :
 Ne pas renommer ces tables pour le rebranding.
 
 Installer le schéma depuis `supabase/schema.sql` dans le SQL Editor Supabase.
+
+## Test du funnel planning
+
+Tunnel à vérifier avant publicité :
+
+1. `/bac-maths-2027` : cliquer sur un CTA planning et vérifier l'event
+   `click_lead_magnet_planning`.
+2. `/planning-revision-bac-maths` : soumettre le formulaire.
+3. `/api/leads/planning` : vérifier la réponse JSON, la sauvegarde Supabase
+   et le statut `emailSent`.
+4. `/planning-bac-maths-2027.html` : vérifier que la version imprimable s'ouvre.
+5. Après succès formulaire : vérifier les liens vers `/diagnostic`,
+   `/planning-bac-maths-2027.html` et `/bac-maths-2027`.
+
+Variables utiles en local :
+
+```env
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_TRACKING_MODE=internal
+
+# Pour persister les leads dans Supabase :
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+
+# Pour envoyer réellement l'email. Si absent, l'API doit rester en succès
+# avec emailSent=false et emailSkippedReason=resend_not_configured.
+RESEND_API_KEY=
+SPRINTMATHS_EMAIL_FROM="SprintMaths <contact@sprintmaths.com>"
+SPRINTMATHS_EMAIL_REPLY_TO=contact@sprintmaths.com
+```
+
+Commandes curl locales, avec une adresse de test non personnelle :
+
+```bash
+curl -i http://localhost:3000/api/leads/planning \
+  -H "Content-Type: application/json" \
+  -d '{"email":"not-an-email","sourcePage":"/planning-revision-bac-maths"}'
+
+curl -i http://localhost:3000/api/leads/planning \
+  -H "Content-Type: application/json" \
+  -d '{"email":"qa-planning@example.test","sourcePage":"/planning-revision-bac-maths","website":"bot"}'
+
+curl -i http://localhost:3000/api/leads/planning \
+  -H "Content-Type: application/json" \
+  -d '{"email":"qa-planning@example.test","sourcePage":"/planning-revision-bac-maths"}'
+```
+
+Résultats attendus :
+
+- email invalide : HTTP 400, message `Entre une adresse email valide.`
+- honeypot rempli : HTTP 200, `success=true`, `saved=false`,
+  `emailSent=false`.
+- email valide : HTTP 200, `success=true`; `saved=true` si Supabase est
+  configuré, sinon fallback local `mocked=true` en développement.
+- Resend absent : pas de crash, `emailSent=false`,
+  `emailSkippedReason=resend_not_configured`.
+- Rate limit : 5 demandes par heure et par IP. Les tests normaux ci-dessus ne
+  doivent pas le déclencher ; redémarrer `npm run dev` réinitialise le store
+  mémoire en local.
+
+Debug tracking local :
+
+```js
+localStorage.setItem("sprintmaths_tracking_debug", "[]")
+window.dataLayer = []
+```
+
+Avec `NEXT_PUBLIC_TRACKING_MODE=internal`, cliquer sur les CTA et soumettre le
+formulaire, puis vérifier :
+
+```js
+window.dataLayer.map((event) => event.event)
+JSON.parse(localStorage.getItem("sprintmaths_tracking_debug") || "[]")
+window.dataLayer.some((event) => JSON.stringify(event).includes("@"))
+```
+
+La dernière expression doit retourner `false` : aucun email ne doit partir dans
+`dataLayer` ou l'historique debug.
+
+Procédure Vercel Preview :
+
+1. Définir les variables Preview nécessaires dans Vercel, sans préfixer les
+   secrets serveur avec `NEXT_PUBLIC_`.
+2. Déployer la preview, puis ouvrir `/bac-maths-2027`,
+   `/planning-revision-bac-maths` et `/planning-bac-maths-2027.html`.
+3. Rejouer les trois curl ci-dessus en remplaçant `http://localhost:3000` par
+   l'URL Preview.
+4. Vérifier dans Supabase que le lead de test apparaît dans `leads` avec une
+   source `planning_bac_maths_2027:/planning-revision-bac-maths`.
+5. Si GTM est activé, vérifier dans GTM Preview/Tag Assistant les events
+   `click_lead_magnet_planning`, `lead_magnet_request` et `email_optin`.
 
 ## Stripe Payment Link
 
@@ -359,6 +452,8 @@ Events réellement émis côté client aujourd'hui :
 - `stripe_click`
 - `diagnostic_start`
 - `diagnostic_complete`
+- `click_lead_magnet_planning`
+- `lead_magnet_request`
 - `email_optin`
 - `account_created`
 - `sprintmaths_view_offer`
@@ -367,6 +462,7 @@ Events réellement émis côté client aujourd'hui :
 - `click_bac2027_exercises`
 - `click_bac2027_offer`
 - `click_bac2027_stripe`
+- `click_typebac_offer`
 - `guarantee_view`
 - `faq_expand`
 
@@ -460,6 +556,9 @@ Limites assumées :
 - Pas d'authentification serveur complète.
 
 ## Vercel et domaine
+
+La procédure détaillée de configuration Preview/Production est documentée dans
+`docs/deployment.md`.
 
 Checklist Vercel :
 

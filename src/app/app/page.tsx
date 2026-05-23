@@ -7,19 +7,32 @@ import { Play, BookOpen, LineChart, Target, CalendarCheck, Lightbulb } from "luc
 import { getAvailableTopics, ExamGoal } from "@/data/questions";
 import { getStorageItem } from "@/lib/storageKeys";
 
+type StudentProfile = {
+  studentPseudo: string;
+  examGoal: ExamGoal;
+  currentLevel: string;
+};
+
+type SessionHistory = {
+  examGoal: ExamGoal;
+  score: number;
+  totalQuestions: number;
+  topics: string[];
+};
+
 function getWeakestTopic(examGoal: ExamGoal): string | null {
   if (typeof window === "undefined") return null;
   const historyStr = getStorageItem("sessionHistory");
   if (!historyStr) return null;
   try {
-    const history = JSON.parse(historyStr);
+    const history = JSON.parse(historyStr) as SessionHistory[];
     const available = getAvailableTopics(examGoal);
     let weakest: { label: string; avg: number } | null = null;
     available.forEach(t => {
-      const tSessions = history.filter((h: any) => h.examGoal === examGoal && h.topics.length === 1 && h.topics[0] === t.topic);
+      const tSessions = history.filter((h) => h.examGoal === examGoal && h.topics.length === 1 && h.topics[0] === t.topic);
       if (tSessions.length > 0) {
-        const sum = tSessions.reduce((a: number, c: any) => a + c.score, 0);
-        const tot = tSessions.reduce((a: number, c: any) => a + c.totalQuestions, 0);
+        const sum = tSessions.reduce((a, c) => a + c.score, 0);
+        const tot = tSessions.reduce((a, c) => a + c.totalQuestions, 0);
         const avg = Math.round((sum / tot) * 100);
         if (avg < 60 && (!weakest || avg < weakest.avg)) {
           weakest = { label: t.label, avg };
@@ -32,7 +45,7 @@ function getWeakestTopic(examGoal: ExamGoal): string | null {
 
 export default function AppDashboardPage() {
   const router = useRouter();
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [stats, setStats] = useState({ sessions: 0, avgScore: 0, lastScore: null as number | null });
   const [topicsCount, setTopicsCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -44,7 +57,7 @@ export default function AppDashboardPage() {
       router.push("/merci");
       return;
     }
-    const parsedProfile = JSON.parse(storedProfile);
+    const parsedProfile = JSON.parse(storedProfile) as StudentProfile;
     setProfile(parsedProfile);
 
     // Calc topics
@@ -58,7 +71,7 @@ export default function AppDashboardPage() {
         const history = JSON.parse(historyStr);
         if (Array.isArray(history) && history.length > 0) {
           // Filter history for current goal just in case they switched
-          const relevantHistory = history.filter(h => h.examGoal === parsedProfile.examGoal);
+          const relevantHistory = history.filter((h) => h.examGoal === parsedProfile.examGoal);
           if (relevantHistory.length > 0) {
             const sumScores = relevantHistory.reduce((acc, curr) => acc + curr.score, 0);
             const sumTotal = relevantHistory.reduce((acc, curr) => acc + curr.totalQuestions, 0);
@@ -148,7 +161,7 @@ export default function AppDashboardPage() {
               Mode Bac Terminale
             </h3>
             <p className="text-sm text-indigo-800 mb-4 relative z-10">
-              Travaille des exercices guidés étape par étape, proches de l'esprit du bac.
+              Travaille des exercices guidés étape par étape, proches de l&apos;esprit du bac.
             </p>
             <div className="flex gap-3 relative z-10">
               <Link href="/app/bac" className="flex-1 py-2.5 px-3 bg-indigo-600 text-white text-sm font-bold rounded-lg text-center shadow-sm hover:bg-indigo-700 transition-colors">

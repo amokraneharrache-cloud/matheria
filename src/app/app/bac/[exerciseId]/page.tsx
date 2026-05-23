@@ -87,7 +87,7 @@ export default function GuidedExercisePage({ params }: { params: Promise<{ exerc
     setIsFinished(false);
   };
 
-  if (loading) return <div className="text-center mt-20 text-slate-500">Chargement de l'exercice...</div>;
+  if (loading) return <div className="text-center mt-20 text-slate-500">Chargement de l&apos;exercice...</div>;
   if (!exercise) return null;
 
   if (isFinished) {
@@ -153,7 +153,7 @@ export default function GuidedExercisePage({ params }: { params: Promise<{ exerc
               className="w-full py-4 rounded-xl flex justify-center items-center gap-2 border-2 border-slate-200 text-slate-700 font-bold hover:bg-slate-50 transition-colors"
             >
               <RefreshCw className="w-5 h-5" />
-              Refaire l'exercice
+              Refaire l&apos;exercice
             </button>
             <Link
               href="/app/methodes"
@@ -183,7 +183,6 @@ export default function GuidedExercisePage({ params }: { params: Promise<{ exerc
 
   const step = exercise.steps[currentStepIndex];
   const isCorrect = isAnswered && selectedOption === step.correctOptionIndex;
-  const isWrong = isAnswered && selectedOption !== step.correctOptionIndex;
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col min-h-[80vh]">

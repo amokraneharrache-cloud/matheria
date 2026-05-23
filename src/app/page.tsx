@@ -37,6 +37,11 @@ export const metadata: Metadata = {
 export default function Home() {
   const stripePaymentLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK;
   const diagnosticClickParams = { source_page: "/" };
+  const planningClickParams = {
+    source_page: "/",
+    lead_magnet: "planning_bac_maths_2027",
+    level: "terminale",
+  };
   const checkoutParams = {
     source_page: "/",
     offer: "bac2026",
@@ -89,7 +94,7 @@ export default function Home() {
               Réviser les maths du Brevet au Bac avec un <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-violet-600">parcours structuré</span>
             </h1>
             <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
-              Plan de révision, exercices ciblés et progression par chapitre. À quelques semaines de l'examen, SprintMaths aide votre enfant à savoir quoi réviser, à s'entraîner en sessions courtes et à progresser sans conflit à la maison. <span className="block mt-2 text-blue-800 font-medium">Pour Terminale : exercices guidés type bac, méthodes et progression par chapitre.</span>
+              Plan de révision, exercices ciblés et progression par chapitre. À quelques semaines de l&apos;examen, SprintMaths aide votre enfant à savoir quoi réviser, à s&apos;entraîner en sessions courtes et à progresser sans conflit à la maison. <span className="block mt-2 text-blue-800 font-medium">Pour Terminale : exercices guidés type bac, méthodes et progression par chapitre.</span>
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-6">
               <TrackedLink
@@ -105,35 +110,19 @@ export default function Home() {
                   Faire le diagnostic gratuit
                 </Button>
               </TrackedLink>
-              {stripePaymentLink ? (
-                <TrackedLink
-                  href={stripePaymentLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto"
-                  eventName="stripe_click"
-                  eventParams={{ ...checkoutParams, cta_location: "home_hero" }}
-                >
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                    Profiter de l'offre à {BAC_2026_OFFER_PRICE} €
-                  </Button>
-                </TrackedLink>
-              ) : (
-                <TrackedLink
-                  href="#pricing"
-                  className="w-full sm:w-auto"
-                  eventName="click_offer"
-                  eventParams={{
-                    ...checkoutParams,
-                    payment_provider: undefined,
-                    cta_location: "home_hero_offer_fallback",
-                  }}
-                >
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                    Profiter de l'offre à {BAC_2026_OFFER_PRICE} €
-                  </Button>
-                </TrackedLink>
-              )}
+              <TrackedLink
+                href="/planning-revision-bac-maths"
+                className="w-full sm:w-auto"
+                eventName="click_lead_magnet_planning"
+                eventParams={{
+                  ...planningClickParams,
+                  cta_location: "home_hero_planning",
+                }}
+              >
+                <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                  Recevoir le planning Bac Maths 2027
+                </Button>
+              </TrackedLink>
             </div>
             <Link href="/connexion" className="text-sm font-medium text-slate-500 hover:text-slate-800 underline underline-offset-4 block mt-4">
               J&apos;ai déjà un espace élève — Se connecter
@@ -147,16 +136,28 @@ export default function Home() {
             <div className="mb-8">
               <h2 className="text-3xl font-bold text-slate-900">Révisions par objectif</h2>
               <p className="mt-3 text-slate-600 text-lg">
-                Choisissez le parcours adapté à l'examen préparé par votre enfant.
+                Choisissez le parcours adapté à l&apos;examen préparé par votre enfant.
               </p>
             </div>
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {[
                 {
-                  href: "/bac-maths-terminale-2026",
+                  href: "/bac-maths-2027",
+                  icon: GraduationCap,
+                  title: "Bac Maths 2027",
+                  text: "Diagnostic, planning, exercices type bac guidés et Pack Révision Express pour la Terminale.",
+                },
+                {
+                  href: "/planning-revision-bac-maths",
                   icon: CalendarCheck,
-                  title: "Bac Maths 2026",
-                  text: "Page dédiée à la dernière ligne droite : exercices guidés type bac, téléphone, prix Bac 2026 et garantie 7 jours.",
+                  title: "Planning gratuit",
+                  text: "Un planning Bac Maths 2027 sur 30 jours pour organiser les chapitres et les entraînements.",
+                },
+                {
+                  href: "/exercices-type-bac-maths-terminale",
+                  icon: Target,
+                  title: "Exercices type bac",
+                  text: "Des exercices guidés étape par étape pour apprendre à démarrer et conclure un raisonnement.",
                 },
                 {
                   href: "/bac-terminale-maths",
@@ -214,7 +215,7 @@ export default function Home() {
                     <BrainCircuit className="w-6 h-6" />
                   </div>
                   <h3 className="font-bold text-xl mb-2">Manque de méthode</h3>
-                  <p className="text-slate-600">Comprendre le cours c'est bien, savoir l'appliquer face à un exercice d'examen c'est mieux.</p>
+                  <p className="text-slate-600">Comprendre le cours c&apos;est bien, savoir l&apos;appliquer face à un exercice d&apos;examen c&apos;est mieux.</p>
                 </CardContent>
               </Card>
               <Card className="bg-slate-50 border-none shadow-none">
@@ -223,7 +224,7 @@ export default function Home() {
                     <TrendingUp className="w-6 h-6" />
                   </div>
                   <h3 className="font-bold text-xl mb-2">Perte de motivation</h3>
-                  <p className="text-slate-600">Des révisions trop longues et non ciblées finissent par décourager l'élève.</p>
+                  <p className="text-slate-600">Des révisions trop longues et non ciblées finissent par décourager l&apos;élève.</p>
                 </CardContent>
               </Card>
             </div>
@@ -248,7 +249,7 @@ export default function Home() {
               <div className="flex flex-col items-center">
                 <div className="w-16 h-16 bg-blue-800 rounded-full flex items-center justify-center text-2xl font-bold mb-4">3</div>
                 <h3 className="text-xl font-bold mb-2">Progression visible</h3>
-                <p className="text-blue-200">L'élève voit son niveau monter jusqu'au jour de l'examen.</p>
+                <p className="text-blue-200">L&apos;élève voit son niveau monter jusqu&apos;au jour de l&apos;examen.</p>
               </div>
             </div>
           </div>
@@ -259,7 +260,7 @@ export default function Home() {
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-col md:flex-row items-center gap-12">
               <div className="flex-1">
-                <h2 className="text-3xl font-bold text-slate-900 mb-6">Conçu pour l'attention des élèves</h2>
+                <h2 className="text-3xl font-bold text-slate-900 mb-6">Conçu pour l&apos;attention des élèves</h2>
                 <ul className="space-y-4 mb-8">
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="w-6 h-6 text-emerald-500 shrink-0" />
@@ -331,7 +332,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
-                    <span>Sessions de révision incluses jusqu'à l'examen</span>
+                    <span>Sessions de révision incluses jusqu&apos;à l&apos;examen</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
@@ -358,7 +359,7 @@ export default function Home() {
                       eventParams={{ ...checkoutParams, cta_location: "home_pricing" }}
                     >
                       <Button size="lg" className="w-full text-lg h-14">
-                        Profiter de l'offre à {BAC_2026_OFFER_PRICE} €
+                        Profiter de l&apos;offre à {BAC_2026_OFFER_PRICE} €
                       </Button>
                     </TrackedLink>
                     <p className="text-xs text-center text-slate-500 font-medium">
@@ -412,7 +413,7 @@ export default function Home() {
         <section className="px-4 py-20 bg-blue-900 text-white text-center">
           <div className="container mx-auto max-w-3xl">
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">Prêt à aider votre enfant à progresser avant l’examen ?</h2>
-            <p className="text-xl text-blue-200 mb-10">Commencez dès aujourd'hui par une évaluation gratuite de son niveau.</p>
+            <p className="text-xl text-blue-200 mb-10">Commencez dès aujourd&apos;hui par une évaluation gratuite de son niveau.</p>
             <TrackedLink
               href="/diagnostic"
               eventName="click_diagnostic"

@@ -3,7 +3,7 @@ import { articles } from "@/data/articles";
 import { absoluteUrl, legalRoutes, publicSeoRoutes } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date("2026-05-21T00:00:00.000Z");
+  const lastModified = new Date("2026-05-23T00:00:00.000Z");
 
   const staticRoutes: MetadataRoute.Sitemap = publicSeoRoutes.map((route) => ({
     url: absoluteUrl(route),

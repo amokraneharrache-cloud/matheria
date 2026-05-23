@@ -259,7 +259,7 @@ export default function DiagnosticPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <label htmlFor="pseudo" className="text-sm font-semibold text-slate-700">
-                  Prénom ou pseudo de l'élève (Optionnel)
+                  Prénom ou pseudo de l&apos;élève (Optionnel)
                 </label>
                 <input
                   id="pseudo"

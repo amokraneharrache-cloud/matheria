@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  ArrowRight,
   BookOpenCheck,
   CalendarDays,
   CheckCircle2,
@@ -456,6 +457,54 @@ export default function BacMathsTerminale2026Page() {
                   Faire le diagnostic gratuit
                 </Button>
               </TrackedLink>
+            </div>
+          </section>
+
+          <section className="rounded-2xl border border-blue-100 bg-blue-50 p-6 sm:p-8">
+            <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+              Session suivante
+            </p>
+            <div className="mt-3 grid gap-5 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-950">
+                  Préparer Bac Maths 2027
+                </h2>
+                <p className="mt-3 leading-7 text-slate-700">
+                  Si vous préparez la session 2027, la page dédiée regroupe le
+                  diagnostic, le planning 30 jours, les exercices type bac guidés
+                  et le Pack Révision Express actualisé pour cet objectif.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+                <TrackedLink
+                  href="/bac-maths-2027"
+                  eventName="click_offer"
+                  eventParams={{
+                    source_page: pagePath,
+                    offer: "pack_revision_express_bac_2027",
+                    price: PACK_REVISION_EXPRESS_PRICE,
+                    currency: "EUR",
+                    cta_location: "bac2026_prepare_2027",
+                  }}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-blue-900 px-5 py-3 text-center font-bold text-white hover:bg-blue-800"
+                >
+                  Voir la préparation Bac 2027
+                  <ArrowRight className="h-4 w-4" />
+                </TrackedLink>
+                <TrackedLink
+                  href="/planning-revision-bac-maths"
+                  eventName="click_lead_magnet_planning"
+                  eventParams={{
+                    source_page: pagePath,
+                    lead_magnet: "planning_bac_maths_2027",
+                    level: "terminale",
+                    cta_location: "bac2026_prepare_2027_planning",
+                  }}
+                  className="inline-flex items-center justify-center rounded-full border border-blue-900 px-5 py-3 text-center font-bold text-blue-900 hover:bg-white"
+                >
+                  Recevoir le planning 2027
+                </TrackedLink>
+              </div>
             </div>
           </section>
 

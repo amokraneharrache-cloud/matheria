@@ -12,11 +12,7 @@ import { guidedExercises } from "@/data/guidedExercises";
 import { mockBacSubjects } from "@/data/mockBacSubjects";
 import { getProgram } from "@/data/programs";
 import { methods } from "@/data/methods";
-import {
-  BAC_2026_OFFER_PRICE,
-  BAC_2026_PROMO_CODE,
-  PACK_REVISION_EXPRESS_PRICE,
-} from "@/lib/offers";
+import { PACK_REVISION_EXPRESS_PRICE } from "@/lib/offers";
 import { absoluteUrl, TERMINALE_CONVERSION_TAGLINE } from "@/lib/site";
 import { breadcrumbJsonLd, faqJsonLd, productJsonLd, type FaqItem } from "@/lib/seo";
 
@@ -90,10 +86,10 @@ export default function BacTerminaleMathsPage() {
               {TERMINALE_CONVERSION_TAGLINE}
             </h1>
             <p className="mt-5 max-w-3xl text-lg text-slate-700">
-              En Terminale, il ne suffit pas d'enchaîner des réponses rapides.
-              SprintMaths aide l'élève à revoir le programme par chapitre, à
-              travailler les méthodes et à suivre une progression claire jusqu'à
-              l'examen.
+              En Terminale, il ne suffit pas d&apos;enchaîner des réponses rapides.
+              SprintMaths aide l&apos;élève à revoir le programme par chapitre, à
+              travailler les méthodes et à suivre une progression claire jusqu&apos;à
+              l&apos;examen.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <TrackedLink
@@ -108,19 +104,17 @@ export default function BacTerminaleMathsPage() {
                 Faire le diagnostic gratuit
               </TrackedLink>
               <TrackedLink
-                href="/bac-maths-terminale-2026"
-                eventName="click_offer"
+                href="/planning-revision-bac-maths"
+                eventName="click_lead_magnet_planning"
                 eventParams={{
                   source_page: pagePath,
-                  offer: "bac2026",
-                  price: BAC_2026_OFFER_PRICE,
-                  currency: "EUR",
-                  coupon_code: BAC_2026_PROMO_CODE,
-                  cta_location: "terminale_hero_offer",
+                  lead_magnet: "planning_bac_maths_2027",
+                  level: "terminale",
+                  cta_location: "terminale_hero_planning",
                 }}
                 className="rounded-full border border-blue-900 px-6 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
               >
-                Commencer ma révision Bac 2026
+                Recevoir le planning Bac Maths 2027
               </TrackedLink>
             </div>
           </div>
@@ -163,14 +157,14 @@ export default function BacTerminaleMathsPage() {
               <div className="mt-5 space-y-4 text-slate-700">
                 <p>
                   Le bac de maths demande de tenir un raisonnement, de choisir
-                  une méthode et d'enchaîner plusieurs étapes. Un QCM peut aider
+                  une méthode et d&apos;enchaîner plusieurs étapes. Un QCM peut aider
                   à vérifier un automatisme, mais il ne prépare pas toujours à
-                  l'effort de rédaction et de stratégie.
+                  l&apos;effort de rédaction et de stratégie.
                 </p>
                 <p>
                   SprintMaths combine donc des questions courtes, des exercices
                   guidés type bac, des fiches méthodes et un plan de révision.
-                  L'objectif est simple : donner à l'élève un cadre de travail
+                  L&apos;objectif est simple : donner à l&apos;élève un cadre de travail
                   sérieux sans promettre de résultat automatique.
                 </p>
               </div>
@@ -238,20 +232,21 @@ export default function BacTerminaleMathsPage() {
                 </h2>
                 <p className="mt-3 max-w-3xl text-slate-700">
                   Les exercices guidés découpent le raisonnement en étapes :
-                  comprendre la question, choisir l'outil, calculer, puis
+                  comprendre la question, choisir l&apos;outil, calculer, puis
                   conclure proprement.
                 </p>
               </div>
               <TrackedLink
-                href="/exercices-maths-terminale"
+                href="/exercices-type-bac-maths-terminale"
                 eventName="click_exercises"
                 eventParams={{
                   source_page: pagePath,
-                  cta_location: "terminale_exercises_section",
+                  level: "terminale",
+                  cta_location: "terminale_typebac_section",
                 }}
                 className="font-bold text-blue-900 hover:underline"
               >
-                Voir les exercices Terminale
+                Essayer un exercice type bac guidé
               </TrackedLink>
             </div>
             <div className="mt-6 grid gap-4 md:grid-cols-3">
@@ -280,7 +275,7 @@ export default function BacTerminaleMathsPage() {
                 Méthodes Terminale
               </h2>
               <p className="mt-3 text-slate-700">
-                Les fiches méthodes aident l'élève à revoir les réflexes de
+                Les fiches méthodes aident l&apos;élève à revoir les réflexes de
                 résolution : dériver, étudier un signe, lever une forme
                 indéterminée, utiliser une loi binomiale ou calculer une
                 intégrale.
@@ -309,7 +304,7 @@ export default function BacTerminaleMathsPage() {
               Chapitres travaillés
             </h2>
             <p className="mt-3 max-w-3xl text-slate-700">
-              SprintMaths s'appuie sur les grands chapitres de Terminale pour
+              SprintMaths s&apos;appuie sur les grands chapitres de Terminale pour
               organiser les sessions et les priorités de révision.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -340,7 +335,7 @@ export default function BacTerminaleMathsPage() {
               {
                 icon: BookOpen,
                 title: "Prix du Pack Révision Express",
-                text: `${PACK_REVISION_EXPRESS_PRICE} € en paiement unique. Offre Bac 2026 : ${BAC_2026_OFFER_PRICE} € avec le code ${BAC_2026_PROMO_CODE}.`,
+                text: `${PACK_REVISION_EXPRESS_PRICE} € en paiement unique, sans abonnement.`,
               },
             ].map((item) => (
               <article key={item.title} className="rounded-2xl bg-blue-950 p-6 text-white">
@@ -354,6 +349,19 @@ export default function BacTerminaleMathsPage() {
           <SeoCta
             title="Préparer Terminale avec un parcours concret"
             description="Le diagnostic gratuit aide à choisir les bons chapitres avant de lancer un plan de révision et des sessions ciblées."
+            sourcePage={pagePath}
+            secondaryCta={{
+              href: "/planning-revision-bac-maths",
+              label: "Recevoir le planning Bac Maths 2027",
+              eventName: "click_lead_magnet_planning",
+              eventParams: {
+                source_page: pagePath,
+                lead_magnet: "planning_bac_maths_2027",
+                level: "terminale",
+                cta_location: "terminale_seo_cta_planning",
+              },
+              variant: "outline",
+            }}
           />
           <GuaranteeNote sourcePage={pagePath} />
           <SeoFaq items={faqItems} />

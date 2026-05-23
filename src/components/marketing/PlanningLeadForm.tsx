@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/tracking";
 
@@ -25,6 +25,7 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
   const [website, setWebsite] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const isSubmittingRef = useRef(false);
 
   const trackingParams = {
     source_page: sourcePage,
@@ -42,6 +43,11 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
       return;
     }
 
+    if (isSubmittingRef.current) {
+      return;
+    }
+
+    isSubmittingRef.current = true;
     setStatus("loading");
     setMessage("");
     trackEvent("lead_magnet_request", trackingParams);
@@ -58,10 +64,10 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
           website,
         }),
       });
-      const result = (await response.json()) as ApiResponse;
+      const result = (await response.json().catch(() => null)) as ApiResponse | null;
 
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || "Impossible d'envoyer la demande.");
+      if (!response.ok || !result?.success) {
+        throw new Error(result?.message || "Impossible d'envoyer la demande.");
       }
 
       trackEvent("email_optin", trackingParams);
@@ -80,6 +86,8 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
           ? error.message
           : "Impossible d'envoyer la demande pour le moment.",
       );
+    } finally {
+      isSubmittingRef.current = false;
     }
   }
 
@@ -139,12 +147,26 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
         >
           <p>{message}</p>
           {status === "success" && (
-            <a
-              href="/planning-bac-maths-2027.html"
-              className="mt-2 inline-flex text-blue-900 underline"
-            >
-              Ouvrir la version imprimable
-            </a>
+            <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+              <a
+                href="/diagnostic"
+                className="inline-flex text-blue-900 underline"
+              >
+                Faire le diagnostic gratuit
+              </a>
+              <a
+                href="/planning-bac-maths-2027.html"
+                className="inline-flex text-blue-900 underline"
+              >
+                Ouvrir la version imprimable
+              </a>
+              <a
+                href="/bac-maths-2027"
+                className="inline-flex text-blue-900 underline"
+              >
+                Voir le Pack Révision Express
+              </a>
+            </div>
           )}
         </div>
       )}

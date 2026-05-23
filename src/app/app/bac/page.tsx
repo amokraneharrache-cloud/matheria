@@ -4,13 +4,18 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Clock, BarChart2, Play, FileText, Target } from "lucide-react";
+import type { ExamGoal } from "@/data/questions";
 import { guidedExercises } from "@/data/guidedExercises";
 import { mockBacSubjects } from "@/data/mockBacSubjects";
 import { getStorageItem } from "@/lib/storageKeys";
 
+type StudentProfile = {
+  examGoal: ExamGoal;
+};
+
 export default function BacModePage() {
   const router = useRouter();
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,7 +24,7 @@ export default function BacModePage() {
       router.push("/merci");
       return;
     }
-    setProfile(JSON.parse(storedProfile));
+    setProfile(JSON.parse(storedProfile) as StudentProfile);
     setLoading(false);
   }, [router]);
 
@@ -78,7 +83,7 @@ export default function BacModePage() {
         <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-5">
           <h2 className="font-bold text-indigo-900 text-lg mb-2">Entraînement type Bac</h2>
           <p className="text-sm text-indigo-700">
-            Travaille des exercices guidés étape par étape, très proches de l'esprit du baccalauréat. Maîtrise la méthode pour gagner des points le jour J.
+            Travaille des exercices guidés étape par étape, très proches de l&apos;esprit du baccalauréat. Maîtrise la méthode pour gagner des points le jour J.
           </p>
         </div>
 

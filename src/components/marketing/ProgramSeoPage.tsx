@@ -32,13 +32,15 @@ type ProgramSeoPageProps = {
 
 export function ProgramSeoPage({ goal, h1, intro }: ProgramSeoPageProps) {
   const program = getProgram(goal);
+  const pagePath = pagePaths[goal];
+  const isTerminale = goal === "terminale";
 
   if (!program) {
     return null;
   }
 
   return (
-    <SeoPageLayout urgencySourcePage={pagePaths[goal]}>
+    <SeoPageLayout urgencySourcePage={pagePath}>
       <section className="bg-slate-50 px-4 py-16 sm:py-20">
         <div className="mx-auto max-w-5xl">
           <p className="mb-4 inline-flex rounded-full bg-blue-100 px-3 py-1 text-sm font-bold text-blue-900">
@@ -50,22 +52,45 @@ export function ProgramSeoPage({ goal, h1, intro }: ProgramSeoPageProps) {
           <p className="mt-5 max-w-3xl text-lg text-slate-700">{intro}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <TrackedLink
-              href="/diagnostic"
-              eventName="click_diagnostic"
+              href={isTerminale ? "/planning-revision-bac-maths" : "/diagnostic"}
+              eventName={isTerminale ? "click_lead_magnet_planning" : "click_diagnostic"}
               eventParams={{
-                source_page: pagePaths[goal],
+                source_page: pagePath,
+                ...(isTerminale
+                  ? {
+                      lead_magnet: "planning_bac_maths_2027",
+                      level: "terminale",
+                    }
+                  : {}),
                 cta_location: "program_hero_primary",
               }}
               className="rounded-full bg-blue-900 px-6 py-3 text-center font-bold text-white hover:bg-blue-800"
             >
-              Faire le diagnostic gratuit
+              {isTerminale
+                ? "Recevoir le planning Bac Maths 2027"
+                : "Faire le diagnostic gratuit"}
             </TrackedLink>
-            <Link
-              href={levelPages[goal]}
-              className="rounded-full border border-blue-900 px-6 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
-            >
-              Voir la page niveau
-            </Link>
+            {isTerminale ? (
+              <TrackedLink
+                href="/exercices-type-bac-maths-terminale"
+                eventName="click_exercises"
+                eventParams={{
+                  source_page: pagePath,
+                  level: "terminale",
+                  cta_location: "program_hero_typebac",
+                }}
+                className="rounded-full border border-blue-900 px-6 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
+              >
+                Essayer un exercice type bac guidé
+              </TrackedLink>
+            ) : (
+              <Link
+                href={levelPages[goal]}
+                className="rounded-full border border-blue-900 px-6 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
+              >
+                Voir la page niveau
+              </Link>
+            )}
           </div>
         </div>
       </section>
@@ -137,9 +162,44 @@ export function ProgramSeoPage({ goal, h1, intro }: ProgramSeoPageProps) {
 
           <SeoCta
             title="Transformer ce programme en plan de révision"
-            description="Le diagnostic gratuit aide à choisir les chapitres à travailler en priorité selon l'objectif et le niveau ressenti."
+            description={
+              isTerminale
+                ? "Le planning gratuit donne un ordre de travail pour les chapitres de Terminale, avant de passer aux exercices type bac guidés."
+                : "Le diagnostic gratuit aide à choisir les chapitres à travailler en priorité selon l'objectif et le niveau ressenti."
+            }
+            sourcePage={pagePath}
+            primaryCta={
+              isTerminale
+                ? {
+                    href: "/planning-revision-bac-maths",
+                    label: "Recevoir le planning Bac Maths 2027",
+                    eventName: "click_lead_magnet_planning",
+                    eventParams: {
+                      source_page: pagePath,
+                      lead_magnet: "planning_bac_maths_2027",
+                      level: "terminale",
+                      cta_location: "program_seo_cta_planning",
+                    },
+                  }
+                : undefined
+            }
+            secondaryCta={
+              isTerminale
+                ? {
+                    href: "/exercices-type-bac-maths-terminale",
+                    label: "Essayer un exercice type bac guidé",
+                    eventName: "click_exercises",
+                    eventParams: {
+                      source_page: pagePath,
+                      level: "terminale",
+                      cta_location: "program_seo_cta_typebac",
+                    },
+                    variant: "outline",
+                  }
+                : undefined
+            }
           />
-          <InternalLinks currentPath={pagePaths[goal]} />
+          <InternalLinks currentPath={pagePath} />
         </div>
       </section>
     </SeoPageLayout>

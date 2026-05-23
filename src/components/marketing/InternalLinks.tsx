@@ -8,6 +8,10 @@ type InternalLinksProps = {
 
 const links = [
   { href: "/planning-revision-bac-maths", label: "Planning Bac Maths 30 jours" },
+  {
+    href: "/exercices-type-bac-maths-terminale",
+    label: "Exercices type bac guidés",
+  },
   { href: "/bac-maths-2027", label: "Révision Bac Maths 2027" },
   { href: "/bac-terminale-maths", label: "Réviser le bac Terminale" },
   { href: "/programme-maths-terminale", label: "Programme maths Terminale" },

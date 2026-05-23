@@ -79,13 +79,13 @@ export default function BacPremiereMathsPage() {
             Bac de maths Première
           </p>
           <h1 className="max-w-4xl text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
-            Réviser le bac de maths Première sans s'éparpiller
+            Réviser le bac de maths Première sans s&apos;éparpiller
           </h1>
           <p className="mt-5 max-w-3xl text-lg text-slate-700">
-            En Première, les difficultés viennent souvent d'un mélange entre
+            En Première, les difficultés viennent souvent d&apos;un mélange entre
             automatismes fragiles, fonctions, probabilités et dérivation.
-            SprintMaths aide l'élève à cibler les chapitres importants, à
-            s'entraîner en sessions courtes et à suivre ses progrès.
+            SprintMaths aide l&apos;élève à cibler les chapitres importants, à
+            s&apos;entraîner en sessions courtes et à suivre ses progrès.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <TrackedLink
@@ -117,13 +117,13 @@ export default function BacPremiereMathsPage() {
                 Objectif Bac de maths Première
               </h2>
               <p className="mt-4 text-slate-700">
-                L'enjeu n'est pas seulement de relire le cours. L'élève doit
+                L&apos;enjeu n&apos;est pas seulement de relire le cours. L&apos;élève doit
                 retrouver les bons automatismes, comprendre quel outil utiliser
                 et répéter des exercices ciblés pour devenir plus régulier.
               </p>
               <p className="mt-4 text-slate-700">
                 Le parcours SprintMaths organise ce travail autour du diagnostic,
-                des chapitres clés et d'un plan de révision simple à suivre.
+                des chapitres clés et d&apos;un plan de révision simple à suivre.
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">

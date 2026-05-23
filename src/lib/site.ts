@@ -34,6 +34,7 @@ export const publicSeoRoutes = [
   "/",
   "/planning-revision-bac-maths",
   "/bac-maths-2027",
+  "/exercices-type-bac-maths-terminale",
   "/bac-maths-terminale-2026",
   "/bac-terminale-maths",
   "/bac-premiere-maths",

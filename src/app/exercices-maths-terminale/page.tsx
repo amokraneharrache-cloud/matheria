@@ -67,32 +67,34 @@ export default function ExercicesMathsTerminalePage() {
           <p className="mt-5 max-w-3xl text-lg text-slate-700">
             SprintMaths propose des sessions par chapitre et des exercices guidés
             type bac pour travailler les méthodes sans donner toute la base de
-            réponses en accès libre. L'objectif est d'aider l'élève à pratiquer,
+            réponses en accès libre. L&apos;objectif est d&apos;aider l&apos;élève à pratiquer,
             pas seulement à lire une correction.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <TrackedLink
-              href="/diagnostic"
-              eventName="click_diagnostic"
+              href="/exercices-type-bac-maths-terminale"
+              eventName="click_exercises"
               eventParams={{
                 source_page: pagePath,
-                cta_location: "exercises_hero_primary",
+                level: "terminale",
+                cta_location: "exercises_hero_typebac",
               }}
               className="rounded-full bg-blue-900 px-6 py-3 text-center font-bold text-white hover:bg-blue-800"
             >
-              Faire le diagnostic gratuit
+              Essayer un exercice type bac guidé
             </TrackedLink>
             <TrackedLink
-              href="/bac-maths-terminale-2026"
-              eventName="click_offer"
+              href="/planning-revision-bac-maths"
+              eventName="click_lead_magnet_planning"
               eventParams={{
                 source_page: pagePath,
-                offer: "bac2026",
-                cta_location: "exercises_hero_offer",
+                lead_magnet: "planning_bac_maths_2027",
+                level: "terminale",
+                cta_location: "exercises_hero_planning",
               }}
               className="rounded-full border border-blue-900 px-6 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
             >
-              Commencer ma révision Bac 2026
+              Recevoir le planning Bac Maths 2027
             </TrackedLink>
           </div>
         </div>
@@ -136,8 +138,8 @@ export default function ExercicesMathsTerminalePage() {
               Chapitres Terminale disponibles
             </h2>
             <p className="mt-3 max-w-3xl text-slate-700">
-              Les sessions Terminale s'appuient sur les chapitres structurés du
-              programme SprintMaths, avec un nombre d'exercices adapté à chaque
+              Les sessions Terminale s&apos;appuient sur les chapitres structurés du
+              programme SprintMaths, avec un nombre d&apos;exercices adapté à chaque
               notion.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -164,7 +166,7 @@ export default function ExercicesMathsTerminalePage() {
                 </h2>
                 <p className="mt-3 max-w-3xl text-slate-700">
                   Chaque exercice guidé affiche une situation, puis accompagne
-                  l'élève étape par étape. Voici les types d'entraînements
+                  l&apos;élève étape par étape. Voici les types d&apos;entraînements
                   disponibles, sans publier les réponses complètes.
                 </p>
               </div>
@@ -215,7 +217,30 @@ export default function ExercicesMathsTerminalePage() {
 
           <SeoCta
             title="Lancer un entraînement Terminale structuré"
-            description="Le diagnostic aide à choisir l'ordre des chapitres avant de travailler en sessions et en exercices guidés."
+            description="Commence par un exercice type bac guidé pour travailler le raisonnement, puis organise la suite avec le planning gratuit."
+            sourcePage={pagePath}
+            primaryCta={{
+              href: "/exercices-type-bac-maths-terminale",
+              label: "Essayer un exercice type bac guidé",
+              eventName: "click_exercises",
+              eventParams: {
+                source_page: pagePath,
+                level: "terminale",
+                cta_location: "exercises_seo_cta_typebac",
+              },
+            }}
+            secondaryCta={{
+              href: "/planning-revision-bac-maths",
+              label: "Recevoir le planning Bac Maths 2027",
+              eventName: "click_lead_magnet_planning",
+              eventParams: {
+                source_page: pagePath,
+                lead_magnet: "planning_bac_maths_2027",
+                level: "terminale",
+                cta_location: "exercises_seo_cta_planning",
+              },
+              variant: "outline",
+            }}
           />
           <InternalLinks currentPath={pagePath} />
         </div>

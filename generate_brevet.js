@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- Keep this isolated generator runnable as CommonJS.
 const fs = require('fs');
 
 const topics = [

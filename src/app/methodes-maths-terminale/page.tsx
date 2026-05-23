@@ -56,32 +56,34 @@ export default function MethodesMathsTerminalePage() {
           </h1>
           <p className="mt-5 max-w-3xl text-lg text-slate-700">
             Les fiches méthodes SprintMaths donnent des étapes concrètes, une
-            erreur fréquente à éviter et un mini-exemple pour aider l'élève à
+            erreur fréquente à éviter et un mini-exemple pour aider l&apos;élève à
             démarrer ses exercices de Terminale avec plus de méthode.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <TrackedLink
-              href="/bac-maths-terminale-2026"
-              eventName="click_offer"
+              href="/exercices-type-bac-maths-terminale"
+              eventName="click_exercises"
               eventParams={{
                 source_page: pagePath,
-                offer: "bac2026",
-                cta_location: "methods_hero_offer",
+                level: "terminale",
+                cta_location: "methods_hero_typebac",
               }}
               className="rounded-full bg-blue-900 px-6 py-3 text-center font-bold text-white hover:bg-blue-800"
             >
-              Commencer ma révision Bac 2026
+              Essayer un exercice type bac guidé
             </TrackedLink>
             <TrackedLink
-              href="/diagnostic"
-              eventName="click_diagnostic"
+              href="/planning-revision-bac-maths"
+              eventName="click_lead_magnet_planning"
               eventParams={{
                 source_page: pagePath,
-                cta_location: "methods_hero_secondary",
+                lead_magnet: "planning_bac_maths_2027",
+                level: "terminale",
+                cta_location: "methods_hero_planning",
               }}
               className="rounded-full border border-blue-900 px-6 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
             >
-              Faire le diagnostic
+              Recevoir le planning Bac Maths 2027
             </TrackedLink>
           </div>
         </div>
@@ -122,7 +124,7 @@ export default function MethodesMathsTerminalePage() {
             <p className="mt-3 max-w-3xl text-slate-700">
               Variations, convexité, logarithme, exponentielle, récurrence,
               limites, loi binomiale, espérance, intégrales, équation
-              différentielle, vecteurs de l'espace et tableau de signes.
+              différentielle, vecteurs de l&apos;espace et tableau de signes.
             </p>
             <div className="mt-8 grid gap-6 lg:grid-cols-2">
               {terminaleMethods.map((method) => (
@@ -187,7 +189,30 @@ export default function MethodesMathsTerminalePage() {
 
           <SeoCta
             title="Appliquer les méthodes dans un vrai parcours"
-            description="Après le diagnostic, l'élève peut travailler les chapitres associés et suivre sa progression dans SprintMaths."
+            description="Les exercices type bac guidés permettent d'appliquer les méthodes étape par étape, puis le planning aide à organiser la suite."
+            sourcePage={pagePath}
+            primaryCta={{
+              href: "/exercices-type-bac-maths-terminale",
+              label: "Essayer un exercice type bac guidé",
+              eventName: "click_exercises",
+              eventParams: {
+                source_page: pagePath,
+                level: "terminale",
+                cta_location: "methods_seo_cta_typebac",
+              },
+            }}
+            secondaryCta={{
+              href: "/planning-revision-bac-maths",
+              label: "Recevoir le planning Bac Maths 2027",
+              eventName: "click_lead_magnet_planning",
+              eventParams: {
+                source_page: pagePath,
+                lead_magnet: "planning_bac_maths_2027",
+                level: "terminale",
+                cta_location: "methods_seo_cta_planning",
+              },
+              variant: "outline",
+            }}
           />
           <InternalLinks currentPath={pagePath} />
         </div>

@@ -181,7 +181,7 @@ function ResultContent() {
 
               <div>
                 <h3 className="font-semibold text-slate-900 mb-3 flex items-center gap-2">
-                  <BrainCircuit className="w-5 h-5 text-blue-600" /> Points d'attention identifiés
+                  <BrainCircuit className="w-5 h-5 text-blue-600" /> Points d&apos;attention identifiés
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {selectedDiffs.length > 0 ? (
@@ -213,7 +213,7 @@ function ResultContent() {
 
         <div className="bg-white rounded-2xl p-8 border shadow-sm text-center mb-12 relative overflow-hidden">
           <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-600 to-violet-600"></div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Passez à l'action aujourd'hui</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Passez à l&apos;action aujourd&apos;hui</h2>
           <div className="flex items-baseline justify-center gap-2 mb-6">
             <span className="text-4xl font-extrabold text-slate-900">{BAC_2026_OFFER_PRICE}€</span>
             <span className="text-lg font-bold text-slate-400 line-through">{PACK_REVISION_EXPRESS_PRICE}€</span>
@@ -226,7 +226,7 @@ function ResultContent() {
           <ul className="space-y-3 mb-8 text-left max-w-sm mx-auto">
             <li className="flex items-center gap-3">
               <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
-              <span className="text-slate-700">Accès complet jusqu'au jour de l'examen</span>
+              <span className="text-slate-700">Accès complet jusqu&apos;au jour de l&apos;examen</span>
             </li>
             <li className="flex items-center gap-3">
               <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
@@ -260,7 +260,7 @@ function ResultContent() {
                   }}
                 >
                   <Button size="lg" className="w-full text-lg h-14 shadow-lg bg-blue-600 hover:bg-blue-700 text-white">
-                    Profiter de l'offre à {BAC_2026_OFFER_PRICE} €
+                    Profiter de l&apos;offre à {BAC_2026_OFFER_PRICE} €
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                 </TrackedLink>
@@ -291,7 +291,7 @@ function ResultContent() {
             </Link>
             <div className="pt-4 mt-4 border-t border-slate-100">
               <Link href="/acces" className="text-sm font-medium text-slate-500 hover:text-slate-800 underline underline-offset-4">
-                J'ai déjà réservé mon accès
+                J&apos;ai déjà réservé mon accès
               </Link>
             </div>
           </div>

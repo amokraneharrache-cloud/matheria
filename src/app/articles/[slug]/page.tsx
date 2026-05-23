@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowRight, BookOpen } from "lucide-react";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
+import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { articles, getArticleBySlug } from "@/data/articles";
 import { absoluteUrl } from "@/lib/site";
 import { breadcrumbJsonLd } from "@/lib/seo";
@@ -57,18 +58,19 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound();
   }
 
+  const pagePath = `/articles/${article.slug}`;
   const relatedArticles = articles
     .filter((item) => item.slug !== article.slug && item.category === article.category)
     .slice(0, 3);
 
   return (
-    <SeoPageLayout urgencySourcePage={`/articles/${article.slug}`}>
+    <SeoPageLayout urgencySourcePage={pagePath}>
       <JsonLd
         data={[
           breadcrumbJsonLd([
             { name: "Accueil", path: "/" },
             { name: "Articles", path: "/articles" },
-            { name: article.title, path: `/articles/${article.slug}` },
+            { name: article.title, path: pagePath },
           ]),
         ]}
       />
@@ -128,22 +130,37 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <section className="rounded-2xl bg-blue-950 p-6 text-white">
                 <h2 className="text-2xl font-bold">Travailler ces méthodes dans SprintMaths</h2>
                 <p className="mt-3 text-blue-100">
-                  Le Mode Bac Terminale propose des exercices guidés, des fiches méthodes et une note indicative /20 pour repérer les chapitres à retravailler.
+                  Le planning gratuit aide à organiser les chapitres, puis les
+                  exercices type bac guidés permettent d&apos;appliquer la méthode
+                  étape par étape.
                 </p>
                 <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                  <Link
-                    href="/bac-maths-terminale-2026"
+                  <TrackedLink
+                    href="/planning-revision-bac-maths"
+                    eventName="click_lead_magnet_planning"
+                    eventParams={{
+                      source_page: pagePath,
+                      lead_magnet: "planning_bac_maths_2027",
+                      level: "terminale",
+                      cta_location: "article_planning_cta",
+                    }}
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 font-bold text-blue-950 hover:bg-blue-50"
                   >
-                    Commencer ma révision Bac 2026
+                    Recevoir le planning Bac Maths 2027
                     <ArrowRight className="h-4 w-4" />
-                  </Link>
-                  <Link
-                    href="/diagnostic"
+                  </TrackedLink>
+                  <TrackedLink
+                    href="/exercices-type-bac-maths-terminale"
+                    eventName="click_exercises"
+                    eventParams={{
+                      source_page: pagePath,
+                      level: "terminale",
+                      cta_location: "article_typebac_cta",
+                    }}
                     className="inline-flex items-center justify-center rounded-full border border-blue-200 px-5 py-3 font-bold text-white hover:bg-blue-900"
                   >
-                    Faire le diagnostic
-                  </Link>
+                    Essayer un exercice type bac guidé
+                  </TrackedLink>
                 </div>
               </section>
             </div>
@@ -168,15 +185,23 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               <section className="rounded-2xl border border-blue-100 bg-blue-50 p-5">
                 <h2 className="text-xl font-bold text-blue-950">Réviser avec un plan</h2>
                 <p className="mt-2 text-sm text-blue-900">
-                  Commence par un diagnostic, puis cible les chapitres prioritaires avec des sessions courtes.
+                  Commence par un planning clair, puis cible les chapitres avec
+                  des exercices guidés.
                 </p>
-                <Link
-                  href="/diagnostic"
+                <TrackedLink
+                  href="/planning-revision-bac-maths"
+                  eventName="click_lead_magnet_planning"
+                  eventParams={{
+                    source_page: pagePath,
+                    lead_magnet: "planning_bac_maths_2027",
+                    level: "terminale",
+                    cta_location: "article_sidebar_planning",
+                  }}
                   className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-blue-950 hover:underline"
                 >
-                  Lancer le diagnostic
+                  Recevoir le planning
                   <ArrowRight className="h-4 w-4" />
-                </Link>
+                </TrackedLink>
               </section>
             </aside>
           </div>

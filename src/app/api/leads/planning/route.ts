@@ -67,6 +67,22 @@ function isRateLimited(clientKey: string) {
   return false;
 }
 
+function getErrorLogDetails(error: unknown) {
+  if (!error || typeof error !== "object") {
+    return {
+      errorName: "Error",
+      message: "Unknown error",
+    };
+  }
+
+  const record = error as Record<string, unknown>;
+  return {
+    errorName: typeof record.name === "string" ? record.name : "Error",
+    statusCode: typeof record.statusCode === "number" ? record.statusCode : undefined,
+    message: typeof record.message === "string" ? record.message : "Unknown error",
+  };
+}
+
 async function savePlanningLead(email: string, sourcePage: string) {
   const supabaseAdmin = getSupabaseAdmin();
   const leadRow = {
@@ -153,19 +169,20 @@ export async function POST(request: Request) {
     let emailSkippedReason: string | undefined;
 
     if (isResendEmailConfigured()) {
-      const emailResult = await sendPlanningRevisionEmail({
-        to: email,
-        siteUrl: absoluteUrl("/"),
-      });
-
-      emailSent = !emailResult.error;
-
-      if (emailResult.error) {
-        console.error("Resend planning email failed:", {
-          errorName: emailResult.error.name,
-          statusCode: emailResult.error.statusCode,
-          message: emailResult.error.message,
+      try {
+        const emailResult = await sendPlanningRevisionEmail({
+          to: email,
+          siteUrl: absoluteUrl("/"),
         });
+
+        emailSent = !emailResult.error;
+
+        if (emailResult.error) {
+          console.error("Resend planning email failed:", getErrorLogDetails(emailResult.error));
+          emailSkippedReason = "resend_send_failed";
+        }
+      } catch (error) {
+        console.error("Resend planning email failed:", getErrorLogDetails(error));
         emailSkippedReason = "resend_send_failed";
       }
     } else {
@@ -179,7 +196,7 @@ export async function POST(request: Request) {
       ...saveResult,
     });
   } catch (error) {
-    console.error("Planning lead request failed:", error);
+    console.error("Planning lead request failed:", getErrorLogDetails(error));
     return Response.json(
       {
         success: false,

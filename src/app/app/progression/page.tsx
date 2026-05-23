@@ -1,5 +1,6 @@
 "use client";
 
+import type { SVGProps } from "react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -40,7 +41,6 @@ export default function ProgressionPage() {
   const [topicStats, setTopicStats] = useState<{label: string, sessions: number, avg: number}[]>([]);
   const [bacMockStats, setBacMockStats] = useState<BacMockExamStats | null>(null);
   const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
     const storedProfile = getStorageItem("studentProfile");
@@ -49,7 +49,6 @@ export default function ProgressionPage() {
       return;
     }
     const parsedProfile = JSON.parse(storedProfile);
-    setProfile(parsedProfile);
 
     const historyStr = getStorageItem("sessionHistory");
     if (historyStr) {
@@ -98,7 +97,7 @@ export default function ProgressionPage() {
           tStats.sort((a, b) => a.avg - b.avg);
           setTopicStats(tStats);
         }
-      } catch (e) {}
+      } catch {}
     }
 
     const bacMockHistoryStr = getStorageItem("bacMockExamHistory");
@@ -120,7 +119,7 @@ export default function ProgressionPage() {
             averageScore: Math.round((scoreSum / validHistory.length) * 10) / 10,
           });
         }
-      } catch (e) {}
+      } catch {}
     }
 
     setLoading(false);
@@ -139,7 +138,7 @@ export default function ProgressionPage() {
         </div>
         <h1 className="text-2xl font-bold text-slate-800 mb-2">Aucune donnée</h1>
         <p className="text-slate-600 mb-8">
-          Ta progression s'affichera ici dès que tu auras terminé ta première session de révision.
+          Ta progression s&apos;affichera ici dès que tu auras terminé ta première session de révision.
         </p>
         <Link 
           href="/app/session"
@@ -151,7 +150,7 @@ export default function ProgressionPage() {
         
         <div className="mt-4">
           <Link href="/app" className="text-slate-500 text-sm hover:underline">
-            Retour à l'accueil
+            Retour à l&apos;accueil
           </Link>
         </div>
       </div>
@@ -274,7 +273,7 @@ function formatScore20(score: number) {
   return `${formatted}/20`;
 }
 
-function CalendarCheckIcon(props: any) {
+function CalendarCheckIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/>
@@ -283,7 +282,7 @@ function CalendarCheckIcon(props: any) {
 }
 
 // Simple Icon fallback
-function LineChartIcon(props: any) {
+function LineChartIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 3v18h18" />

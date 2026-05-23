@@ -103,7 +103,7 @@ const afterPlanning = [
   {
     title: "Essayer les exercices guidés",
     text: "S'entraîner sur des exercices type bac avec des étapes.",
-    href: "/exercices-maths-terminale",
+    href: "/exercices-type-bac-maths-terminale",
   },
   {
     title: "Débloquer le Pack si besoin",
@@ -165,6 +165,10 @@ const planningWeeks = [
 const internalLinks = [
   { href: "/bac-maths-2027", label: "Pack Révision Express Bac Maths 2027" },
   { href: "/diagnostic", label: "Diagnostic gratuit" },
+  {
+    href: "/exercices-type-bac-maths-terminale",
+    label: "Exercices type bac guidés",
+  },
   { href: "/exercices-maths-terminale", label: "Exercices maths Terminale" },
   { href: "/methodes-maths-terminale", label: "Méthodes maths Terminale" },
   { href: "/programme-maths-terminale", label: "Programme maths Terminale" },

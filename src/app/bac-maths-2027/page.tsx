@@ -230,8 +230,8 @@ export default function BacMaths2027Page() {
                 </Button>
               </TrackedLink>
               <TrackedLink
-                href="/exercices-maths-terminale"
-                eventName="click_bac2027_exercises"
+                href="/exercices-type-bac-maths-terminale"
+                eventName="click_exercises"
                 eventParams={{
                   ...baseEventParams,
                   cta_location: "bac2027_hero_secondary",
@@ -239,7 +239,7 @@ export default function BacMaths2027Page() {
                 className="w-full sm:w-auto"
               >
                 <Button variant="outline" size="lg" className="w-full px-4 text-base sm:w-auto sm:px-8 sm:text-lg">
-                  Voir les exercices type bac
+                  Essayer un exercice type bac guidé
                 </Button>
               </TrackedLink>
               <TrackedLink
@@ -685,8 +685,8 @@ export default function BacMaths2027Page() {
                 </Button>
               </TrackedLink>
               <TrackedLink
-                href="/exercices-maths-terminale"
-                eventName="click_bac2027_exercises"
+                href="/exercices-type-bac-maths-terminale"
+                eventName="click_exercises"
                 eventParams={{
                   ...baseEventParams,
                   cta_location: "bac2027_final_secondary",
@@ -694,7 +694,7 @@ export default function BacMaths2027Page() {
                 className="w-full sm:w-auto"
               >
                 <Button variant="outline" size="lg" className="w-full px-4 text-base sm:w-auto sm:px-8 sm:text-lg">
-                  Voir les exercices type bac
+                  Essayer un exercice type bac guidé
                 </Button>
               </TrackedLink>
             </div>
