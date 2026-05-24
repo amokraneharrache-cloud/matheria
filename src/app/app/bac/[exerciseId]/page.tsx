@@ -1,37 +1,39 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useMemo, useState, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, XCircle, ChevronRight, RefreshCw, BookOpen, Target, FileText } from "lucide-react";
-import { guidedExercises, GuidedExercise } from "@/data/guidedExercises";
+import { guidedExercises } from "@/data/guidedExercises";
 import { getStorageItem, setStorageItem } from "@/lib/storageKeys";
+import { useStorageItemValue } from "@/lib/useStorageItemValue";
 
 export default function GuidedExercisePage({ params }: { params: Promise<{ exerciseId: string }> }) {
   const router = useRouter();
   const { exerciseId } = use(params);
-  const [exercise, setExercise] = useState<GuidedExercise | null>(null);
+  const storedProfile = useStorageItemValue("studentProfile");
+  const exercise = useMemo(
+    () => guidedExercises.find((ex) => ex.id === exerciseId) ?? null,
+    [exerciseId],
+  );
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedProfile = getStorageItem("studentProfile");
-    if (!storedProfile) {
+    if (storedProfile === undefined) {
+      return;
+    }
+    if (storedProfile === null) {
       router.push("/merci");
       return;
     }
-    const found = guidedExercises.find((ex) => ex.id === exerciseId);
-    if (!found) {
+    if (!exercise) {
       router.push("/app/bac");
-      return;
     }
-    setExercise(found);
-    setLoading(false);
-  }, [exerciseId, router]);
+  }, [exercise, router, storedProfile]);
 
   const handleOptionClick = (index: number) => {
     if (isAnswered) return;
@@ -87,7 +89,8 @@ export default function GuidedExercisePage({ params }: { params: Promise<{ exerc
     setIsFinished(false);
   };
 
-  if (loading) return <div className="text-center mt-20 text-slate-500">Chargement de l&apos;exercice...</div>;
+  if (storedProfile === undefined) return <div className="text-center mt-20 text-slate-500">Chargement de l&apos;exercice...</div>;
+  if (storedProfile === null) return <div className="text-center mt-20 text-slate-500">Chargement de l&apos;exercice...</div>;
   if (!exercise) return null;
 
   if (isFinished) {

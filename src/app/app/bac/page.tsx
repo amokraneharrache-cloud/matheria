@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Clock, BarChart2, Play, FileText, Target } from "lucide-react";
 import type { ExamGoal } from "@/data/questions";
 import { guidedExercises } from "@/data/guidedExercises";
 import { mockBacSubjects } from "@/data/mockBacSubjects";
-import { getStorageItem } from "@/lib/storageKeys";
+import { parseStoredJson, useStorageItemValue } from "@/lib/useStorageItemValue";
 
 type StudentProfile = {
   examGoal: ExamGoal;
@@ -15,20 +15,19 @@ type StudentProfile = {
 
 export default function BacModePage() {
   const router = useRouter();
-  const [profile, setProfile] = useState<StudentProfile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const storedProfile = useStorageItemValue("studentProfile");
+  const profile = useMemo(
+    () => parseStoredJson<StudentProfile>(storedProfile),
+    [storedProfile],
+  );
 
   useEffect(() => {
-    const storedProfile = getStorageItem("studentProfile");
-    if (!storedProfile) {
+    if (storedProfile !== undefined && !profile) {
       router.push("/merci");
-      return;
     }
-    setProfile(JSON.parse(storedProfile) as StudentProfile);
-    setLoading(false);
-  }, [router]);
+  }, [profile, router, storedProfile]);
 
-  if (loading) return <div className="text-center mt-20 text-slate-500">Chargement du Mode Bac...</div>;
+  if (!profile) return <div className="text-center mt-20 text-slate-500">Chargement du Mode Bac...</div>;
 
   // Not terminale case
   if (profile?.examGoal !== "terminale") {

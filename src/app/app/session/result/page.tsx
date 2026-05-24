@@ -1,23 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Award, Target, Home, RotateCcw, BookOpen, AlertCircle, CalendarCheck } from "lucide-react";
-import { getStorageItem } from "@/lib/storageKeys";
+import { parseStoredJson, useStorageItemValue } from "@/lib/useStorageItemValue";
+
+type SessionResult = {
+  score: number;
+  totalQuestions: number;
+  topics: string[];
+};
 
 export default function SessionResultPage() {
   const router = useRouter();
-  const [result, setResult] = useState<{score: number, totalQuestions: number, topics: string[]} | null>(null);
+  const storedResult = useStorageItemValue("lastSessionResult");
+  const result = useMemo(
+    () => parseStoredJson<SessionResult>(storedResult),
+    [storedResult],
+  );
 
   useEffect(() => {
-    const storedResult = getStorageItem("lastSessionResult");
-    if (!storedResult) {
+    if (storedResult !== undefined && !result) {
       router.push("/app");
-    } else {
-      setResult(JSON.parse(storedResult));
     }
-  }, [router]);
+  }, [result, router, storedResult]);
 
   if (!result) return null;
 

@@ -1,12 +1,16 @@
 "use client";
 
 import type { SVGProps } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Target, Trophy, Flame, PlayCircle, Award } from "lucide-react";
-import { getAvailableTopics } from "@/data/questions";
-import { getStorageItem } from "@/lib/storageKeys";
+import { getAvailableTopics, type ExamGoal } from "@/data/questions";
+import { parseStoredJson, useStorageItemValue } from "@/lib/useStorageItemValue";
+
+type StudentProfile = {
+  examGoal: ExamGoal;
+};
 
 type SessionHistory = {
   date: string;
@@ -36,96 +40,91 @@ type BacMockExamStats = {
 
 export default function ProgressionPage() {
   const router = useRouter();
-  const [history, setHistory] = useState<SessionHistory[]>([]);
-  const [stats, setStats] = useState({ totalSessions: 0, avgScore: 0, bestScore: 0 });
-  const [topicStats, setTopicStats] = useState<{label: string, sessions: number, avg: number}[]>([]);
-  const [bacMockStats, setBacMockStats] = useState<BacMockExamStats | null>(null);
-  const [loading, setLoading] = useState(true);
+  const storedProfile = useStorageItemValue("studentProfile");
+  const storedHistory = useStorageItemValue("sessionHistory");
+  const storedBacMockHistory = useStorageItemValue("bacMockExamHistory");
+  const profile = useMemo(
+    () => parseStoredJson<StudentProfile>(storedProfile),
+    [storedProfile],
+  );
 
   useEffect(() => {
-    const storedProfile = getStorageItem("studentProfile");
-    if (!storedProfile) {
+    if (storedProfile !== undefined && !profile) {
       router.push("/merci");
-      return;
     }
-    const parsedProfile = JSON.parse(storedProfile);
+  }, [profile, router, storedProfile]);
 
-    const historyStr = getStorageItem("sessionHistory");
-    if (historyStr) {
-      try {
-        const fullHistory: SessionHistory[] = JSON.parse(historyStr);
-        // Filter for current goal
-        const relevantHistory = fullHistory.filter(h => h.examGoal === parsedProfile.examGoal);
-        setHistory(relevantHistory);
+  const { bacMockStats, history, stats, topicStats } = useMemo(() => {
+    const fullHistory = parseStoredJson<SessionHistory[]>(storedHistory);
+    const relevantHistory =
+      profile && Array.isArray(fullHistory)
+        ? fullHistory.filter(h => h.examGoal === profile.examGoal)
+        : [];
+    const computedStats = { totalSessions: 0, avgScore: 0, bestScore: 0 };
+    const computedTopicStats: {label: string, sessions: number, avg: number}[] = [];
 
-        if (relevantHistory.length > 0) {
-          const sumScores = relevantHistory.reduce((acc, curr) => acc + curr.score, 0);
-          const sumTotal = relevantHistory.reduce((acc, curr) => acc + curr.totalQuestions, 0);
-          const avg = Math.round((sumScores / sumTotal) * 100);
-          
-          let best = 0;
-          relevantHistory.forEach(h => {
-            const pct = (h.score / h.totalQuestions) * 100;
-            if (pct > best) best = pct;
-          });
+    if (profile && relevantHistory.length > 0) {
+      const sumScores = relevantHistory.reduce((acc, curr) => acc + curr.score, 0);
+      const sumTotal = relevantHistory.reduce((acc, curr) => acc + curr.totalQuestions, 0);
+      let best = 0;
+      relevantHistory.forEach(h => {
+        const pct = (h.score / h.totalQuestions) * 100;
+        if (pct > best) best = pct;
+      });
 
-          setStats({
-            totalSessions: relevantHistory.length,
-            avgScore: avg,
-            bestScore: Math.round(best)
-          });
+      computedStats.totalSessions = relevantHistory.length;
+      computedStats.avgScore = Math.round((sumScores / sumTotal) * 100);
+      computedStats.bestScore = Math.round(best);
 
-          // Topic stats
-          const available = getAvailableTopics(parsedProfile.examGoal);
-          const tStats: {label: string, sessions: number, avg: number}[] = [];
-          
-          available.forEach(t => {
-            // Find sessions focused on this topic
-            const tSessions = relevantHistory.filter(h => h.topics.length === 1 && h.topics[0] === t.topic);
-            if (tSessions.length > 0) {
-              const tSum = tSessions.reduce((a, c) => a + c.score, 0);
-              const tTot = tSessions.reduce((a, c) => a + c.totalQuestions, 0);
-              tStats.push({
-                label: t.label,
-                sessions: tSessions.length,
-                avg: Math.round((tSum / tTot) * 100)
-              });
-            }
-          });
-
-          // Sort by lowest score to show weaknesses first
-          tStats.sort((a, b) => a.avg - b.avg);
-          setTopicStats(tStats);
-        }
-      } catch {}
-    }
-
-    const bacMockHistoryStr = getStorageItem("bacMockExamHistory");
-    if (bacMockHistoryStr) {
-      try {
-        const parsed: BacMockExamHistory[] = JSON.parse(bacMockHistoryStr);
-        const validHistory = Array.isArray(parsed)
-          ? parsed
-              .filter((entry) => Number.isFinite(entry.score20))
-              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-          : [];
-
-        if (validHistory.length > 0) {
-          const scoreSum = validHistory.reduce((sum, entry) => sum + entry.score20, 0);
-          setBacMockStats({
-            count: validHistory.length,
-            lastScore: validHistory[0].score20,
-            bestScore: Math.max(...validHistory.map((entry) => entry.score20)),
-            averageScore: Math.round((scoreSum / validHistory.length) * 10) / 10,
+      const available = getAvailableTopics(profile.examGoal);
+      available.forEach(t => {
+        // Find sessions focused on this topic
+        const tSessions = relevantHistory.filter(h => h.topics.length === 1 && h.topics[0] === t.topic);
+        if (tSessions.length > 0) {
+          const tSum = tSessions.reduce((a, c) => a + c.score, 0);
+          const tTot = tSessions.reduce((a, c) => a + c.totalQuestions, 0);
+          computedTopicStats.push({
+            label: t.label,
+            sessions: tSessions.length,
+            avg: Math.round((tSum / tTot) * 100)
           });
         }
-      } catch {}
+      });
+
+      // Sort by lowest score to show weaknesses first
+      computedTopicStats.sort((a, b) => a.avg - b.avg);
     }
 
-    setLoading(false);
-  }, [router]);
+    const parsedBacMockHistory = parseStoredJson<BacMockExamHistory[]>(storedBacMockHistory);
+    const validBacMockHistory = Array.isArray(parsedBacMockHistory)
+      ? parsedBacMockHistory
+          .filter((entry) => Number.isFinite(entry.score20))
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      : [];
+    const computedBacMockStats: BacMockExamStats | null =
+      validBacMockHistory.length > 0
+        ? {
+            count: validBacMockHistory.length,
+            lastScore: validBacMockHistory[0].score20,
+            bestScore: Math.max(...validBacMockHistory.map((entry) => entry.score20)),
+            averageScore:
+              Math.round(
+                (validBacMockHistory.reduce((sum, entry) => sum + entry.score20, 0) /
+                  validBacMockHistory.length) *
+                  10,
+              ) / 10,
+          }
+        : null;
 
-  if (loading) {
+    return {
+      bacMockStats: computedBacMockStats,
+      history: relevantHistory,
+      stats: computedStats,
+      topicStats: computedTopicStats,
+    };
+  }, [profile, storedBacMockHistory, storedHistory]);
+
+  if (!profile) {
     return <div className="text-center mt-20 text-slate-500">Chargement de la progression...</div>;
   }
 

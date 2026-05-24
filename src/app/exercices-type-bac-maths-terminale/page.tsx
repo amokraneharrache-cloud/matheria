@@ -199,7 +199,7 @@ export default function ExercicesTypeBacMathsTerminalePage() {
 
       <section className="relative overflow-hidden bg-slate-950 px-4 py-14 text-white sm:py-16">
         <Image
-          src="/images/screenshots/bac-2026-guided-exercise.png"
+          src="/images/screenshots/sprintmaths-guided-exercise.png"
           alt="Capture mobile SprintMaths montrant un exercice guidé type bac étape par étape."
           width={390}
           height={844}
@@ -266,7 +266,7 @@ export default function ExercicesTypeBacMathsTerminalePage() {
 
           <div className="mt-8 max-w-[260px] md:hidden">
             <Image
-              src="/images/screenshots/bac-2026-guided-exercise.png"
+              src="/images/screenshots/sprintmaths-guided-exercise.png"
               alt="Aperçu mobile d'un exercice guidé SprintMaths."
               width={390}
               height={844}

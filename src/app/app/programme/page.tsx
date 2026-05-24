@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, Target, CalendarCheck } from "lucide-react";
 import { getProgram, Program, ProgramGoal } from "@/data/programs";
-import { getStorageItem } from "@/lib/storageKeys";
+import { parseStoredJson, useStorageItemValue } from "@/lib/useStorageItemValue";
 
 type StudentProfile = {
   examGoal: ProgramGoal;
@@ -13,23 +13,20 @@ type StudentProfile = {
 
 export default function ProgrammePage() {
   const router = useRouter();
-  const [profile, setProfile] = useState<StudentProfile | null>(null);
-  const [program, setProgram] = useState<Program | null>(null);
-  const [loading, setLoading] = useState(true);
+  const storedProfile = useStorageItemValue("studentProfile");
+  const profile = useMemo(
+    () => parseStoredJson<StudentProfile>(storedProfile),
+    [storedProfile],
+  );
+  const program: Program | null = profile ? getProgram(profile.examGoal) || null : null;
 
   useEffect(() => {
-    const storedProfile = getStorageItem("studentProfile");
-    if (!storedProfile) {
+    if (storedProfile !== undefined && !profile) {
       router.push("/merci");
-      return;
     }
-    const p = JSON.parse(storedProfile) as StudentProfile;
-    setProfile(p);
-    setProgram(getProgram(p.examGoal) || null);
-    setLoading(false);
-  }, [router]);
+  }, [profile, router, storedProfile]);
 
-  if (loading) return <div className="text-center mt-20 text-slate-500">Chargement du programme...</div>;
+  if (!profile) return <div className="text-center mt-20 text-slate-500">Chargement du programme...</div>;
 
   if (!program) return <div className="text-center mt-20 text-slate-500">Programme introuvable pour cet objectif.</div>;
 

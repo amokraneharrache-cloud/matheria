@@ -137,7 +137,7 @@ export default function DiagnosticPage() {
         level,
       });
       router.push(`/diagnostic/resultat?${query.toString()}`);
-    } catch (err) {
+    } catch {
       setError("Une erreur s'est produite. Veuillez réessayer.");
       setIsSubmitting(false);
     }

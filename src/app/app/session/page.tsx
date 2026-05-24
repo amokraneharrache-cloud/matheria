@@ -1,19 +1,30 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useMemo, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getQuestionsByExamGoal, getQuestionsByTopic, pickRandomQuestions, Question } from "@/data/questions";
+import { getQuestionsByExamGoal, getQuestionsByTopic, pickRandomQuestions, Question, type ExamGoal } from "@/data/questions";
 import { savePracticeSession } from "@/actions/beta";
 import { getStorageItem, setStorageItem } from "@/lib/storageKeys";
+import { parseStoredJson, useStorageItemValue } from "@/lib/useStorageItemValue";
 import { CheckCircle2, XCircle, ArrowRight } from "lucide-react";
+
+type StudentProfile = {
+  betaAccessId: string;
+  parentEmail: string;
+  studentPseudo: string;
+  examGoal: ExamGoal;
+};
 
 function SessionContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const requestedTopic = searchParams.get("topic");
+  const storedProfile = useStorageItemValue("studentProfile");
+  const profile = useMemo(
+    () => parseStoredJson<StudentProfile>(storedProfile),
+    [storedProfile],
+  );
 
-  const [profile, setProfile] = useState<any>(null);
-  const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
@@ -21,25 +32,25 @@ function SessionContent() {
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    const storedProfile = getStorageItem("studentProfile");
-    if (!storedProfile) {
+    if (storedProfile !== undefined && !profile) {
       router.push("/merci");
-      return;
     }
-    const parsedProfile = JSON.parse(storedProfile);
-    setProfile(parsedProfile);
+  }, [profile, router, storedProfile]);
 
+  const sessionQuestions = useMemo(() => {
+    if (!profile) {
+      return [];
+    }
     // Filter questions based on mode (topic or global)
     let sourceQuestions: Question[] = [];
     if (requestedTopic) {
-      sourceQuestions = getQuestionsByTopic(parsedProfile.examGoal, requestedTopic);
+      sourceQuestions = getQuestionsByTopic(profile.examGoal, requestedTopic);
     } else {
-      sourceQuestions = getQuestionsByExamGoal(parsedProfile.examGoal);
+      sourceQuestions = getQuestionsByExamGoal(profile.examGoal);
     }
 
-    const selected = pickRandomQuestions(sourceQuestions, 5);
-    setSessionQuestions(selected);
-  }, [router, requestedTopic]);
+    return pickRandomQuestions(sourceQuestions, 5);
+  }, [profile, requestedTopic]);
 
   if (!profile || sessionQuestions.length === 0) {
     return <div className="text-center mt-20 text-slate-500">Préparation de ta session...</div>;

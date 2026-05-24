@@ -1,47 +1,59 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { BookOpen, ArrowLeft, Target, PlayCircle } from "lucide-react";
-import { getAvailableTopics } from "@/data/questions";
+import { getAvailableTopics, type ExamGoal } from "@/data/questions";
 import { getProgram } from "@/data/programs";
-import { getStorageItem } from "@/lib/storageKeys";
+import { parseStoredJson, useStorageItemValue } from "@/lib/useStorageItemValue";
+
+type StudentProfile = {
+  examGoal: ExamGoal;
+};
+
+type SessionHistory = {
+  examGoal: ExamGoal;
+  score: number;
+  totalQuestions: number;
+  topics: string[];
+};
 
 export default function ChapitresPage() {
   const router = useRouter();
-  const [topics, setTopics] = useState<{ topic: string; label: string; count: number; avgScore: number | null; priority: string }[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [goalLabel, setGoalLabel] = useState("");
+  const storedProfile = useStorageItemValue("studentProfile");
+  const storedHistory = useStorageItemValue("sessionHistory");
+  const profile = useMemo(
+    () => parseStoredJson<StudentProfile>(storedProfile),
+    [storedProfile],
+  );
 
   useEffect(() => {
-    const storedProfile = getStorageItem("studentProfile");
-    if (!storedProfile) {
+    if (storedProfile !== undefined && !profile) {
       router.push("/merci");
-      return;
     }
-    const profile = JSON.parse(storedProfile);
-    
-    setGoalLabel(
-      profile.examGoal === "brevet" ? "Brevet" : 
-      profile.examGoal === "terminale" ? "Bac Terminale" : 
-      "Bac Première"
-    );
+  }, [profile, router, storedProfile]);
+
+  const goalLabel = profile
+    ? profile.examGoal === "brevet"
+      ? "Brevet"
+      : profile.examGoal === "terminale"
+        ? "Bac Terminale"
+        : "Bac Première"
+    : "";
+
+  const topics = useMemo(() => {
+    if (!profile) {
+      return [];
+    }
 
     const program = getProgram(profile.examGoal);
     const available = getAvailableTopics(profile.examGoal);
-    
-    // Enrich with history if available
-    const historyStr = getStorageItem("sessionHistory");
-    let history: any[] = [];
-    if (historyStr) {
-      try {
-        history = JSON.parse(historyStr);
-      } catch (e) {}
-    }
+    const parsedHistory = parseStoredJson<SessionHistory[]>(storedHistory);
+    const history = Array.isArray(parsedHistory) ? parsedHistory : [];
 
     if (program) {
-      const enriched = program.topics.map(t => {
+      return program.topics.map(t => {
         // Find if we have questions for this topic
         const availableData = available.find(a => a.topic === t.id);
         const count = availableData ? availableData.count : 0;
@@ -68,15 +80,12 @@ export default function ChapitresPage() {
           avgScore
         };
       });
-
-      setTopics(enriched);
-    } else {
-      setTopics([]);
     }
-    setLoading(false);
-  }, [router]);
 
-  if (loading) {
+    return [];
+  }, [profile, storedHistory]);
+
+  if (!profile) {
     return <div className="text-center mt-20 text-slate-500">Chargement des chapitres...</div>;
   }
 

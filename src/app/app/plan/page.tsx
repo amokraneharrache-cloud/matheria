@@ -1,60 +1,67 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Clock, AlertTriangle, CheckCircle2, PlayCircle, BookOpen, Sparkles, Target } from "lucide-react";
 import { getPlan, PlanDuration, RevisionPlan, RevisionTask } from "@/data/revisionPlans";
 import { getAvailableTopics, ExamGoal } from "@/data/questions";
-import { getStorageItem } from "@/lib/storageKeys";
+import { parseStoredJson, useStorageItemValue } from "@/lib/useStorageItemValue";
 
 type TopicScore = { topic: string; label: string; avg: number; status: "weak" | "ok" | "mastered" };
 
-function computeTopicScores(examGoal: ExamGoal): TopicScore[] {
-  const historyStr = getStorageItem("sessionHistory");
-  if (!historyStr) return [];
-  try {
-    const history = JSON.parse(historyStr);
-    const available = getAvailableTopics(examGoal);
-    const scores: TopicScore[] = [];
-    available.forEach(t => {
-      const tSessions = history.filter((h: any) => h.examGoal === examGoal && h.topics.length === 1 && h.topics[0] === t.topic);
-      if (tSessions.length > 0) {
-        const sum = tSessions.reduce((a: number, c: any) => a + c.score, 0);
-        const tot = tSessions.reduce((a: number, c: any) => a + c.totalQuestions, 0);
-        const avg = Math.round((sum / tot) * 100);
-        scores.push({ topic: t.topic, label: t.label, avg, status: avg < 60 ? "weak" : avg > 80 ? "mastered" : "ok" });
-      }
-    });
-    scores.sort((a, b) => a.avg - b.avg);
-    return scores;
-  } catch { return []; }
+type StudentProfile = {
+  examGoal: ExamGoal;
+};
+
+type SessionHistory = {
+  examGoal: ExamGoal;
+  score: number;
+  totalQuestions: number;
+  topics: string[];
+};
+
+function computeTopicScores(examGoal: ExamGoal, history: SessionHistory[]): TopicScore[] {
+  const available = getAvailableTopics(examGoal);
+  const scores: TopicScore[] = [];
+  available.forEach(t => {
+    const tSessions = history.filter((h) => h.examGoal === examGoal && h.topics.length === 1 && h.topics[0] === t.topic);
+    if (tSessions.length > 0) {
+      const sum = tSessions.reduce((a, c) => a + c.score, 0);
+      const tot = tSessions.reduce((a, c) => a + c.totalQuestions, 0);
+      const avg = Math.round((sum / tot) * 100);
+      scores.push({ topic: t.topic, label: t.label, avg, status: avg < 60 ? "weak" : avg > 80 ? "mastered" : "ok" });
+    }
+  });
+  scores.sort((a, b) => a.avg - b.avg);
+  return scores;
 }
 
 export default function PlanPage() {
   const router = useRouter();
-  const [profile, setProfile] = useState<any>(null);
+  const storedProfile = useStorageItemValue("studentProfile");
+  const storedHistory = useStorageItemValue("sessionHistory");
+  const profile = useMemo(
+    () => parseStoredJson<StudentProfile>(storedProfile),
+    [storedProfile],
+  );
+  const history = useMemo(
+    () => {
+      const parsed = parseStoredJson<SessionHistory[]>(storedHistory);
+      return Array.isArray(parsed) ? parsed : [];
+    },
+    [storedHistory],
+  );
   const [duration, setDuration] = useState<PlanDuration>("7-days");
-  const [plan, setPlan] = useState<RevisionPlan | null>(null);
-  const [topicScores, setTopicScores] = useState<TopicScore[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedProfile = getStorageItem("studentProfile");
-    if (!storedProfile) { router.push("/merci"); return; }
-    const p = JSON.parse(storedProfile);
-    setProfile(p);
-    setTopicScores(computeTopicScores(p.examGoal));
-    setLoading(false);
-  }, [router]);
+    if (storedProfile !== undefined && !profile) { router.push("/merci"); }
+  }, [profile, router, storedProfile]);
 
-  useEffect(() => {
-    if (!profile) return;
-    const p = getPlan(profile.examGoal, duration);
-    setPlan(p || null);
-  }, [profile, duration]);
+  const plan: RevisionPlan | null = profile ? getPlan(profile.examGoal, duration) || null : null;
+  const topicScores = profile ? computeTopicScores(profile.examGoal, history) : [];
 
-  if (loading || !profile) return <div className="text-center mt-20 text-slate-500">Chargement du plan...</div>;
+  if (!profile) return <div className="text-center mt-20 text-slate-500">Chargement du plan...</div>;
 
   const goalLabel = profile.examGoal === "brevet" ? "Brevet" : profile.examGoal === "terminale" ? "Bac Terminale" : "Bac Première";
   const weakTopics = topicScores.filter(t => t.status === "weak").slice(0, 3);

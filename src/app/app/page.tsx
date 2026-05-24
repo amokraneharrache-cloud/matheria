@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Play, BookOpen, LineChart, Target, CalendarCheck, Lightbulb } from "lucide-react";
 import { getAvailableTopics, ExamGoal } from "@/data/questions";
-import { getStorageItem } from "@/lib/storageKeys";
+import { parseStoredJson, useStorageItemValue } from "@/lib/useStorageItemValue";
 
 type StudentProfile = {
   studentPseudo: string;
@@ -20,89 +20,82 @@ type SessionHistory = {
   topics: string[];
 };
 
-function getWeakestTopic(examGoal: ExamGoal): string | null {
-  if (typeof window === "undefined") return null;
-  const historyStr = getStorageItem("sessionHistory");
-  if (!historyStr) return null;
-  try {
-    const history = JSON.parse(historyStr) as SessionHistory[];
-    const available = getAvailableTopics(examGoal);
-    let weakest: { label: string; avg: number } | null = null;
-    available.forEach(t => {
-      const tSessions = history.filter((h) => h.examGoal === examGoal && h.topics.length === 1 && h.topics[0] === t.topic);
-      if (tSessions.length > 0) {
-        const sum = tSessions.reduce((a, c) => a + c.score, 0);
-        const tot = tSessions.reduce((a, c) => a + c.totalQuestions, 0);
-        const avg = Math.round((sum / tot) * 100);
-        if (avg < 60 && (!weakest || avg < weakest.avg)) {
-          weakest = { label: t.label, avg };
-        }
+function getWeakestTopic(examGoal: ExamGoal, history: SessionHistory[]): string | null {
+  const available = getAvailableTopics(examGoal);
+  let weakest: { label: string; avg: number } | null = null;
+  available.forEach(t => {
+    const tSessions = history.filter((h) => h.examGoal === examGoal && h.topics.length === 1 && h.topics[0] === t.topic);
+    if (tSessions.length > 0) {
+      const sum = tSessions.reduce((a, c) => a + c.score, 0);
+      const tot = tSessions.reduce((a, c) => a + c.totalQuestions, 0);
+      const avg = Math.round((sum / tot) * 100);
+      if (avg < 60 && (!weakest || avg < weakest.avg)) {
+        weakest = { label: t.label, avg };
       }
-    });
-    return weakest ? (weakest as { label: string; avg: number }).label : null;
-  } catch { return null; }
+    }
+  });
+  return weakest ? (weakest as { label: string; avg: number }).label : null;
 }
 
 export default function AppDashboardPage() {
   const router = useRouter();
-  const [profile, setProfile] = useState<StudentProfile | null>(null);
-  const [stats, setStats] = useState({ sessions: 0, avgScore: 0, lastScore: null as number | null });
-  const [topicsCount, setTopicsCount] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [nextStepMessage, setNextStepMessage] = useState("");
+  const storedProfile = useStorageItemValue("studentProfile");
+  const storedHistory = useStorageItemValue("sessionHistory");
+  const profile = useMemo(
+    () => parseStoredJson<StudentProfile>(storedProfile),
+    [storedProfile],
+  );
+  const history = useMemo(
+    () => {
+      const parsed = parseStoredJson<SessionHistory[]>(storedHistory);
+      return Array.isArray(parsed) ? parsed : [];
+    },
+    [storedHistory],
+  );
 
   useEffect(() => {
-    const storedProfile = getStorageItem("studentProfile");
-    if (!storedProfile) {
+    if (storedProfile !== undefined && !profile) {
       router.push("/merci");
-      return;
     }
-    const parsedProfile = JSON.parse(storedProfile) as StudentProfile;
-    setProfile(parsedProfile);
+  }, [profile, router, storedProfile]);
 
-    // Calc topics
-    const available = getAvailableTopics(parsedProfile.examGoal);
-    setTopicsCount(available.length);
-
-    // Calc stats from history
-    const historyStr = getStorageItem("sessionHistory");
-    if (historyStr) {
-      try {
-        const history = JSON.parse(historyStr);
-        if (Array.isArray(history) && history.length > 0) {
-          // Filter history for current goal just in case they switched
-          const relevantHistory = history.filter((h) => h.examGoal === parsedProfile.examGoal);
-          if (relevantHistory.length > 0) {
-            const sumScores = relevantHistory.reduce((acc, curr) => acc + curr.score, 0);
-            const sumTotal = relevantHistory.reduce((acc, curr) => acc + curr.totalQuestions, 0);
-            const avg = Math.round((sumScores / sumTotal) * 100);
-            const last = relevantHistory[relevantHistory.length - 1].score;
-            setStats({
-              sessions: relevantHistory.length,
-              avgScore: avg,
-              lastScore: last
-            });
-          }
-        }
-      } catch (e) {
-        console.error("Error parsing history", e);
-      }
+  const { nextStepMessage, stats, topicsCount } = useMemo(() => {
+    if (!profile) {
+      return {
+        nextStepMessage: "",
+        stats: { sessions: 0, avgScore: 0, lastScore: null as number | null },
+        topicsCount: 0,
+      };
     }
 
-    // Next step
-    const weakLabel = getWeakestTopic(parsedProfile.examGoal);
-    if (!historyStr || historyStr === "[]") {
-      setNextStepMessage("Fais une session rapide pour commencer");
-    } else if (weakLabel) {
-      setNextStepMessage(`Travaille ${weakLabel}`);
-    } else {
-      setNextStepMessage("Continue ton plan de révision");
+    const available = getAvailableTopics(profile.examGoal);
+    const relevantHistory = history.filter((h) => h.examGoal === profile.examGoal);
+    const computedStats = { sessions: 0, avgScore: 0, lastScore: null as number | null };
+
+    if (relevantHistory.length > 0) {
+      const sumScores = relevantHistory.reduce((acc, curr) => acc + curr.score, 0);
+      const sumTotal = relevantHistory.reduce((acc, curr) => acc + curr.totalQuestions, 0);
+      computedStats.sessions = relevantHistory.length;
+      computedStats.avgScore = Math.round((sumScores / sumTotal) * 100);
+      computedStats.lastScore = relevantHistory[relevantHistory.length - 1].score;
     }
 
-    setLoading(false);
-  }, [router]);
+    const weakLabel = getWeakestTopic(profile.examGoal, history);
+    const message =
+      !storedHistory || storedHistory === "[]"
+        ? "Fais une session rapide pour commencer"
+        : weakLabel
+          ? `Travaille ${weakLabel}`
+          : "Continue ton plan de révision";
 
-  if (loading) {
+    return {
+      nextStepMessage: message,
+      stats: computedStats,
+      topicsCount: available.length,
+    };
+  }, [history, profile, storedHistory]);
+
+  if (!profile) {
     return <div className="text-center mt-20 text-slate-500">Chargement de l&apos;espace élève...</div>;
   }
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { CheckCircle2, Smartphone } from "lucide-react";
 
 const screenshots = [
@@ -45,10 +46,13 @@ export function Bac2026ProductDemo() {
         {screenshots.map((screenshot) => (
           <article key={screenshot.src} className="rounded-2xl bg-slate-950 p-3 shadow-xl">
             <div className="overflow-hidden rounded-xl bg-white">
-              <img
+              <Image
                 src={screenshot.src}
                 alt={screenshot.alt}
-                className="aspect-[390/844] w-full object-cover object-top"
+                width={390}
+                height={844}
+                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                className="h-auto w-full object-cover object-top"
               />
             </div>
             <p className="mt-3 flex items-center gap-2 px-1 text-sm font-bold text-white">
@@ -72,4 +76,3 @@ export function Bac2026ProductDemo() {
     </section>
   );
 }
-

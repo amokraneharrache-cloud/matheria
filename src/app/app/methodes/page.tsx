@@ -1,28 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, AlertTriangle, Lightbulb, Target } from "lucide-react";
-import { methods, MethodCard } from "@/data/methods";
-import { getStorageItem } from "@/lib/storageKeys";
+import { methods } from "@/data/methods";
+import { parseStoredJson, useStorageItemValue } from "@/lib/useStorageItemValue";
+
+type StudentProfile = {
+  examGoal: string;
+};
 
 export default function MethodesPage() {
   const router = useRouter();
-  const [profile, setProfile] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const storedProfile = useStorageItemValue("studentProfile");
+  const profile = useMemo(
+    () => parseStoredJson<StudentProfile>(storedProfile),
+    [storedProfile],
+  );
 
   useEffect(() => {
-    const storedProfile = getStorageItem("studentProfile");
-    if (!storedProfile) {
+    if (storedProfile !== undefined && !profile) {
       router.push("/merci");
-      return;
     }
-    setProfile(JSON.parse(storedProfile));
-    setLoading(false);
-  }, [router]);
+  }, [profile, router, storedProfile]);
 
-  if (loading) return <div className="text-center mt-20 text-slate-500">Chargement des fiches méthodes...</div>;
+  if (!profile) return <div className="text-center mt-20 text-slate-500">Chargement des fiches méthodes...</div>;
 
   const termMethods = methods.filter((m) => m.examGoal === "terminale");
 

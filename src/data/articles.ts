@@ -1,6 +1,42 @@
+import type { FaqItem } from "@/lib/seo";
+import type { SprintMathsEventName } from "@/lib/tracking";
+
+export type ArticleCta = {
+  label: string;
+  href: string;
+  event: SprintMathsEventName;
+  location: string;
+  style?: "primary" | "secondary";
+};
+
+export type ArticleList = {
+  variant: "checklist" | "bullets";
+  title?: string;
+  items: string[];
+};
+
+export type ArticlePlanDay = {
+  label: string;
+  focus: string;
+};
+
+export type ArticlePlan = {
+  caption?: string;
+  days: ArticlePlanDay[];
+};
+
+export type ArticleLink = {
+  label: string;
+  href: string;
+  description: string;
+};
+
 export type ArticleSection = {
   heading: string;
   body: string[];
+  plan?: ArticlePlan;
+  list?: ArticleList;
+  cta?: ArticleCta;
 };
 
 export type Article = {
@@ -10,10 +46,252 @@ export type Article = {
   category: "terminale" | "premiere" | "brevet";
   keywords: string[];
   publishedAt: string;
+  intro?: string[];
+  introCta?: ArticleCta;
   content: ArticleSection[];
+  faq?: FaqItem[];
+  closingCta?: ArticleCta;
+  relatedLinks?: ArticleLink[];
 };
 
 export const articles: Article[] = [
+  {
+    slug: "comment-reviser-bac-maths-30-jours",
+    title: "Comment réviser le Bac Maths en 30 jours ?",
+    description:
+      "Un plan concret pour réviser le Bac Maths en 30 jours : chapitres prioritaires, exercices type bac, méthode de travail et planning semaine par semaine.",
+    category: "terminale",
+    keywords: [
+      "comment réviser le bac de maths en 30 jours",
+      "réviser bac maths 30 jours",
+      "planning révision bac maths",
+      "réviser bac maths terminale",
+      "révision bac maths terminale",
+    ],
+    publishedAt: "2026-05-24",
+    intro: [
+      "À un mois de l'épreuve, le programme de Terminale spécialité maths paraît immense : suites, dérivation, exponentielle, logarithme, intégrales, probabilités, loi binomiale, géométrie dans l'espace. Quand il reste peu de temps, beaucoup d'élèves font l'erreur de vouloir tout revoir, paniquent, et finissent par ne rien réviser à fond.",
+      "Soyons clairs : en 30 jours, l'objectif n'est pas de tout revoir parfaitement. C'est impossible et inutile. L'objectif réaliste est de gagner des points en travaillant les chapitres et les méthodes les plus rentables, ceux qui reviennent dans presque tous les sujets. Réviser bac maths terminale en 30 jours, c'est d'abord structurer son travail, reprendre les méthodes clés et s'entraîner sur des exercices type bac plutôt que relire le cours sans fin.",
+      "Cet article te donne un planning révision bac maths concret, jour par jour, sur quatre semaines, avec la méthode de travail à appliquer chaque jour. C'est exactement la logique de SprintMaths : de la méthode et des exercices guidés sur ton téléphone, pas un simple QCM.",
+    ],
+    introCta: {
+      label: "Recevoir le planning Bac Maths 2027 — 30 jours",
+      href: "/planning-revision-bac-maths",
+      event: "click_article_planning_cta",
+      location: "article_intro_planning",
+      style: "primary",
+    },
+    content: [
+      {
+        heading: "Avant de commencer : ne révise pas au hasard",
+        body: [
+          "La pire stratégie sur 30 jours, c'est d'ouvrir le premier chapitre venu et de relire le cours en espérant que ça rentre. Tu vas passer trois jours sur un chapitre que tu maîtrises déjà, par confort, et ignorer celui qui te coûte vraiment des points. Pour réviser bac maths 30 jours efficacement, il faut d'abord savoir où tu en es.",
+          "Commence par un diagnostic rapide : un test court par grand chapitre pour repérer ce qui bloque. Ensuite, classe les notions en trois catégories : à consolider, à revoir en priorité, à entretenir. Les chapitres à fort rendement au bac — suites, dérivation et variations, exponentielle, logarithme, intégrales, probabilités et loi binomiale — passent en priorité. Un planning de révision n'a de valeur que s'il part de tes vrais points faibles, pas d'une liste générique.",
+        ],
+      },
+      {
+        heading: "Semaine 1 : diagnostic, suites, dérivation et variations",
+        body: [
+          "La première semaine sert à reposer les bases du calcul et de l'analyse, les outils que tu vas réutiliser dans presque tous les sujets. On commence par un diagnostic, puis on enchaîne suites, limites, dérivation, tableaux de variation et convexité, avec un mini sujet type bac le septième jour pour mesurer les progrès.",
+        ],
+        plan: {
+          caption: "Semaine 1 — bases de l'analyse",
+          days: [
+            { label: "Jour 1", focus: "Diagnostic rapide : repérer les chapitres faibles et fixer les priorités." },
+            { label: "Jour 2", focus: "Suites : sens de variation et récurrence simple (initialisation, hérédité, conclusion)." },
+            { label: "Jour 3", focus: "Limites de suites : limites de référence, suites géométriques, convergence." },
+            { label: "Jour 4", focus: "Dérivation : produit, quotient, composée, dérivée de e^x et de ln." },
+            { label: "Jour 5", focus: "Tableau de variation : signe de la dérivée, factorisation, lecture des extremums." },
+            { label: "Jour 6", focus: "Convexité : dérivée seconde, points d'inflexion, lecture graphique." },
+            { label: "Jour 7", focus: "Mini sujet type bac sur l'analyse pour faire le point sur la semaine." },
+          ],
+        },
+        cta: {
+          label: "Faire le diagnostic gratuit",
+          href: "/diagnostic",
+          event: "click_article_diagnostic_cta",
+          location: "article_week1_diagnostic",
+          style: "secondary",
+        },
+      },
+      {
+        heading: "Semaine 2 : logarithme, intégrales et exercices mixtes",
+        body: [
+          "La deuxième semaine attaque les fonctions de référence de Terminale et le calcul intégral. Le logarithme et les intégrales reviennent très souvent au bac, et ils se travaillent bien ensemble avec l'exponentielle vue en semaine 1. La fin de semaine est consacrée à des exercices mixtes et à de la correction active, c'est-à-dire refaire seul les questions ratées sans regarder le corrigé.",
+        ],
+        plan: {
+          caption: "Semaine 2 — fonctions et calcul intégral",
+          days: [
+            { label: "Jour 8", focus: "Logarithme népérien : domaine, propriétés, dérivée de ln(u)." },
+            { label: "Jour 9", focus: "Équations et inéquations avec ln : domaine d'abord, puis vérification des solutions." },
+            { label: "Jour 10", focus: "Primitives : reconnaître les formes usuelles et vérifier en dérivant." },
+            { label: "Jour 11", focus: "Intégrales : calcul avec une primitive, aire sous la courbe, ordre des bornes." },
+            { label: "Jour 12", focus: "Équations différentielles : solutions du type y' = ay + b." },
+            { label: "Jour 13", focus: "Exercices mixtes : fonctions, ln et intégrales dans un même énoncé." },
+            { label: "Jour 14", focus: "Correction active : refaire seul les questions ratées de la semaine." },
+          ],
+        },
+      },
+      {
+        heading: "Semaine 3 : probabilités, loi binomiale et géométrie dans l'espace",
+        body: [
+          "La troisième semaine couvre les deux gros blocs qui restent : probabilités et géométrie dans l'espace. Ce sont des chapitres où la méthode rapporte beaucoup, parce que les questions se ressemblent d'un sujet à l'autre. Un arbre pondéré bien construit ou une justification propre de loi binomiale te font gagner des points sûrs.",
+        ],
+        plan: {
+          caption: "Semaine 3 — probabilités et géométrie",
+          days: [
+            { label: "Jour 15", focus: "Probabilités conditionnelles : bien distinguer P(A∩B) et la probabilité conditionnelle." },
+            { label: "Jour 16", focus: "Arbres pondérés et formule des probabilités totales." },
+            { label: "Jour 17", focus: "Loi binomiale : reconnaître le schéma, calculer P(X=k), P(X≤k), l'espérance np." },
+            { label: "Jour 18", focus: "Géométrie dans l'espace : vecteurs, repère, coordonnées." },
+            { label: "Jour 19", focus: "Droites et plans : représentations paramétriques, équations, intersections." },
+            { label: "Jour 20", focus: "Dénombrement : combinaisons et situations de comptage." },
+            { label: "Jour 21", focus: "Sujet type bac mêlant probabilités et géométrie." },
+          ],
+        },
+      },
+      {
+        heading: "Semaine 4 : sujets type bac, erreurs fréquentes et gestion du temps",
+        body: [
+          "La dernière semaine ne sert pas à découvrir de nouveaux chapitres. Elle sert à stabiliser ce que tu sais déjà, refaire les exercices ratés et t'entraîner en conditions proches de l'épreuve. C'est aussi le moment de travailler la gestion du temps et la lecture des consignes, deux choses qui font perdre des points même quand le cours est su.",
+        ],
+        plan: {
+          caption: "Semaine 4 — entraînement type bac",
+          days: [
+            { label: "Jour 22", focus: "Reprendre les chapitres faibles repérés au diagnostic du jour 1." },
+            { label: "Jour 23", focus: "Refaire les exercices ratés des semaines 1 à 3, sans le corrigé." },
+            { label: "Jour 24", focus: "Sujet type bac complet, chronométré." },
+            { label: "Jour 25", focus: "Gestion du temps : répartition par exercice, questions faciles d'abord." },
+            { label: "Jour 26", focus: "Erreurs fréquentes : signes, domaines, conclusions oubliées." },
+            { label: "Jour 27", focus: "Sujet type bac avec note indicative pour situer ses priorités." },
+            { label: "Jours 28 à 30", focus: "Plan léger : relire le carnet d'erreurs et les fiches méthodes, dormir." },
+          ],
+        },
+      },
+      {
+        heading: "La méthode quotidienne en 30 minutes",
+        body: [
+          "Un planning ne sert à rien sans une routine quotidienne simple à tenir. L'idée n'est pas de travailler trois heures d'affilée, mais de faire une séance courte et efficace chaque jour. Trente minutes bien utilisées, tous les jours, valent mieux qu'une journée marathon une fois par semaine.",
+        ],
+        list: {
+          variant: "checklist",
+          title: "Ta séance type de 30 minutes",
+          items: [
+            "5 min : relire la fiche méthode du chapitre du jour.",
+            "20 min : faire un exercice type bac guidé, étape par étape.",
+            "5 min : correction active — refaire la question bloquante sans le corrigé.",
+            "Noter dans un carnet ce qui a bloqué, pour y revenir en semaine 4.",
+          ],
+        },
+      },
+      {
+        heading: "Les erreurs à éviter pendant les 30 derniers jours",
+        body: [
+          "Sur la dernière ligne droite, certaines habitudes donnent l'impression de réviser sans faire vraiment progresser. Les repérer t'évite de perdre des journées entières pour rien.",
+        ],
+        list: {
+          variant: "bullets",
+          title: "À éviter absolument",
+          items: [
+            "Relire le cours pendant deux heures sans faire un seul exercice.",
+            "Lire une correction passivement, sans la refaire soi-même.",
+            "Changer de chapitre dès que ça devient un peu difficile.",
+            "Ignorer les erreurs qui reviennent à chaque exercice.",
+            "Ne réviser que les chapitres qu'on aime déjà.",
+            "Tout repousser à la dernière semaine.",
+          ],
+        },
+      },
+      {
+        heading: "Que faire si tu bloques devant les exercices ?",
+        body: [
+          "C'est le vrai point de blocage de la plupart des élèves : tu connais le cours, mais devant l'exercice type bac, tu ne sais pas par où commencer. Relire le cours une fois de plus n'y change rien, parce que le problème n'est pas la connaissance, c'est la méthode de résolution.",
+          "La solution, c'est de t'entraîner sur des exercices guidés qui te montrent l'enchaînement attendu : identifier la forme, choisir la méthode, calculer, conclure. À force de voir le raisonnement décomposé étape par étape, tu finis par le reproduire seul. C'est précisément ce que propose SprintMaths : des exercices type bac guidés sur ton téléphone, avec la méthode, pas un simple QCM.",
+        ],
+        cta: {
+          label: "Essayer un exercice type bac guidé",
+          href: "/exercices-type-bac-maths-terminale",
+          event: "click_article_typebac_cta",
+          location: "article_blocage_typebac",
+          style: "primary",
+        },
+      },
+      {
+        heading: "Planning gratuit Bac Maths 2027",
+        body: [
+          "Pour suivre ce plan sans avoir à le réorganiser toi-même, récupère le planning révision bac maths gratuit. Il reprend les 30 jours, chapitre par chapitre, avec la séance quotidienne à appliquer. Tu n'as plus qu'à le suivre et à cocher au fur et à mesure.",
+        ],
+        cta: {
+          label: "Recevoir le planning Bac Maths 2027 — 30 jours",
+          href: "/planning-revision-bac-maths",
+          event: "click_article_planning_cta",
+          location: "article_planning_section",
+          style: "primary",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: "Peut-on vraiment réviser le bac de maths en 30 jours ?",
+        answer:
+          "Oui, à condition de viser juste. En 30 jours, on ne revoit pas tout le programme parfaitement, mais on peut structurer son travail, reprendre les méthodes clés et s'entraîner sur des exercices type bac. C'est largement suffisant pour gagner des points, surtout sur les chapitres qui reviennent souvent.",
+      },
+      {
+        question: "Quels chapitres prioriser ?",
+        answer:
+          "Les chapitres à fort rendement : suites et récurrence, dérivation et variations, exponentielle, logarithme, intégrales, probabilités et loi binomiale, géométrie dans l'espace. Le diagnostic du jour 1 sert justement à ajuster ces priorités à ton niveau réel.",
+      },
+      {
+        question: "Combien de temps travailler par jour ?",
+        answer:
+          "Une séance courte et régulière vaut mieux qu'une journée marathon isolée. Trente à quarante-cinq minutes par jour, avec un exercice et une correction active, suffisent si tu sais exactement quoi travailler. La régularité compte plus que la durée.",
+      },
+      {
+        question: "Faut-il faire des annales ?",
+        answer:
+          "Travailler des sujets type bac est indispensable à partir de la troisième semaine, pour apprendre à enchaîner les exercices et gérer le temps. L'important n'est pas la quantité, mais de corriger chaque erreur et de refaire ce qui a bloqué.",
+      },
+      {
+        question: "Que faire si je bloque devant les exercices ?",
+        answer:
+          "Le blocage vient presque toujours de la méthode de résolution, pas du cours. Entraîne-toi sur des exercices guidés qui décomposent l'enchaînement attendu, étape par étape. À force de voir le raisonnement, tu finis par le reproduire seul.",
+      },
+      {
+        question: "SprintMaths remplace-t-il un professeur ?",
+        answer:
+          "Non. SprintMaths est un outil de méthode et d'entraînement : planning, diagnostic et exercices type bac guidés sur téléphone. Il aide à structurer les révisions et à installer de bons réflexes, mais ne remplace ni un professeur ni une correction personnalisée.",
+      },
+    ],
+    closingCta: {
+      label: "Voir le Pack Révision Express",
+      href: "/bac-maths-2027#offre",
+      event: "click_article_offer_cta",
+      location: "article_closing_offer",
+      style: "primary",
+    },
+    relatedLinks: [
+      {
+        label: "Bac Maths 2027 : le Pack Révision Express",
+        href: "/bac-maths-2027",
+        description: "Méthode, exercices guidés et plan de révision pour préparer l'épreuve.",
+      },
+      {
+        label: "Programme de maths Terminale",
+        href: "/programme-maths-terminale",
+        description: "Tous les chapitres de la spécialité, pour situer chaque notion.",
+      },
+      {
+        label: "Méthodes de maths Terminale",
+        href: "/methodes-maths-terminale",
+        description: "Les fiches méthode chapitre par chapitre.",
+      },
+      {
+        label: "Exercices de maths Terminale",
+        href: "/exercices-maths-terminale",
+        description: "S'entraîner avec des exercices ciblés et corrigés.",
+      },
+    ],
+  },
   {
     slug: "reviser-bac-maths-terminale-30-jours",
     title: "Réviser le bac de maths Terminale en 30 jours",

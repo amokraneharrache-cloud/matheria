@@ -143,22 +143,22 @@ const packItems = [
 
 const screenshots = [
   {
-    src: "/images/screenshots/bac-2026-dashboard.png",
+    src: "/images/screenshots/sprintmaths-dashboard.png",
     title: "Tableau de bord",
     alt: "Capture mobile SprintMaths pour préparer le Bac Maths 2027 avec progression et Mode Bac Terminale.",
   },
   {
-    src: "/images/screenshots/bac-2026-guided-exercise.png",
+    src: "/images/screenshots/sprintmaths-guided-exercise.png",
     title: "Exercice guidé",
     alt: "Capture mobile SprintMaths d'un exercice type bac guidé étape par étape pour le Bac Maths 2027.",
   },
   {
-    src: "/images/screenshots/bac-2026-score.png",
+    src: "/images/screenshots/sprintmaths-score.png",
     title: "Note indicative",
     alt: "Capture mobile SprintMaths montrant une note indicative sur 20 pour suivre la préparation Bac Maths 2027.",
   },
   {
-    src: "/images/screenshots/bac-2026-methods.png",
+    src: "/images/screenshots/sprintmaths-methods.png",
     title: "Méthodes",
     alt: "Capture mobile SprintMaths d'une fiche méthode de Terminale pour réviser le Bac Maths 2027.",
   },
