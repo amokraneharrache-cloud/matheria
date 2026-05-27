@@ -15,6 +15,46 @@ const pagePath = "/methodes-maths-terminale";
 const description =
   "Retrouve les méthodes de maths Terminale travaillées dans SprintMaths : variations, convexité, logarithme, exponentielle, récurrence, limites et intégrales.";
 
+const terminaleMethodClusterLinks: Partial<
+  Record<
+    string,
+    {
+      href: string;
+      eventName:
+        | "click_internal_suites_cluster"
+        | "click_internal_limites_cluster"
+        | "click_internal_derivation_cluster";
+      cluster: "suites" | "limites" | "derivation-convexite";
+      label: string;
+    }
+  >
+> = {
+  suites: {
+    href: "/methodes-maths-terminale/etudier-une-suite",
+    eventName: "click_internal_suites_cluster",
+    cluster: "suites",
+    label: "Voir la méthode détaillée : étudier une suite",
+  },
+  limites: {
+    href: "/methodes-maths-terminale/calculer-une-limite",
+    eventName: "click_internal_limites_cluster",
+    cluster: "limites",
+    label: "Voir la méthode détaillée : calculer une limite",
+  },
+  derivation: {
+    href: "/methodes-maths-terminale/tableau-variation",
+    eventName: "click_internal_derivation_cluster",
+    cluster: "derivation-convexite",
+    label: "Voir la méthode détaillée : tableau de variation",
+  },
+  convexite: {
+    href: "/methodes-maths-terminale/tableau-variation",
+    eventName: "click_internal_derivation_cluster",
+    cluster: "derivation-convexite",
+    label: "Voir la méthode détaillée : tableau de variation et convexité",
+  },
+};
+
 export const metadata: Metadata = {
   title: {
     absolute: "Méthodes maths Terminale | Étapes & erreurs fréquentes — SprintMaths",
@@ -127,63 +167,88 @@ export default function MethodesMathsTerminalePage() {
               différentielle, vecteurs de l&apos;espace et tableau de signes.
             </p>
             <div className="mt-8 grid gap-6 lg:grid-cols-2">
-              {terminaleMethods.map((method) => (
-                <article
-                  key={method.id}
-                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
-                >
-                  <div className="flex items-start gap-3">
-                    <BookOpen className="mt-1 h-6 w-6 shrink-0 text-blue-800" />
-                    <div>
-                      <p className="text-sm font-bold uppercase text-slate-500">
-                        {method.topic}
-                      </p>
-                      <h3 className="mt-1 text-xl font-bold text-slate-950">
-                        {method.title}
-                      </h3>
+              {terminaleMethods.map((method) => {
+                const clusterLink = method.linkedTopic
+                  ? terminaleMethodClusterLinks[method.linkedTopic]
+                  : undefined;
+
+                return (
+                  <article
+                    key={method.id}
+                    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                  >
+                    <div className="flex items-start gap-3">
+                      <BookOpen className="mt-1 h-6 w-6 shrink-0 text-blue-800" />
+                      <div>
+                        <p className="text-sm font-bold uppercase text-slate-500">
+                          {method.topic}
+                        </p>
+                        <h3 className="mt-1 text-xl font-bold text-slate-950">
+                          {method.title}
+                        </h3>
+                        {clusterLink ? (
+                          <TrackedLink
+                            href={clusterLink.href}
+                            eventName={clusterLink.eventName}
+                            eventParams={{
+                              source_page: pagePath,
+                              destination_page: clusterLink.href,
+                              cluster: clusterLink.cluster,
+                              level: "terminale",
+                            }}
+                            className="mt-2 inline-flex text-sm font-bold text-blue-900 hover:underline"
+                          >
+                            {clusterLink.label}
+                          </TrackedLink>
+                        ) : null}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="mt-5">
-                    <h4 className="font-bold text-slate-900">Étapes</h4>
-                    <ol className="mt-3 space-y-2 text-sm text-slate-700">
-                      {method.steps.slice(0, 5).map((step) => (
-                        <li key={step}>{step}</li>
-                      ))}
-                    </ol>
-                  </div>
+                    <div className="mt-5">
+                      <h4 className="font-bold text-slate-900">Étapes</h4>
+                      <ol className="mt-3 space-y-2 text-sm text-slate-700">
+                        {method.steps.slice(0, 5).map((step) => (
+                          <li key={step}>{step}</li>
+                        ))}
+                      </ol>
+                    </div>
 
-                  <div className="mt-5 rounded-xl bg-red-50 p-4">
-                    <h4 className="font-bold text-red-800">Erreur fréquente</h4>
-                    <p className="mt-2 text-sm text-red-900">{method.commonMistake}</p>
-                  </div>
+                    <div className="mt-5 rounded-xl bg-red-50 p-4">
+                      <h4 className="font-bold text-red-800">Erreur fréquente</h4>
+                      <p className="mt-2 text-sm text-red-900">
+                        {method.commonMistake}
+                      </p>
+                    </div>
 
-                  <div className="mt-5 rounded-xl bg-emerald-50 p-4">
-                    <h4 className="font-bold text-emerald-900">Mini-exemple</h4>
-                    <p className="mt-2 text-sm text-emerald-950">{method.miniExample}</p>
-                  </div>
+                    <div className="mt-5 rounded-xl bg-emerald-50 p-4">
+                      <h4 className="font-bold text-emerald-900">Mini-exemple</h4>
+                      <p className="mt-2 text-sm text-emerald-950">
+                        {method.miniExample}
+                      </p>
+                    </div>
 
-                  <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                    <Link
-                      href="/bac-terminale-maths"
-                      className="rounded-full border border-slate-200 px-4 py-2 text-center text-sm font-bold text-slate-700 hover:border-blue-200 hover:text-blue-900"
-                    >
-                      Parcours Terminale
-                    </Link>
-                    <TrackedLink
-                      href="/diagnostic"
-                      eventName="click_diagnostic"
-                      eventParams={{
-                        source_page: pagePath,
-                        cta_location: "methods_card",
-                      }}
-                      className="rounded-full bg-blue-900 px-4 py-2 text-center text-sm font-bold text-white hover:bg-blue-800"
-                    >
-                      Diagnostic gratuit
-                    </TrackedLink>
-                  </div>
-                </article>
-              ))}
+                    <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                      <Link
+                        href="/bac-terminale-maths"
+                        className="rounded-full border border-slate-200 px-4 py-2 text-center text-sm font-bold text-slate-700 hover:border-blue-200 hover:text-blue-900"
+                      >
+                        Parcours Terminale
+                      </Link>
+                      <TrackedLink
+                        href="/diagnostic"
+                        eventName="click_diagnostic"
+                        eventParams={{
+                          source_page: pagePath,
+                          cta_location: "methods_card",
+                        }}
+                        className="rounded-full bg-blue-900 px-4 py-2 text-center text-sm font-bold text-white hover:bg-blue-800"
+                      >
+                        Diagnostic gratuit
+                      </TrackedLink>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </section>
 

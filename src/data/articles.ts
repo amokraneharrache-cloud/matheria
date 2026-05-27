@@ -29,6 +29,8 @@ export type ArticleLink = {
   label: string;
   href: string;
   description: string;
+  cluster?: "suites" | "limites" | "derivation-convexite";
+  level?: "terminale";
 };
 
 export type ArticleSection = {
@@ -36,6 +38,7 @@ export type ArticleSection = {
   body: string[];
   plan?: ArticlePlan;
   list?: ArticleList;
+  internalLinks?: ArticleLink[];
   cta?: ArticleCta;
 };
 
@@ -106,6 +109,31 @@ export const articles: Article[] = [
             { label: "Jour 7", focus: "Mini sujet type bac sur l'analyse pour faire le point sur la semaine." },
           ],
         },
+        internalLinks: [
+          {
+            label: "Revoir le chapitre Suites en Terminale",
+            href: "/programme-maths-terminale/suites",
+            description: "Programme, méthodes et exercices liés au chapitre suites.",
+            cluster: "suites",
+            level: "terminale",
+          },
+          {
+            label: "Revoir le chapitre Limites en Terminale",
+            href: "/programme-maths-terminale/limites",
+            description:
+              "Méthodes de calcul, formes indéterminées et exercices liés aux limites.",
+            cluster: "limites",
+            level: "terminale",
+          },
+          {
+            label: "Revoir le chapitre Dérivation et convexité en Terminale",
+            href: "/programme-maths-terminale/derivation-convexite",
+            description:
+              "Tableaux de variation, dérivée seconde, convexité et exercices liés au chapitre.",
+            cluster: "derivation-convexite",
+            level: "terminale",
+          },
+        ],
         cta: {
           label: "Faire le diagnostic gratuit",
           href: "/diagnostic",

@@ -24,6 +24,41 @@ const pagePaths: Record<ProgramGoal, string> = {
   brevet: "/programme-maths-brevet",
 };
 
+const terminaleProgramClusterLinks: Partial<
+  Record<
+    string,
+    {
+      href: string;
+      eventName:
+        | "click_internal_suites_cluster"
+        | "click_internal_limites_cluster"
+        | "click_internal_derivation_cluster";
+      cluster: "suites" | "limites" | "derivation-convexite";
+    }
+  >
+> = {
+  suites: {
+    href: "/programme-maths-terminale/suites",
+    eventName: "click_internal_suites_cluster",
+    cluster: "suites",
+  },
+  limites: {
+    href: "/programme-maths-terminale/limites",
+    eventName: "click_internal_limites_cluster",
+    cluster: "limites",
+  },
+  derivation: {
+    href: "/programme-maths-terminale/derivation-convexite",
+    eventName: "click_internal_derivation_cluster",
+    cluster: "derivation-convexite",
+  },
+  convexite: {
+    href: "/programme-maths-terminale/derivation-convexite",
+    eventName: "click_internal_derivation_cluster",
+    cluster: "derivation-convexite",
+  },
+};
+
 type ProgramSeoPageProps = {
   goal: ProgramGoal;
   h1: string;
@@ -103,35 +138,69 @@ export function ProgramSeoPage({ goal, h1, intro }: ProgramSeoPageProps) {
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
-            {program.topics.map((topic, index) => (
-              <article
-                key={topic.id}
-                className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-bold text-slate-400">
-                      Chapitre {(index + 1).toString().padStart(2, "0")}
-                    </p>
-                    <h3 className="mt-1 text-xl font-bold text-slate-950">
-                      {topic.label}
-                    </h3>
+            {program.topics.map((topic, index) => {
+              const clusterLink = isTerminale
+                ? terminaleProgramClusterLinks[topic.id]
+                : undefined;
+
+              return clusterLink ? (
+                <TrackedLink
+                  key={topic.id}
+                  href={clusterLink.href}
+                  eventName={clusterLink.eventName}
+                  eventParams={{
+                    source_page: pagePath,
+                    destination_page: clusterLink.href,
+                    cluster: clusterLink.cluster,
+                    level: "terminale",
+                  }}
+                  className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:border-blue-200 hover:bg-blue-50"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-bold text-slate-400">
+                        Chapitre {(index + 1).toString().padStart(2, "0")}
+                      </p>
+                      <h3 className="mt-1 text-xl font-bold text-slate-950">
+                        {topic.label}
+                      </h3>
+                    </div>
+                    <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-700">
+                      {priorityLabels[topic.priority]}
+                    </span>
                   </div>
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-bold ${
-                      topic.priority === "high"
-                        ? "bg-red-50 text-red-700"
-                        : topic.priority === "medium"
-                          ? "bg-amber-50 text-amber-700"
-                          : "bg-slate-100 text-slate-600"
-                    }`}
-                  >
-                    {priorityLabels[topic.priority]}
-                  </span>
-                </div>
-                <p className="mt-3 text-slate-700">{topic.description}</p>
-              </article>
-            ))}
+                  <p className="mt-3 text-slate-700">{topic.description}</p>
+                </TrackedLink>
+              ) : (
+                <article
+                  key={topic.id}
+                  className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-bold text-slate-400">
+                        Chapitre {(index + 1).toString().padStart(2, "0")}
+                      </p>
+                      <h3 className="mt-1 text-xl font-bold text-slate-950">
+                        {topic.label}
+                      </h3>
+                    </div>
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-bold ${
+                        topic.priority === "high"
+                          ? "bg-red-50 text-red-700"
+                          : topic.priority === "medium"
+                            ? "bg-amber-50 text-amber-700"
+                            : "bg-slate-100 text-slate-600"
+                      }`}
+                    >
+                      {priorityLabels[topic.priority]}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-slate-700">{topic.description}</p>
+                </article>
+              );
+            })}
           </div>
 
           <div className="grid gap-5 md:grid-cols-3">

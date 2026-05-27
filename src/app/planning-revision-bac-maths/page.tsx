@@ -115,6 +115,26 @@ const afterPlanning = [
 const planningWeeks = [
   {
     title: "Semaine 1",
+    links: [
+      {
+        href: "/programme-maths-terminale/suites",
+        label: "Revoir le chapitre Suites",
+        eventName: "click_internal_suites_cluster" as const,
+        cluster: "suites" as const,
+      },
+      {
+        href: "/programme-maths-terminale/limites",
+        label: "Revoir le chapitre Limites",
+        eventName: "click_internal_limites_cluster" as const,
+        cluster: "limites" as const,
+      },
+      {
+        href: "/programme-maths-terminale/derivation-convexite",
+        label: "Revoir le chapitre Dérivation et convexité",
+        eventName: "click_internal_derivation_cluster" as const,
+        cluster: "derivation-convexite" as const,
+      },
+    ],
     days: [
       "Jour 1 : diagnostic + suites",
       "Jour 2 : suites, récurrence, variations",
@@ -305,6 +325,27 @@ export default function PlanningRevisionBacMathsPage() {
                       </li>
                     ))}
                   </ul>
+                  {week.links && week.links.length > 0 ? (
+                    <div className="mt-4 flex flex-col gap-2">
+                      {week.links.map((link) => (
+                        <TrackedLink
+                          key={link.href}
+                          href={link.href}
+                          eventName={link.eventName}
+                          eventParams={{
+                            source_page: pagePath,
+                            destination_page: link.href,
+                            cluster: link.cluster,
+                            level: "terminale",
+                          }}
+                          className="inline-flex items-center gap-2 text-sm font-bold text-blue-900 hover:underline"
+                        >
+                          {link.label}
+                          <ArrowRight className="h-4 w-4" />
+                        </TrackedLink>
+                      ))}
+                    </div>
+                  ) : null}
                 </article>
               ))}
             </div>

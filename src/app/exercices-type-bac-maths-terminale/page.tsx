@@ -145,6 +145,36 @@ const chapters = [
   "Dénombrement",
 ];
 
+const chapterExerciseClusterLinks: Partial<
+  Record<
+    string,
+    {
+      href: string;
+      eventName:
+        | "click_internal_suites_cluster"
+        | "click_internal_limites_cluster"
+        | "click_internal_derivation_cluster";
+      cluster: "suites" | "limites" | "derivation-convexite";
+    }
+  >
+> = {
+  Suites: {
+    href: "/exercices-maths-terminale/suites",
+    eventName: "click_internal_suites_cluster",
+    cluster: "suites",
+  },
+  Limites: {
+    href: "/exercices-maths-terminale/limites",
+    eventName: "click_internal_limites_cluster",
+    cluster: "limites",
+  },
+  "Dérivation et convexité": {
+    href: "/exercices-maths-terminale/derivation",
+    eventName: "click_internal_derivation_cluster",
+    cluster: "derivation-convexite",
+  },
+};
+
 const packItems = [
   "Exercices type bac guidés",
   "Méthodes courtes",
@@ -460,15 +490,34 @@ export default function ExercicesTypeBacMathsTerminalePage() {
               </Link>
             </div>
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-              {chapters.map((chapter) => (
-                <Link
-                  key={chapter}
-                  href="/programme-maths-terminale"
-                  className="rounded-lg border border-slate-200 bg-white p-4 font-semibold text-slate-800 shadow-sm hover:border-blue-200 hover:bg-blue-50 hover:text-blue-950"
-                >
-                  {chapter}
-                </Link>
-              ))}
+              {chapters.map((chapter) => {
+                const clusterLink = chapterExerciseClusterLinks[chapter];
+
+                return clusterLink ? (
+                  <TrackedLink
+                    key={chapter}
+                    href={clusterLink.href}
+                    eventName={clusterLink.eventName}
+                    eventParams={{
+                      source_page: pagePath,
+                      destination_page: clusterLink.href,
+                      cluster: clusterLink.cluster,
+                      level: "terminale",
+                    }}
+                    className="rounded-lg border border-slate-200 bg-white p-4 font-semibold text-slate-800 shadow-sm hover:border-blue-200 hover:bg-blue-50 hover:text-blue-950"
+                  >
+                    {chapter}
+                  </TrackedLink>
+                ) : (
+                  <Link
+                    key={chapter}
+                    href="/programme-maths-terminale"
+                    className="rounded-lg border border-slate-200 bg-white p-4 font-semibold text-slate-800 shadow-sm hover:border-blue-200 hover:bg-blue-50 hover:text-blue-950"
+                  >
+                    {chapter}
+                  </Link>
+                );
+              })}
             </div>
           </section>
 

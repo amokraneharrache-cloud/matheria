@@ -17,6 +17,41 @@ const pagePath = "/exercices-maths-terminale";
 const description =
   "Découvre les exercices de maths Terminale dans SprintMaths : exercices guidés type bac, sessions par chapitre et progression sans afficher toute la base de réponses.";
 
+const terminaleExerciseClusterLinks: Partial<
+  Record<
+    string,
+    {
+      href: string;
+      eventName:
+        | "click_internal_suites_cluster"
+        | "click_internal_limites_cluster"
+        | "click_internal_derivation_cluster";
+      cluster: "suites" | "limites" | "derivation-convexite";
+    }
+  >
+> = {
+  suites: {
+    href: "/exercices-maths-terminale/suites",
+    eventName: "click_internal_suites_cluster",
+    cluster: "suites",
+  },
+  limites: {
+    href: "/exercices-maths-terminale/limites",
+    eventName: "click_internal_limites_cluster",
+    cluster: "limites",
+  },
+  derivation: {
+    href: "/exercices-maths-terminale/derivation",
+    eventName: "click_internal_derivation_cluster",
+    cluster: "derivation-convexite",
+  },
+  convexite: {
+    href: "/exercices-maths-terminale/derivation",
+    eventName: "click_internal_derivation_cluster",
+    cluster: "derivation-convexite",
+  },
+};
+
 export const metadata: Metadata = {
   title: {
     absolute:
@@ -143,18 +178,40 @@ export default function ExercicesMathsTerminalePage() {
               notion.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {program?.topics.map((topic) => (
-                <Link
-                  key={topic.id}
-                  href="/programme-maths-terminale"
-                  className="rounded-xl border border-slate-200 p-4 hover:border-blue-200 hover:bg-blue-50"
-                >
-                  <h3 className="font-bold text-slate-950">{topic.label}</h3>
-                  <p className="mt-2 text-sm text-slate-600">
-                    {topicCount.get(topic.id) || 0} exercices courts
-                  </p>
-                </Link>
-              ))}
+              {program?.topics.map((topic) => {
+                const clusterLink = terminaleExerciseClusterLinks[topic.id];
+
+                return clusterLink ? (
+                  <TrackedLink
+                    key={topic.id}
+                    href={clusterLink.href}
+                    eventName={clusterLink.eventName}
+                    eventParams={{
+                      source_page: pagePath,
+                      destination_page: clusterLink.href,
+                      cluster: clusterLink.cluster,
+                      level: "terminale",
+                    }}
+                    className="rounded-xl border border-slate-200 p-4 hover:border-blue-200 hover:bg-blue-50"
+                  >
+                    <h3 className="font-bold text-slate-950">{topic.label}</h3>
+                    <p className="mt-2 text-sm text-slate-600">
+                      {topicCount.get(topic.id) || 0} exercices courts
+                    </p>
+                  </TrackedLink>
+                ) : (
+                  <Link
+                    key={topic.id}
+                    href="/programme-maths-terminale"
+                    className="rounded-xl border border-slate-200 p-4 hover:border-blue-200 hover:bg-blue-50"
+                  >
+                    <h3 className="font-bold text-slate-950">{topic.label}</h3>
+                    <p className="mt-2 text-sm text-slate-600">
+                      {topicCount.get(topic.id) || 0} exercices courts
+                    </p>
+                  </Link>
+                );
+              })}
             </div>
           </section>
 

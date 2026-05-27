@@ -181,6 +181,55 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     </div>
                   ) : null}
 
+                  {section.internalLinks && section.internalLinks.length > 0 ? (
+                    <div className="mt-6 space-y-3">
+                      {section.internalLinks.map((link) => {
+                        const className =
+                          "flex items-start gap-3 rounded-xl border border-slate-200 bg-white p-4 hover:border-blue-200";
+                        const content = (
+                          <>
+                            <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-blue-800" />
+                            <span>
+                              <span className="block font-bold text-blue-900">
+                                {link.label}
+                              </span>
+                              <span className="text-sm text-slate-600">
+                                {link.description}
+                              </span>
+                            </span>
+                          </>
+                        );
+
+                        return link.cluster ? (
+                          <TrackedLink
+                            key={link.href}
+                            href={link.href}
+                            eventName={
+                              link.cluster === "limites"
+                                ? "click_internal_limites_cluster"
+                                : link.cluster === "derivation-convexite"
+                                  ? "click_internal_derivation_cluster"
+                                  : "click_internal_suites_cluster"
+                            }
+                            eventParams={{
+                              source_page: pagePath,
+                              destination_page: link.href,
+                              cluster: link.cluster,
+                              level: link.level ?? "terminale",
+                            }}
+                            className={className}
+                          >
+                            {content}
+                          </TrackedLink>
+                        ) : (
+                          <Link key={link.href} href={link.href} className={className}>
+                            {content}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  ) : null}
+
                   {section.cta ? (
                     <div className="mt-6">
                       <ArticleCtaButton cta={section.cta} pagePath={pagePath} />
