@@ -147,6 +147,14 @@ const planningWeeks = [
   },
   {
     title: "Semaine 2",
+    links: [
+      {
+        href: "/programme-maths-terminale/fonction-logarithme",
+        label: "Revoir le chapitre Fonction logarithme",
+        eventName: "click_internal_logarithme_cluster" as const,
+        cluster: "logarithme" as const,
+      },
+    ],
     days: [
       "Logarithme",
       "Équations avec ln",
@@ -158,6 +166,14 @@ const planningWeeks = [
   },
   {
     title: "Semaine 3",
+    links: [
+      {
+        href: "/programme-maths-terminale/probabilites",
+        label: "Revoir le chapitre Probabilités",
+        eventName: "click_internal_probabilites_cluster" as const,
+        cluster: "probabilites" as const,
+      },
+    ],
     days: [
       "Probabilités conditionnelles",
       "Loi binomiale",

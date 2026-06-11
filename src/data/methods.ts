@@ -59,6 +59,22 @@ export const methods: MethodCard[] = [
     linkedTopic: "logarithme"
   },
   {
+    id: "meth-probabilites-conditionnelles",
+    examGoal: "terminale",
+    title: "Lire une probabilité conditionnelle",
+    topic: "Probabilités",
+    steps: [
+      "1. Nommer les événements avec une phrase précise.",
+      "2. Repérer si la donnée est une probabilité simple P(A), conditionnelle P_A(B), ou une intersection P(A∩B).",
+      "3. Construire un arbre pondéré si plusieurs groupes ou étapes apparaissent.",
+      "4. Utiliser P(A∩B) = P(A) × P_A(B) pour calculer un chemin.",
+      "5. Additionner les chemins lorsque la question demande une probabilité totale."
+    ],
+    commonMistake: "Confondre « parmi les A, B se produit » avec P(B). Cette phrase indique souvent P_A(B).",
+    miniExample: "Si P(A)=0,4 et P_A(B)=0,3, alors P(A∩B)=0,4×0,3=0,12.",
+    linkedTopic: "probabilites"
+  },
+  {
     id: "meth-exponentielle",
     examGoal: "terminale",
     title: "Résoudre avec l'exponentielle",

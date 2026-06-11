@@ -13,7 +13,7 @@ import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo";
 const pagePath = "/methodes-maths-terminale";
 
 const description =
-  "Retrouve les méthodes de maths Terminale travaillées dans SprintMaths : variations, convexité, logarithme, exponentielle, récurrence, limites et intégrales.";
+  "Retrouve les méthodes de maths Terminale travaillées dans SprintMaths : variations, convexité, logarithme, probabilités conditionnelles, récurrence, limites et intégrales.";
 
 const terminaleMethodClusterLinks: Partial<
   Record<
@@ -23,8 +23,15 @@ const terminaleMethodClusterLinks: Partial<
       eventName:
         | "click_internal_suites_cluster"
         | "click_internal_limites_cluster"
-        | "click_internal_derivation_cluster";
-      cluster: "suites" | "limites" | "derivation-convexite";
+        | "click_internal_derivation_cluster"
+        | "click_internal_logarithme_cluster"
+        | "click_internal_probabilites_cluster";
+      cluster:
+        | "suites"
+        | "limites"
+        | "derivation-convexite"
+        | "logarithme"
+        | "probabilites";
       label: string;
     }
   >
@@ -52,6 +59,18 @@ const terminaleMethodClusterLinks: Partial<
     eventName: "click_internal_derivation_cluster",
     cluster: "derivation-convexite",
     label: "Voir la méthode détaillée : tableau de variation et convexité",
+  },
+  logarithme: {
+    href: "/methodes-maths-terminale/logarithme",
+    eventName: "click_internal_logarithme_cluster",
+    cluster: "logarithme",
+    label: "Voir la méthode détaillée : logarithme",
+  },
+  probabilites: {
+    href: "/methodes-maths-terminale/probabilites-conditionnelles",
+    eventName: "click_internal_probabilites_cluster",
+    cluster: "probabilites",
+    label: "Voir la méthode détaillée : probabilités conditionnelles",
   },
 };
 
@@ -163,8 +182,9 @@ export default function MethodesMathsTerminalePage() {
             </h2>
             <p className="mt-3 max-w-3xl text-slate-700">
               Variations, convexité, logarithme, exponentielle, récurrence,
-              limites, loi binomiale, espérance, intégrales, équation
-              différentielle, vecteurs de l&apos;espace et tableau de signes.
+              limites, probabilités conditionnelles, loi binomiale, espérance,
+              intégrales, équation différentielle, vecteurs de l&apos;espace et
+              tableau de signes.
             </p>
             <div className="mt-8 grid gap-6 lg:grid-cols-2">
               {terminaleMethods.map((method) => {

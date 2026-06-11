@@ -153,8 +153,15 @@ const chapterExerciseClusterLinks: Partial<
       eventName:
         | "click_internal_suites_cluster"
         | "click_internal_limites_cluster"
-        | "click_internal_derivation_cluster";
-      cluster: "suites" | "limites" | "derivation-convexite";
+        | "click_internal_derivation_cluster"
+        | "click_internal_logarithme_cluster"
+        | "click_internal_probabilites_cluster";
+      cluster:
+        | "suites"
+        | "limites"
+        | "derivation-convexite"
+        | "logarithme"
+        | "probabilites";
     }
   >
 > = {
@@ -172,6 +179,16 @@ const chapterExerciseClusterLinks: Partial<
     href: "/exercices-maths-terminale/derivation",
     eventName: "click_internal_derivation_cluster",
     cluster: "derivation-convexite",
+  },
+  Logarithme: {
+    href: "/exercices-maths-terminale/logarithme",
+    eventName: "click_internal_logarithme_cluster",
+    cluster: "logarithme",
+  },
+  Probabilités: {
+    href: "/exercices-maths-terminale/probabilites",
+    eventName: "click_internal_probabilites_cluster",
+    cluster: "probabilites",
   },
 };
 

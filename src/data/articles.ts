@@ -29,7 +29,12 @@ export type ArticleLink = {
   label: string;
   href: string;
   description: string;
-  cluster?: "suites" | "limites" | "derivation-convexite";
+  cluster?:
+    | "suites"
+    | "limites"
+    | "derivation-convexite"
+    | "logarithme"
+    | "probabilites";
   level?: "terminale";
 };
 
@@ -159,6 +164,16 @@ export const articles: Article[] = [
             { label: "Jour 14", focus: "Correction active : refaire seul les questions ratées de la semaine." },
           ],
         },
+        internalLinks: [
+          {
+            label: "Revoir le chapitre Fonction logarithme en Terminale",
+            href: "/programme-maths-terminale/fonction-logarithme",
+            description:
+              "Domaine, propriétés de ln, dérivée, équations et exercices liés au chapitre logarithme.",
+            cluster: "logarithme",
+            level: "terminale",
+          },
+        ],
       },
       {
         heading: "Semaine 3 : probabilités, loi binomiale et géométrie dans l'espace",
@@ -177,6 +192,16 @@ export const articles: Article[] = [
             { label: "Jour 21", focus: "Sujet type bac mêlant probabilités et géométrie." },
           ],
         },
+        internalLinks: [
+          {
+            label: "Revoir le chapitre Probabilités en Terminale",
+            href: "/programme-maths-terminale/probabilites",
+            description:
+              "Probabilités conditionnelles, arbres pondérés, loi binomiale et variables aléatoires.",
+            cluster: "probabilites",
+            level: "terminale",
+          },
+        ],
       },
       {
         heading: "Semaine 4 : sujets type bac, erreurs fréquentes et gestion du temps",

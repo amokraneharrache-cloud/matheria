@@ -140,8 +140,15 @@ const chapterProgramClusterLinks: Partial<
       eventName:
         | "click_internal_suites_cluster"
         | "click_internal_limites_cluster"
-        | "click_internal_derivation_cluster";
-      cluster: "suites" | "limites" | "derivation-convexite";
+        | "click_internal_derivation_cluster"
+        | "click_internal_logarithme_cluster"
+        | "click_internal_probabilites_cluster";
+      cluster:
+        | "suites"
+        | "limites"
+        | "derivation-convexite"
+        | "logarithme"
+        | "probabilites";
     }
   >
 > = {
@@ -159,6 +166,16 @@ const chapterProgramClusterLinks: Partial<
     href: "/programme-maths-terminale/derivation-convexite",
     eventName: "click_internal_derivation_cluster",
     cluster: "derivation-convexite",
+  },
+  "Fonction logarithme": {
+    href: "/programme-maths-terminale/fonction-logarithme",
+    eventName: "click_internal_logarithme_cluster",
+    cluster: "logarithme",
+  },
+  Probabilités: {
+    href: "/programme-maths-terminale/probabilites",
+    eventName: "click_internal_probabilites_cluster",
+    cluster: "probabilites",
   },
 };
 

@@ -51,6 +51,8 @@ export type SprintMathsEventName =
   | "click_internal_suites_cluster"
   | "click_internal_limites_cluster"
   | "click_internal_derivation_cluster"
+  | "click_internal_logarithme_cluster"
+  | "click_internal_probabilites_cluster"
   | "click_chapter_exercise_cta"
   | "click_chapter_method_cta"
   | "click_chapter_planning_cta"

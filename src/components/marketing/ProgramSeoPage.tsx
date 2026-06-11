@@ -32,8 +32,15 @@ const terminaleProgramClusterLinks: Partial<
       eventName:
         | "click_internal_suites_cluster"
         | "click_internal_limites_cluster"
-        | "click_internal_derivation_cluster";
-      cluster: "suites" | "limites" | "derivation-convexite";
+        | "click_internal_derivation_cluster"
+        | "click_internal_logarithme_cluster"
+        | "click_internal_probabilites_cluster";
+      cluster:
+        | "suites"
+        | "limites"
+        | "derivation-convexite"
+        | "logarithme"
+        | "probabilites";
     }
   >
 > = {
@@ -56,6 +63,26 @@ const terminaleProgramClusterLinks: Partial<
     href: "/programme-maths-terminale/derivation-convexite",
     eventName: "click_internal_derivation_cluster",
     cluster: "derivation-convexite",
+  },
+  logarithme: {
+    href: "/programme-maths-terminale/fonction-logarithme",
+    eventName: "click_internal_logarithme_cluster",
+    cluster: "logarithme",
+  },
+  probabilites: {
+    href: "/programme-maths-terminale/probabilites",
+    eventName: "click_internal_probabilites_cluster",
+    cluster: "probabilites",
+  },
+  "loi-binomiale": {
+    href: "/programme-maths-terminale/probabilites",
+    eventName: "click_internal_probabilites_cluster",
+    cluster: "probabilites",
+  },
+  "variables-aleatoires": {
+    href: "/programme-maths-terminale/probabilites",
+    eventName: "click_internal_probabilites_cluster",
+    cluster: "probabilites",
   },
 };
 

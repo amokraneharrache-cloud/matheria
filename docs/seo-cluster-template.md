@@ -127,31 +127,43 @@ Avant livraison d'un nouveau triptyque :
 - verifier au moins 3 exercices visibles sur les pages exercices
 - relire les corrections mathematiques avec le chapitre cible en tete
 - verifier l'unicite du H1 (un seul `ChapterHero` par page) et qu'il reste distinct du `title` meta
-- verifier la coherence des valeurs numeriques d'un meme exemple repris sur plusieurs pages du cluster (ex. derivation : `f(x)=x²-4x+1` doit donner `f'=2x-4`, minimum en `x=2`, `f(2)=-3` partout ou l'exemple apparait ; `f(x)=x³-3x` doit donner `f'=3x²-3=3(x-1)(x+1)`, `f(-1)=2`, `f(1)=-2`)
+- verifier la coherence des valeurs numeriques d'un meme exemple repris sur plusieurs pages du cluster (ex. derivation : `f(x)=x²-4x+1` doit donner `f'=2x-4`, minimum en `x=2`, `f(2)=-3` partout ou l'exemple apparait ; `f(x)=x³-3x` doit donner `f'=3x²-3=3(x-1)(x+1)`, `f(-1)=2`, `f(1)=-2` ; logarithme : `f(x)=ln(x-2)` domaine `]2;+∞[` et `f(3)=0`, `ln(x)=2` donne `x=e²`, `g(x)=x ln x` donne `g'=ln x+1`, `f(x)=ln(x-1)` domaine `]1;+∞[`, `f'=1/(x-1)`, `f(x)=0` en `x=2`)
+- pour toute fonction avec ln, verifier que le domaine de definition est rappele AVANT tout calcul ou substitution (interieur du ln strictement positif) : c'est le piege n°1 et il doit etre coherent entre programme, exercices et methode
+- apres QA validee, mettre a jour `Clusters livres` et remplacer la recommandation suivante pour eviter de relancer un cluster deja livre
+
+Points de vigilance specifiques aux probabilites :
+
+- distinguer clairement `P(A∩B)`, `P(A∪B)` et la probabilite conditionnelle `P_B(A) = P(A∩B)/P(B)` avec `P(B) > 0`
+- formule des probabilites totales et arbre pondere : la somme des branches issues d'un meme noeud vaut 1
+- independance : `A` et `B` independants equivaut a `P(A∩B) = P(A)×P(B)` (ne pas confondre avec incompatibilite `P(A∩B)=0`)
+- loi binomiale `B(n,p)` : `P(X=k) = C(n,k) p^k (1-p)^(n-k)`, esperance `np` (souvent reliee au cluster `loi-binomiale`)
+- verifier la coherence numerique d'un meme arbre/tableau repris sur les 3 pages du cluster (probabilites comprises entre 0 et 1, sommes egales a 1)
+- pour le cluster J9 livre, conserver la coherence des exemples suivants : `P(M)=0,6`, `P_M(P)=0,4`, `P(M∩P)=0,24`, urne avec remise `P(RR)=9/25`, `P(RB)=6/25`, loi binomiale `B(10 ; 0,3)`
 
 ## Clusters livres
 
 - J5/J6 — Suites : `/programme-maths-terminale/suites`, `/exercices-maths-terminale/suites`, `/methodes-maths-terminale/etudier-une-suite`
 - J5/J6 — Limites : `/programme-maths-terminale/limites`, `/exercices-maths-terminale/limites`, `/methodes-maths-terminale/calculer-une-limite`
 - J7 — Derivation / Convexite : `/programme-maths-terminale/derivation-convexite`, `/exercices-maths-terminale/derivation`, `/methodes-maths-terminale/tableau-variation` (QA validee : structure SEO, math, maillage, lint, build OK)
+- J8 — Fonction logarithme : `/programme-maths-terminale/fonction-logarithme`, `/exercices-maths-terminale/logarithme`, `/methodes-maths-terminale/logarithme` (QA validee : structure SEO, math `ln(x-2)`/`ln(x)=2`/`x ln x`/`ln(x-1)`, maillage cluster + piliers, sitemap, lint, build OK)
+- J9 — Probabilites : `/programme-maths-terminale/probabilites`, `/exercices-maths-terminale/probabilites`, `/methodes-maths-terminale/probabilites-conditionnelles` (QA validee : structure SEO, math `P(M)=0,6`, `P_M(P)=0,4`, `P(M∩P)=0,24`, urne avec remise `RR=9/25`, `RB=6/25`, loi binomiale `B(10 ; 0,3)`, maillage cluster + piliers, sitemap OK)
 
-## Recommandation J8
+## Recommandation J10
 
-Prochain cluster recommande : Fonction logarithme.
+Prochain cluster recommande : Geometrie dans l'espace.
 
 Triptyque suggere (figer les slugs avant creation) :
 
-- `/programme-maths-terminale/fonction-logarithme`
-- `/exercices-maths-terminale/logarithme`
-- `/methodes-maths-terminale/logarithme`
+- `/programme-maths-terminale/geometrie-espace`
+- `/exercices-maths-terminale/geometrie-espace`
+- `/methodes-maths-terminale/geometrie-espace`
 
-Points de vigilance specifiques au logarithme :
+A faire au moment de la creation :
 
-- domaine de definition `x > 0` a rappeler systematiquement (piege n°1 du chapitre)
-- proprietes `ln(ab)=ln a+ln b`, `ln(a/b)=ln a-ln b`, `ln(a^n)=n ln a`, `ln(1)=0`, `ln(e)=1`
-- derivee `(ln u)' = u'/u`, limites de reference `lim_{x→0+} ln x = -∞`, `lim_{x→+∞} ln x = +∞`, croissance comparee
-- relier au cluster derivation (etude de signe, tableau de variation) et au cluster limites (formes indeterminees avec ln)
-- verifier que les exemples numeriques (resolution d'equations avec ln, verification du domaine) sont corrects et coherents entre les 3 pages
+- ajouter les 3 routes dans `publicSeoRoutes` (`src/lib/site.ts`) pour le sitemap
+- verifier le slug de topic expose dans `src/data/programs.ts` pour la geometrie dans l'espace, puis ajouter l'entree correspondante dans `terminaleProgramClusterLinks` (`ProgramSeoPage.tsx`) avec un `eventName`/`cluster` dedie
+- ajouter les liens des 3 pages dans les piliers exercices et methodes
+- verifier la coherence editoriale entre geometrie vectorielle, droites/plans de l'espace, orthogonalite, produit scalaire et representations parametriques
 
 ## Checklist build/lint
 

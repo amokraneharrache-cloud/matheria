@@ -209,7 +209,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                                 ? "click_internal_limites_cluster"
                                 : link.cluster === "derivation-convexite"
                                   ? "click_internal_derivation_cluster"
-                                  : "click_internal_suites_cluster"
+                                  : link.cluster === "logarithme"
+                                    ? "click_internal_logarithme_cluster"
+                                    : link.cluster === "probabilites"
+                                      ? "click_internal_probabilites_cluster"
+                                      : "click_internal_suites_cluster"
                             }
                             eventParams={{
                               source_page: pagePath,
