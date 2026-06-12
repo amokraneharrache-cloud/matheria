@@ -25,6 +25,7 @@ import { absoluteUrl, CONTACT_EMAIL, SITE_NAME } from "@/lib/site";
 import { breadcrumbJsonLd, faqJsonLd, productJsonLd, type FaqItem } from "@/lib/seo";
 
 const pagePath = "/bac-maths-2027";
+const subjectsTypeBacPath = "/sujets-type-bac-maths-terminale";
 
 const description =
   "Prépare le Bac Maths 2027 avec SprintMaths : diagnostic gratuit, planning de révision, exercices type bac guidés étape par étape et progression sur téléphone.";
@@ -494,6 +495,21 @@ export default function BacMaths2027Page() {
                   Voir le programme Terminale
                   <ArrowRight className="h-4 w-4" />
                 </Link>
+                <TrackedLink
+                  href={subjectsTypeBacPath}
+                  eventName="click_internal_subjects_typebac"
+                  eventParams={{
+                    source_page: pagePath,
+                    destination_page: subjectsTypeBacPath,
+                    level: "terminale",
+                    intent: "sujets_type_bac",
+                    cta_location: "bac2027_chapters_subjects",
+                  }}
+                  className="inline-flex items-center gap-2 font-bold text-blue-900 hover:underline"
+                >
+                  Voir les sujets type bac corrigés
+                  <ArrowRight className="h-4 w-4" />
+                </TrackedLink>
                 <TrackedLink
                   href="/planning-revision-bac-maths"
                   eventName="click_lead_magnet_planning"

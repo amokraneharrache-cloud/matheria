@@ -17,16 +17,17 @@ import { PlanningLeadForm } from "@/components/marketing/PlanningLeadForm";
 import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
-import { Button } from "@/components/ui/button";
 import { PACK_REVISION_EXPRESS_PRICE } from "@/lib/offers";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
 import { breadcrumbJsonLd, faqJsonLd, type FaqItem } from "@/lib/seo";
 
 const pagePath = "/planning-revision-bac-maths";
 const leadMagnet = "planning_bac_maths_2027";
+const typeBacPracticePath = "/exercices-type-bac-maths-terminale";
+const typeBacSubjectsPath = "/sujets-type-bac-maths-terminale";
 
 const description =
-  "Télécharge gratuitement un planning de révision Bac Maths 2027 sur 30 jours : chapitres prioritaires, exercices type bac et méthode de travail.";
+  "Télécharge un planning gratuit pour réviser le Bac Maths 2027 en 30 jours : chapitres prioritaires, exercices type bac, méthodes et organisation semaine par semaine.";
 
 export const metadata: Metadata = {
   title: {
@@ -52,31 +53,36 @@ export const metadata: Metadata = {
 
 const faqItems: FaqItem[] = [
   {
-    question: "Le planning garantit-il une bonne note au Bac Maths ?",
+    question: "Combien de temps faut-il pour réviser le Bac Maths ?",
     answer:
-      "Non. Le planning donne une organisation de travail et des priorités de révision, mais il ne garantit pas une note. La progression dépend du niveau de départ, de la régularité et de l'entraînement réel.",
+      "Cela dépend du niveau de départ et du temps disponible. Le planning SprintMaths propose une base sur 30 jours pour travailler régulièrement les chapitres prioritaires et garder du temps pour les exercices type bac.",
   },
   {
-    question: "Est-ce adapté à la Terminale spécialité maths ?",
+    question: "Peut-on réviser le Bac Maths en 30 jours ?",
     answer:
-      "Oui. Le planning cible les élèves de Terminale spécialité maths qui préparent le Bac Maths 2027, avec des chapitres prioritaires comme les suites, les fonctions, les intégrales, les probabilités et la géométrie dans l'espace.",
+      "Oui, on peut organiser une vraie reprise en 30 jours si l'on reste réaliste : revoir les méthodes clés, faire des exercices guidés, puis s'entraîner sur des sujets type bac. Le planning n'est pas une garantie de note.",
   },
   {
-    question: "Est-ce un PDF officiel de l'Éducation nationale ?",
+    question: "Quels chapitres prioriser ?",
     answer:
-      "Non. C'est un support SprintMaths gratuit pour aider à s'organiser. Une version imprimable HTML est fournie, en plus du contenu visible sur la page.",
+      "Les priorités fréquentes en Terminale spécialité maths sont les suites, limites, dérivation, logarithme, intégrales, équations différentielles, probabilités, loi binomiale et géométrie dans l'espace. Aucun chapitre n'est garanti au sujet.",
   },
   {
-    question: "Que faire après avoir reçu le planning ?",
+    question: "Faut-il faire des sujets type bac ?",
     answer:
-      "Le plus simple est de faire le diagnostic gratuit, puis de travailler les chapitres faibles avec les exercices guidés SprintMaths. Le Pack Révision Express peut ensuite aider si l'élève veut un cadre plus complet.",
+      "Oui, surtout en fin de planning. Les sujets type bac aident à travailler la rédaction, le choix de méthode, les erreurs fréquentes et la gestion du temps, sans prétendre remplacer les consignes officielles.",
+  },
+  {
+    question: "Le planning est-il gratuit ?",
+    answer:
+      "Oui. Le planning de révision Bac Maths 2027 est gratuit et accessible par email. SprintMaths propose aussi des exercices guidés et un Pack Révision Express payant pour les élèves qui veulent un cadre plus complet.",
   },
 ];
 
 const contentItems = [
   "30 jours de révision structurés",
-  "Chapitres prioritaires",
-  "Exercices type bac",
+  "Chapitres prioritaires de Terminale spécialité maths",
+  "Exercices type bac pour s'entraîner progressivement",
   "Rappels méthode",
   "Conseils pour éviter les erreurs classiques",
 ];
@@ -99,22 +105,29 @@ const afterPlanning = [
     title: "Faire le diagnostic gratuit",
     text: "Repérer les chapitres à revoir avant de choisir les sessions.",
     href: "/diagnostic",
+    eventName: "click_planning_diagnostic" as const,
+    ctaLocation: "planning_after_card_diagnostic",
   },
   {
-    title: "Essayer les exercices guidés",
-    text: "S'entraîner sur des exercices type bac avec des étapes.",
-    href: "/exercices-type-bac-maths-terminale",
+    title: "Essayer un exercice type bac guidé",
+    text: "S'entraîner sur un format proche bac avec une correction guidée.",
+    href: typeBacPracticePath,
+    eventName: "click_planning_typebac" as const,
+    ctaLocation: "planning_after_card_typebac",
   },
   {
-    title: "Débloquer le Pack si besoin",
+    title: "Voir le Pack Révision Express",
     text: `Accéder au Pack Révision Express à ${PACK_REVISION_EXPRESS_PRICE} € si l'élève veut un cadre plus complet.`,
     href: "/bac-maths-2027",
+    eventName: "click_planning_offer" as const,
+    ctaLocation: "planning_after_card_offer",
   },
 ];
 
 const planningWeeks = [
   {
     title: "Semaine 1",
+    focus: "Diagnostic, suites, limites, dérivation",
     links: [
       {
         href: "/programme-maths-terminale/suites",
@@ -136,17 +149,18 @@ const planningWeeks = [
       },
     ],
     days: [
-      "Jour 1 : diagnostic + suites",
-      "Jour 2 : suites, récurrence, variations",
-      "Jour 3 : limites de suites",
-      "Jour 4 : dérivation",
+      "Jour 1 : diagnostic de départ + suites",
+      "Jour 2 : suites, récurrence et variations",
+      "Jour 3 : limites de suites et limites de fonctions",
+      "Jour 4 : dérivation et tangentes",
       "Jour 5 : tableau de variation",
-      "Jour 6 : convexité",
-      "Jour 7 : mini sujet type bac",
+      "Jour 6 : convexité et lectures graphiques",
+      "Jour 7 : exercice type bac court",
     ],
   },
   {
     title: "Semaine 2",
+    focus: "Logarithme, intégrales, équations différentielles",
     links: [
       {
         href: "/programme-maths-terminale/fonction-logarithme",
@@ -156,16 +170,17 @@ const planningWeeks = [
       },
     ],
     days: [
-      "Logarithme",
-      "Équations avec ln",
-      "Primitives",
-      "Intégrales",
+      "Logarithme : domaine, équations, inéquations",
+      "Études de fonctions avec ln",
+      "Primitives et calculs d'intégrales",
+      "Interprétation graphique des intégrales",
       "Équations différentielles",
-      "Exercices mixtes",
+      "Exercices mixtes type bac",
     ],
   },
   {
     title: "Semaine 3",
+    focus: "Probabilités, loi binomiale, géométrie dans l'espace",
     links: [
       {
         href: "/programme-maths-terminale/probabilites",
@@ -176,23 +191,32 @@ const planningWeeks = [
     ],
     days: [
       "Probabilités conditionnelles",
-      "Loi binomiale",
-      "Variables aléatoires si pertinent",
-      "Géométrie dans l'espace",
-      "Droites et plans",
-      "Produit scalaire si pertinent",
-      "Sujet type bac",
+      "Loi binomiale : paramètres, calculs, interprétation",
+      "Variables aléatoires si le chapitre est au programme travaillé",
+      "Géométrie dans l'espace : droites, plans, repérage",
+      "Produit scalaire et orthogonalité si pertinent",
+      "Exercice guidé avec rédaction",
+      "Sujet type bac ciblé",
     ],
   },
   {
     title: "Semaine 4",
+    focus: "Sujets type bac, erreurs fréquentes, gestion du temps",
+    links: [
+      {
+        href: typeBacSubjectsPath,
+        label: "sujets type bac maths Terminale avec corrigé guidé",
+        eventName: "click_internal_subjects_typebac" as const,
+        cluster: "type-bac" as const,
+      },
+    ],
     days: [
       "Reprise des chapitres faibles",
       "Sujets type bac",
       "Erreurs fréquentes",
       "Gestion du temps",
-      "Entraînement final",
-      "Simulation de note indicative",
+      "Entraînement final chronométré",
+      "Correction active sans promesse de note",
       "Plan des 7 derniers jours",
     ],
   },
@@ -202,8 +226,8 @@ const internalLinks = [
   { href: "/bac-maths-2027", label: "Pack Révision Express Bac Maths 2027" },
   { href: "/diagnostic", label: "Diagnostic gratuit" },
   {
-    href: "/exercices-type-bac-maths-terminale",
-    label: "Exercices type bac guidés",
+    href: typeBacSubjectsPath,
+    label: "sujets type bac maths Terminale avec corrigé guidé",
   },
   { href: "/exercices-maths-terminale", label: "Exercices maths Terminale" },
   { href: "/methodes-maths-terminale", label: "Méthodes maths Terminale" },
@@ -240,13 +264,13 @@ export default function PlanningRevisionBacMathsPage() {
               Planning de révision Bac Maths 2027 — 30 jours
             </h1>
             <p className="mt-5 max-w-3xl text-2xl font-bold leading-9 text-slate-950">
-              Un planning clair pour réviser le Bac Maths 2027 sans partir dans tous
-              les sens.
+              Un programme de révision Bac Maths en 30 jours pour la Terminale
+              spécialité maths, sans partir dans tous les sens.
             </p>
             <p className="mt-4 max-w-3xl leading-7 text-slate-700">
-              Reçois un programme de 30 jours pour savoir quels chapitres
-              travailler, dans quel ordre, et comment t&apos;entraîner sur des
-              exercices type bac.
+              Reçois un planning gratuit pour prioriser les chapitres clés,
+              alterner méthode et entraînement, puis travailler des exercices
+              type bac avec une correction guidée.
             </p>
             <div className="mt-8 hidden gap-3 sm:grid sm:grid-cols-3">
               {[
@@ -295,7 +319,8 @@ export default function PlanningRevisionBacMathsPage() {
               </h2>
               <p className="mt-4 leading-7 text-slate-700">
                 Le but est simple : savoir quoi travailler chaque jour, sans
-                s&apos;éparpiller entre cours, annales, vidéos et corrections.
+                s&apos;éparpiller entre cours, vidéos, corrections et exercices
+                isolés.
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -312,11 +337,17 @@ export default function PlanningRevisionBacMathsPage() {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
-                  Version condensée
+                  Planning Bac Maths 2027
                 </p>
                 <h2 className="mt-3 text-3xl font-bold text-slate-950">
-                  Le programme sur 4 semaines
+                  Planning Bac Maths 2027 : semaine par semaine
                 </h2>
+                <p className="mt-4 max-w-3xl leading-7 text-slate-700">
+                  Une base de travail pour réviser le Bac Maths en 30 jours :
+                  diagnostic, chapitres prioritaires, exercices type bac et
+                  entraînement final. À adapter selon ton niveau et les consignes
+                  données en classe.
+                </p>
               </div>
               <a
                 href="/planning-bac-maths-2027.html"
@@ -333,6 +364,9 @@ export default function PlanningRevisionBacMathsPage() {
                     <CalendarDays className="h-5 w-5 text-blue-800" />
                     <h3 className="text-xl font-bold text-slate-950">{week.title}</h3>
                   </div>
+                  <p className="mt-3 text-sm font-bold leading-6 text-slate-950">
+                    {week.focus}
+                  </p>
                   <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-700">
                     {week.days.map((day) => (
                       <li key={day} className="flex gap-2">
@@ -353,11 +387,14 @@ export default function PlanningRevisionBacMathsPage() {
                             destination_page: link.href,
                             cluster: link.cluster,
                             level: "terminale",
+                            ...(link.href === typeBacSubjectsPath
+                              ? { intent: "sujets_type_bac" }
+                              : {}),
                           }}
-                          className="inline-flex items-center gap-2 text-sm font-bold text-blue-900 hover:underline"
+                          className="inline-flex items-start gap-2 text-sm font-bold text-blue-900 hover:underline"
                         >
-                          {link.label}
-                          <ArrowRight className="h-4 w-4" />
+                          <span className="min-w-0">{link.label}</span>
+                          <ArrowRight className="mt-1 h-4 w-4 shrink-0" />
                         </TrackedLink>
                       ))}
                     </div>
@@ -412,15 +449,28 @@ export default function PlanningRevisionBacMathsPage() {
             </div>
             <div className="mt-6 grid gap-4 md:grid-cols-3">
               {afterPlanning.map((item) => (
-                <Link
+                <TrackedLink
                   key={item.href}
                   href={item.href}
+                  eventName={item.eventName}
+                  eventParams={{
+                    ...leadEventParams,
+                    destination_page: item.href,
+                    cta_location: item.ctaLocation,
+                    ...(item.href === "/bac-maths-2027"
+                      ? {
+                          offer: "pack_revision_express_bac_2027",
+                          price: PACK_REVISION_EXPRESS_PRICE,
+                          currency: "EUR",
+                        }
+                      : {}),
+                  }}
                   className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:border-blue-200 hover:bg-blue-50"
                 >
                   <BookOpenCheck className="h-6 w-6 text-blue-800" />
                   <h3 className="mt-3 text-xl font-bold text-slate-950">{item.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-slate-700">{item.text}</p>
-                </Link>
+                </TrackedLink>
               ))}
             </div>
           </section>
@@ -441,32 +491,42 @@ export default function PlanningRevisionBacMathsPage() {
             <div className="flex flex-col gap-3">
               <TrackedLink
                 href="/diagnostic"
-                eventName="click_diagnostic"
+                eventName="click_planning_diagnostic"
                 eventParams={{
                   ...leadEventParams,
+                  destination_page: "/diagnostic",
                   cta_location: "planning_after_diagnostic",
                 }}
-                className="w-full"
+                className="inline-flex min-h-14 w-full items-center justify-center rounded-full bg-blue-900 px-6 py-3 text-center text-lg font-semibold leading-6 text-white shadow-md transition-colors hover:bg-blue-800"
               >
-                <Button size="lg" className="w-full">
-                  Faire le diagnostic gratuit
-                </Button>
+                Faire le diagnostic gratuit
+              </TrackedLink>
+              <TrackedLink
+                href={typeBacPracticePath}
+                eventName="click_planning_typebac"
+                eventParams={{
+                  ...leadEventParams,
+                  destination_page: typeBacPracticePath,
+                  cta_location: "planning_after_typebac",
+                }}
+                className="inline-flex min-h-14 w-full items-center justify-center rounded-full border-2 border-blue-900 bg-white px-6 py-3 text-center text-lg font-semibold leading-6 text-blue-900 transition-colors hover:bg-slate-50"
+              >
+                Essayer un exercice type bac guidé
               </TrackedLink>
               <TrackedLink
                 href="/bac-maths-2027"
-                eventName="click_offer"
+                eventName="click_planning_offer"
                 eventParams={{
                   ...leadEventParams,
+                  destination_page: "/bac-maths-2027",
                   offer: "pack_revision_express_bac_2027",
                   price: PACK_REVISION_EXPRESS_PRICE,
                   currency: "EUR",
                   cta_location: "planning_after_offer",
                 }}
-                className="w-full"
+                className="inline-flex min-h-14 w-full items-center justify-center rounded-full border-2 border-blue-900 bg-white px-6 py-3 text-center text-lg font-semibold leading-6 text-blue-900 transition-colors hover:bg-slate-50"
               >
-                <Button variant="outline" size="lg" className="w-full">
-                  Voir le Pack Révision Express
-                </Button>
+                Voir le Pack Révision Express
               </TrackedLink>
             </div>
           </section>
@@ -509,11 +569,9 @@ export default function PlanningRevisionBacMathsPage() {
                 ...leadEventParams,
                 cta_location: "planning_final_anchor",
               }}
-              className="mt-6 inline-flex w-full sm:w-auto"
+              className="mx-auto mt-6 inline-flex min-h-14 w-full items-center justify-center rounded-full bg-emerald-500 px-8 py-3 text-center text-lg font-semibold leading-6 text-white shadow-md transition-colors hover:bg-emerald-600 sm:w-auto"
             >
-              <Button variant="secondary" size="lg" className="w-full sm:w-auto">
-                Recevoir le planning gratuit
-              </Button>
+              Recevoir le planning gratuit
             </TrackedLink>
           </section>
 

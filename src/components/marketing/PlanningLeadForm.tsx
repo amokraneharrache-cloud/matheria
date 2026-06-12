@@ -150,18 +150,53 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
             <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
               <a
                 href="/diagnostic"
+                onClick={() =>
+                  trackEvent("click_planning_diagnostic", {
+                    ...trackingParams,
+                    destination_page: "/diagnostic",
+                    cta_location: "planning_form_success",
+                  })
+                }
                 className="inline-flex text-blue-900 underline"
               >
                 Faire le diagnostic gratuit
               </a>
               <a
+                href="/exercices-type-bac-maths-terminale"
+                onClick={() =>
+                  trackEvent("click_planning_typebac", {
+                    ...trackingParams,
+                    destination_page: "/exercices-type-bac-maths-terminale",
+                    cta_location: "planning_form_success",
+                  })
+                }
+                className="inline-flex text-blue-900 underline"
+              >
+                Essayer un exercice type bac guidé
+              </a>
+              <a
                 href="/planning-bac-maths-2027.html"
+                onClick={() =>
+                  trackEvent("lead_magnet_download", {
+                    ...trackingParams,
+                    destination_page: "/planning-bac-maths-2027.html",
+                    cta_location: "planning_form_success",
+                  })
+                }
                 className="inline-flex text-blue-900 underline"
               >
                 Ouvrir la version imprimable
               </a>
               <a
                 href="/bac-maths-2027"
+                onClick={() =>
+                  trackEvent("click_planning_offer", {
+                    ...trackingParams,
+                    destination_page: "/bac-maths-2027",
+                    offer: "pack_revision_express_bac_2027",
+                    cta_location: "planning_form_success",
+                  })
+                }
                 className="inline-flex text-blue-900 underline"
               >
                 Voir le Pack Révision Express

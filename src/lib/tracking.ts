@@ -22,12 +22,22 @@ export type SprintMathsEventName =
   | "email_optin"
   | "lead_magnet_request"
   | "lead_magnet_download"
+  | "click_planning_diagnostic"
+  | "click_planning_typebac"
+  | "click_planning_subjects"
+  | "click_planning_offer"
   | "click_typebac_free_exercise"
+  | "click_typebac_subjects_page"
   | "free_exercise_step_reveal"
   | "click_typebac_diagnostic"
   | "click_typebac_planning"
   | "click_typebac_offer"
   | "click_typebac_stripe"
+  | "click_subjects_typebac_start"
+  | "click_subjects_typebac_planning"
+  | "click_subjects_typebac_diagnostic"
+  | "click_subjects_typebac_offer"
+  | "click_subjects_cluster_exercise"
   | "free_exercise_start"
   | "free_exercise_complete"
   | "purchase"
@@ -53,6 +63,7 @@ export type SprintMathsEventName =
   | "click_internal_derivation_cluster"
   | "click_internal_logarithme_cluster"
   | "click_internal_probabilites_cluster"
+  | "click_internal_subjects_typebac"
   | "click_chapter_exercise_cta"
   | "click_chapter_method_cta"
   | "click_chapter_planning_cta"
@@ -84,6 +95,7 @@ export type TrackingParams = {
   cluster?: string;
   destination_page?: string;
   exam_goal?: string;
+  intent?: string;
   level?: string;
   offer?: string;
   price?: number;
@@ -125,6 +137,7 @@ const ALLOWED_STRING_PARAMS = [
   "cluster",
   "destination_page",
   "exam_goal",
+  "intent",
   "level",
   "offer",
   "currency",

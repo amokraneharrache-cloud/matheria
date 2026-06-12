@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpenCheck, ClipboardList, GraduationCap, LineChart, PlayCircle } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpenCheck,
+  ClipboardList,
+  GraduationCap,
+  LineChart,
+  PlayCircle,
+} from "lucide-react";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { InternalLinks } from "@/components/marketing/InternalLinks";
 import { SeoCta } from "@/components/marketing/SeoCta";
@@ -13,6 +20,7 @@ import { absoluteUrl } from "@/lib/site";
 import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo";
 
 const pagePath = "/exercices-maths-terminale";
+const subjectsTypeBacPath = "/sujets-type-bac-maths-terminale";
 
 const description =
   "Découvre les exercices de maths Terminale dans SprintMaths : exercices guidés type bac, sessions par chapitre et progression sans afficher toute la base de réponses.";
@@ -296,6 +304,39 @@ export default function ExercicesMathsTerminalePage() {
                   {example}
                 </div>
               ))}
+            </div>
+          </section>
+
+          <section className="rounded-2xl border border-blue-100 bg-blue-50 p-6 sm:p-8">
+            <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+              <div>
+                <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+                  Sujets type bac
+                </p>
+                <h2 className="mt-3 text-3xl font-bold text-slate-950">
+                  Passer des exercices ciblés aux sujets type bac corrigés
+                </h2>
+                <p className="mt-4 max-w-3xl leading-7 text-slate-700">
+                  Une fois les chapitres retravaillés, l&apos;élève peut enchaîner
+                  plusieurs raisonnements dans des sujets type bac maths Terminale
+                  avec corrigé guidé.
+                </p>
+              </div>
+              <TrackedLink
+                href={subjectsTypeBacPath}
+                eventName="click_internal_subjects_typebac"
+                eventParams={{
+                  source_page: pagePath,
+                  destination_page: subjectsTypeBacPath,
+                  level: "terminale",
+                  intent: "sujets_type_bac",
+                  cta_location: "exercises_subjects_typebac_block",
+                }}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-blue-900 px-5 py-3 text-center font-bold text-white hover:bg-blue-800"
+              >
+                Explorer les sujets type bac corrigés
+                <ArrowRight className="h-4 w-4" />
+              </TrackedLink>
             </div>
           </section>
 

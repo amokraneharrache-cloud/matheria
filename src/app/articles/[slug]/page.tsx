@@ -21,8 +21,10 @@ function ArticleCtaButton({ cta, pagePath }: { cta: ArticleCta; pagePath: string
       eventName={cta.event}
       eventParams={{
         source_page: pagePath,
+        destination_page: cta.href,
         level: "terminale",
         cta_location: cta.location,
+        ...cta.eventParams,
       }}
       className={className}
     >

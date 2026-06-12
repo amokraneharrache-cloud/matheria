@@ -26,10 +26,12 @@ import { breadcrumbJsonLd, faqJsonLd, productJsonLd, type FaqItem } from "@/lib/
 import { GuidedExercisePreview } from "./GuidedExercisePreview";
 
 const pagePath = "/exercices-type-bac-maths-terminale";
+const subjectsSectionId = "sujets-type-bac-guides";
+const subjectsCtaHref = "/sujets-type-bac-maths-terminale";
 
-const title = "Exercices type Bac Maths Terminale guidés et corrigés";
+const title = "Exercices et sujets type Bac Maths Terminale corrigés";
 const description =
-  "Entraîne-toi avec des exercices type Bac Maths Terminale guidés étape par étape : suites, dérivation, logarithme, probabilités, intégrales et géométrie.";
+  "Entraîne-toi avec des exercices et sujets type Bac Maths Terminale guidés étape par étape : corrigés, méthodes, chapitres clés et préparation Bac 2027.";
 
 export const metadata: Metadata = {
   title: {
@@ -128,7 +130,7 @@ const guidedSteps = [
   {
     icon: LineChart,
     title: "Suivre la progression",
-    text: "Le pack aide à voir les chapitres travaillés et une note indicative pour se situer.",
+    text: "Le pack aide à voir les chapitres travaillés et les priorités de progression.",
   },
 ];
 
@@ -144,6 +146,39 @@ const chapters = [
   "Géométrie dans l'espace",
   "Dénombrement",
 ];
+
+const subjectChapterLinks = [
+  {
+    label: "Suites",
+    href: "/exercices-maths-terminale/suites",
+    eventName: "click_internal_suites_cluster",
+    cluster: "suites",
+  },
+  {
+    label: "Limites",
+    href: "/exercices-maths-terminale/limites",
+    eventName: "click_internal_limites_cluster",
+    cluster: "limites",
+  },
+  {
+    label: "Dérivation",
+    href: "/exercices-maths-terminale/derivation",
+    eventName: "click_internal_derivation_cluster",
+    cluster: "derivation-convexite",
+  },
+  {
+    label: "Logarithme",
+    href: "/exercices-maths-terminale/logarithme",
+    eventName: "click_internal_logarithme_cluster",
+    cluster: "logarithme",
+  },
+  {
+    label: "Probabilités",
+    href: "/exercices-maths-terminale/probabilites",
+    eventName: "click_internal_probabilites_cluster",
+    cluster: "probabilites",
+  },
+] as const;
 
 const chapterExerciseClusterLinks: Partial<
   Record<
@@ -204,6 +239,7 @@ const packItems = [
 const internalLinks = [
   { href: "/bac-maths-2027", label: "Bac Maths 2027" },
   { href: "/planning-revision-bac-maths", label: "Planning Bac Maths" },
+  { href: "/sujets-type-bac-maths-terminale", label: "Sujets type bac guidés" },
   { href: "/diagnostic", label: "Diagnostic gratuit" },
   { href: "/programme-maths-terminale", label: "Programme Terminale" },
   { href: "/methodes-maths-terminale", label: "Méthodes Terminale" },
@@ -391,6 +427,81 @@ export default function ExercicesTypeBacMathsTerminalePage() {
             </div>
           </section>
 
+          <section
+            id={subjectsSectionId}
+            className="scroll-mt-24 grid gap-8 lg:grid-cols-[0.95fr_1fr] lg:items-start"
+          >
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+                Sujets guidés
+              </p>
+              <h2 className="mt-3 text-3xl font-bold text-slate-950">
+                Sujets type bac maths Terminale avec corrigé guidé
+              </h2>
+              <div className="mt-5 space-y-4 leading-7 text-slate-700">
+                <p>
+                  SprintMaths propose des sujets type bac maths Terminale et des
+                  exercices type bac guidés pour s&apos;entraîner sur les
+                  raisonnements attendus en spécialité maths.
+                </p>
+                <p>
+                  Ce ne sont pas des annales officielles revendiquées. Le but est
+                  d&apos;apprendre à démarrer une question, suivre les étapes utiles
+                  et corriger activement son raisonnement au lieu de lire
+                  seulement le résultat.
+                </p>
+                <p>
+                  Les sujets et exercices couvrent les chapitres clés : suites,
+                  limites, dérivation, logarithme, probabilités et géométrie.
+                </p>
+              </div>
+              <TrackedLink
+                href={subjectsCtaHref}
+                eventName="click_internal_subjects_typebac"
+                eventParams={{
+                  ...baseEventParams,
+                  destination_page: subjectsCtaHref,
+                  intent: "sujets_type_bac",
+                  cta_location: "typebac_subjects_section",
+                }}
+                className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-blue-900 px-5 py-3 text-center font-bold text-white hover:bg-blue-800 sm:w-auto"
+              >
+                Voir les sujets type bac guidés
+                <ArrowRight className="h-4 w-4" />
+              </TrackedLink>
+            </div>
+
+            <div className="rounded-lg border border-blue-100 bg-blue-50 p-5 sm:p-6">
+              <h3 className="text-xl font-bold text-slate-950">
+                Travailler les chapitres qui tombent souvent en type bac
+              </h3>
+              <p className="mt-3 leading-7 text-slate-700">
+                Chaque lien renvoie vers un cluster d&apos;exercices corrigés de
+                Terminale pour consolider une méthode avant de revenir sur un
+                sujet complet.
+              </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {subjectChapterLinks.map((chapter) => (
+                  <TrackedLink
+                    key={chapter.href}
+                    href={chapter.href}
+                    eventName={chapter.eventName}
+                    eventParams={{
+                      source_page: pagePath,
+                      destination_page: chapter.href,
+                      cluster: chapter.cluster,
+                      level: "terminale",
+                      cta_location: "typebac_subjects_chapter_link",
+                    }}
+                    className="rounded-lg border border-blue-100 bg-white p-4 font-semibold text-slate-800 shadow-sm hover:border-blue-200 hover:bg-blue-50 hover:text-blue-950"
+                  >
+                    {chapter.label}
+                  </TrackedLink>
+                ))}
+              </div>
+            </div>
+          </section>
+
           <section>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -544,12 +655,14 @@ export default function ExercicesTypeBacMathsTerminalePage() {
                 Correction
               </p>
               <h2 className="mt-3 text-3xl font-bold text-slate-950">
-                Correction guidée vs correction classique
+                Correction classique vs corrigé guidé SprintMaths
               </h2>
               <p className="mt-4 leading-7 text-slate-700">
                 Une correction classique peut être utile après l&apos;exercice. Mais
                 quand l&apos;élève bloque, il a surtout besoin de savoir quelle étape
-                faire maintenant. SprintMaths met l&apos;accent sur ce raisonnement.
+                faire maintenant. SprintMaths met l&apos;accent sur ce raisonnement :
+                comprendre l&apos;étape, justifier le calcul et savoir refaire une
+                démarche similaire.
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -592,7 +705,7 @@ export default function ExercicesTypeBacMathsTerminalePage() {
                 </h2>
                 <p className="mt-4 leading-7 text-slate-700">
                   Le pack rassemble les exercices type bac guidés, les méthodes
-                  courtes, la progression, une note indicative, l&apos;accès mobile et
+                  courtes, la progression, l&apos;accès mobile et
                   le code d&apos;accès automatique après paiement.
                 </p>
                 <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -660,7 +773,7 @@ export default function ExercicesTypeBacMathsTerminalePage() {
                   </li>
                   <li className="flex gap-2">
                     <GraduationCap className="h-5 w-5 shrink-0 text-amber-700" />
-                    Note indicative pour se situer, sans garantie de note.
+                    Progression visible pour se situer, sans garantie de note.
                   </li>
                 </ul>
                 <TrackedLink

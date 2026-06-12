@@ -1,11 +1,12 @@
 import type { FaqItem } from "@/lib/seo";
-import type { SprintMathsEventName } from "@/lib/tracking";
+import type { SprintMathsEventName, TrackingParams } from "@/lib/tracking";
 
 export type ArticleCta = {
   label: string;
   href: string;
   event: SprintMathsEventName;
   location: string;
+  eventParams?: TrackingParams;
   style?: "primary" | "secondary";
 };
 
@@ -216,9 +217,19 @@ export const articles: Article[] = [
             { label: "Jour 24", focus: "Sujet type bac complet, chronométré." },
             { label: "Jour 25", focus: "Gestion du temps : répartition par exercice, questions faciles d'abord." },
             { label: "Jour 26", focus: "Erreurs fréquentes : signes, domaines, conclusions oubliées." },
-            { label: "Jour 27", focus: "Sujet type bac avec note indicative pour situer ses priorités." },
+            { label: "Jour 27", focus: "Sujet type bac avec corrigé guidé pour situer ses priorités de révision." },
             { label: "Jours 28 à 30", focus: "Plan léger : relire le carnet d'erreurs et les fiches méthodes, dormir." },
           ],
+        },
+        cta: {
+          label: "Passer aux sujets type bac corrigés",
+          href: "/sujets-type-bac-maths-terminale",
+          event: "click_internal_subjects_typebac",
+          location: "article_week4_subjects_typebac",
+          eventParams: {
+            intent: "sujets_type_bac",
+          },
+          style: "secondary",
         },
       },
       {
