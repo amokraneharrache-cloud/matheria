@@ -107,6 +107,7 @@ const afterPlanning = [
     href: "/diagnostic",
     eventName: "click_planning_diagnostic" as const,
     ctaLocation: "planning_after_card_diagnostic",
+    intent: "diagnostic",
   },
   {
     title: "Essayer un exercice type bac guidé",
@@ -114,6 +115,7 @@ const afterPlanning = [
     href: typeBacPracticePath,
     eventName: "click_planning_typebac" as const,
     ctaLocation: "planning_after_card_typebac",
+    intent: "typebac_practice",
   },
   {
     title: "Voir le Pack Révision Express",
@@ -121,6 +123,7 @@ const afterPlanning = [
     href: "/bac-maths-2027",
     eventName: "click_planning_offer" as const,
     ctaLocation: "planning_after_card_offer",
+    intent: "offer",
   },
 ];
 
@@ -206,7 +209,7 @@ const planningWeeks = [
       {
         href: typeBacSubjectsPath,
         label: "sujets type bac maths Terminale avec corrigé guidé",
-        eventName: "click_internal_subjects_typebac" as const,
+        eventName: "click_planning_subjects" as const,
         cluster: "type-bac" as const,
       },
     ],
@@ -387,6 +390,10 @@ export default function PlanningRevisionBacMathsPage() {
                             destination_page: link.href,
                             cluster: link.cluster,
                             level: "terminale",
+                            cta_location:
+                              link.href === typeBacSubjectsPath
+                                ? "planning_week4_subjects"
+                                : "planning_week_cluster",
                             ...(link.href === typeBacSubjectsPath
                               ? { intent: "sujets_type_bac" }
                               : {}),
@@ -457,6 +464,7 @@ export default function PlanningRevisionBacMathsPage() {
                     ...leadEventParams,
                     destination_page: item.href,
                     cta_location: item.ctaLocation,
+                    intent: item.intent,
                     ...(item.href === "/bac-maths-2027"
                       ? {
                           offer: "pack_revision_express_bac_2027",
@@ -496,6 +504,7 @@ export default function PlanningRevisionBacMathsPage() {
                   ...leadEventParams,
                   destination_page: "/diagnostic",
                   cta_location: "planning_after_diagnostic",
+                  intent: "diagnostic",
                 }}
                 className="inline-flex min-h-14 w-full items-center justify-center rounded-full bg-blue-900 px-6 py-3 text-center text-lg font-semibold leading-6 text-white shadow-md transition-colors hover:bg-blue-800"
               >
@@ -508,6 +517,7 @@ export default function PlanningRevisionBacMathsPage() {
                   ...leadEventParams,
                   destination_page: typeBacPracticePath,
                   cta_location: "planning_after_typebac",
+                  intent: "typebac_practice",
                 }}
                 className="inline-flex min-h-14 w-full items-center justify-center rounded-full border-2 border-blue-900 bg-white px-6 py-3 text-center text-lg font-semibold leading-6 text-blue-900 transition-colors hover:bg-slate-50"
               >
@@ -523,6 +533,7 @@ export default function PlanningRevisionBacMathsPage() {
                   price: PACK_REVISION_EXPRESS_PRICE,
                   currency: "EUR",
                   cta_location: "planning_after_offer",
+                  intent: "offer",
                 }}
                 className="inline-flex min-h-14 w-full items-center justify-center rounded-full border-2 border-blue-900 bg-white px-6 py-3 text-center text-lg font-semibold leading-6 text-blue-900 transition-colors hover:bg-slate-50"
               >

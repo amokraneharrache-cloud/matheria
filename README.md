@@ -462,9 +462,35 @@ Events réellement émis côté client aujourd'hui :
 - `click_bac2027_exercises`
 - `click_bac2027_offer`
 - `click_bac2027_stripe`
+- `click_planning_diagnostic`
+- `click_planning_typebac`
+- `click_planning_subjects`
+- `click_planning_offer`
 - `click_typebac_offer`
+- `click_typebac_subjects_page`
+- `click_subjects_typebac_start`
+- `click_subjects_typebac_planning`
+- `click_subjects_typebac_diagnostic`
+- `click_subjects_typebac_offer`
+- `click_subjects_cluster_exercise`
+- `click_internal_subjects_typebac`
 - `guarantee_view`
 - `faq_expand`
+
+Events J10 et zones attendues :
+
+- Page sujets type bac : `click_subjects_typebac_start`,
+  `click_subjects_typebac_planning`, `click_subjects_typebac_diagnostic`,
+  `click_subjects_typebac_offer`, `click_subjects_cluster_exercise`.
+- Page planning : `click_planning_diagnostic`, `click_planning_typebac`,
+  `click_planning_subjects`, `click_planning_offer`.
+- Page exercices type bac : `click_typebac_subjects_page`.
+- Maillage interne vers la page sujets type bac :
+  `click_internal_subjects_typebac`.
+
+Les properties attendues restent marketing et non personnelles :
+`source_page`, `destination_page`, `level`, `intent`, `cta_location`, avec
+selon le CTA `cluster`, `lead_magnet`, `offer`, `price` et `currency`.
 
 Events disponibles dans le type mais non émis côté client aujourd'hui :
 

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LegalFooterLinks } from "@/components/legal/LegalFooterLinks";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
-import { CheckCircle2, BrainCircuit, Target, TrendingUp, GraduationCap, BookOpen, School, CalendarCheck } from "lucide-react";
+import { CheckCircle2, BrainCircuit, Target, TrendingUp, GraduationCap, BookOpen, School, CalendarCheck, ClipboardList } from "lucide-react";
 import {
   BAC_2026_OFFER_PRICE,
   BAC_2026_PROMO_CODE,
@@ -158,6 +158,12 @@ export default function Home() {
                   icon: Target,
                   title: "Exercices type bac",
                   text: "Des exercices guidés étape par étape pour apprendre à démarrer et conclure un raisonnement.",
+                },
+                {
+                  href: "/sujets-type-bac-maths-terminale",
+                  icon: ClipboardList,
+                  title: "Sujets type bac",
+                  text: "Des sujets type Bac Maths Terminale avec corrigé guidé pour s'entraîner sans les confondre avec des annales officielles.",
                 },
                 {
                   href: "/bac-terminale-maths",

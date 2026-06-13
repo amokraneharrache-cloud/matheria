@@ -23,7 +23,6 @@ const links = [
   { href: "/methodes-maths-terminale", label: "Méthodes Terminale" },
   { href: "/exercices-maths-terminale", label: "Exercices Terminale" },
   { href: "/articles", label: "Articles Terminale" },
-  { href: "/bac-maths-terminale-2026", label: "Ancienne page Bac Maths 2026" },
   { href: "/bac-premiere-maths", label: "Réviser le bac Première" },
   { href: "/programme-maths-premiere", label: "Programme maths Première" },
   { href: "/brevet-maths", label: "Réviser le brevet" },
@@ -58,6 +57,7 @@ export function InternalLinks({
                     destination_page: link.href,
                     level: "terminale",
                     intent: "sujets_type_bac",
+                    cta_location: "internal_links_subjects_typebac",
                   }}
                   className={className}
                 >

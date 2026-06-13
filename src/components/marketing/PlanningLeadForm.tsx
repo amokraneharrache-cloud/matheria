@@ -155,6 +155,7 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
                     ...trackingParams,
                     destination_page: "/diagnostic",
                     cta_location: "planning_form_success",
+                    intent: "diagnostic",
                   })
                 }
                 className="inline-flex text-blue-900 underline"
@@ -168,6 +169,7 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
                     ...trackingParams,
                     destination_page: "/exercices-type-bac-maths-terminale",
                     cta_location: "planning_form_success",
+                    intent: "typebac_practice",
                   })
                 }
                 className="inline-flex text-blue-900 underline"
@@ -195,6 +197,7 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
                     destination_page: "/bac-maths-2027",
                     offer: "pack_revision_express_bac_2027",
                     cta_location: "planning_form_success",
+                    intent: "offer",
                   })
                 }
                 className="inline-flex text-blue-900 underline"

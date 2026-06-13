@@ -457,7 +457,7 @@ export default function ExercicesTypeBacMathsTerminalePage() {
               </div>
               <TrackedLink
                 href={subjectsCtaHref}
-                eventName="click_internal_subjects_typebac"
+                eventName="click_typebac_subjects_page"
                 eventParams={{
                   ...baseEventParams,
                   destination_page: subjectsCtaHref,
@@ -808,15 +808,33 @@ export default function ExercicesTypeBacMathsTerminalePage() {
               Continuer les révisions Bac Maths Terminale
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
-              {internalLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-900"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {internalLinks.map((link) =>
+                link.href === subjectsCtaHref ? (
+                  <TrackedLink
+                    key={link.href}
+                    href={link.href}
+                    eventName="click_internal_subjects_typebac"
+                    eventParams={{
+                      source_page: pagePath,
+                      destination_page: link.href,
+                      level: "terminale",
+                      intent: "sujets_type_bac",
+                      cta_location: "typebac_internal_links_subjects",
+                    }}
+                    className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-900"
+                  >
+                    {link.label}
+                  </TrackedLink>
+                ) : (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:text-blue-900"
+                  >
+                    {link.label}
+                  </Link>
+                ),
+              )}
             </div>
           </section>
         </div>
