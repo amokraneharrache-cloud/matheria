@@ -46,6 +46,7 @@ export const publicSeoRoutes = [
   "/programme-maths-terminale/derivation-convexite",
   "/programme-maths-terminale/fonction-logarithme",
   "/programme-maths-terminale/probabilites",
+  "/programme-maths-terminale/geometrie-espace",
   "/programme-maths-premiere",
   "/programme-maths-brevet",
   "/methodes-maths-terminale",
@@ -54,12 +55,14 @@ export const publicSeoRoutes = [
   "/methodes-maths-terminale/tableau-variation",
   "/methodes-maths-terminale/logarithme",
   "/methodes-maths-terminale/probabilites-conditionnelles",
+  "/methodes-maths-terminale/geometrie-espace",
   "/exercices-maths-terminale",
   "/exercices-maths-terminale/suites",
   "/exercices-maths-terminale/limites",
   "/exercices-maths-terminale/derivation",
   "/exercices-maths-terminale/logarithme",
   "/exercices-maths-terminale/probabilites",
+  "/exercices-maths-terminale/geometrie-espace",
   "/articles",
 ] as const;
 

@@ -78,6 +78,7 @@ Inclure au minimum :
 - hero secondaire vers une page soeur du cluster
 - bande ou bloc intermediaire vers diagnostic et/ou planning
 - CTA visible vers `/exercices-type-bac-maths-terminale`
+- CTA ou lien visible vers `/sujets-type-bac-maths-terminale` lorsque le chapitre se prete a un sujet type bac ou a un entrainement transversal
 - CTA final vers diagnostic, planning et offre Bac 2027
 - maillage vers les deux autres pages du cluster
 
@@ -107,6 +108,7 @@ Chaque page doit lier :
 - page methode du chapitre
 - `/programme-maths-terminale`
 - `/exercices-type-bac-maths-terminale`
+- `/sujets-type-bac-maths-terminale` si pertinent pour le chapitre
 - `/methodes-maths-terminale`
 - `/bac-maths-2027`
 - `/planning-revision-bac-maths`
@@ -122,12 +124,14 @@ Avant livraison d'un nouveau triptyque :
 - verifier que les blocs `ChapterInternalLinks` ne gardent pas un lien du cluster precedent sous un titre "Continuer dans le cluster ..."
 - rechercher les mots du cluster precedent dans les nouvelles pages et ne conserver que les occurrences pedagogiquement justifiees
 - verifier que chaque page expose les CTA planning, diagnostic et exercices type bac
+- verifier que les clusters pertinents recoivent un lien ou une carte depuis `/sujets-type-bac-maths-terminale`
 - verifier que les FAQ visibles et le JSON-LD FAQ utilisent la meme liste `faqItems`
 - verifier que le breadcrumb JSON-LD correspond a la route et a son hub parent
 - verifier au moins 3 exercices visibles sur les pages exercices
 - relire les corrections mathematiques avec le chapitre cible en tete
 - verifier l'unicite du H1 (un seul `ChapterHero` par page) et qu'il reste distinct du `title` meta
 - verifier la coherence des valeurs numeriques d'un meme exemple repris sur plusieurs pages du cluster (ex. derivation : `f(x)=x²-4x+1` doit donner `f'=2x-4`, minimum en `x=2`, `f(2)=-3` partout ou l'exemple apparait ; `f(x)=x³-3x` doit donner `f'=3x²-3=3(x-1)(x+1)`, `f(-1)=2`, `f(1)=-2` ; logarithme : `f(x)=ln(x-2)` domaine `]2;+∞[` et `f(3)=0`, `ln(x)=2` donne `x=e²`, `g(x)=x ln x` donne `g'=ln x+1`, `f(x)=ln(x-1)` domaine `]1;+∞[`, `f'=1/(x-1)`, `f(x)=0` en `x=2`)
+- pour la geometrie dans l'espace, verifier la coherence des exemples repris sur les 3 pages : pour A(1,2,3) et B(4,0,5), `AB = (3,-2,2)` ; une droite passant par A et de vecteur directeur u(2,-1,4) peut s'ecrire `x=1+2t`, `y=2-t`, `z=3+4t` ; le plan `2x-y+z-5=0` a pour vecteur normal `n=(2,-1,1)` ; A(1,2,3) ne verifie pas ce plan car `2-2+3-5=-2`
 - pour toute fonction avec ln, verifier que le domaine de definition est rappele AVANT tout calcul ou substitution (interieur du ln strictement positif) : c'est le piege n°1 et il doit etre coherent entre programme, exercices et methode
 - apres QA validee, mettre a jour `Clusters livres` et remplacer la recommandation suivante pour eviter de relancer un cluster deja livre
 
@@ -147,23 +151,18 @@ Points de vigilance specifiques aux probabilites :
 - J7 — Derivation / Convexite : `/programme-maths-terminale/derivation-convexite`, `/exercices-maths-terminale/derivation`, `/methodes-maths-terminale/tableau-variation` (QA validee : structure SEO, math, maillage, lint, build OK)
 - J8 — Fonction logarithme : `/programme-maths-terminale/fonction-logarithme`, `/exercices-maths-terminale/logarithme`, `/methodes-maths-terminale/logarithme` (QA validee : structure SEO, math `ln(x-2)`/`ln(x)=2`/`x ln x`/`ln(x-1)`, maillage cluster + piliers, sitemap, lint, build OK)
 - J9 — Probabilites : `/programme-maths-terminale/probabilites`, `/exercices-maths-terminale/probabilites`, `/methodes-maths-terminale/probabilites-conditionnelles` (QA validee : structure SEO, math `P(M)=0,6`, `P_M(P)=0,4`, `P(M∩P)=0,24`, urne avec remise `RR=9/25`, `RB=6/25`, loi binomiale `B(10 ; 0,3)`, maillage cluster + piliers, sitemap OK)
+- J10 — Geometrie dans l'espace : `/programme-maths-terminale/geometrie-espace`, `/exercices-maths-terminale/geometrie-espace`, `/methodes-maths-terminale/geometrie-espace` (QA validee : structure SEO, math `AB=(3,-2,2)`, droite `x=1+2t`, `y=2-t`, `z=3+4t`, plan `2x-y+z-5=0`, `A` non dans le plan, `n=(2,-1,1)`, maillage cluster + piliers + sujets type bac, sitemap OK)
 
-## Recommandation J10
+## Recommandation J13
 
-Prochain cluster recommande : Geometrie dans l'espace.
+Prochaine action recommandee : enrichir `/sujets-type-bac-maths-terminale` avec une table de sujets par chapitre, maintenant que 6 clusters existent.
 
-Triptyque suggere (figer les slugs avant creation) :
+Objectif J13 :
 
-- `/programme-maths-terminale/geometrie-espace`
-- `/exercices-maths-terminale/geometrie-espace`
-- `/methodes-maths-terminale/geometrie-espace`
-
-A faire au moment de la creation :
-
-- ajouter les 3 routes dans `publicSeoRoutes` (`src/lib/site.ts`) pour le sitemap
-- verifier le slug de topic expose dans `src/data/programs.ts` pour la geometrie dans l'espace, puis ajouter l'entree correspondante dans `terminaleProgramClusterLinks` (`ProgramSeoPage.tsx`) avec un `eventName`/`cluster` dedie
-- ajouter les liens des 3 pages dans les piliers exercices et methodes
-- verifier la coherence editoriale entre geometrie vectorielle, droites/plans de l'espace, orthogonalite, produit scalaire et representations parametriques
+- afficher une table scannable par chapitre : suites, limites, derivation/convexite, logarithme, probabilites, geometrie dans l'espace
+- relier chaque ligne aux pages exercices, methode et programme du cluster correspondant
+- indiquer le type de competence travaillee : calcul, methode, redaction, piege frequent, transversal
+- garder le disclaimer explicite : sujets d'entrainement SprintMaths, pas annales officielles
 
 ## Checklist build/lint
 

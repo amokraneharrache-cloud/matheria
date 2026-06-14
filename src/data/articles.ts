@@ -35,7 +35,8 @@ export type ArticleLink = {
     | "limites"
     | "derivation-convexite"
     | "logarithme"
-    | "probabilites";
+    | "probabilites"
+    | "geometrie-espace";
   level?: "terminale";
 };
 
@@ -200,6 +201,14 @@ export const articles: Article[] = [
             description:
               "Probabilités conditionnelles, arbres pondérés, loi binomiale et variables aléatoires.",
             cluster: "probabilites",
+            level: "terminale",
+          },
+          {
+            label: "Revoir le chapitre Géométrie dans l'espace en Terminale",
+            href: "/programme-maths-terminale/geometrie-espace",
+            description:
+              "Vecteurs, repérage, droites, plans et raisonnements dans l'espace.",
+            cluster: "geometrie-espace",
             level: "terminale",
           },
         ],

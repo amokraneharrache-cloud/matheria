@@ -7,7 +7,7 @@ import { breadcrumbJsonLd } from "@/lib/seo";
 const pagePath = "/programme-maths-terminale";
 
 const description =
-  "Découvre les grands chapitres de maths Terminale travaillés dans SprintMaths : suites, limites, dérivation, logarithme, exponentielle, probabilités et intégrales.";
+  "Découvre les grands chapitres de maths Terminale travaillés dans SprintMaths : suites, limites, dérivation, logarithme, probabilités, géométrie dans l’espace et intégrales.";
 
 export const metadata: Metadata = {
   title: {
@@ -43,4 +43,3 @@ export default function ProgrammeMathsTerminalePage() {
     </>
   );
 }
-

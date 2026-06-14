@@ -191,6 +191,12 @@ const planningWeeks = [
         eventName: "click_internal_probabilites_cluster" as const,
         cluster: "probabilites" as const,
       },
+      {
+        href: "/programme-maths-terminale/geometrie-espace",
+        label: "Revoir le chapitre Géométrie dans l'espace",
+        eventName: "click_internal_geometrie_cluster" as const,
+        cluster: "geometrie-espace" as const,
+      },
     ],
     days: [
       "Probabilités conditionnelles",

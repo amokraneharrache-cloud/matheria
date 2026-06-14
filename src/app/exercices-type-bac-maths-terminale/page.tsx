@@ -178,6 +178,12 @@ const subjectChapterLinks = [
     eventName: "click_internal_probabilites_cluster",
     cluster: "probabilites",
   },
+  {
+    label: "Géométrie",
+    href: "/exercices-maths-terminale/geometrie-espace",
+    eventName: "click_internal_geometrie_cluster",
+    cluster: "geometrie-espace",
+  },
 ] as const;
 
 const chapterExerciseClusterLinks: Partial<
@@ -190,13 +196,15 @@ const chapterExerciseClusterLinks: Partial<
         | "click_internal_limites_cluster"
         | "click_internal_derivation_cluster"
         | "click_internal_logarithme_cluster"
-        | "click_internal_probabilites_cluster";
+        | "click_internal_probabilites_cluster"
+        | "click_internal_geometrie_cluster";
       cluster:
         | "suites"
         | "limites"
         | "derivation-convexite"
         | "logarithme"
-        | "probabilites";
+        | "probabilites"
+        | "geometrie-espace";
     }
   >
 > = {
@@ -224,6 +232,11 @@ const chapterExerciseClusterLinks: Partial<
     href: "/exercices-maths-terminale/probabilites",
     eventName: "click_internal_probabilites_cluster",
     cluster: "probabilites",
+  },
+  "Géométrie dans l'espace": {
+    href: "/exercices-maths-terminale/geometrie-espace",
+    eventName: "click_internal_geometrie_cluster",
+    cluster: "geometrie-espace",
   },
 };
 

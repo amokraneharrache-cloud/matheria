@@ -143,13 +143,15 @@ const chapterProgramClusterLinks: Partial<
         | "click_internal_limites_cluster"
         | "click_internal_derivation_cluster"
         | "click_internal_logarithme_cluster"
-        | "click_internal_probabilites_cluster";
+        | "click_internal_probabilites_cluster"
+        | "click_internal_geometrie_cluster";
       cluster:
         | "suites"
         | "limites"
         | "derivation-convexite"
         | "logarithme"
-        | "probabilites";
+        | "probabilites"
+        | "geometrie-espace";
     }
   >
 > = {
@@ -177,6 +179,11 @@ const chapterProgramClusterLinks: Partial<
     href: "/programme-maths-terminale/probabilites",
     eventName: "click_internal_probabilites_cluster",
     cluster: "probabilites",
+  },
+  "Géométrie dans l'espace": {
+    href: "/programme-maths-terminale/geometrie-espace",
+    eventName: "click_internal_geometrie_cluster",
+    cluster: "geometrie-espace",
   },
 };
 

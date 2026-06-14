@@ -215,7 +215,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                                     ? "click_internal_logarithme_cluster"
                                     : link.cluster === "probabilites"
                                       ? "click_internal_probabilites_cluster"
-                                      : "click_internal_suites_cluster"
+                                      : link.cluster === "geometrie-espace"
+                                        ? "click_internal_geometrie_cluster"
+                                        : "click_internal_suites_cluster"
                             }
                             eventParams={{
                               source_page: pagePath,

@@ -197,6 +197,26 @@ const subjectPreviews = [
     clusterHref: "/exercices-maths-terminale/probabilites",
     cluster: "probabilites",
   },
+  {
+    number: 4,
+    heading: "Sujet type bac 4 : géométrie dans l'espace",
+    slug: "geometrie-espace",
+    objective:
+      "Savoir manipuler des vecteurs de l'espace, représenter une droite, étudier une position relative et justifier une intersection ou une orthogonalité.",
+    chapters: ["Vecteurs de l'espace", "Droites et plans", "Repérage", "Orthogonalité"],
+    tasks: [
+      "Lire ou construire une représentation paramétrique de droite.",
+      "Utiliser les coordonnées de points et de vecteurs dans un repère.",
+      "Tester un alignement, une appartenance ou une intersection.",
+      "Rédiger clairement la conclusion géométrique attendue.",
+    ],
+    method:
+      "Commencer par nommer les points et les vecteurs utiles, poser les coordonnées, puis traduire la question géométrique en équations simples.",
+    pitfall:
+      "Confondre une droite et un plan ou conclure trop vite sur une intersection sans vérifier les paramètres obtenus.",
+    clusterHref: "/exercices-maths-terminale/geometrie-espace",
+    cluster: "geometrie-espace",
+  },
 ] as const;
 
 const clusterLinks = [
@@ -219,6 +239,11 @@ const clusterLinks = [
     href: "/exercices-maths-terminale/probabilites",
     label: "Probabilités",
     cluster: "probabilites",
+  },
+  {
+    href: "/exercices-maths-terminale/geometrie-espace",
+    label: "Géométrie dans l'espace",
+    cluster: "geometrie-espace",
   },
 ];
 
@@ -323,7 +348,11 @@ function SubjectPreviewCard({
 
           <TrackedLink
             href={subject.clusterHref}
-            eventName="click_subjects_cluster_exercise"
+            eventName={
+              subject.cluster === "geometrie-espace"
+                ? "click_internal_geometrie_cluster"
+                : "click_subjects_cluster_exercise"
+            }
             eventParams={{
               ...baseEventParams,
               cluster: subject.cluster,
@@ -633,7 +662,11 @@ export default function SujetsTypeBacMathsTerminalePage() {
                 <TrackedLink
                   key={link.href}
                   href={link.href}
-                  eventName="click_subjects_cluster_exercise"
+                  eventName={
+                    link.cluster === "geometrie-espace"
+                      ? "click_internal_geometrie_cluster"
+                      : "click_subjects_cluster_exercise"
+                  }
                   eventParams={{
                     ...baseEventParams,
                     cluster: link.cluster,
