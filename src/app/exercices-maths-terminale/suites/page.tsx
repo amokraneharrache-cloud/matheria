@@ -494,6 +494,20 @@ export default function ExercicesSuitesTerminalePage() {
                 Voir la méthode pour étudier une suite
               </TrackedLink>
               <TrackedLink
+                href="/sujets-type-bac-maths-terminale"
+                eventName="click_exercise_chapter_subjects"
+                eventParams={{
+                  ...chapterEventParams,
+                  destination_page: "/sujets-type-bac-maths-terminale",
+                  intent: "sujets_type_bac",
+                  cta_location: "continue_subjects",
+                }}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-blue-200 px-5 py-3 text-center font-bold text-white hover:bg-blue-900"
+              >
+                <ClipboardList className="h-4 w-4" />
+                Voir les sujets type bac guidés
+              </TrackedLink>
+              <TrackedLink
                 href="/planning-revision-bac-maths"
                 eventName="click_exercise_chapter_planning"
                 eventParams={{

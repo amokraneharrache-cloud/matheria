@@ -431,6 +431,20 @@ export default function ExercicesLimitesTerminalePage() {
               >
                 Essayer un exercice type bac
               </TrackedLink>
+              <TrackedLink
+                href="/sujets-type-bac-maths-terminale"
+                eventName="click_exercise_chapter_subjects"
+                eventParams={{
+                  ...chapterEventParams,
+                  destination_page: "/sujets-type-bac-maths-terminale",
+                  intent: "sujets_type_bac",
+                  cta_location: "limits_exercises_final_subjects",
+                }}
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-blue-200 px-5 py-3 text-center font-bold text-white hover:bg-blue-900 sm:w-auto"
+              >
+                <ClipboardList className="h-4 w-4" />
+                Voir les sujets type bac guidés
+              </TrackedLink>
               <Link
                 href="/programme-maths-terminale/limites"
                 className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-emerald-500 px-5 py-3 text-center font-bold text-white hover:bg-emerald-400 sm:w-auto"

@@ -331,12 +331,12 @@ export default function ExercicesGeometrieEspacePage() {
         }
         ctas={[
           {
-            href: "/sujets-type-bac-maths-terminale",
-            label: "Voir les sujets type bac guidés",
-            eventName: "click_exercise_chapter_subjects",
+            href: "/exercices-type-bac-maths-terminale",
+            label: "Essayer les exercices type bac guidés",
+            eventName: "click_exercise_chapter_typebac",
             eventParams: {
               ...chapterEventParams,
-              cta_location: "geometrie_exercises_hero_subjects",
+              cta_location: "geometrie_exercises_hero_typebac",
             },
             icon: <PlayCircle className="h-5 w-5" />,
           },
@@ -505,6 +505,8 @@ export default function ExercicesGeometrieEspacePage() {
                 eventName="click_exercise_chapter_subjects"
                 eventParams={{
                   ...chapterEventParams,
+                  destination_page: "/sujets-type-bac-maths-terminale",
+                  intent: "sujets_type_bac",
                   cta_location: "continue_subjects",
                 }}
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-center font-bold text-blue-950 hover:bg-blue-50"

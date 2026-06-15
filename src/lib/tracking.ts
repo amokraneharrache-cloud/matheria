@@ -38,6 +38,8 @@ export type SprintMathsEventName =
   | "click_subjects_typebac_diagnostic"
   | "click_subjects_typebac_offer"
   | "click_subjects_cluster_exercise"
+  | "click_subjects_chapter_table"
+  | "click_subjects_page_anchor"
   | "free_exercise_start"
   | "free_exercise_complete"
   | "purchase"
@@ -95,6 +97,7 @@ export type SprintMathsEventName =
 
 export type TrackingParams = {
   event_name?: string;
+  anchor?: string;
   chapter?: string;
   cluster?: string;
   destination_page?: string;
@@ -108,6 +111,7 @@ export type TrackingParams = {
   cta_location?: string;
   faq_question?: string;
   lead_magnet?: string;
+  link_type?: string;
   payment_provider?: string;
   source_page?: string;
   utm_source?: string;
@@ -137,6 +141,7 @@ declare global {
 
 const ALLOWED_STRING_PARAMS = [
   "event_name",
+  "anchor",
   "chapter",
   "cluster",
   "destination_page",
@@ -149,6 +154,7 @@ const ALLOWED_STRING_PARAMS = [
   "cta_location",
   "faq_question",
   "lead_magnet",
+  "link_type",
   "payment_provider",
   "source_page",
   "utm_source",

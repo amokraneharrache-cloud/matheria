@@ -75,6 +75,21 @@ const faqItems: FaqItem[] = [
       "Les deux sont utiles. Les exercices ciblés consolident une méthode précise, tandis que les sujets type bac aident à enchaîner plusieurs réflexes. SprintMaths met surtout l'accent sur l'entraînement guidé étape par étape.",
   },
   {
+    question: "Quelle différence entre un sujet type bac et un exercice type bac ?",
+    answer:
+      "Un exercice type bac cible une méthode précise, par exemple une limite de suite ou une probabilité conditionnelle. Un sujet type bac enchaîne plusieurs questions liées, parfois sur des chapitres différents, comme une partie d'épreuve. L'exercice consolide un réflexe, le sujet apprend à enchaîner ces réflexes.",
+  },
+  {
+    question: "Quels chapitres travailler en priorité ?",
+    answer:
+      "Cela dépend de tes points faibles, repérables avec le diagnostic gratuit. En Terminale, les suites, la dérivation, le logarithme, les probabilités et la géométrie dans l'espace reviennent souvent dans les sujets type bac : ce sont des chapitres utiles à sécuriser en premier.",
+  },
+  {
+    question: "Est-ce utile de refaire plusieurs sujets type bac ?",
+    answer:
+      "Oui, à condition de varier les chapitres et de revenir sur les erreurs commises. Refaire un sujet déjà corrigé aide à vérifier que la méthode est acquise, et pas seulement mémorisée. L'objectif est de gagner en autonomie sur le raisonnement, sans garantir une note précise le jour de l'épreuve.",
+  },
+  {
     question: "Les corrigés sont-ils détaillés ?",
     answer:
       "Les corrigés SprintMaths sont pensés comme des corrigés guidés : identifier le chapitre, choisir la méthode, poser les calculs puis conclure proprement. Les aperçus de cette page ne sont pas des corrigés exhaustifs de sujets de 2 h.",
@@ -247,6 +262,69 @@ const clusterLinks = [
   },
 ];
 
+const chapterSubjectLinks = [
+  {
+    chapter: "Suites",
+    trackingChapter: "suites",
+    work:
+      "Étudier une suite explicite ou récurrente, justifier une variation, calculer une limite et interpréter le résultat.",
+    pitfall:
+      "Appliquer une formule sans vérifier la forme de la suite ni rédiger l'interprétation finale.",
+    exerciseHref: "/exercices-maths-terminale/suites",
+    methodHref: "/methodes-maths-terminale/etudier-une-suite",
+  },
+  {
+    chapter: "Limites",
+    trackingChapter: "limites",
+    work:
+      "Calculer une limite, lever une forme indéterminée simple et relier le résultat à l'étude d'une fonction.",
+    pitfall:
+      "Conclure trop vite sur le signe de l'infini sans regarder le terme dominant ou l'intervalle étudié.",
+    exerciseHref: "/exercices-maths-terminale/limites",
+    methodHref: "/methodes-maths-terminale/calculer-une-limite",
+  },
+  {
+    chapter: "Dérivation / Convexité",
+    trackingChapter: "derivation-convexite",
+    work:
+      "Calculer une dérivée, étudier son signe, construire un tableau de variation et exploiter la convexité.",
+    pitfall:
+      "Remplir le tableau de variation sans relier clairement le signe de la dérivée aux intervalles.",
+    exerciseHref: "/exercices-maths-terminale/derivation",
+    methodHref: "/methodes-maths-terminale/tableau-variation",
+  },
+  {
+    chapter: "Fonction logarithme",
+    trackingChapter: "logarithme",
+    work:
+      "Poser le domaine, transformer des expressions avec ln, résoudre une équation et calculer une limite.",
+    pitfall:
+      "Oublier que l'expression à l'intérieur d'un logarithme doit être strictement positive.",
+    exerciseHref: "/exercices-maths-terminale/logarithme",
+    methodHref: "/methodes-maths-terminale/logarithme",
+  },
+  {
+    chapter: "Probabilités",
+    trackingChapter: "probabilites",
+    work:
+      "Organiser un arbre pondéré, calculer une probabilité conditionnelle, reconnaître une loi binomiale et interpréter.",
+    pitfall:
+      "Confondre P(A ∩ B), P_A(B) et P(B), surtout quand l'arbre contient plusieurs branches.",
+    exerciseHref: "/exercices-maths-terminale/probabilites",
+    methodHref: "/methodes-maths-terminale/probabilites-conditionnelles",
+  },
+  {
+    chapter: "Géométrie dans l'espace",
+    trackingChapter: "geometrie-espace",
+    work:
+      "Manipuler vecteurs et coordonnées, utiliser une représentation paramétrique et justifier une position relative.",
+    pitfall:
+      "Conclure une intersection sans vérifier les paramètres obtenus ou l'appartenance au plan.",
+    exerciseHref: "/exercices-maths-terminale/geometrie-espace",
+    methodHref: "/methodes-maths-terminale/geometrie-espace",
+  },
+] as const;
+
 const internalLinks = [
   { href: "/bac-maths-2027", label: "Préparation Bac Maths 2027" },
   {
@@ -258,6 +336,23 @@ const internalLinks = [
   { href: "/programme-maths-terminale", label: "Programme maths Terminale" },
   { href: "/exercices-maths-terminale", label: "Exercices maths Terminale" },
   { href: "/methodes-maths-terminale", label: "Méthodes maths Terminale" },
+];
+
+// Sommaire interne : chaque ancre cible un id de section présent plus bas.
+const pageAnchors = [
+  { href: "#sujets-guides", anchor: "sujets-guides", label: "Sujets guidés" },
+  {
+    href: "#sujets-par-chapitre",
+    anchor: "sujets-par-chapitre",
+    label: "Sujets par chapitre",
+  },
+  { href: "#corrige-guide", anchor: "corrige-guide", label: "Corrigé guidé" },
+  {
+    href: "#annales-officielles",
+    anchor: "annales-officielles",
+    label: "Annales officielles",
+  },
+  { href: "#faq", anchor: "faq", label: "FAQ" },
 ];
 
 function SubjectPreviewCard({
@@ -474,6 +569,35 @@ export default function SujetsTypeBacMathsTerminalePage() {
         </div>
       </section>
 
+      <nav
+        aria-label="Sommaire de la page"
+        className="border-b border-slate-200 bg-white px-4 py-4"
+      >
+        <div className="mx-auto max-w-6xl">
+          <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+            Sur cette page
+          </p>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {pageAnchors.map((item) => (
+              <li key={item.href}>
+                <TrackedLink
+                  href={item.href}
+                  eventName="click_subjects_page_anchor"
+                  eventParams={{
+                    source_page: pagePath,
+                    anchor: item.anchor,
+                    intent: "sujets_type_bac",
+                  }}
+                  className="inline-flex min-h-11 items-center rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-900"
+                >
+                  {item.label}
+                </TrackedLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
       <section className="px-4 py-14 sm:py-16">
         <div className="mx-auto max-w-6xl space-y-16">
           <section className="grid gap-8 lg:grid-cols-[0.85fr_1fr] lg:items-start">
@@ -520,7 +644,7 @@ export default function SujetsTypeBacMathsTerminalePage() {
             </div>
           </section>
 
-          <section>
+          <section id="sujets-guides" className="scroll-mt-24">
             <div className="max-w-3xl">
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
                 Format SprintMaths
@@ -554,7 +678,104 @@ export default function SujetsTypeBacMathsTerminalePage() {
             <SubjectPreviewCard key={subject.slug} subject={subject} />
           ))}
 
-          <section className="grid gap-8 lg:grid-cols-[0.85fr_1fr] lg:items-start">
+          <section id="sujets-par-chapitre" className="scroll-mt-24">
+            <div className="max-w-3xl">
+              <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+                Chapitres Terminale
+              </p>
+              <h2 className="mt-3 text-3xl font-bold text-slate-950">
+                Sujets type bac par chapitre
+              </h2>
+              <p className="mt-4 leading-7 text-slate-700">
+                Pour réviser efficacement, travaille chaque sujet type bac par
+                chapitre : commence par identifier la méthode, puis passe au
+                corrigé guidé.
+              </p>
+              <p className="mt-3 leading-7 text-slate-700">
+                Pour replacer chaque notion dans l&apos;année, consulte aussi le{" "}
+                <Link
+                  href="/programme-maths-terminale"
+                  className="font-bold text-blue-900 hover:underline"
+                >
+                  programme maths Terminale
+                </Link>
+                .
+              </p>
+            </div>
+
+            <div className="mt-6 grid gap-4 lg:grid-cols-2">
+              {chapterSubjectLinks.map((chapter) => (
+                <article
+                  key={chapter.trackingChapter}
+                  className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+                >
+                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-900">
+                    Chapitre
+                  </p>
+                  <h3 className="mt-2 text-2xl font-bold text-slate-950">
+                    {chapter.chapter}
+                  </h3>
+
+                  <div className="mt-5 grid gap-5 sm:grid-cols-2">
+                    <div>
+                      <p className="text-sm font-bold text-slate-950">
+                        Ce qu&apos;on travaille dans un sujet type bac
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-slate-700">
+                        {chapter.work}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-slate-950">
+                        Erreur fréquente
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-slate-700">
+                        {chapter.pitfall}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                    <TrackedLink
+                      href={chapter.exerciseHref}
+                      eventName="click_subjects_chapter_table"
+                      eventParams={{
+                        source_page: pagePath,
+                        chapter: chapter.trackingChapter,
+                        destination_page: chapter.exerciseHref,
+                        link_type: "exercise",
+                        intent: "sujets_type_bac",
+                      }}
+                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-blue-900 px-4 py-2 text-center text-sm font-bold text-white hover:bg-blue-800"
+                    >
+                      Exercices guidés
+                      <ArrowRight className="h-4 w-4" />
+                    </TrackedLink>
+                    <TrackedLink
+                      href={chapter.methodHref}
+                      eventName="click_subjects_chapter_table"
+                      eventParams={{
+                        source_page: pagePath,
+                        chapter: chapter.trackingChapter,
+                        destination_page: chapter.methodHref,
+                        link_type: "method",
+                        intent: "sujets_type_bac",
+                      }}
+                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-blue-900 px-4 py-2 text-center text-sm font-bold text-blue-900 hover:bg-blue-50"
+                    >
+                      Méthode
+                      <ArrowRight className="h-4 w-4" />
+                    </TrackedLink>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section
+            id="corrige-guide"
+            className="grid scroll-mt-24 gap-8 lg:grid-cols-[0.85fr_1fr] lg:items-start"
+          >
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
                 Correction guidée
@@ -596,7 +817,10 @@ export default function SujetsTypeBacMathsTerminalePage() {
             </div>
           </section>
 
-          <section className="grid gap-6 rounded-lg border border-slate-200 bg-slate-50 p-6 sm:p-8 lg:grid-cols-[0.9fr_1fr] lg:items-start">
+          <section
+            id="annales-officielles"
+            className="grid scroll-mt-24 gap-6 rounded-lg border border-slate-200 bg-slate-50 p-6 sm:p-8 lg:grid-cols-[0.9fr_1fr] lg:items-start"
+          >
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
                 Transparence
@@ -774,7 +998,9 @@ export default function SujetsTypeBacMathsTerminalePage() {
             </div>
           </section>
 
-          <FaqAccordion items={faqItems} sourcePage={pagePath} />
+          <div id="faq" className="scroll-mt-24">
+            <FaqAccordion items={faqItems} sourcePage={pagePath} />
+          </div>
 
           <section className="rounded-lg bg-slate-50 p-6">
             <p className="text-2xl font-bold text-slate-950">
