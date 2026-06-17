@@ -4,7 +4,6 @@ import Link from "next/link";
 import {
   ArrowRight,
   BookOpenCheck,
-  CalendarDays,
   CheckCircle2,
   ClipboardList,
   GraduationCap,
@@ -23,11 +22,14 @@ import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
 import { PACK_REVISION_EXPRESS_PRICE } from "@/lib/offers";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
 import { breadcrumbJsonLd, faqJsonLd, productJsonLd, type FaqItem } from "@/lib/seo";
-import { GuidedExercisePreview } from "./GuidedExercisePreview";
 
 const pagePath = "/exercices-type-bac-maths-terminale";
 const subjectsSectionId = "sujets-type-bac-guides";
 const subjectsCtaHref = "/sujets-type-bac-maths-terminale";
+const typeBacDemoSectionId = "sujet-type-bac-guide-demo";
+const typeBacDemoAnchor = `${pagePath}#${typeBacDemoSectionId}`;
+const typeBacDemoId = "suite_convergence_6";
+const typeBacDemoIntent = "product_demo_typebac";
 
 const title = "Exercices et sujets type Bac Maths Terminale corrigés";
 const description =
@@ -93,24 +95,6 @@ const faqItems: FaqItem[] = [
   },
 ];
 
-const freeExercises = [
-  {
-    chapter: "Suites",
-    title: "Étudier une suite et justifier son sens de variation",
-    text: "Repérer la bonne méthode avant de se lancer dans les calculs.",
-  },
-  {
-    chapter: "Dérivation / convexité",
-    title: "Construire un tableau de variation",
-    text: "Calculer la dérivée, étudier son signe et conclure clairement.",
-  },
-  {
-    chapter: "Probabilités",
-    title: "Utiliser un arbre pondéré et une probabilité conditionnelle",
-    text: "Organiser les événements pour éviter de mélanger les branches.",
-  },
-];
-
 const guidedSteps = [
   {
     icon: Target,
@@ -132,6 +116,29 @@ const guidedSteps = [
     title: "Suivre la progression",
     text: "Le pack aide à voir les chapitres travaillés et les priorités de progression.",
   },
+];
+
+const typeBacDemoSteps = [
+  "Étape 1 : calculer les premiers termes.",
+  "Étape 2 : repérer le point fixe 6.",
+  "Étape 3 : poser v_n = 6 - u_n.",
+  "Étape 4 : reconnaître une suite géométrique.",
+  "Étape 5 : conclure la limite.",
+];
+
+const typeBacDemoHints = [
+  "Indice 1 : commence par u_1 et u_2 pour voir vers quelle valeur la suite se rapproche.",
+  "Indice 2 : si la suite converge vers L, alors L = 0,5L + 3.",
+  "Indice 3 : le bon changement de suite est celui qui mesure l'écart avec 6.",
+];
+
+const typeBacDemoCorrection = [
+  "u_1 = 4 et u_2 = 5 : la suite semble se rapprocher de 6.",
+  "Le point fixe vérifie L = 0,5L + 3, donc L = 6.",
+  "On pose v_n = 6 - u_n pour mesurer l'écart à 6.",
+  "Alors v_{n+1} = 0,5v_n et v_0 = 4.",
+  "Donc v_n = 4×0,5^n, puis u_n = 6 - 4×0,5^n.",
+  "Comme 0,5^n tend vers 0, la suite u_n converge vers 6.",
 ];
 
 const chapters = [
@@ -276,6 +283,13 @@ export default function ExercicesTypeBacMathsTerminalePage() {
     price: PACK_REVISION_EXPRESS_PRICE,
     currency: "EUR",
   };
+  const typeBacDemoEventParams = {
+    source_page: pagePath,
+    level: "terminale",
+    exam_goal: "bac_2027",
+    demo: typeBacDemoId,
+    intent: typeBacDemoIntent,
+  };
 
   return (
     <SeoPageLayout showUrgencyBanner={false} urgencySourcePage={pagePath}>
@@ -320,16 +334,17 @@ export default function ExercicesTypeBacMathsTerminalePage() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <TrackedLink
-                href={`${pagePath}#exercice-guide`}
-                eventName="click_typebac_free_exercise"
+                href={typeBacDemoAnchor}
+                eventName="click_typebac_demo_start"
                 eventParams={{
-                  ...baseEventParams,
+                  ...typeBacDemoEventParams,
+                  destination_page: typeBacDemoAnchor,
                   cta_location: "typebac_hero_primary",
                 }}
                 className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-emerald-500 px-5 py-3 text-center font-bold text-white shadow-md hover:bg-emerald-400 sm:w-auto"
               >
                 <PlayCircle className="h-5 w-5" />
-                Essayer un exercice guidé gratuit
+                Voir la démo sujet type bac
               </TrackedLink>
               <TrackedLink
                 href="/diagnostic"
@@ -376,7 +391,7 @@ export default function ExercicesTypeBacMathsTerminalePage() {
       <section className="border-b border-slate-200 bg-white px-4 py-5">
         <div className="mx-auto grid max-w-6xl gap-3 sm:grid-cols-3">
           {[
-            { value: "3", label: "exercices guidés gratuits pour commencer" },
+            { value: "1", label: "démo de sujet type bac guidé" },
             { value: "10", label: "chapitres de Terminale couverts" },
             { value: "39 €", label: "Pack Révision Express, paiement unique" },
           ].map((stat) => (
@@ -440,142 +455,173 @@ export default function ExercicesTypeBacMathsTerminalePage() {
             </div>
           </section>
 
-          <section
-            id={subjectsSectionId}
-            className="scroll-mt-24 grid gap-8 lg:grid-cols-[0.95fr_1fr] lg:items-start"
-          >
-            <div>
+          <section id={typeBacDemoSectionId} className="scroll-mt-24">
+            <div className="max-w-3xl">
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
-                Sujets guidés
+                Sujet type bac guidé complet — démo
               </p>
               <h2 className="mt-3 text-3xl font-bold text-slate-950">
-                Sujets type bac maths Terminale avec corrigé guidé
+                Démo : un sujet type bac guidé étape par étape
               </h2>
-              <div className="mt-5 space-y-4 leading-7 text-slate-700">
-                <p>
-                  SprintMaths propose des sujets type bac maths Terminale et des
-                  exercices type bac guidés pour s&apos;entraîner sur les
-                  raisonnements attendus en spécialité maths.
-                </p>
-                <p>
-                  Ce ne sont pas des annales officielles revendiquées. Le but est
-                  d&apos;apprendre à démarrer une question, suivre les étapes utiles
-                  et corriger activement son raisonnement au lieu de lire
-                  seulement le résultat.
-                </p>
-                <p>
-                  Les sujets et exercices couvrent les chapitres clés : suites,
-                  limites, dérivation, logarithme, probabilités et géométrie.
-                </p>
-              </div>
-              <TrackedLink
-                href={subjectsCtaHref}
-                eventName="click_typebac_subjects_page"
-                eventParams={{
-                  ...baseEventParams,
-                  destination_page: subjectsCtaHref,
-                  intent: "sujets_type_bac",
-                  cta_location: "typebac_subjects_section",
-                }}
-                className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-blue-900 px-5 py-3 text-center font-bold text-white hover:bg-blue-800 sm:w-auto"
-              >
-                Voir les sujets type bac guidés
-                <ArrowRight className="h-4 w-4" />
-              </TrackedLink>
-            </div>
-
-            <div className="rounded-lg border border-blue-100 bg-blue-50 p-5 sm:p-6">
-              <h3 className="text-xl font-bold text-slate-950">
-                Travailler les chapitres qui tombent souvent en type bac
-              </h3>
-              <p className="mt-3 leading-7 text-slate-700">
-                Chaque lien renvoie vers un cluster d&apos;exercices corrigés de
-                Terminale pour consolider une méthode avant de revenir sur un
-                sujet complet.
+              <p className="mt-4 leading-7 text-slate-700">
+                Voici un aperçu de l’expérience SprintMaths : tu ne reçois pas
+                seulement une correction finale, tu avances par étapes avec la
+                méthode, les indices et les erreurs à éviter.
               </p>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                {subjectChapterLinks.map((chapter) => (
-                  <TrackedLink
-                    key={chapter.href}
-                    href={chapter.href}
-                    eventName={chapter.eventName}
-                    eventParams={{
-                      source_page: pagePath,
-                      destination_page: chapter.href,
-                      cluster: chapter.cluster,
-                      level: "terminale",
-                      cta_location: "typebac_subjects_chapter_link",
-                    }}
-                    className="rounded-lg border border-blue-100 bg-white p-4 font-semibold text-slate-800 shadow-sm hover:border-blue-200 hover:bg-blue-50 hover:text-blue-950"
-                  >
-                    {chapter.label}
-                  </TrackedLink>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
-                  Démo gratuite
-                </p>
-                <h2 className="mt-3 text-3xl font-bold text-slate-950">
-                  3 exercices guidés gratuits pour commencer
-                </h2>
-                <p className="mt-4 max-w-3xl leading-7 text-slate-700">
-                  Voici trois formats d&apos;exercices corrigés maths Terminale à
-                  travailler en mode guidé. La démo ci-dessous montre l&apos;esprit
-                  SprintMaths sans exposer les routes privées du produit.
-                </p>
-              </div>
-              <TrackedLink
-                href={`${pagePath}#exercice-guide`}
-                eventName="click_typebac_free_exercise"
-                eventParams={{
-                  ...baseEventParams,
-                  cta_location: "typebac_free_section_top",
-                }}
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-blue-900 px-5 py-3 text-center font-bold text-white hover:bg-blue-800"
-              >
-                Lancer la démo
-                <ArrowRight className="h-4 w-4" />
-              </TrackedLink>
             </div>
 
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              {freeExercises.map((exercise, index) => (
-                <article
-                  key={exercise.chapter}
-                  className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm"
-                >
-                  <div className="flex items-center gap-2 text-sm font-bold text-blue-800">
-                    <ClipboardList className="h-4 w-4" />
-                    {exercise.chapter}
+            <div className="mt-6 grid gap-4 lg:grid-cols-3">
+              <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                <ClipboardList className="h-6 w-6 text-blue-800" />
+                <h3 className="mt-3 text-xl font-bold text-slate-950">
+                  Mini-sujet suite — comprendre l’énoncé
+                </h3>
+                <div className="mt-4 space-y-2 border-l-4 border-blue-800 pl-4 leading-7 text-slate-700">
+                  <p>Suite définie par récurrence :</p>
+                  <p className="break-words font-mono text-sm font-semibold text-slate-950 [overflow-wrap:anywhere]">
+                    u_0 = 2
+                  </p>
+                  <p className="break-words font-mono text-sm font-semibold text-slate-950 [overflow-wrap:anywhere]">
+                    u_&#123;n+1&#125; = 0,5u_n + 3
+                  </p>
+                  <p>Objectif : montrer que la suite converge vers 6.</p>
+                </div>
+                <ol className="mt-5 list-decimal space-y-2 pl-5 text-sm leading-6 text-slate-700">
+                  {typeBacDemoSteps.slice(0, 2).map((step) => (
+                    <li key={step}>{step}</li>
+                  ))}
+                </ol>
+              </article>
+
+              <article className="rounded-lg border border-blue-100 bg-blue-50 p-5 shadow-sm">
+                <PenTool className="h-6 w-6 text-blue-800" />
+                <h3 className="mt-3 text-xl font-bold text-slate-950">
+                  Bloc 2 — Choisir la méthode
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-blue-950">
+                  Le réflexe SprintMaths : trouver le point fixe, mesurer l’écart
+                  à ce point, puis reconnaître une suite géométrique.
+                </p>
+                <ol className="mt-5 list-decimal space-y-2 pl-5 text-sm leading-6 text-blue-950">
+                  {typeBacDemoSteps.slice(2).map((step) => (
+                    <li key={step}>{step}</li>
+                  ))}
+                </ol>
+                <div className="mt-5 border-l-4 border-emerald-600 pl-4">
+                  <p className="font-bold text-slate-950">Indices progressifs</p>
+                  <ul className="mt-2 space-y-2 text-sm leading-6 text-blue-950">
+                    {typeBacDemoHints.map((hint) => (
+                      <li key={hint}>{hint}</li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+
+              <article className="rounded-lg border border-emerald-200 bg-emerald-50 p-5 shadow-sm">
+                <BookOpenCheck className="h-6 w-6 text-emerald-700" />
+                <h3 className="mt-3 text-xl font-bold text-slate-950">
+                  Bloc 3 — Lire le corrigé guidé
+                </h3>
+                <ol className="mt-4 list-decimal space-y-2 break-words pl-5 text-sm leading-6 text-slate-800 [overflow-wrap:anywhere]">
+                  {typeBacDemoCorrection.map((line) => (
+                    <li key={line}>{line}</li>
+                  ))}
+                </ol>
+                <div className="mt-5 grid gap-4">
+                  <div className="border-l-4 border-blue-800 pl-4">
+                    <p className="font-bold text-slate-950">Méthode</p>
+                    <p className="mt-1 text-sm leading-6 text-slate-700">
+                      Pour une suite récurrente affine, chercher le point fixe
+                      permet souvent de transformer l’écart en suite géométrique.
+                    </p>
                   </div>
-                  <h3 className="mt-3 text-xl font-bold text-slate-950">
-                    {exercise.title}
-                  </h3>
-                  <p className="mt-3 leading-7 text-slate-700">{exercise.text}</p>
-                  <TrackedLink
-                    href={`${pagePath}#exercice-guide`}
-                    eventName="click_typebac_free_exercise"
-                    eventParams={{
-                      ...baseEventParams,
-                      cta_location: `typebac_free_card_${index + 1}`,
-                    }}
-                    className="mt-5 inline-flex items-center gap-2 font-bold text-blue-900 hover:underline"
-                  >
-                    Voir l&apos;aperçu guidé
-                    <ArrowRight className="h-4 w-4" />
-                  </TrackedLink>
-                </article>
-              ))}
+                  <div className="border-l-4 border-amber-500 pl-4">
+                    <p className="font-bold text-slate-950">Erreur fréquente</p>
+                    <p className="mt-1 text-sm leading-6 text-slate-700">
+                      Ne pas confondre v_n = 6 - u_n avec v_n = u_n - 6 : ici
+                      v_0 = 4, ce qui garde des termes positifs.
+                    </p>
+                  </div>
+                </div>
+              </article>
             </div>
 
-            <div className="mt-8">
-              <GuidedExercisePreview />
+            <div className="mt-8 grid gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+              <div>
+                <h3 className="text-2xl font-bold text-slate-950">
+                  Pourquoi c’est différent d’un corrigé classique
+                </h3>
+                <p className="mt-3 leading-7 text-slate-700">
+                  Cette démo est un entraînement type bac SprintMaths. Elle
+                  n&apos;est pas présentée comme une annale officielle.
+                </p>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                  <BookOpenCheck className="h-5 w-5 text-slate-700" />
+                  <h4 className="mt-3 text-lg font-bold text-slate-950">
+                    Corrigé classique
+                  </h4>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">
+                    Donne le résultat et laisse souvent l’élève retrouver seul
+                    pourquoi cette méthode fonctionne.
+                  </p>
+                </article>
+                <article className="rounded-lg border-2 border-emerald-500 bg-emerald-50 p-5">
+                  <ListChecks className="h-5 w-5 text-emerald-700" />
+                  <h4 className="mt-3 text-lg font-bold text-slate-950">
+                    SprintMaths
+                  </h4>
+                  <p className="mt-2 text-sm leading-6 text-slate-800">
+                    Montre la méthode, les étapes, les pièges et la logique pour
+                    apprendre à refaire un raisonnement similaire.
+                  </p>
+                </article>
+              </div>
+            </div>
+
+            <div className="mt-8 rounded-lg border border-emerald-200 bg-emerald-50 p-5 sm:p-6">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div className="max-w-2xl">
+                  <h3 className="text-xl font-bold text-slate-950">
+                    Tu veux ce guidage sur plus d’exercices ?
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">
+                    Le pack débloque les exercices guidés complets. Pour explorer
+                    d&apos;autres énoncés avant l&apos;offre, la suite naturelle est la
+                    page des{" "}
+                    <TrackedLink
+                      href={subjectsCtaHref}
+                      eventName="click_typebac_demo_subjects"
+                      eventParams={{
+                        ...typeBacDemoEventParams,
+                        destination_page: subjectsCtaHref,
+                        cta_location: "typebac_demo_subjects_inline",
+                      }}
+                      className="font-bold text-blue-900 underline underline-offset-4 hover:text-blue-700"
+                    >
+                      sujets type bac guidés
+                    </TrackedLink>
+                    .
+                  </p>
+                </div>
+                <TrackedLink
+                  href={`${pagePath}#offre`}
+                  eventName="click_typebac_demo_offer"
+                  eventParams={{
+                    ...typeBacDemoEventParams,
+                    destination_page: `${pagePath}#offre`,
+                    offer: "pack_revision_express_bac_2027",
+                    price: PACK_REVISION_EXPRESS_PRICE,
+                    currency: "EUR",
+                    cta_location: "typebac_demo_offer",
+                  }}
+                  className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 py-3 text-center font-bold text-white hover:bg-emerald-500 lg:w-auto"
+                >
+                  Voir le Pack Révision Express
+                  <ArrowRight className="h-4 w-4" />
+                </TrackedLink>
+              </div>
             </div>
           </section>
 
@@ -662,6 +708,80 @@ export default function ExercicesTypeBacMathsTerminalePage() {
             </div>
           </section>
 
+          <section
+            id={subjectsSectionId}
+            className="scroll-mt-24 grid gap-8 lg:grid-cols-[0.95fr_1fr] lg:items-start"
+          >
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+                Sujets guidés
+              </p>
+              <h2 className="mt-3 text-3xl font-bold text-slate-950">
+                Sujets type bac maths Terminale avec corrigé guidé
+              </h2>
+              <div className="mt-5 space-y-4 leading-7 text-slate-700">
+                <p>
+                  Après la démo, la suite naturelle est de s&apos;entraîner sur des
+                  sujets type bac maths Terminale complets, toujours guidés pour
+                  apprendre à démarrer, raisonner et corriger activement.
+                </p>
+                <p>
+                  Ce ne sont pas des annales officielles revendiquées. Le but est
+                  d&apos;apprendre à suivre les étapes utiles au lieu de lire
+                  seulement le résultat.
+                </p>
+                <p>
+                  Les sujets et exercices couvrent les chapitres clés : suites,
+                  limites, dérivation, logarithme, probabilités et géométrie.
+                </p>
+              </div>
+              <TrackedLink
+                href={subjectsCtaHref}
+                eventName="click_typebac_subjects_page"
+                eventParams={{
+                  ...baseEventParams,
+                  destination_page: subjectsCtaHref,
+                  intent: "sujets_type_bac",
+                  cta_location: "typebac_subjects_section",
+                }}
+                className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-blue-900 px-5 py-3 text-center font-bold text-blue-900 hover:bg-blue-50 sm:w-auto"
+              >
+                Voir les sujets type bac guidés
+                <ArrowRight className="h-4 w-4" />
+              </TrackedLink>
+            </div>
+
+            <div className="rounded-lg border border-blue-100 bg-blue-50 p-5 sm:p-6">
+              <h3 className="text-xl font-bold text-slate-950">
+                Travailler les chapitres qui tombent souvent en type bac
+              </h3>
+              <p className="mt-3 leading-7 text-slate-700">
+                Chaque lien renvoie vers un cluster d&apos;exercices corrigés de
+                Terminale pour consolider une méthode avant de revenir sur un
+                sujet complet.
+              </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {subjectChapterLinks.map((chapter) => (
+                  <TrackedLink
+                    key={chapter.href}
+                    href={chapter.href}
+                    eventName={chapter.eventName}
+                    eventParams={{
+                      source_page: pagePath,
+                      destination_page: chapter.href,
+                      cluster: chapter.cluster,
+                      level: "terminale",
+                      cta_location: "typebac_subjects_chapter_link",
+                    }}
+                    className="rounded-lg border border-blue-100 bg-white p-4 font-semibold text-slate-800 shadow-sm hover:border-blue-200 hover:bg-blue-50 hover:text-blue-950"
+                  >
+                    {chapter.label}
+                  </TrackedLink>
+                ))}
+              </div>
+            </div>
+          </section>
+
           <section className="grid gap-8 lg:grid-cols-[0.9fr_1fr] lg:items-start">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
@@ -731,32 +851,6 @@ export default function ExercicesTypeBacMathsTerminalePage() {
                       <span className="font-semibold text-slate-800">{item}</span>
                     </div>
                   ))}
-                </div>
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  <TrackedLink
-                    href="/planning-revision-bac-maths"
-                    eventName="click_typebac_planning"
-                    eventParams={{
-                      ...baseEventParams,
-                      lead_magnet: "planning_bac_maths_2027",
-                      cta_location: "typebac_offer_planning",
-                    }}
-                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-blue-900 px-5 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
-                  >
-                    <CalendarDays className="h-4 w-4" />
-                    Voir le planning gratuit
-                  </TrackedLink>
-                  <TrackedLink
-                    href="/diagnostic"
-                    eventName="click_typebac_diagnostic"
-                    eventParams={{
-                      ...baseEventParams,
-                      cta_location: "typebac_offer_diagnostic",
-                    }}
-                    className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-slate-300 px-5 py-3 text-center font-bold text-slate-800 hover:bg-slate-50"
-                  >
-                    Faire le diagnostic
-                  </TrackedLink>
                 </div>
               </div>
 

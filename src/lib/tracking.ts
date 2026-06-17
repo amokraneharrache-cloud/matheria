@@ -28,6 +28,11 @@ export type SprintMathsEventName =
   | "click_planning_offer"
   | "click_typebac_free_exercise"
   | "click_typebac_subjects_page"
+  | "click_typebac_demo_start"
+  | "click_typebac_demo_subjects"
+  | "click_typebac_demo_planning"
+  | "click_typebac_demo_diagnostic"
+  | "click_typebac_demo_offer"
   | "free_exercise_step_reveal"
   | "click_typebac_diagnostic"
   | "click_typebac_planning"
@@ -106,6 +111,7 @@ export type TrackingParams = {
   chapter?: string;
   cluster?: string;
   destination_page?: string;
+  demo?: string;
   exam_goal?: string;
   intent?: string;
   level?: string;
@@ -152,6 +158,7 @@ const ALLOWED_STRING_PARAMS = [
   "chapter",
   "cluster",
   "destination_page",
+  "demo",
   "exam_goal",
   "intent",
   "level",
