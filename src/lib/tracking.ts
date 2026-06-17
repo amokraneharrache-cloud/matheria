@@ -40,6 +40,11 @@ export type SprintMathsEventName =
   | "click_subjects_cluster_exercise"
   | "click_subjects_chapter_table"
   | "click_subjects_page_anchor"
+  | "click_subject_complete_typebac_start"
+  | "click_subject_complete_chapter_link"
+  | "click_subject_complete_planning"
+  | "click_subject_complete_diagnostic"
+  | "click_subject_complete_offer"
   | "free_exercise_start"
   | "free_exercise_complete"
   | "purchase"
@@ -106,6 +111,8 @@ export type TrackingParams = {
   level?: string;
   offer?: string;
   price?: number;
+  subject?: string;
+  part?: string;
   currency?: string;
   coupon_code?: string;
   cta_location?: string;
@@ -156,6 +163,8 @@ const ALLOWED_STRING_PARAMS = [
   "lead_magnet",
   "link_type",
   "payment_provider",
+  "subject",
+  "part",
   "source_page",
   "utm_source",
   "utm_medium",

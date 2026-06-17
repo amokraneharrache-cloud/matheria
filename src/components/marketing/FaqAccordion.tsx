@@ -38,10 +38,13 @@ export function FaqAccordion({
             className="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
             onToggle={(event) => handleToggle(event, item.question)}
           >
-            <summary className="cursor-pointer list-none text-lg font-bold text-slate-950 marker:hidden">
+            <summary className="cursor-pointer list-none rounded-lg text-lg font-bold text-slate-950 outline-none marker:hidden focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:ring-offset-4">
               <span className="flex items-center justify-between gap-4">
                 {item.question}
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition-transform group-open:rotate-45">
+                <span
+                  aria-hidden="true"
+                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition-transform group-open:rotate-45"
+                >
                   +
                 </span>
               </span>

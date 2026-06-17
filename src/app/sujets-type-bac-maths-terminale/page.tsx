@@ -61,7 +61,7 @@ export const metadata: Metadata = {
 
 const faqItems: FaqItem[] = [
   {
-    question: "Est-ce que ce sont des annales officielles ?",
+    question: "Est-ce que ces contenus viennent du ministère ?",
     answer: `Non. ${officialContentDisclaimer}`,
   },
   {
@@ -118,6 +118,12 @@ const packEventParams = {
   offer: "pack_revision_express_bac_2027",
   price: PACK_REVISION_EXPRESS_PRICE,
   currency: "EUR",
+};
+
+const subjectCompleteBaseEventParams = {
+  ...baseEventParams,
+  intent: "sujet_type_bac_complet",
+  subject: "analyse_suites_limites",
 };
 
 const sprintMathsContents = [
@@ -234,6 +240,128 @@ const subjectPreviews = [
   },
 ] as const;
 
+const completeSubjectParts = [
+  {
+    part: "suite",
+    label: "PARTIE A — Suite",
+    heading: "Suite récurrente",
+    statement: [
+      "On considère la suite (u_n) définie par u_0 = 2 et, pour tout entier naturel n :",
+      "u_{n+1} = 0,5 u_n + 3.",
+    ],
+    questions: [
+      "Calculer u_1 et u_2.",
+      "Montrer que si u_n < 6, alors u_{n+1} < 6.",
+      "On admet que u_n < 6 pour tout n. Étudier le sens de variation de la suite.",
+      "On pose v_n = 6 - u_n. Montrer que (v_n) est géométrique.",
+      "En déduire l'expression de u_n en fonction de n, puis la limite de u_n.",
+    ],
+    correction: [
+      "u_1 = 0,5×2 + 3 = 4 ; u_2 = 0,5×4 + 3 = 5.",
+      "Si u_n < 6 alors 0,5u_n < 3, donc 0,5u_n + 3 < 6.",
+      "u_{n+1}-u_n = 3 - 0,5u_n. Comme u_n < 6, alors 3 - 0,5u_n > 0, donc la suite est croissante.",
+      "v_{n+1}=6-u_{n+1}=6-(0,5u_n+3)=3-0,5u_n=0,5(6-u_n)=0,5v_n. Donc v_n est géométrique de raison 0,5.",
+      "v_0=6-u_0=4, donc v_n=4×0,5^n. Donc u_n=6-4×0,5^n. Comme 0,5^n tend vers 0, u_n tend vers 6.",
+    ],
+    method:
+      "Pour une suite récurrente affine, chercher le nombre fixe permet souvent de transformer la suite en suite géométrique.",
+    pitfall:
+      "Ne pas changer la convention : ici v_n = 6 - u_n, d'où v_0 = 4. L'information u_n < 6 sert ensuite à donner le signe positif de u_{n+1}-u_n.",
+    links: [
+      {
+        href: "/exercices-maths-terminale/suites",
+        label: "Exercices sur les suites",
+        linkType: "exercise",
+      },
+      {
+        href: "/methodes-maths-terminale/etudier-une-suite",
+        label: "Méthode : étudier une suite",
+        linkType: "method",
+      },
+    ],
+  },
+  {
+    part: "derivation",
+    label: "PARTIE B — Fonction et dérivation",
+    heading: "Étude de fonction",
+    statement: [
+      "On considère la fonction f définie sur ]0,+∞[ par :",
+      "f(x) = x - 2 ln(x).",
+    ],
+    questions: [
+      "Calculer f'(x).",
+      "Étudier le signe de f'(x).",
+      "Dresser le tableau de variation de f.",
+      "Calculer f(2).",
+      "Interpréter le résultat obtenu.",
+    ],
+    correction: [
+      "f'(x)=1 - 2/x = (x-2)/x.",
+      "Sur ]0,+∞[, x est strictement positif. Le signe de f'(x) est donc celui de x-2. Donc f'(x)<0 sur ]0,2[, f'(2)=0, f'(x)>0 sur ]2,+∞[.",
+      "f décroît sur ]0,2], puis croît sur [2,+∞[.",
+      "f(2)=2 - 2 ln(2).",
+      "f admet un minimum sur ]0,+∞[ en x=2, de valeur 2 - 2 ln(2).",
+    ],
+    method:
+      "Sur un intervalle positif, le signe d'une fraction dépend du numérateur si le dénominateur est toujours positif.",
+    pitfall:
+      "Oublier le domaine ]0,+∞[ avant d'étudier le signe de la dérivée.",
+    links: [
+      {
+        href: "/exercices-maths-terminale/derivation",
+        label: "Exercices sur la dérivation",
+        linkType: "exercise",
+      },
+      {
+        href: "/methodes-maths-terminale/tableau-variation",
+        label: "Méthode : tableau de variation",
+        linkType: "method",
+      },
+    ],
+  },
+  {
+    part: "limite",
+    label: "PARTIE C — Limite",
+    heading: "Comportement en +∞",
+    statement: [
+      "On reprend la fonction f définie sur ]0,+∞[ par f(x) = x - 2 ln(x).",
+    ],
+    questions: [
+      "Calculer la limite de f(x) quand x tend vers +∞.",
+      "Expliquer pourquoi la croissance de x domine celle de ln(x).",
+      "Conclure sur le comportement de f en +∞.",
+    ],
+    correction: [
+      "f(x)=x - 2ln(x). En +∞, x tend vers +∞ et ln(x) aussi, mais beaucoup plus lentement. On peut écrire f(x)=x(1 - 2ln(x)/x).",
+      "Par croissance comparée, ln(x)/x tend vers 0 quand x tend vers +∞.",
+      "Donc 1 - 2ln(x)/x tend vers 1. Comme x tend vers +∞, f(x) tend vers +∞.",
+    ],
+    method:
+      "Pour comparer x et ln(x), factoriser par x fait apparaître ln(x)/x, une limite de référence.",
+    pitfall:
+      "Traiter x - 2ln(x) comme une forme indéterminée sans comparer les vitesses de croissance.",
+    links: [
+      {
+        href: "/exercices-maths-terminale/limites",
+        label: "Exercices sur les limites",
+        linkType: "exercise",
+      },
+      {
+        href: "/methodes-maths-terminale/calculer-une-limite",
+        label: "Méthode : calculer une limite",
+        linkType: "method",
+      },
+    ],
+  },
+] as const;
+
+const completeSubjectUseSteps = [
+  "Lire tout l'énoncé avant de calculer.",
+  "Identifier le chapitre de chaque partie.",
+  "Essayer une question avant de regarder le corrigé guidé.",
+  "Noter l'erreur fréquente pour ne pas la refaire.",
+] as const;
+
 const clusterLinks = [
   {
     href: "/exercices-maths-terminale/suites",
@@ -249,6 +377,11 @@ const clusterLinks = [
     href: "/exercices-maths-terminale/logarithme",
     label: "Logarithme",
     cluster: "logarithme",
+  },
+  {
+    href: "/exercices-maths-terminale/limites",
+    label: "Limites",
+    cluster: "limites",
   },
   {
     href: "/exercices-maths-terminale/probabilites",
@@ -342,15 +475,20 @@ const internalLinks = [
 const pageAnchors = [
   { href: "#sujets-guides", anchor: "sujets-guides", label: "Sujets guidés" },
   {
+    href: "#sujet-guide-complet",
+    anchor: "sujet-guide-complet",
+    label: "Sujet complet guidé",
+  },
+  {
     href: "#sujets-par-chapitre",
     anchor: "sujets-par-chapitre",
     label: "Sujets par chapitre",
   },
   { href: "#corrige-guide", anchor: "corrige-guide", label: "Corrigé guidé" },
   {
-    href: "#annales-officielles",
-    anchor: "annales-officielles",
-    label: "Annales officielles",
+    href: "#transparence",
+    anchor: "transparence",
+    label: "Transparence",
   },
   { href: "#faq", anchor: "faq", label: "FAQ" },
 ];
@@ -465,6 +603,105 @@ function SubjectPreviewCard({
   );
 }
 
+function CompleteSubjectPartCard({
+  part,
+}: {
+  part: (typeof completeSubjectParts)[number];
+}) {
+  return (
+    <article className="border-t border-slate-200 pt-8">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+            {part.label}
+          </p>
+          <h3 className="mt-2 text-2xl font-bold text-slate-950">
+            {part.heading}
+          </h3>
+        </div>
+        <span className="inline-flex w-fit rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-700">
+          Corrigé guidé étape par étape
+        </span>
+      </div>
+
+      <div className="mt-6 grid gap-5 lg:grid-cols-[0.92fr_1.08fr]">
+        <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+          <h4 className="flex items-center gap-2 text-lg font-bold text-slate-950">
+            <ClipboardList className="h-5 w-5 text-blue-800" />
+            Énoncé
+          </h4>
+          <div className="mt-4 space-y-2 leading-7 text-slate-700">
+            {part.statement.map((line, index) => (
+              <p
+                key={line}
+                className={
+                  index > 0
+                    ? "break-words font-mono text-sm font-semibold text-slate-950 [overflow-wrap:anywhere]"
+                    : undefined
+                }
+              >
+                {line}
+              </p>
+            ))}
+          </div>
+          <h5 className="mt-5 font-bold text-slate-950">Questions</h5>
+          <ol className="mt-3 list-decimal space-y-2 break-words pl-5 leading-7 text-slate-700">
+            {part.questions.map((question) => (
+              <li key={question}>{question}</li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="rounded-lg border border-blue-100 bg-blue-50 p-5 shadow-sm sm:p-6">
+          <h4 className="flex items-center gap-2 text-lg font-bold text-blue-950">
+            <BookOpenCheck className="h-5 w-5 text-blue-800" />
+            Correction guidée
+          </h4>
+          <ol className="mt-4 list-decimal space-y-3 break-words pl-5 text-sm leading-6 text-blue-950 [overflow-wrap:anywhere] sm:text-base sm:leading-7">
+            {part.correction.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      <div className="mt-5 grid gap-4 md:grid-cols-3">
+        <div className="border-l-4 border-blue-800 bg-slate-50 p-4">
+          <h4 className="font-bold text-slate-950">Méthode à retenir</h4>
+          <p className="mt-2 text-sm leading-6 text-slate-700">{part.method}</p>
+        </div>
+        <div className="border-l-4 border-amber-500 bg-amber-50 p-4">
+          <h4 className="font-bold text-slate-950">Erreur fréquente</h4>
+          <p className="mt-2 text-sm leading-6 text-slate-700">{part.pitfall}</p>
+        </div>
+        <div className="border-l-4 border-emerald-600 bg-emerald-50 p-4">
+          <h4 className="font-bold text-slate-950">Lien pour s&apos;entraîner</h4>
+          <div className="mt-3 grid gap-2">
+            {part.links.map((link) => (
+              <TrackedLink
+                key={link.href}
+                href={link.href}
+                eventName="click_subject_complete_chapter_link"
+                eventParams={{
+                  ...subjectCompleteBaseEventParams,
+                  part: part.part,
+                  destination_page: link.href,
+                  link_type: link.linkType,
+                  cta_location: `complete_subject_${part.part}_${link.linkType}`,
+                }}
+                className="inline-flex min-h-11 items-center gap-2 rounded-full px-1 text-sm font-bold text-blue-900 hover:underline"
+              >
+                {link.label}
+                <ArrowRight className="h-4 w-4" />
+              </TrackedLink>
+            ))}
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export default function SujetsTypeBacMathsTerminalePage() {
   return (
     <SeoPageLayout showUrgencyBanner={false} urgencySourcePage={pagePath}>
@@ -555,7 +792,7 @@ export default function SujetsTypeBacMathsTerminalePage() {
       <section className="border-b border-slate-200 bg-white px-4 py-5">
         <div className="mx-auto grid max-w-6xl gap-3 sm:grid-cols-3">
           {[
-            { value: "3", label: "aperçus de sujets type bac" },
+            { value: "4", label: "aperçus de sujets type bac" },
             { value: "4", label: "étapes de corrigé guidé" },
             { value: "39 €", label: "Pack Révision Express" },
           ].map((stat) => (
@@ -619,8 +856,9 @@ export default function SujetsTypeBacMathsTerminalePage() {
                 <p>
                   Travailler des sujets type bac avec corrigé guidé permet de
                   comprendre le chemin avant de mémoriser une réponse. L&apos;objectif
-                  n&apos;est pas de deviner un sujet officiel, mais de progresser sur
-                  les formats d&apos;exercices qui reviennent en Terminale.
+                  n&apos;est pas de deviner le contenu de l&apos;épreuve, mais de
+                  progresser sur les formats d&apos;exercices qui reviennent en
+                  Terminale.
                 </p>
               </div>
             </div>
@@ -653,10 +891,10 @@ export default function SujetsTypeBacMathsTerminalePage() {
                 Ce que contient un sujet type bac SprintMaths
               </h2>
               <p className="mt-4 leading-7 text-slate-700">
-                Les aperçus ci-dessous ne remplacent pas un sujet complet de 2 h.
-                Ils montrent comment SprintMaths structure l&apos;entraînement :
-                objectif, chapitres, méthode, erreur fréquente et correction
-                guidée aperçu.
+                Les aperçus de cette première liste ne remplacent pas un sujet
+                complet de 2 h. Ils montrent comment SprintMaths structure
+                l&apos;entraînement : objectif, chapitres, méthode, erreur fréquente
+                et correction guidée aperçu.
               </p>
             </div>
             <div className="mt-6 grid gap-4 md:grid-cols-4">
@@ -677,6 +915,129 @@ export default function SujetsTypeBacMathsTerminalePage() {
           {subjectPreviews.map((subject) => (
             <SubjectPreviewCard key={subject.slug} subject={subject} />
           ))}
+
+          <section id="sujet-guide-complet" className="scroll-mt-24">
+            <div className="grid gap-8 lg:grid-cols-[0.85fr_1fr] lg:items-start">
+              <div>
+                <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+                  Sujet guidé complet
+                </p>
+                <h2 className="mt-3 text-3xl font-bold text-slate-950">
+                  Sujet type bac guidé complet : analyse, suites et limites
+                </h2>
+                <p className="mt-4 leading-7 text-slate-700">
+                  Voici un sujet d’entraînement SprintMaths, construit dans
+                  l’esprit des exercices type bac. Il sert à travailler les
+                  méthodes, mais ne constitue pas une annale officielle.
+                </p>
+                <TrackedLink
+                  href="/exercices-type-bac-maths-terminale"
+                  eventName="click_subject_complete_typebac_start"
+                  eventParams={{
+                    ...subjectCompleteBaseEventParams,
+                    cta_location: "complete_subject_intro",
+                    destination_page: "/exercices-type-bac-maths-terminale",
+                  }}
+                  className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-blue-900 px-5 py-3 text-center font-bold text-white hover:bg-blue-800 sm:w-auto"
+                >
+                  Continuer avec les exercices type bac guidés
+                  <ArrowRight className="h-4 w-4" />
+                </TrackedLink>
+              </div>
+
+              <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                <h3 className="flex items-center gap-2 text-xl font-bold text-slate-950">
+                  <ListChecks className="h-5 w-5 text-emerald-600" />
+                  Ce sujet travaille trois réflexes
+                </h3>
+                <ul className="mt-4 space-y-3 text-slate-700">
+                  {[
+                    "Transformer une suite récurrente en suite géométrique.",
+                    "Étudier une fonction avec la dérivée et son signe.",
+                    "Comparer x et ln(x) pour conclure sur une limite.",
+                  ].map((item) => (
+                    <li key={item} className="flex gap-3 leading-7">
+                      <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-emerald-600" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-8 space-y-8">
+              {completeSubjectParts.map((part) => (
+                <CompleteSubjectPartCard key={part.part} part={part} />
+              ))}
+            </div>
+
+            <div className="mt-10 grid gap-6 rounded-lg border border-slate-200 bg-slate-50 p-5 sm:p-6 lg:grid-cols-[0.85fr_1fr] lg:items-start">
+              <div>
+                <h3 className="text-2xl font-bold text-slate-950">
+                  Comment utiliser ce sujet guidé
+                </h3>
+                <ol className="mt-5 list-decimal space-y-3 pl-5 leading-7 text-slate-700">
+                  {completeSubjectUseSteps.map((step) => (
+                    <li key={step}>{step}</li>
+                  ))}
+                </ol>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <TrackedLink
+                  href="/exercices-type-bac-maths-terminale"
+                  eventName="click_subject_complete_typebac_start"
+                  eventParams={{
+                    ...subjectCompleteBaseEventParams,
+                    cta_location: "complete_subject_final_typebac",
+                    destination_page: "/exercices-type-bac-maths-terminale",
+                  }}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-blue-900 px-5 py-3 text-center font-bold text-white hover:bg-blue-800"
+                >
+                  Continuer avec les exercices type bac guidés
+                  <ArrowRight className="h-4 w-4" />
+                </TrackedLink>
+                <TrackedLink
+                  href="/planning-revision-bac-maths"
+                  eventName="click_subject_complete_planning"
+                  eventParams={{
+                    ...subjectCompleteBaseEventParams,
+                    lead_magnet: "planning_bac_maths_2027",
+                    cta_location: "complete_subject_final_planning",
+                    destination_page: "/planning-revision-bac-maths",
+                  }}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-blue-900 bg-white px-5 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
+                >
+                  Recevoir le planning Bac Maths 2027
+                </TrackedLink>
+                <TrackedLink
+                  href="/diagnostic"
+                  eventName="click_subject_complete_diagnostic"
+                  eventParams={{
+                    ...subjectCompleteBaseEventParams,
+                    cta_location: "complete_subject_final_diagnostic",
+                    destination_page: "/diagnostic",
+                  }}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-center font-bold text-slate-800 hover:bg-slate-100"
+                >
+                  Faire le diagnostic gratuit
+                </TrackedLink>
+                <TrackedLink
+                  href="/bac-maths-2027#offre"
+                  eventName="click_subject_complete_offer"
+                  eventParams={{
+                    ...packEventParams,
+                    ...subjectCompleteBaseEventParams,
+                    cta_location: "complete_subject_final_offer",
+                    destination_page: "/bac-maths-2027#offre",
+                  }}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 py-3 text-center font-bold text-white hover:bg-emerald-500"
+                >
+                  Voir le Pack Révision Express
+                  <ArrowRight className="h-4 w-4" />
+                </TrackedLink>
+              </div>
+            </div>
+          </section>
 
           <section id="sujets-par-chapitre" className="scroll-mt-24">
             <div className="max-w-3xl">
@@ -818,7 +1179,7 @@ export default function SujetsTypeBacMathsTerminalePage() {
           </section>
 
           <section
-            id="annales-officielles"
+            id="transparence"
             className="grid scroll-mt-24 gap-6 rounded-lg border border-slate-200 bg-slate-50 p-6 sm:p-8 lg:grid-cols-[0.9fr_1fr] lg:items-start"
           >
             <div>
@@ -826,7 +1187,7 @@ export default function SujetsTypeBacMathsTerminalePage() {
                 Transparence
               </p>
               <h2 className="mt-3 text-3xl font-bold text-slate-950">
-                Sujets type bac vs annales officielles
+                Sujets type bac SprintMaths : transparence
               </h2>
               <p className="mt-4 leading-7 text-slate-700">
                 {officialContentDisclaimer}
@@ -845,8 +1206,8 @@ export default function SujetsTypeBacMathsTerminalePage() {
               <p className="mt-3 leading-7 text-slate-700">
                 Les sujets type bac SprintMaths servent à répéter les bons
                 gestes : identifier, calculer, justifier, conclure. Ils complètent
-                les révisions sans promettre une note ni reproduire un sujet
-                officiel.
+                les révisions sans promettre une note ni reproduire un contenu
+                ministériel.
               </p>
             </div>
           </section>
