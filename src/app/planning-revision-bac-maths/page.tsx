@@ -120,7 +120,7 @@ const afterPlanning = [
   {
     title: "Voir le Pack Révision Express",
     text: `Accéder au Pack Révision Express à ${PACK_REVISION_EXPRESS_PRICE} € si l'élève veut un cadre plus complet.`,
-    href: "/bac-maths-2027",
+    href: "/bac-maths-2027#offre",
     eventName: "click_planning_offer" as const,
     ctaLocation: "planning_after_card_offer",
     intent: "offer",
@@ -232,7 +232,7 @@ const planningWeeks = [
 ];
 
 const internalLinks = [
-  { href: "/bac-maths-2027", label: "Pack Révision Express Bac Maths 2027" },
+  { href: "/bac-maths-2027#offre", label: "Pack Révision Express Bac Maths 2027" },
   { href: "/diagnostic", label: "Diagnostic gratuit" },
   {
     href: typeBacSubjectsPath,
@@ -471,7 +471,7 @@ export default function PlanningRevisionBacMathsPage() {
                     destination_page: item.href,
                     cta_location: item.ctaLocation,
                     intent: item.intent,
-                    ...(item.href === "/bac-maths-2027"
+                    ...(item.href === "/bac-maths-2027#offre"
                       ? {
                           offer: "pack_revision_express_bac_2027",
                           price: PACK_REVISION_EXPRESS_PRICE,
@@ -530,11 +530,11 @@ export default function PlanningRevisionBacMathsPage() {
                 Essayer un exercice type bac guidé
               </TrackedLink>
               <TrackedLink
-                href="/bac-maths-2027"
+                href="/bac-maths-2027#offre"
                 eventName="click_planning_offer"
                 eventParams={{
                   ...leadEventParams,
-                  destination_page: "/bac-maths-2027",
+                  destination_page: "/bac-maths-2027#offre",
                   offer: "pack_revision_express_bac_2027",
                   price: PACK_REVISION_EXPRESS_PRICE,
                   currency: "EUR",

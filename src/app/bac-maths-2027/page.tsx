@@ -221,7 +221,7 @@ const screenshots = [
 
 export default function BacMaths2027Page() {
   const stripePaymentLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK;
-  const stripeHref = stripePaymentLink ?? "#offre";
+  const stripeHref = stripePaymentLink ?? `${pagePath}#offre`;
   const stripeTarget = stripePaymentLink ? "_blank" : undefined;
   const stripeRel = stripePaymentLink ? "noopener noreferrer" : undefined;
   const offerEventName = stripePaymentLink
@@ -316,10 +316,11 @@ export default function BacMaths2027Page() {
               Pas d&apos;abonnement. Accès simple par code. Garantie 7 jours.
             </p>
             <TrackedLink
-              href="#offre"
+              href={`${pagePath}#offre`}
               eventName="click_bac2027_offer"
               eventParams={{
                 ...baseEventParams,
+                destination_page: `${pagePath}#offre`,
                 cta_location: "bac2027_hero_offer_link",
               }}
               className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-blue-900 hover:underline"
@@ -445,7 +446,7 @@ export default function BacMaths2027Page() {
               <p className="mt-4 leading-7 text-blue-100">
                 Avant de chercher la bonne réponse, l&apos;élève apprend à repérer le
                 chapitre, choisir l&apos;outil mathématique et avancer sans attendre
-                une correction complète.
+                un corrigé guidé final.
               </p>
             </div>
           </section>
@@ -514,7 +515,7 @@ export default function BacMaths2027Page() {
                   }}
                   className="inline-flex items-center gap-2 font-bold text-blue-900 hover:underline"
                 >
-                  Voir les sujets type bac corrigés
+                  Voir les sujets type bac guidés
                   <ArrowRight className="h-4 w-4" />
                 </TrackedLink>
                 <TrackedLink
@@ -665,6 +666,7 @@ export default function BacMaths2027Page() {
                 eventName={offerEventName}
                 eventParams={{
                   ...baseEventParams,
+                  destination_page: stripeHref,
                   payment_provider: stripePaymentLink ? "stripe" : undefined,
                   cta_location: "bac2027_offer_card",
                 }}

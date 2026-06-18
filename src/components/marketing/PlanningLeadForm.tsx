@@ -190,11 +190,11 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
                 Ouvrir la version imprimable
               </a>
               <a
-                href="/bac-maths-2027"
+                href="/bac-maths-2027#offre"
                 onClick={() =>
                   trackEvent("click_planning_offer", {
                     ...trackingParams,
-                    destination_page: "/bac-maths-2027",
+                    destination_page: "/bac-maths-2027#offre",
                     offer: "pack_revision_express_bac_2027",
                     cta_location: "planning_form_success",
                     intent: "offer",

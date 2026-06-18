@@ -15,7 +15,7 @@ const links = [
   },
   {
     href: "/sujets-type-bac-maths-terminale",
-    label: "Sujets type bac corrigés",
+    label: "Sujets type bac guidés",
   },
   { href: "/bac-maths-2027", label: "Révision Bac Maths 2027" },
   { href: "/bac-terminale-maths", label: "Réviser le bac Terminale" },

@@ -66,6 +66,59 @@ que conclure trop vite.
 | `/bac-maths-2027` | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir |
 | `/sitemap.xml` | A remplir | A remplir | Non applicable | Non applicable | Non applicable | Non applicable | A remplir | A remplir |
 
+## J16 — Exécution live
+
+Objectif : exécuter la vérification Search Console sur les URLs business
+prioritaires SprintMaths, noter les signaux réels observés et décider si la
+création de contenu J17 peut démarrer.
+
+### URLs prioritaires
+
+- `https://www.sprintmaths.com/sujets-type-bac-maths-terminale`
+- `https://www.sprintmaths.com/exercices-type-bac-maths-terminale`
+- `https://www.sprintmaths.com/planning-revision-bac-maths`
+- `https://www.sprintmaths.com/bac-maths-2027`
+- `https://www.sprintmaths.com/sitemap.xml`
+
+### Tableau d'exécution live
+
+| URL | Déployée en production oui/non | Inspection URL effectuée oui/non | Test en direct OK oui/non | Indexation demandée oui/non | Canonical déclarée | Canonical Google | Sitemap détecté oui/non | Dernière exploration | Problème remonté | Action suivante |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `https://www.sprintmaths.com/sujets-type-bac-maths-terminale` | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir |
+| `https://www.sprintmaths.com/exercices-type-bac-maths-terminale` | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir |
+| `https://www.sprintmaths.com/planning-revision-bac-maths` | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir |
+| `https://www.sprintmaths.com/bac-maths-2027` | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir | A remplir |
+| `https://www.sprintmaths.com/sitemap.xml` | A remplir | A remplir | A remplir | Non applicable | Non applicable | Non applicable | Non applicable | A remplir | A remplir | A remplir |
+
+### Procédure d'exécution
+
+1. Tester `https://www.sprintmaths.com/sitemap.xml` en live dans le navigateur.
+2. Vérifier que le sitemap répond correctement et liste les URLs business
+   prioritaires.
+3. Dans Search Console > Sitemaps, vérifier le statut du sitemap et sa dernière
+   lecture.
+4. Dans Inspection d'URL, coller chaque URL prioritaire.
+5. Lancer "Tester l'URL en direct".
+6. Si le test direct est OK et qu'aucun blocage n'est remonté, demander
+   l'indexation.
+7. Noter la canonical déclarée et la canonical Google affichées par Search
+   Console.
+8. Noter si le sitemap est détecté pour chaque page business.
+9. Noter la dernière exploration, le problème remonté et l'action suivante.
+10. Ne pas redemander l'indexation plusieurs fois pour la meme URL : noter la
+    date de demande, puis attendre les données Search Console.
+
+### GO création contenu J17
+
+La création de contenu J17 peut démarrer si :
+
+- le sitemap est accessible ;
+- les URLs business ont été inspectées ;
+- aucun `noindex` n'est détecté ;
+- la canonical déclarée est correcte ;
+- Google ne remonte aucun blocage `robots.txt` ;
+- le tracking CTA a été validé au moins localement.
+
 ## Requetes a suivre dans GSC
 
 Dans Performance > Resultats de recherche, suivre ces requetes :

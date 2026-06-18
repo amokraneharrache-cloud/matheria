@@ -4,6 +4,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   BookOpenCheck,
+  CalendarDays,
   CheckCircle2,
   ClipboardList,
   GraduationCap,
@@ -283,6 +284,12 @@ export default function ExercicesTypeBacMathsTerminalePage() {
     price: PACK_REVISION_EXPRESS_PRICE,
     currency: "EUR",
   };
+  const planningEventParams = {
+    source_page: pagePath,
+    level: "terminale",
+    exam_goal: "bac_2027",
+    lead_magnet: "planning_bac_maths_2027",
+  };
   const typeBacDemoEventParams = {
     source_page: pagePath,
     level: "terminale",
@@ -357,15 +364,29 @@ export default function ExercicesTypeBacMathsTerminalePage() {
               >
                 Faire le diagnostic gratuit
               </TrackedLink>
+              <TrackedLink
+                href="/planning-revision-bac-maths"
+                eventName="click_typebac_planning"
+                eventParams={{
+                  ...planningEventParams,
+                  destination_page: "/planning-revision-bac-maths",
+                  cta_location: "typebac_hero_planning",
+                }}
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-white/50 px-5 py-3 text-center font-bold text-white hover:bg-white/10 sm:w-auto"
+              >
+                <CalendarDays className="h-5 w-5" />
+                Recevoir le planning gratuit
+              </TrackedLink>
             </div>
             <p className="mt-4 text-sm font-semibold text-slate-300">
               Pas d’abonnement. Accès par code. Garantie 7 jours.
             </p>
             <TrackedLink
-              href={`${pagePath}#offre`}
+              href="/bac-maths-2027#offre"
               eventName="click_typebac_offer"
               eventParams={{
                 ...baseEventParams,
+                destination_page: "/bac-maths-2027#offre",
                 cta_location: "typebac_hero_offer_link",
               }}
               className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-blue-100 hover:text-white"
@@ -606,11 +627,11 @@ export default function ExercicesTypeBacMathsTerminalePage() {
                   </p>
                 </div>
                 <TrackedLink
-                  href={`${pagePath}#offre`}
+                  href="/bac-maths-2027#offre"
                   eventName="click_typebac_demo_offer"
                   eventParams={{
                     ...typeBacDemoEventParams,
-                    destination_page: `${pagePath}#offre`,
+                    destination_page: "/bac-maths-2027#offre",
                     offer: "pack_revision_express_bac_2027",
                     price: PACK_REVISION_EXPRESS_PRICE,
                     currency: "EUR",
