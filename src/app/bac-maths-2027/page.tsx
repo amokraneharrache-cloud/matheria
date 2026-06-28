@@ -143,6 +143,7 @@ const chapterProgramClusterLinks: Partial<
         | "click_internal_limites_cluster"
         | "click_internal_derivation_cluster"
         | "click_internal_logarithme_cluster"
+        | "click_internal_integrales_cluster"
         | "click_internal_probabilites_cluster"
         | "click_internal_geometrie_cluster";
       cluster:
@@ -150,6 +151,7 @@ const chapterProgramClusterLinks: Partial<
         | "limites"
         | "derivation-convexite"
         | "logarithme"
+        | "integrales"
         | "probabilites"
         | "geometrie-espace";
     }
@@ -174,6 +176,11 @@ const chapterProgramClusterLinks: Partial<
     href: "/programme-maths-terminale/fonction-logarithme",
     eventName: "click_internal_logarithme_cluster",
     cluster: "logarithme",
+  },
+  Intégrales: {
+    href: "/programme-maths-terminale/integrales",
+    eventName: "click_internal_integrales_cluster",
+    cluster: "integrales",
   },
   Probabilités: {
     href: "/programme-maths-terminale/probabilites",

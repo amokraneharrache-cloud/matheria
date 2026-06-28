@@ -181,6 +181,12 @@ const subjectChapterLinks = [
     cluster: "logarithme",
   },
   {
+    label: "Intégrales",
+    href: "/exercices-maths-terminale/integrales",
+    eventName: "click_internal_integrales_cluster",
+    cluster: "integrales",
+  },
+  {
     label: "Probabilités",
     href: "/exercices-maths-terminale/probabilites",
     eventName: "click_internal_probabilites_cluster",
@@ -204,6 +210,7 @@ const chapterExerciseClusterLinks: Partial<
         | "click_internal_limites_cluster"
         | "click_internal_derivation_cluster"
         | "click_internal_logarithme_cluster"
+        | "click_internal_integrales_cluster"
         | "click_internal_probabilites_cluster"
         | "click_internal_geometrie_cluster";
       cluster:
@@ -211,6 +218,7 @@ const chapterExerciseClusterLinks: Partial<
         | "limites"
         | "derivation-convexite"
         | "logarithme"
+        | "integrales"
         | "probabilites"
         | "geometrie-espace";
     }
@@ -235,6 +243,11 @@ const chapterExerciseClusterLinks: Partial<
     href: "/exercices-maths-terminale/logarithme",
     eventName: "click_internal_logarithme_cluster",
     cluster: "logarithme",
+  },
+  Intégrales: {
+    href: "/exercices-maths-terminale/integrales",
+    eventName: "click_internal_integrales_cluster",
+    cluster: "integrales",
   },
   Probabilités: {
     href: "/exercices-maths-terminale/probabilites",

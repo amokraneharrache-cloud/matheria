@@ -171,6 +171,12 @@ const planningWeeks = [
         eventName: "click_internal_logarithme_cluster" as const,
         cluster: "logarithme" as const,
       },
+      {
+        href: "/programme-maths-terminale/integrales",
+        label: "Revoir le chapitre Intégrales",
+        eventName: "click_internal_integrales_cluster" as const,
+        cluster: "integrales" as const,
+      },
     ],
     days: [
       "Logarithme : domaine, équations, inéquations",

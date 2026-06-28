@@ -35,6 +35,7 @@ const terminaleExerciseClusterLinks: Partial<
         | "click_internal_limites_cluster"
         | "click_internal_derivation_cluster"
         | "click_internal_logarithme_cluster"
+        | "click_internal_integrales_cluster"
         | "click_internal_probabilites_cluster"
         | "click_internal_geometrie_cluster";
       cluster:
@@ -42,6 +43,7 @@ const terminaleExerciseClusterLinks: Partial<
         | "limites"
         | "derivation-convexite"
         | "logarithme"
+        | "integrales"
         | "probabilites"
         | "geometrie-espace";
     }
@@ -71,6 +73,11 @@ const terminaleExerciseClusterLinks: Partial<
     href: "/exercices-maths-terminale/logarithme",
     eventName: "click_internal_logarithme_cluster",
     cluster: "logarithme",
+  },
+  integrales: {
+    href: "/exercices-maths-terminale/integrales",
+    eventName: "click_internal_integrales_cluster",
+    cluster: "integrales",
   },
   probabilites: {
     href: "/exercices-maths-terminale/probabilites",

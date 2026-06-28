@@ -26,6 +26,7 @@ const terminaleMethodClusterLinks: Partial<
         | "click_internal_derivation_cluster"
         | "click_internal_logarithme_cluster"
         | "click_internal_probabilites_cluster"
+        | "click_internal_integrales_cluster"
         | "click_internal_geometrie_cluster";
       cluster:
         | "suites"
@@ -33,6 +34,7 @@ const terminaleMethodClusterLinks: Partial<
         | "derivation-convexite"
         | "logarithme"
         | "probabilites"
+        | "integrales"
         | "geometrie-espace";
       label: string;
     }
@@ -73,6 +75,12 @@ const terminaleMethodClusterLinks: Partial<
     eventName: "click_internal_probabilites_cluster",
     cluster: "probabilites",
     label: "Voir la méthode détaillée : probabilités conditionnelles",
+  },
+  integrales: {
+    href: "/methodes-maths-terminale/integrales",
+    eventName: "click_internal_integrales_cluster",
+    cluster: "integrales",
+    label: "Voir la méthode détaillée : intégrales",
   },
   "geometrie-espace": {
     href: "/methodes-maths-terminale/geometrie-espace",

@@ -20,6 +20,7 @@ import { FaqAccordion } from "@/components/marketing/FaqAccordion";
 import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
+import type { SprintMathsEventName, TrackingParams } from "@/lib/tracking";
 import { PACK_REVISION_EXPRESS_PRICE } from "@/lib/offers";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
 import {
@@ -124,6 +125,12 @@ const subjectCompleteBaseEventParams = {
   ...baseEventParams,
   intent: "sujet_type_bac_complet",
   subject: "analyse_suites_limites",
+};
+
+const subjectComplete2BaseEventParams = {
+  ...baseEventParams,
+  intent: "sujet_type_bac_complet",
+  subject: "probabilites_geometrie_integrales",
 };
 
 const sprintMathsContents = [
@@ -355,11 +362,143 @@ const completeSubjectParts = [
   },
 ] as const;
 
+const completeSubject2Parts = [
+  {
+    part: "probabilites",
+    label: "PARTIE A — Probabilités",
+    heading: "Arbre pondéré et probabilité conditionnelle",
+    statement: [
+      "Dans une classe, 60 % des élèves suivent une option maths complémentaires. Parmi ces élèves, 40 % réussissent un exercice de probabilités ; parmi les autres élèves, 25 % réussissent cet exercice. On choisit un élève au hasard et on note M : « l’élève suit l’option maths complémentaires » et R : « l’élève réussit l’exercice ».",
+    ],
+    questions: [
+      "Donner P(M), P_M(R), P(non M) et P_{non M}(R).",
+      "Calculer P(M ∩ R).",
+      "Calculer P(non M ∩ R).",
+      "En déduire P(R).",
+      "Calculer la probabilité que l’élève suive l’option sachant qu’il a réussi l’exercice.",
+    ],
+    correction: [
+      "P(M) = 0,6 ; P_M(R) = 0,4 ; P(non M) = 0,4 ; P_{non M}(R) = 0,25.",
+      "P(M ∩ R) = P(M) × P_M(R) = 0,6 × 0,4 = 0,24.",
+      "P(non M ∩ R) = P(non M) × P_{non M}(R) = 0,4 × 0,25 = 0,10.",
+      "P(R) = P(M ∩ R) + P(non M ∩ R) = 0,24 + 0,10 = 0,34.",
+      "P_R(M) = P(M ∩ R) / P(R) = 0,24 / 0,34 = 12/17 ≈ 0,706.",
+    ],
+    method:
+      "Sur un arbre pondéré, P(R) s’obtient en additionnant les probabilités des chemins qui mènent à R, puis une probabilité « à l’envers » se calcule avec P_R(M) = P(M ∩ R) / P(R).",
+    pitfall:
+      "Confondre P_M(R) et P_R(M) : la première se lit directement sur l’arbre, la seconde demande de diviser par P(R).",
+    links: [
+      {
+        href: "/exercices-maths-terminale/probabilites",
+        label: "Exercices sur les probabilités",
+        linkType: "exercise",
+      },
+      {
+        href: "/methodes-maths-terminale/probabilites-conditionnelles",
+        label: "Méthode : probabilités conditionnelles",
+        linkType: "method",
+      },
+    ],
+  },
+  {
+    part: "geometrie",
+    label: "PARTIE B — Géométrie dans l’espace",
+    heading: "Vecteurs, plan et orthogonalité",
+    statement: [
+      "Dans un repère de l’espace, on considère les points A(1 ; 2 ; 3) et B(4 ; 0 ; 5) ainsi que le plan P d’équation :",
+      "2x - y + z - 5 = 0.",
+    ],
+    questions: [
+      "Calculer les coordonnées du vecteur AB.",
+      "Vérifier si le point A appartient au plan P.",
+      "Donner un vecteur normal au plan P.",
+      "Déterminer si le vecteur AB est orthogonal au vecteur normal du plan.",
+      "Interpréter le résultat.",
+    ],
+    correction: [
+      "AB = (4 - 1 ; 0 - 2 ; 5 - 3) = (3 ; -2 ; 2).",
+      "Pour A : 2 × 1 - 2 + 3 - 5 = -2 ≠ 0, donc A n’appartient pas au plan P.",
+      "Les coefficients de l’équation donnent un vecteur normal n = (2 ; -1 ; 1).",
+      "AB · n = 3 × 2 + (-2) × (-1) + 2 × 1 = 6 + 2 + 2 = 10 ≠ 0, donc AB n’est pas orthogonal à n.",
+      "Comme AB n’est pas orthogonal au vecteur normal, la direction AB n’est pas parallèle au plan P : la droite (AB) coupe le plan.",
+    ],
+    method:
+      "Les coefficients (a ; b ; c) d’une équation ax + by + cz + d = 0 donnent directement un vecteur normal ; un produit scalaire nul entre la direction et ce vecteur normal signifie « parallèle au plan ».",
+    pitfall:
+      "Croire qu’un produit scalaire non nul prouve l’orthogonalité : c’est l’inverse, l’orthogonalité correspond à un produit scalaire égal à 0.",
+    links: [
+      {
+        href: "/exercices-maths-terminale/geometrie-espace",
+        label: "Exercices sur la géométrie dans l’espace",
+        linkType: "exercise",
+      },
+      {
+        href: "/methodes-maths-terminale/geometrie-espace",
+        label: "Méthode : géométrie dans l’espace",
+        linkType: "method",
+      },
+    ],
+  },
+  {
+    part: "integrales",
+    label: "PARTIE C — Intégrales",
+    heading: "Intégrale définie et aire",
+    statement: [
+      "On considère la fonction f définie sur [1 ; 3] par :",
+      "f(x) = 2x + 1.",
+    ],
+    questions: [
+      "Trouver une primitive F de f.",
+      "Calculer ∫_1^3 (2x + 1) dx.",
+      "Interpréter le résultat comme une aire.",
+      "Expliquer pourquoi le résultat est positif.",
+      "Donner une erreur fréquente à éviter.",
+    ],
+    correction: [
+      "Une primitive de f est F(x) = x² + x.",
+      "∫_1^3 (2x + 1) dx = F(3) - F(1), avec F(3) = 9 + 3 = 12 et F(1) = 1 + 1 = 2, donc l’intégrale vaut 12 - 2 = 10.",
+      "Comme f est positive sur [1 ; 3], l’intégrale représente l’aire sous la courbe entre x = 1 et x = 3.",
+      "f(x) = 2x + 1 est positive sur [1 ; 3], donc cette aire, et donc l’intégrale, est positive.",
+      "L’erreur fréquente est d’inverser F(3) - F(1) ou de confondre primitive et dérivée.",
+    ],
+    method:
+      "Pour une intégrale définie, on cherche une primitive F puis on calcule F(b) - F(a) ; lorsque f est positive sur l’intervalle, ce résultat est l’aire sous la courbe.",
+    pitfall:
+      "Calculer F(1) - F(3) en inversant les bornes, ou dériver f au lieu de chercher une primitive.",
+    links: [
+      {
+        href: "/exercices-maths-terminale/integrales",
+        label: "Exercices sur les intégrales",
+        linkType: "exercise",
+      },
+      {
+        href: "/methodes-maths-terminale/integrales",
+        label: "Méthode : intégrales",
+        linkType: "method",
+      },
+    ],
+  },
+] as const;
+
 const completeSubjectUseSteps = [
   "Lire tout l'énoncé avant de calculer.",
   "Identifier le chapitre de chaque partie.",
   "Essayer une question avant de regarder le corrigé guidé.",
   "Noter l'erreur fréquente pour ne pas la refaire.",
+] as const;
+
+const completeSubject2UseSteps = [
+  "Identifier le chapitre de chaque partie.",
+  "Essayer les questions sans regarder directement le corrigé.",
+  "Comparer sa méthode avec la correction guidée.",
+  "Refaire les exercices liés par chapitre.",
+] as const;
+
+const completeSubject2Reflexes = [
+  "Lire un arbre pondéré et appliquer la formule des probabilités totales.",
+  "Utiliser un vecteur normal et un produit scalaire dans l'espace.",
+  "Calculer une intégrale avec F(b) - F(a) et l'interpréter comme une aire.",
 ] as const;
 
 const clusterLinks = [
@@ -377,6 +516,11 @@ const clusterLinks = [
     href: "/exercices-maths-terminale/logarithme",
     label: "Logarithme",
     cluster: "logarithme",
+  },
+  {
+    href: "/exercices-maths-terminale/integrales",
+    label: "Intégrales",
+    cluster: "integrales",
   },
   {
     href: "/exercices-maths-terminale/limites",
@@ -437,6 +581,16 @@ const chapterSubjectLinks = [
     methodHref: "/methodes-maths-terminale/logarithme",
   },
   {
+    chapter: "Intégrales",
+    trackingChapter: "integrales",
+    work:
+      "Choisir une primitive, calculer une intégrale définie, interpréter une aire et vérifier l'ordre des bornes.",
+    pitfall:
+      "Oublier que le calcul se fait toujours avec F(b) - F(a), surtout quand la borne inférieure donne une expression négative.",
+    exerciseHref: "/exercices-maths-terminale/integrales",
+    methodHref: "/methodes-maths-terminale/integrales",
+  },
+  {
     chapter: "Probabilités",
     trackingChapter: "probabilites",
     work:
@@ -477,7 +631,12 @@ const pageAnchors = [
   {
     href: "#sujet-guide-complet",
     anchor: "sujet-guide-complet",
-    label: "Sujet complet guidé",
+    label: "Sujet complet 1",
+  },
+  {
+    href: "#sujet-guide-probabilites-geometrie-integrales",
+    anchor: "sujet-guide-probabilites-geometrie-integrales",
+    label: "Sujet complet 2",
   },
   {
     href: "#sujets-par-chapitre",
@@ -605,8 +764,16 @@ function SubjectPreviewCard({
 
 function CompleteSubjectPartCard({
   part,
+  chapterLinkEventName,
+  baseParams,
+  ctaPrefix,
 }: {
-  part: (typeof completeSubjectParts)[number];
+  part:
+    | (typeof completeSubjectParts)[number]
+    | (typeof completeSubject2Parts)[number];
+  chapterLinkEventName: SprintMathsEventName;
+  baseParams: TrackingParams;
+  ctaPrefix: string;
 }) {
   return (
     <article className="border-t border-slate-200 pt-8">
@@ -681,13 +848,13 @@ function CompleteSubjectPartCard({
               <TrackedLink
                 key={link.href}
                 href={link.href}
-                eventName="click_subject_complete_chapter_link"
+                eventName={chapterLinkEventName}
                 eventParams={{
-                  ...subjectCompleteBaseEventParams,
+                  ...baseParams,
                   part: part.part,
                   destination_page: link.href,
                   link_type: link.linkType,
-                  cta_location: `complete_subject_${part.part}_${link.linkType}`,
+                  cta_location: `${ctaPrefix}_${part.part}_${link.linkType}`,
                 }}
                 className="inline-flex min-h-11 items-center gap-2 rounded-full px-1 text-sm font-bold text-blue-900 hover:underline"
               >
@@ -807,6 +974,7 @@ export default function SujetsTypeBacMathsTerminalePage() {
       </section>
 
       <nav
+        id="sommaire"
         aria-label="Sommaire de la page"
         className="border-b border-slate-200 bg-white px-4 py-4"
       >
@@ -920,10 +1088,10 @@ export default function SujetsTypeBacMathsTerminalePage() {
             <div className="grid gap-8 lg:grid-cols-[0.85fr_1fr] lg:items-start">
               <div>
                 <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
-                  Sujet guidé complet
+                  Sujet complet 1
                 </p>
                 <h2 className="mt-3 text-3xl font-bold text-slate-950">
-                  Sujet type bac guidé complet : analyse, suites et limites
+                  Sujet complet 1 : analyse, suites et limites
                 </h2>
                 <p className="mt-4 leading-7 text-slate-700">
                   Voici un sujet d’entraînement SprintMaths, construit dans
@@ -967,14 +1135,20 @@ export default function SujetsTypeBacMathsTerminalePage() {
 
             <div className="mt-8 space-y-8">
               {completeSubjectParts.map((part) => (
-                <CompleteSubjectPartCard key={part.part} part={part} />
+                <CompleteSubjectPartCard
+                  key={part.part}
+                  part={part}
+                  chapterLinkEventName="click_subject_complete_chapter_link"
+                  baseParams={subjectCompleteBaseEventParams}
+                  ctaPrefix="complete_subject"
+                />
               ))}
             </div>
 
             <div className="mt-10 grid gap-6 rounded-lg border border-slate-200 bg-slate-50 p-5 sm:p-6 lg:grid-cols-[0.85fr_1fr] lg:items-start">
               <div>
                 <h3 className="text-2xl font-bold text-slate-950">
-                  Comment utiliser ce sujet guidé
+                  Comment utiliser le sujet complet 1
                 </h3>
                 <ol className="mt-5 list-decimal space-y-3 pl-5 leading-7 text-slate-700">
                   {completeSubjectUseSteps.map((step) => (
@@ -1037,6 +1211,160 @@ export default function SujetsTypeBacMathsTerminalePage() {
                 </TrackedLink>
               </div>
             </div>
+            <Link
+              href="#sommaire"
+              className="mt-5 inline-flex min-h-11 items-center text-sm font-bold text-blue-900 hover:underline"
+            >
+              Retour au sommaire
+            </Link>
+          </section>
+
+          <section
+            id="sujet-guide-probabilites-geometrie-integrales"
+            className="scroll-mt-24"
+          >
+            <div className="grid gap-8 lg:grid-cols-[0.85fr_1fr] lg:items-start">
+              <div>
+                <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+                  Sujet complet 2
+                </p>
+                <h2 className="mt-3 text-3xl font-bold text-slate-950">
+                  Sujet complet 2 : probabilités, géométrie et intégrales
+                </h2>
+                <p className="mt-4 leading-7 text-slate-700">
+                  Voici un deuxième sujet d’entraînement SprintMaths, construit
+                  dans l’esprit des exercices type bac. Il permet de travailler
+                  trois chapitres classiques : probabilités, géométrie dans
+                  l’espace et intégrales. Ce contenu n’est pas une annale
+                  officielle.
+                </p>
+                <TrackedLink
+                  href="/exercices-type-bac-maths-terminale"
+                  eventName="click_subject_complete_2_typebac_start"
+                  eventParams={{
+                    ...subjectComplete2BaseEventParams,
+                    cta_location: "complete_subject_2_intro",
+                    destination_page: "/exercices-type-bac-maths-terminale",
+                  }}
+                  className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-blue-900 px-5 py-3 text-center font-bold text-white hover:bg-blue-800 sm:w-auto"
+                >
+                  Continuer avec les exercices type bac guidés
+                  <ArrowRight className="h-4 w-4" />
+                </TrackedLink>
+              </div>
+
+              <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                <h3 className="flex items-center gap-2 text-xl font-bold text-slate-950">
+                  <ListChecks className="h-5 w-5 text-emerald-600" />
+                  Ce sujet travaille trois réflexes
+                </h3>
+                <ul className="mt-4 space-y-3 text-slate-700">
+                  {completeSubject2Reflexes.map((item) => (
+                    <li key={item} className="flex gap-3 leading-7">
+                      <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-emerald-600" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-8 space-y-8">
+              {completeSubject2Parts.map((part) => (
+                <CompleteSubjectPartCard
+                  key={part.part}
+                  part={part}
+                  chapterLinkEventName="click_subject_complete_2_chapter_link"
+                  baseParams={subjectComplete2BaseEventParams}
+                  ctaPrefix="complete_subject_2"
+                />
+              ))}
+            </div>
+
+            <div className="mt-10 grid gap-6 rounded-lg border border-slate-200 bg-slate-50 p-5 sm:p-6 lg:grid-cols-[0.85fr_1fr] lg:items-start">
+              <div>
+                <h3 className="text-2xl font-bold text-slate-950">
+                  Comment utiliser le sujet complet 2
+                </h3>
+                <ol className="mt-5 list-decimal space-y-3 pl-5 leading-7 text-slate-700">
+                  {completeSubject2UseSteps.map((step) => (
+                    <li key={step}>{step}</li>
+                  ))}
+                </ol>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <TrackedLink
+                  href="/exercices-type-bac-maths-terminale"
+                  eventName="click_subject_complete_2_typebac_start"
+                  eventParams={{
+                    ...subjectComplete2BaseEventParams,
+                    cta_location: "complete_subject_2_final_typebac",
+                    destination_page: "/exercices-type-bac-maths-terminale",
+                  }}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-blue-900 px-5 py-3 text-center font-bold text-white hover:bg-blue-800"
+                >
+                  Continuer avec les exercices type bac guidés
+                  <ArrowRight className="h-4 w-4" />
+                </TrackedLink>
+                <TrackedLink
+                  href="#sujet-guide-complet"
+                  eventName="click_subject_complete_2_first_subject"
+                  eventParams={{
+                    ...subjectComplete2BaseEventParams,
+                    cta_location: "complete_subject_2_final_first_subject",
+                    destination_page: "#sujet-guide-complet",
+                  }}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-blue-900 bg-white px-5 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
+                >
+                  Voir le premier sujet guidé
+                </TrackedLink>
+                <TrackedLink
+                  href="/planning-revision-bac-maths"
+                  eventName="click_subject_complete_2_planning"
+                  eventParams={{
+                    ...subjectComplete2BaseEventParams,
+                    lead_magnet: "planning_bac_maths_2027",
+                    cta_location: "complete_subject_2_final_planning",
+                    destination_page: "/planning-revision-bac-maths",
+                  }}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-blue-900 bg-white px-5 py-3 text-center font-bold text-blue-900 hover:bg-blue-50"
+                >
+                  Recevoir le planning Bac Maths 2027
+                </TrackedLink>
+                <TrackedLink
+                  href="/diagnostic"
+                  eventName="click_subject_complete_2_diagnostic"
+                  eventParams={{
+                    ...subjectComplete2BaseEventParams,
+                    cta_location: "complete_subject_2_final_diagnostic",
+                    destination_page: "/diagnostic",
+                  }}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-center font-bold text-slate-800 hover:bg-slate-100"
+                >
+                  Faire le diagnostic gratuit
+                </TrackedLink>
+                <TrackedLink
+                  href="/bac-maths-2027#offre"
+                  eventName="click_subject_complete_2_offer"
+                  eventParams={{
+                    ...packEventParams,
+                    ...subjectComplete2BaseEventParams,
+                    cta_location: "complete_subject_2_final_offer",
+                    destination_page: "/bac-maths-2027#offre",
+                  }}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 py-3 text-center font-bold text-white hover:bg-emerald-500"
+                >
+                  Voir le Pack Révision Express
+                  <ArrowRight className="h-4 w-4" />
+                </TrackedLink>
+              </div>
+            </div>
+            <Link
+              href="#sommaire"
+              className="mt-5 inline-flex min-h-11 items-center text-sm font-bold text-blue-900 hover:underline"
+            >
+              Retour au sommaire
+            </Link>
           </section>
 
           <section id="sujets-par-chapitre" className="scroll-mt-24">
@@ -1099,11 +1427,21 @@ export default function SujetsTypeBacMathsTerminalePage() {
                   <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                     <TrackedLink
                       href={chapter.exerciseHref}
-                      eventName="click_subjects_chapter_table"
+                      eventName={
+                        chapter.trackingChapter === "integrales"
+                          ? "click_internal_integrales_cluster"
+                          : "click_subjects_chapter_table"
+                      }
                       eventParams={{
                         source_page: pagePath,
                         chapter: chapter.trackingChapter,
                         destination_page: chapter.exerciseHref,
+                        ...(chapter.trackingChapter === "integrales"
+                          ? {
+                              cluster: "integrales",
+                              level: "terminale",
+                            }
+                          : {}),
                         link_type: "exercise",
                         intent: "sujets_type_bac",
                       }}
@@ -1114,11 +1452,21 @@ export default function SujetsTypeBacMathsTerminalePage() {
                     </TrackedLink>
                     <TrackedLink
                       href={chapter.methodHref}
-                      eventName="click_subjects_chapter_table"
+                      eventName={
+                        chapter.trackingChapter === "integrales"
+                          ? "click_internal_integrales_cluster"
+                          : "click_subjects_chapter_table"
+                      }
                       eventParams={{
                         source_page: pagePath,
                         chapter: chapter.trackingChapter,
                         destination_page: chapter.methodHref,
+                        ...(chapter.trackingChapter === "integrales"
+                          ? {
+                              cluster: "integrales",
+                              level: "terminale",
+                            }
+                          : {}),
                         link_type: "method",
                         intent: "sujets_type_bac",
                       }}
@@ -1250,6 +1598,8 @@ export default function SujetsTypeBacMathsTerminalePage() {
                   eventName={
                     link.cluster === "geometrie-espace"
                       ? "click_internal_geometrie_cluster"
+                      : link.cluster === "integrales"
+                        ? "click_internal_integrales_cluster"
                       : "click_subjects_cluster_exercise"
                   }
                   eventParams={{

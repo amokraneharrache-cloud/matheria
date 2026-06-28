@@ -35,6 +35,7 @@ export type ArticleLink = {
     | "limites"
     | "derivation-convexite"
     | "logarithme"
+    | "integrales"
     | "probabilites"
     | "geometrie-espace";
   level?: "terminale";
@@ -173,6 +174,14 @@ export const articles: Article[] = [
             description:
               "Domaine, propriétés de ln, dérivée, équations et exercices liés au chapitre logarithme.",
             cluster: "logarithme",
+            level: "terminale",
+          },
+          {
+            label: "Revoir le chapitre Intégrales en Terminale",
+            href: "/programme-maths-terminale/integrales",
+            description:
+              "Primitives, calcul d'aires, bornes et exercices liés au chapitre intégrales.",
+            cluster: "integrales",
             level: "terminale",
           },
         ],

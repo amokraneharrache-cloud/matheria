@@ -213,11 +213,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                                   ? "click_internal_derivation_cluster"
                                   : link.cluster === "logarithme"
                                     ? "click_internal_logarithme_cluster"
-                                    : link.cluster === "probabilites"
-                                      ? "click_internal_probabilites_cluster"
-                                      : link.cluster === "geometrie-espace"
-                                        ? "click_internal_geometrie_cluster"
-                                        : "click_internal_suites_cluster"
+                                    : link.cluster === "integrales"
+                                      ? "click_internal_integrales_cluster"
+                                      : link.cluster === "probabilites"
+                                        ? "click_internal_probabilites_cluster"
+                                        : link.cluster === "geometrie-espace"
+                                          ? "click_internal_geometrie_cluster"
+                                          : "click_internal_suites_cluster"
                             }
                             eventParams={{
                               source_page: pagePath,
