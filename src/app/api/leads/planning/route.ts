@@ -2,10 +2,13 @@ import { sendPlanningRevisionEmail, isResendEmailConfigured } from "@/lib/email/
 import { absoluteUrl } from "@/lib/site";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { getSupabaseAdmin, isLocalDevRuntime } from "@/lib/supabaseAdmin";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 const LEAD_MAGNET = "planning_bac_maths_2027";
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
+// Code Postgres pour une violation de contrainte unique (doublon).
+const POSTGRES_UNIQUE_VIOLATION = "23505";
 
 type RateLimitEntry = {
   count: number;
@@ -67,24 +70,64 @@ function isRateLimited(clientKey: string) {
   return false;
 }
 
-function getErrorLogDetails(error: unknown) {
-  if (!error || typeof error !== "object") {
-    return {
-      errorName: "Error",
-      message: "Unknown error",
-    };
-  }
+function redactPii(value: string) {
+  // Ne jamais laisser fuir un email complet dans les logs serveur.
+  return value.replace(/[^\s@]+@[^\s@]+/g, "[email]");
+}
 
-  const record = error as Record<string, unknown>;
+function getErrorLogDetails(error: unknown) {
+  const record =
+    error && typeof error === "object" ? (error as Record<string, unknown>) : {};
+  const rawMessage =
+    typeof record.message === "string" ? record.message : "Unknown error";
+
   return {
     errorName: typeof record.name === "string" ? record.name : "Error",
-    statusCode: typeof record.statusCode === "number" ? record.statusCode : undefined,
-    message: typeof record.message === "string" ? record.message : "Unknown error",
+    code: typeof record.code === "string" ? record.code : undefined,
+    status:
+      typeof record.status === "number"
+        ? record.status
+        : typeof record.statusCode === "number"
+          ? record.statusCode
+          : undefined,
+    // Message court, tronqué et débarrassé de tout email.
+    message: redactPii(rawMessage).slice(0, 200),
   };
 }
 
-async function savePlanningLead(email: string, sourcePage: string) {
-  const supabaseAdmin = getSupabaseAdmin();
+function logStep(step: string, error: unknown) {
+  console.error(`[leads/planning] ${step}`, getErrorLogDetails(error));
+}
+
+type SaveResult = { saved: boolean; duplicate: boolean; mocked: boolean };
+
+async function insertPlanningLead(
+  client: SupabaseClient,
+  leadRow: Record<string, unknown>,
+): Promise<SaveResult> {
+  const { error } = await client.from("leads").insert([leadRow]);
+
+  if (!error) {
+    return { saved: true, duplicate: false, mocked: false };
+  }
+
+  // Doublon (si un index unique sur parent_email est ajouté) : succès idempotent,
+  // pas une vraie erreur serveur -> on ne renvoie pas de 500.
+  if (error.code === POSTGRES_UNIQUE_VIOLATION) {
+    return { saved: true, duplicate: true, mocked: false };
+  }
+
+  // On propage l'erreur en conservant le code Postgres pour un log serveur exploitable.
+  const failure = new Error(error.message);
+  (failure as { code?: string }).code =
+    typeof error.code === "string" ? error.code : "supabase_insert_error";
+  throw failure;
+}
+
+async function savePlanningLead(
+  email: string,
+  sourcePage: string,
+): Promise<SaveResult> {
   const leadRow = {
     parent_email: email,
     exam_goal: "bac_maths_2027",
@@ -94,32 +137,25 @@ async function savePlanningLead(email: string, sourcePage: string) {
     wants_pack: false,
   };
 
+  const supabaseAdmin = getSupabaseAdmin();
   if (supabaseAdmin) {
-    const { error } = await supabaseAdmin.from("leads").insert([leadRow]);
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    return { saved: true, mocked: false };
+    return insertPlanningLead(supabaseAdmin, leadRow);
   }
 
   if (isSupabaseConfigured && supabase) {
-    const { error } = await supabase.from("leads").insert([leadRow]);
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    return { saved: true, mocked: false };
+    return insertPlanningLead(supabase, leadRow);
   }
 
   if (isLocalDevRuntime()) {
-    console.warn("Supabase non configuré. Lead planning non persisté en local.");
-    return { saved: false, mocked: true };
+    console.warn(
+      "[leads/planning] supabase_not_configured — lead non persisté (dev uniquement).",
+    );
+    return { saved: false, duplicate: false, mocked: true };
   }
 
-  throw new Error("Supabase non configuré.");
+  const configError = new Error("Supabase non configuré.");
+  (configError as { code?: string }).code = "supabase_not_configured";
+  throw configError;
 }
 
 export async function POST(request: Request) {
@@ -168,7 +204,10 @@ export async function POST(request: Request) {
     let emailSent = false;
     let emailSkippedReason: string | undefined;
 
-    if (isResendEmailConfigured()) {
+    if (saveResult.duplicate) {
+      // Email déjà enregistré : on n'envoie pas un second email (idempotence).
+      emailSkippedReason = "duplicate_lead";
+    } else if (isResendEmailConfigured()) {
       try {
         const emailResult = await sendPlanningRevisionEmail({
           to: email,
@@ -178,11 +217,11 @@ export async function POST(request: Request) {
         emailSent = !emailResult.error;
 
         if (emailResult.error) {
-          console.error("Resend planning email failed:", getErrorLogDetails(emailResult.error));
+          logStep("resend_send_failed", emailResult.error);
           emailSkippedReason = "resend_send_failed";
         }
       } catch (error) {
-        console.error("Resend planning email failed:", getErrorLogDetails(error));
+        logStep("resend_send_failed", error);
         emailSkippedReason = "resend_send_failed";
       }
     } else {
@@ -196,7 +235,7 @@ export async function POST(request: Request) {
       ...saveResult,
     });
   } catch (error) {
-    console.error("Planning lead request failed:", getErrorLogDetails(error));
+    logStep("save_failed", error);
     return Response.json(
       {
         success: false,

@@ -56,6 +56,42 @@ function logServerFunnelEvent(event: string, params: Record<string, unknown>) {
   });
 }
 
+function getSafeErrorLogDetails(error: unknown) {
+  if (!(error instanceof Error)) {
+    return { message: "Unknown error" };
+  }
+
+  const details: {
+    name: string;
+    message: string;
+    type?: string;
+    statusCode?: number;
+    code?: string;
+  } = {
+    name: error.name,
+    message: error.message,
+  };
+  const maybeError = error as Error & {
+    type?: unknown;
+    statusCode?: unknown;
+    code?: unknown;
+  };
+
+  if (typeof maybeError.type === "string") {
+    details.type = maybeError.type;
+  }
+
+  if (typeof maybeError.statusCode === "number") {
+    details.statusCode = maybeError.statusCode;
+  }
+
+  if (typeof maybeError.code === "string") {
+    details.code = maybeError.code;
+  }
+
+  return details;
+}
+
 export async function POST(request: Request) {
   const signature = request.headers.get("stripe-signature");
   if (!signature) {
@@ -68,7 +104,7 @@ export async function POST(request: Request) {
   try {
     webhookSecret = getWebhookSecret();
   } catch (error) {
-    console.error("Stripe webhook configuration error:", error);
+    console.error("Stripe webhook configuration error:", getSafeErrorLogDetails(error));
     return Response.json({ error: "Stripe webhook configuration error" }, { status: 500 });
   }
 
@@ -76,7 +112,7 @@ export async function POST(request: Request) {
     const rawBody = await request.text();
     event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
   } catch (error) {
-    console.error("Stripe webhook signature verification failed:", error);
+    console.error("Stripe webhook signature verification failed:", getSafeErrorLogDetails(error));
     return Response.json({ error: "Invalid Stripe signature" }, { status: 400 });
   }
 
@@ -153,9 +189,7 @@ export async function POST(request: Request) {
       console.error("Resend access code email failed:", {
         stripeSessionId: session.id,
         accessCodeId: createdCode.id,
-        errorName: emailResult.error.name,
-        statusCode: emailResult.error.statusCode,
-        message: emailResult.error.message,
+        error: getSafeErrorLogDetails(emailResult.error),
       });
     } else {
       logServerFunnelEvent("access_code_email_sent", {
@@ -173,7 +207,7 @@ export async function POST(request: Request) {
       emailSent,
     });
   } catch (error) {
-    console.error("Stripe webhook checkout.session.completed error:", error);
+    console.error("Stripe webhook checkout.session.completed error:", getSafeErrorLogDetails(error));
     return Response.json({ error: "Stripe webhook internal error" }, { status: 500 });
   }
 }

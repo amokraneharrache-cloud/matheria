@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:webhook": "node --import ./scripts/qa/register.mjs ./scripts/qa/webhook-e2e.test.mjs",
+    "test:planning": "node --import ./scripts/qa/register.mjs ./scripts/qa/planning-lead.test.mjs",
+    "test": "npm run test:webhook && npm run test:planning"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.104.1",

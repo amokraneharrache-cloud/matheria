@@ -1,11 +1,22 @@
 "use server";
 
 import { getSupabaseAdmin, isLocalDevRuntime } from "@/lib/supabaseAdmin";
+import { headers } from "next/headers";
 
 const DEV_ACCESS_CODE =
   process.env.SPRINTMATHS_DEV_ACCESS_CODE ??
   process.env.MATHERIA_BETA_ACCESS_CODE ??
   "SPRINTMATHS2026";
+
+const ACCESS_CODE_ATTEMPT_WINDOW_MS = 15 * 60 * 1000;
+const ACCESS_CODE_ATTEMPT_MAX_REQUESTS = 20;
+
+type RateLimitEntry = {
+  count: number;
+  resetAt: number;
+};
+
+const accessCodeAttemptStore = new Map<string, RateLimitEntry>();
 
 function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
@@ -13,6 +24,58 @@ function normalizeEmail(email: string) {
 
 function normalizeCode(code: string) {
   return code.trim().toUpperCase();
+}
+
+async function getAccessClientKey() {
+  try {
+    const headerStore = await headers();
+    const forwardedFor = headerStore.get("x-forwarded-for");
+    const firstForwardedIp = forwardedFor?.split(",")[0]?.trim();
+
+    return (
+      firstForwardedIp ||
+      headerStore.get("x-real-ip") ||
+      headerStore.get("cf-connecting-ip") ||
+      "unknown"
+    );
+  } catch {
+    return "unknown";
+  }
+}
+
+function isAccessAttemptRateLimited(clientKey: string) {
+  const now = Date.now();
+
+  if (accessCodeAttemptStore.size > 1000) {
+    for (const [key, entry] of accessCodeAttemptStore) {
+      if (entry.resetAt <= now) {
+        accessCodeAttemptStore.delete(key);
+      }
+    }
+  }
+
+  const storeKey = `access-code:${clientKey}`;
+  const current = accessCodeAttemptStore.get(storeKey);
+
+  if (!current || current.resetAt <= now) {
+    accessCodeAttemptStore.set(storeKey, {
+      count: 1,
+      resetAt: now + ACCESS_CODE_ATTEMPT_WINDOW_MS,
+    });
+    return false;
+  }
+
+  if (current.count >= ACCESS_CODE_ATTEMPT_MAX_REQUESTS) {
+    return true;
+  }
+
+  current.count += 1;
+  return false;
+}
+
+async function isAccessCodeAttemptBlocked() {
+  const clientKey = await getAccessClientKey();
+  return isAccessAttemptRateLimited(clientKey);
 }
 
 export async function activateBetaAccess(data: {
@@ -33,6 +96,13 @@ export async function activateBetaAccess(data: {
 
     if (!accessCode) {
       return { success: false, message: "Code d'accès invalide." };
+    }
+
+    if (await isAccessCodeAttemptBlocked()) {
+      return {
+        success: false,
+        message: "Trop de tentatives. Réessayez dans quelques minutes.",
+      };
     }
 
     const supabaseAdmin = getSupabaseAdmin();
@@ -153,6 +223,14 @@ export async function restoreBetaAccess(data: {
 
     const parentEmail = normalizeEmail(data.parentEmail);
     const accessCode = normalizeCode(data.accessCode);
+
+    if (await isAccessCodeAttemptBlocked()) {
+      return {
+        success: false as const,
+        message: "Trop de tentatives. Réessayez dans quelques minutes.",
+      };
+    }
+
     const supabaseAdmin = getSupabaseAdmin();
 
     if (!supabaseAdmin) {
