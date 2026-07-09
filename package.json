@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test:webhook": "node --import ./scripts/qa/register.mjs ./scripts/qa/webhook-e2e.test.mjs",
     "test:planning": "node --import ./scripts/qa/register.mjs ./scripts/qa/planning-lead.test.mjs",
-    "test": "npm run test:webhook && npm run test:planning"
+    "test:diagnostic": "node --import ./scripts/qa/register.mjs ./scripts/qa/diagnostic-lead.test.mjs",
+    "test": "npm run test:webhook && npm run test:planning && npm run test:diagnostic"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.104.1",

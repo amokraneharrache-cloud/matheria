@@ -3,6 +3,7 @@ import { absoluteUrl } from "@/lib/site";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { getSupabaseAdmin, isLocalDevRuntime } from "@/lib/supabaseAdmin";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { logStep } from "@/lib/safeLog";
 
 const LEAD_MAGNET = "planning_bac_maths_2027";
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
@@ -70,34 +71,7 @@ function isRateLimited(clientKey: string) {
   return false;
 }
 
-function redactPii(value: string) {
-  // Ne jamais laisser fuir un email complet dans les logs serveur.
-  return value.replace(/[^\s@]+@[^\s@]+/g, "[email]");
-}
-
-function getErrorLogDetails(error: unknown) {
-  const record =
-    error && typeof error === "object" ? (error as Record<string, unknown>) : {};
-  const rawMessage =
-    typeof record.message === "string" ? record.message : "Unknown error";
-
-  return {
-    errorName: typeof record.name === "string" ? record.name : "Error",
-    code: typeof record.code === "string" ? record.code : undefined,
-    status:
-      typeof record.status === "number"
-        ? record.status
-        : typeof record.statusCode === "number"
-          ? record.statusCode
-          : undefined,
-    // Message court, tronqué et débarrassé de tout email.
-    message: redactPii(rawMessage).slice(0, 200),
-  };
-}
-
-function logStep(step: string, error: unknown) {
-  console.error(`[leads/planning] ${step}`, getErrorLogDetails(error));
-}
+const SCOPE = "leads/planning";
 
 type SaveResult = { saved: boolean; duplicate: boolean; mocked: boolean };
 
@@ -217,11 +191,11 @@ export async function POST(request: Request) {
         emailSent = !emailResult.error;
 
         if (emailResult.error) {
-          logStep("resend_send_failed", emailResult.error);
+          logStep(SCOPE, "resend_send_failed", emailResult.error);
           emailSkippedReason = "resend_send_failed";
         }
       } catch (error) {
-        logStep("resend_send_failed", error);
+        logStep(SCOPE, "resend_send_failed", error);
         emailSkippedReason = "resend_send_failed";
       }
     } else {
@@ -235,7 +209,7 @@ export async function POST(request: Request) {
       ...saveResult,
     });
   } catch (error) {
-    logStep("save_failed", error);
+    logStep(SCOPE, "save_failed", error);
     return Response.json(
       {
         success: false,

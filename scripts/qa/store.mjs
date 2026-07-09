@@ -7,6 +7,9 @@ export function store() {
       leads: [],
       emails: [],
       idSeq: 0,
+      leadClientModes: [],
+      lastLeadClientMode: null,
+      supabaseClientModes: [],
       // Contrôle de test : simuler une erreur Supabase sur un insert `leads`
       // (null = insert normal). N'affecte ni le webhook ni access_codes.
       leadsInsertError: null,

@@ -6,8 +6,9 @@ import { store } from "./store.mjs";
 const UNIQUE_VIOLATION = "23505";
 
 class Query {
-  constructor(table) {
+  constructor(table, clientMode) {
     this.table = table;
+    this.clientMode = clientMode;
     this._op = "select";
     this._filters = [];
     this._insertRow = null;
@@ -54,6 +55,8 @@ class Query {
     }
     if (this._op === "insert") {
       if (this.table === "leads") {
+        s.lastLeadClientMode = this.clientMode;
+        s.leadClientModes.push(this.clientMode);
         // Erreur simulée par le test (Supabase indisponible, contrainte, etc.).
         if (s.leadsInsertError) {
           return { data: null, error: s.leadsInsertError };
@@ -81,11 +84,17 @@ class Query {
 }
 
 class FakeSupabase {
+  constructor(clientMode) {
+    this.clientMode = clientMode;
+  }
+
   from(table) {
-    return new Query(table);
+    return new Query(table, this.clientMode);
   }
 }
 
-export function createClient() {
-  return new FakeSupabase();
+export function createClient(_url, key) {
+  const clientMode = key === process.env.SUPABASE_SERVICE_ROLE_KEY ? "admin" : "anon";
+  store().supabaseClientModes.push(clientMode);
+  return new FakeSupabase(clientMode);
 }

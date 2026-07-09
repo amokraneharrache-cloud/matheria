@@ -7,6 +7,9 @@ Object.assign(process.env, {
   STRIPE_SECRET_KEY: "sk_test_dummy",
   STRIPE_WEBHOOK_SECRET: "whsec_qa_dummy_secret",
   NEXT_PUBLIC_SUPABASE_URL: "http://fake.local",
+  // Clé anon factice : rend `isSupabaseConfigured` vrai côté @/lib/supabase
+  // (client anon utilisé par le server action saveLead du diagnostic).
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: "fake-anon-key",
   SUPABASE_SERVICE_ROLE_KEY: "fake-service-role-key",
   RESEND_API_KEY: "re_fake_key",
   SPRINTMATHS_EMAIL_FROM: "qa@sprintmaths.test",

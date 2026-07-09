@@ -101,8 +101,12 @@ export default function DiagnosticPage() {
     try {
       const result = await saveLead(data);
       if (!result.success) {
-        console.error("Erreur:", result.error);
-        // We proceed anyway to not block the user if DB fails
+        // Sauvegarde échouée : on ne bloque pas l'UX et on n'affiche aucun
+        // message technique à l'utilisateur. Le détail est déjà loggé côté
+        // serveur de façon safe (sans PII). Ici on ne trace qu'un code
+        // non-sensible (jamais l'email ni le payload).
+        console.error("[diagnostic] lead non enregistré", result.errorCode ?? "unknown");
+        // On continue quand même pour afficher le résultat du diagnostic.
       }
 
       const trackingParams = {
