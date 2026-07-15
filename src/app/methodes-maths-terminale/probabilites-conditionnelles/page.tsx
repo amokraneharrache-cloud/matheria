@@ -133,6 +133,10 @@ const internalLinks = [
     label: "Exercices type bac Terminale",
   },
   {
+    href: "/sujets-type-bac-maths-terminale",
+    label: "Sujets type bac corrigés Terminale",
+  },
+  {
     href: "/methodes-maths-terminale",
     label: "Toutes les méthodes Terminale",
   },
@@ -536,7 +540,7 @@ export default function MethodeProbabilitesConditionnellesPage() {
               </TrackedLink>
             </div>
 
-            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               <TrackedLink
                 href="/programme-maths-terminale/probabilites"
                 eventName="click_method_chapter_program"
@@ -558,6 +562,20 @@ export default function MethodeProbabilitesConditionnellesPage() {
                 className="rounded-xl border border-slate-200 bg-white p-5 font-semibold text-slate-800 shadow-sm hover:border-blue-200 hover:bg-blue-50 hover:text-blue-950"
               >
                 Essayer un exercice type bac guidé
+              </TrackedLink>
+              <TrackedLink
+                href="/sujets-type-bac-maths-terminale#sujet-guide-probabilites-geometrie-integrales"
+                eventName="click_method_chapter_subjects"
+                eventParams={{
+                  ...methodEventParams,
+                  intent: "sujet_type_bac_corrige",
+                  destination_page:
+                    "/sujets-type-bac-maths-terminale#sujet-guide-probabilites-geometrie-integrales",
+                  cta_location: "method_training_subject_corrige",
+                }}
+                className="rounded-xl border border-slate-200 bg-white p-5 font-semibold text-slate-800 shadow-sm hover:border-blue-200 hover:bg-blue-50 hover:text-blue-950"
+              >
+                S&apos;entraîner avec un sujet type bac corrigé
               </TrackedLink>
               <TrackedLink
                 href="/planning-revision-bac-maths"

@@ -100,6 +100,10 @@ const internalLinks = [
   { href: "/programme-maths-terminale/limites", label: "Programme du chapitre Limites" },
   { href: "/exercices-maths-terminale/limites", label: "Exercices limites Terminale" },
   { href: "/exercices-type-bac-maths-terminale", label: "Exercices type bac Terminale" },
+  {
+    href: "/sujets-type-bac-maths-terminale",
+    label: "Sujets type bac corrigés Terminale",
+  },
   { href: "/methodes-maths-terminale", label: "Toutes les méthodes Terminale" },
   { href: "/bac-maths-2027", label: "Bac Maths 2027" },
   { href: "/planning-revision-bac-maths", label: "Planning Bac Maths 2027" },
@@ -357,6 +361,20 @@ export default function MethodeCalculerUneLimitePage() {
                   className="rounded-xl border border-blue-200 bg-blue-900 p-5 font-semibold text-white shadow-sm hover:bg-blue-800"
                 >
                   Essayer un exercice type bac
+                </TrackedLink>
+                <TrackedLink
+                  href="/sujets-type-bac-maths-terminale#sujet-guide-complet"
+                  eventName="click_method_chapter_subjects"
+                  eventParams={{
+                    ...methodEventParams,
+                    intent: "sujet_type_bac_corrige",
+                    destination_page:
+                      "/sujets-type-bac-maths-terminale#sujet-guide-complet",
+                    cta_location: "method_training_subject_corrige",
+                  }}
+                  className="rounded-xl border border-slate-200 bg-white p-5 font-semibold text-slate-800 shadow-sm hover:border-blue-200 hover:bg-blue-50 hover:text-blue-950"
+                >
+                  S&apos;entraîner avec un sujet type bac corrigé
                 </TrackedLink>
                 <TrackedLink
                   href="/diagnostic"
