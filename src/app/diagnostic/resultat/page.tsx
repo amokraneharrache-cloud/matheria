@@ -11,8 +11,7 @@ import { Suspense, useEffect, useMemo, useRef, useSyncExternalStore } from "reac
 import { trackViewOffer } from "@/lib/tracking";
 import { getSessionStorageItem, storageEvents } from "@/lib/storageKeys";
 import {
-  BAC_2026_OFFER_PRICE,
-  BAC_2026_PROMO_CODE,
+  PACK_REVISION_EXPRESS_LABEL,
   PACK_REVISION_EXPRESS_PRICE,
 } from "@/lib/offers";
 
@@ -97,6 +96,10 @@ function ResultContent() {
   const diffParams = searchParams.get("diff") || "";
   const difficulties = storedContext?.difficulties ?? (diffParams ? diffParams.split(",") : []);
   const stripePaymentLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK;
+  const offerHref = stripePaymentLink ?? "/bac-maths-2027#offre";
+  const offerTarget = stripePaymentLink ? "_blank" : undefined;
+  const offerRel = stripePaymentLink ? "noopener noreferrer" : undefined;
+  const offerClickEventName = stripePaymentLink ? "stripe_click" : "click_bac2027_offer";
 
   const isBrevet = exam === "brevet";
   const isTerminale = exam === "terminale";
@@ -119,10 +122,9 @@ function ResultContent() {
     () => ({
       exam_goal: exam,
       level,
-      offer: "pack_revision_express",
-      price: BAC_2026_OFFER_PRICE,
+      offer: "pack_revision_express_bac_2027",
+      price: PACK_REVISION_EXPRESS_PRICE,
       currency: "EUR",
-      coupon_code: BAC_2026_PROMO_CODE,
       source_page: "/diagnostic/resultat",
     }),
     [exam, level],
@@ -213,24 +215,23 @@ function ResultContent() {
 
         <div className="bg-white rounded-2xl p-8 border shadow-sm text-center mb-12 relative overflow-hidden">
           <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-600 to-violet-600"></div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Passez à l&apos;action aujourd&apos;hui</h2>
-          <div className="flex items-baseline justify-center gap-2 mb-6">
-            <span className="text-4xl font-extrabold text-slate-900">{BAC_2026_OFFER_PRICE}€</span>
-            <span className="text-lg font-bold text-slate-400 line-through">{PACK_REVISION_EXPRESS_PRICE}€</span>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">{PACK_REVISION_EXPRESS_LABEL}</h2>
+          <div className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1 mb-6">
+            <span className="text-4xl font-extrabold text-slate-900">{PACK_REVISION_EXPRESS_PRICE} €</span>
             <span className="text-slate-500 font-medium">paiement unique</span>
           </div>
           <p className="mb-6 text-sm font-semibold text-blue-900">
-            Code {BAC_2026_PROMO_CODE} : {BAC_2026_OFFER_PRICE} € au lieu de {PACK_REVISION_EXPRESS_PRICE} €.
+            Le pack aide à transformer ce diagnostic en plan de travail avec des exercices type bac guidés, sans abonnement.
           </p>
           
           <ul className="space-y-3 mb-8 text-left max-w-sm mx-auto">
             <li className="flex items-center gap-3">
               <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
-              <span className="text-slate-700">Accès complet jusqu&apos;au jour de l&apos;examen</span>
+              <span className="text-slate-700">Préparation Bac Maths 2027 structurée</span>
             </li>
             <li className="flex items-center gap-3">
               <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
-              <span className="text-slate-700">Parcours personnalisé</span>
+              <span className="text-slate-700">Exercices type bac guidés et méthodes courtes</span>
             </li>
             <li className="flex items-center gap-3">
               <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
@@ -245,45 +246,31 @@ function ResultContent() {
           />
 
           <div className="space-y-3">
-            {stripePaymentLink ? (
-              <div className="space-y-2 w-full">
-                <TrackedLink
-                  href={stripePaymentLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full"
-                  eventName="stripe_click"
-                  eventParams={{
-                    ...offerTrackingParams,
-                    payment_provider: "stripe",
-                    cta_location: "diagnostic_result_offer",
-                  }}
-                >
-                  <Button size="lg" className="w-full text-lg h-14 shadow-lg bg-blue-600 hover:bg-blue-700 text-white">
-                    Profiter de l&apos;offre à {BAC_2026_OFFER_PRICE} €
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </TrackedLink>
-                <p className="text-xs text-center text-slate-500 font-medium pb-2">
-                  Paiement sécurisé par Stripe. Paiement unique, sans abonnement.
-                </p>
-              </div>
-            ) : (
+            <div className="space-y-2 w-full">
               <TrackedLink
-                href="/diagnostic"
+                href={offerHref}
+                target={offerTarget}
+                rel={offerRel}
                 className="block w-full"
-                eventName="click_diagnostic"
+                eventName={offerClickEventName}
                 eventParams={{
-                  source_page: "/diagnostic/resultat",
-                  cta_location: "diagnostic_result_offer_fallback",
+                  ...offerTrackingParams,
+                  destination_page: offerHref,
+                  payment_provider: stripePaymentLink ? "stripe" : undefined,
+                  cta_location: "diagnostic_result_offer",
                 }}
               >
                 <Button size="lg" className="w-full text-lg h-14 shadow-lg bg-blue-600 hover:bg-blue-700 text-white">
-                  Faire le diagnostic gratuit
+                  {stripePaymentLink
+                    ? `Accéder au pack à ${PACK_REVISION_EXPRESS_PRICE} €`
+                    : `Voir le pack à ${PACK_REVISION_EXPRESS_PRICE} €`}
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </TrackedLink>
-            )}
+              <p className="text-xs text-center text-slate-500 font-medium pb-2">
+                Paiement sécurisé par Stripe si l&apos;offre est ouverte. Paiement unique, sans abonnement.
+              </p>
+            </div>
             <Link href="/" className="block">
               <Button variant="ghost" className="w-full">
                 Recevoir les infos par email

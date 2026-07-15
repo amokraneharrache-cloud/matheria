@@ -73,7 +73,7 @@ const faqItems: FaqItem[] = [
   {
     question: "Combien coûte l'accès ?",
     answer:
-      `Le Pack Révision Express coûte ${PACK_REVISION_EXPRESS_PRICE} €. Des offres ponctuelles peuvent exister selon la période, par exemple une promo à 29 €, sans engagement d'abonnement.`,
+      `Le Pack Révision Express coûte ${PACK_REVISION_EXPRESS_PRICE} € en paiement unique, sans abonnement.`,
   },
   {
     question: "Comment reçoit-on l'accès après paiement ?",
@@ -824,7 +824,6 @@ export default function BacMaths2027Page() {
 
           <InternalLinks
             currentPath={pagePath}
-            excludeHrefs={["/bac-maths-terminale-2026"]}
             title="Continuer les révisions Bac Maths"
           />
         </div>

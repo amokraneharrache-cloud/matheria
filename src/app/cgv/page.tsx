@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { LegalPageLayout, LegalSection } from "@/components/legal/LegalPageLayout";
 import {
-  BAC_2026_OFFER_PRICE,
-  BAC_2026_PROMO_CODE,
+  PACK_REVISION_EXPRESS_LABEL,
   PACK_REVISION_EXPRESS_PRICE,
 } from "@/lib/offers";
 import { absoluteUrl, CONTACT_EMAIL, SITE_NAME } from "@/lib/site";
@@ -12,7 +11,7 @@ const pagePath = "/cgv";
 export const metadata: Metadata = {
   title: "Conditions générales de vente",
   description:
-    "Conditions générales de vente du Pack Révision Express SprintMaths : prix, paiement, accès, codes, rétractation et remboursement.",
+    "Conditions générales de vente du Pack Révision Express SprintMaths : prix, paiement, accès, rétractation et remboursement.",
   alternates: {
     canonical: absoluteUrl(pagePath),
   },
@@ -34,6 +33,7 @@ export default function CgvPage() {
     <LegalPageLayout
       title="Conditions générales de vente"
       description="Ces conditions générales de vente encadrent l’achat du Pack Révision Express SprintMaths par des particuliers en France. Elles peuvent évoluer pour rester alignées avec le service et les obligations applicables."
+      updatedAt="13 juillet 2026"
     >
       <LegalSection title="Objet">
         <p>
@@ -45,7 +45,7 @@ export default function CgvPage() {
 
       <LegalSection title="Produit vendu">
         <p>
-          Le produit vendu est le Pack Révision Express SprintMaths. Il donne accès
+          Le produit vendu est le {PACK_REVISION_EXPRESS_LABEL}. Il donne accès
           à une web app de révision en mathématiques comprenant notamment des
           exercices, corrections, méthodes, plans de révision et outils de suivi
           selon le périmètre disponible au moment de l’achat.
@@ -58,13 +58,12 @@ export default function CgvPage() {
 
       <LegalSection title="Prix et paiement">
         <p>
-          Le prix public du Pack Révision Express SprintMaths est de{" "}
+          Le prix public du {PACK_REVISION_EXPRESS_LABEL} est de{" "}
           {PACK_REVISION_EXPRESS_PRICE} € TTC, en paiement unique.
         </p>
         <p>
-          Une offre promotionnelle peut être proposée, notamment l’offre Bac
-          2026 à {BAC_2026_OFFER_PRICE} € avec le code {BAC_2026_PROMO_CODE},
-          ou des codes partenaires créés par SprintMaths.
+          Le prix applicable est celui affiché au moment de la commande. Aucun
+          abonnement ni prélèvement récurrent n&apos;est associé à cet achat.
         </p>
         <p>
           Le paiement est effectué via Stripe, prestataire de paiement sécurisé.

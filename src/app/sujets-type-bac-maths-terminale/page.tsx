@@ -34,7 +34,7 @@ const pagePath = "/sujets-type-bac-maths-terminale";
 
 const title = "Sujets type Bac Maths Terminale avec corrigé guidé";
 const description =
-  "Entraîne-toi avec des sujets type Bac Maths Terminale corrigés et guidés étape par étape : méthodes, chapitres clés, erreurs fréquentes et préparation Bac 2027.";
+  "Travaille des sujets type Bac Maths Terminale corrigés et guidés : suites, limites, probabilités, géométrie, intégrales. Entraînement spécialité maths Bac 2027.";
 const officialContentDisclaimer =
   "SprintMaths propose des sujets et exercices type bac guidés pour s’entraîner. Ces contenus ne sont pas présentés comme des annales officielles ou des sujets officiels du ministère.";
 
@@ -62,18 +62,13 @@ export const metadata: Metadata = {
 
 const faqItems: FaqItem[] = [
   {
-    question: "Est-ce que ces contenus viennent du ministère ?",
+    question: "Où trouver un sujet type Bac Maths Terminale avec corrigé ?",
+    answer:
+      "Cette page propose deux sujets type bac complets avec corrigé guidé — l'un sur les suites, le logarithme et les limites, l'autre sur les probabilités, la géométrie dans l'espace et les intégrales — ainsi que des aperçus corrigés par chapitre. Ce sont des sujets d'entraînement SprintMaths, pas des annales officielles.",
+  },
+  {
+    question: "Ces sujets type bac sont-ils des annales officielles ?",
     answer: `Non. ${officialContentDisclaimer}`,
-  },
-  {
-    question: "À quoi sert un sujet type bac ?",
-    answer:
-      "Un sujet type bac sert à s'entraîner sur un format proche des attentes de Terminale : plusieurs questions, des chapitres liés, une méthode à choisir et une conclusion à rédiger clairement.",
-  },
-  {
-    question: "Faut-il faire des sujets complets ou des exercices ciblés ?",
-    answer:
-      "Les deux sont utiles. Les exercices ciblés consolident une méthode précise, tandis que les sujets type bac aident à enchaîner plusieurs réflexes. SprintMaths met surtout l'accent sur l'entraînement guidé étape par étape.",
   },
   {
     question: "Quelle différence entre un sujet type bac et un exercice type bac ?",
@@ -81,29 +76,34 @@ const faqItems: FaqItem[] = [
       "Un exercice type bac cible une méthode précise, par exemple une limite de suite ou une probabilité conditionnelle. Un sujet type bac enchaîne plusieurs questions liées, parfois sur des chapitres différents, comme une partie d'épreuve. L'exercice consolide un réflexe, le sujet apprend à enchaîner ces réflexes.",
   },
   {
+    question: "Comment utiliser un corrigé guidé ?",
+    answer:
+      "Cherche d'abord ta réponse sans regarder la correction, puis compare étape par étape : chapitre identifié, méthode choisie, calculs posés, conclusion rédigée. Note l'erreur fréquente signalée, puis refais les exercices guidés du chapitre concerné pour vérifier que la méthode est acquise.",
+  },
+  {
     question: "Quels chapitres travailler en priorité ?",
     answer:
       "Cela dépend de tes points faibles, repérables avec le diagnostic gratuit. En Terminale, les suites, la dérivation, le logarithme, les probabilités et la géométrie dans l'espace reviennent souvent dans les sujets type bac : ce sont des chapitres utiles à sécuriser en premier.",
   },
   {
-    question: "Est-ce utile de refaire plusieurs sujets type bac ?",
+    question: "Combien de sujets type bac faut-il faire avant l'épreuve ?",
     answer:
-      "Oui, à condition de varier les chapitres et de revenir sur les erreurs commises. Refaire un sujet déjà corrigé aide à vérifier que la méthode est acquise, et pas seulement mémorisée. L'objectif est de gagner en autonomie sur le raisonnement, sans garantir une note précise le jour de l'épreuve.",
+      "Il n'y a pas de nombre magique : la régularité compte plus que le volume. Alterner sujets complets, exercices ciblés par chapitre et retour sur les erreurs est plus efficace que multiplier les sujets sans exploiter les corrigés. Le planning de révision gratuit aide à répartir cet entraînement.",
   },
   {
-    question: "Les corrigés sont-ils détaillés ?",
+    question: "Les corrigés guidés garantissent-ils une bonne note ?",
     answer:
-      "Les corrigés SprintMaths sont pensés comme des corrigés guidés : identifier le chapitre, choisir la méthode, poser les calculs puis conclure proprement. Les aperçus de cette page ne sont pas des corrigés exhaustifs de sujets de 2 h.",
+      "Non. Aucun entraînement ne garantit une note le jour de l'épreuve. Les corrigés guidés servent à structurer le raisonnement, repérer les erreurs fréquentes et rendre les méthodes réutilisables sur un énoncé nouveau.",
   },
   {
-    question: "Peut-on utiliser SprintMaths sur téléphone ?",
+    question: "Est-ce adapté à la spécialité maths Terminale ?",
     answer:
-      "Oui. SprintMaths est pensé pour un accès mobile dans le navigateur : exercices guidés, méthodes courtes, planning et progression restent utilisables sur téléphone.",
+      "Oui. Les sujets et exercices couvrent des chapitres travaillés en spécialité maths de Terminale : suites, limites, dérivation et convexité, fonction logarithme, probabilités, géométrie dans l'espace et intégrales.",
   },
   {
-    question: "Comment accéder au Pack Révision Express ?",
+    question: "Peut-on commencer avec le planning de révision ?",
     answer:
-      `Le Pack Révision Express est présenté sur la page Bac Maths 2027. Il coûte ${PACK_REVISION_EXPRESS_PRICE} € en paiement unique lorsque l'offre est ouverte, avec un accès par code après paiement.`,
+      "Oui. Le planning de révision Bac Maths est gratuit et aide à organiser les semaines d'entraînement. Le diagnostic gratuit permet ensuite de repérer les chapitres à renforcer avant d'enchaîner les sujets type bac corrigés.",
   },
 ];
 
@@ -549,6 +549,9 @@ const chapterSubjectLinks = [
       "Appliquer une formule sans vérifier la forme de la suite ni rédiger l'interprétation finale.",
     exerciseHref: "/exercices-maths-terminale/suites",
     methodHref: "/methodes-maths-terminale/etudier-une-suite",
+    subjectHref: "#sujet-guide-complet",
+    subjectAnchor: "sujet-guide-complet",
+    subjectLabel: "Corrigé guidé : sujet 1",
   },
   {
     chapter: "Limites",
@@ -559,6 +562,9 @@ const chapterSubjectLinks = [
       "Conclure trop vite sur le signe de l'infini sans regarder le terme dominant ou l'intervalle étudié.",
     exerciseHref: "/exercices-maths-terminale/limites",
     methodHref: "/methodes-maths-terminale/calculer-une-limite",
+    subjectHref: "#sujet-guide-complet",
+    subjectAnchor: "sujet-guide-complet",
+    subjectLabel: "Corrigé guidé : sujet 1",
   },
   {
     chapter: "Dérivation / Convexité",
@@ -569,6 +575,9 @@ const chapterSubjectLinks = [
       "Remplir le tableau de variation sans relier clairement le signe de la dérivée aux intervalles.",
     exerciseHref: "/exercices-maths-terminale/derivation",
     methodHref: "/methodes-maths-terminale/tableau-variation",
+    subjectHref: "#sujet-guide-complet",
+    subjectAnchor: "sujet-guide-complet",
+    subjectLabel: "Corrigé guidé : sujet 1",
   },
   {
     chapter: "Fonction logarithme",
@@ -579,6 +588,9 @@ const chapterSubjectLinks = [
       "Oublier que l'expression à l'intérieur d'un logarithme doit être strictement positive.",
     exerciseHref: "/exercices-maths-terminale/logarithme",
     methodHref: "/methodes-maths-terminale/logarithme",
+    subjectHref: "#sujet-guide-complet",
+    subjectAnchor: "sujet-guide-complet",
+    subjectLabel: "Corrigé guidé : sujet 1",
   },
   {
     chapter: "Intégrales",
@@ -589,6 +601,9 @@ const chapterSubjectLinks = [
       "Oublier que le calcul se fait toujours avec F(b) - F(a), surtout quand la borne inférieure donne une expression négative.",
     exerciseHref: "/exercices-maths-terminale/integrales",
     methodHref: "/methodes-maths-terminale/integrales",
+    subjectHref: "#sujet-guide-probabilites-geometrie-integrales",
+    subjectAnchor: "sujet-guide-probabilites-geometrie-integrales",
+    subjectLabel: "Corrigé guidé : sujet 2",
   },
   {
     chapter: "Probabilités",
@@ -599,6 +614,9 @@ const chapterSubjectLinks = [
       "Confondre P(A ∩ B), P_A(B) et P(B), surtout quand l'arbre contient plusieurs branches.",
     exerciseHref: "/exercices-maths-terminale/probabilites",
     methodHref: "/methodes-maths-terminale/probabilites-conditionnelles",
+    subjectHref: "#sujet-guide-probabilites-geometrie-integrales",
+    subjectAnchor: "sujet-guide-probabilites-geometrie-integrales",
+    subjectLabel: "Corrigé guidé : sujet 2",
   },
   {
     chapter: "Géométrie dans l'espace",
@@ -609,6 +627,9 @@ const chapterSubjectLinks = [
       "Conclure une intersection sans vérifier les paramètres obtenus ou l'appartenance au plan.",
     exerciseHref: "/exercices-maths-terminale/geometrie-espace",
     methodHref: "/methodes-maths-terminale/geometrie-espace",
+    subjectHref: "#sujet-guide-probabilites-geometrie-integrales",
+    subjectAnchor: "sujet-guide-probabilites-geometrie-integrales",
+    subjectLabel: "Corrigé guidé : sujet 2",
   },
 ] as const;
 
@@ -627,23 +648,32 @@ const internalLinks = [
 
 // Sommaire interne : chaque ancre cible un id de section présent plus bas.
 const pageAnchors = [
+  {
+    href: "#sujet-corrige-guide",
+    anchor: "sujet-corrige-guide",
+    label: "Corrigés guidés",
+  },
   { href: "#sujets-guides", anchor: "sujets-guides", label: "Sujets guidés" },
   {
     href: "#sujet-guide-complet",
     anchor: "sujet-guide-complet",
-    label: "Sujet complet 1",
+    label: "Sujet corrigé 1",
   },
   {
     href: "#sujet-guide-probabilites-geometrie-integrales",
     anchor: "sujet-guide-probabilites-geometrie-integrales",
-    label: "Sujet complet 2",
+    label: "Sujet corrigé 2",
   },
   {
     href: "#sujets-par-chapitre",
     anchor: "sujets-par-chapitre",
-    label: "Sujets par chapitre",
+    label: "Corrigés par chapitre",
   },
-  { href: "#corrige-guide", anchor: "corrige-guide", label: "Corrigé guidé" },
+  {
+    href: "#corrige-guide",
+    anchor: "corrige-guide",
+    label: "Utiliser un corrigé",
+  },
   {
     href: "#transparence",
     anchor: "transparence",
@@ -908,6 +938,10 @@ export default function SujetsTypeBacMathsTerminalePage() {
               guidée : chapitre à reconnaître, méthode à choisir, calculs à poser
               et conclusion à rédiger proprement.
             </p>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400">
+              SprintMaths propose des sujets type bac avec corrigé guidé pour
+              s&apos;entraîner, sans les présenter comme des annales officielles.
+            </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <TrackedLink
                 href="/exercices-type-bac-maths-terminale"
@@ -937,6 +971,37 @@ export default function SujetsTypeBacMathsTerminalePage() {
                 Recevoir le planning gratuit
               </TrackedLink>
             </div>
+            <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6">
+              {[
+                {
+                  anchor: "sujet-guide-complet",
+                  label: "Sujet corrigé 1 : suites, logarithme et limites",
+                  ctaLocation: "hero_quick_access_subject_1",
+                },
+                {
+                  anchor: "sujet-guide-probabilites-geometrie-integrales",
+                  label: "Sujet corrigé 2 : probabilités, géométrie et intégrales",
+                  ctaLocation: "hero_quick_access_subject_2",
+                },
+              ].map((item) => (
+                <TrackedLink
+                  key={item.anchor}
+                  href={`#${item.anchor}`}
+                  eventName="click_subjects_page_anchor"
+                  eventParams={{
+                    source_page: pagePath,
+                    anchor: item.anchor,
+                    destination_page: `#${item.anchor}`,
+                    cta_location: item.ctaLocation,
+                    intent: "sujets_type_bac",
+                  }}
+                  className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"
+                >
+                  {item.label}
+                  <ArrowRight className="h-4 w-4 shrink-0" />
+                </TrackedLink>
+              ))}
+            </div>
             <p className="mt-4 text-sm font-semibold text-slate-300">
               Aperçus d&apos;entraînement, méthodes guidées, accès mobile et Pack
               Révision Express à {PACK_REVISION_EXPRESS_PRICE} €.
@@ -959,8 +1024,8 @@ export default function SujetsTypeBacMathsTerminalePage() {
       <section className="border-b border-slate-200 bg-white px-4 py-5">
         <div className="mx-auto grid max-w-6xl gap-3 sm:grid-cols-3">
           {[
+            { value: "2", label: "sujets complets avec corrigé guidé" },
             { value: "4", label: "aperçus de sujets type bac" },
-            { value: "4", label: "étapes de corrigé guidé" },
             { value: "39 €", label: "Pack Révision Express" },
           ].map((stat) => (
             <div key={stat.label} className="rounded-lg bg-slate-50 p-4 text-center">
@@ -1005,6 +1070,128 @@ export default function SujetsTypeBacMathsTerminalePage() {
 
       <section className="px-4 py-14 sm:py-16">
         <div className="mx-auto max-w-6xl space-y-16">
+          <section id="sujet-corrige-guide" className="scroll-mt-24">
+            <div className="max-w-3xl">
+              <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+                Corrigé guidé
+              </p>
+              <h2 className="mt-3 text-3xl font-bold text-slate-950">
+                Sujet type Bac Maths Terminale avec corrigé guidé
+              </h2>
+              <p className="mt-4 leading-7 text-slate-700">
+                Chaque sujet type bac de cette page est accompagné d&apos;un
+                corrigé guidé : au lieu de livrer seulement la rédaction finale,
+                la correction reconstruit le raisonnement en quatre étapes —
+                identifier le chapitre, choisir la méthode, poser les calculs,
+                conclure proprement.
+              </p>
+              <p className="mt-3 leading-7 text-slate-700">
+                C&apos;est ce qui rend ce format utile pour s&apos;entraîner en
+                spécialité maths avant le Bac 2027 : on comprend le chemin qui
+                mène à la réponse, on repère l&apos;erreur fréquente à éviter,
+                puis on refait les exercices du chapitre pour vérifier que la
+                méthode est acquise.
+              </p>
+            </div>
+
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                <h3 className="text-lg font-bold text-slate-950">
+                  Corrigé classique
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  Une rédaction finale à lire. Utile pour vérifier un résultat,
+                  mais on reste passif : la solution apparaît sans le
+                  raisonnement qui permet de la retrouver seul devant un énoncé
+                  voisin.
+                </p>
+              </article>
+              <article className="rounded-lg border border-blue-100 bg-blue-50 p-5 shadow-sm">
+                <h3 className="text-lg font-bold text-blue-950">
+                  Corrigé guidé SprintMaths
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-blue-950">
+                  Le chemin avant la réponse : chapitre identifié, méthode
+                  choisie, calculs posés, conclusion rédigée, avec l&apos;erreur
+                  fréquente à éviter sur chaque partie.
+                </p>
+              </article>
+            </div>
+
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <TrackedLink
+                href="#sujet-guide-complet"
+                eventName="click_subjects_page_anchor"
+                eventParams={{
+                  source_page: pagePath,
+                  anchor: "sujet-guide-complet",
+                  destination_page: "#sujet-guide-complet",
+                  cta_location: "corrige_guide_subject_1",
+                  intent: "sujets_type_bac",
+                }}
+                className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-blue-300 hover:bg-blue-50"
+              >
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-900">
+                  Sujet complet 1
+                </p>
+                <h3 className="mt-2 text-lg font-bold text-slate-950">
+                  Suites, logarithme et limites avec corrigé guidé
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  Trois parties corrigées étape par étape : suite récurrente,
+                  étude de fonction avec ln, limite par croissance comparée.
+                </p>
+                <span className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-blue-900">
+                  Lire le sujet corrigé 1
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </TrackedLink>
+              <TrackedLink
+                href="#sujet-guide-probabilites-geometrie-integrales"
+                eventName="click_subjects_page_anchor"
+                eventParams={{
+                  source_page: pagePath,
+                  anchor: "sujet-guide-probabilites-geometrie-integrales",
+                  destination_page:
+                    "#sujet-guide-probabilites-geometrie-integrales",
+                  cta_location: "corrige_guide_subject_2",
+                  intent: "sujets_type_bac",
+                }}
+                className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-colors hover:border-blue-300 hover:bg-blue-50"
+              >
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-blue-900">
+                  Sujet complet 2
+                </p>
+                <h3 className="mt-2 text-lg font-bold text-slate-950">
+                  Probabilités, géométrie et intégrales avec corrigé guidé
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  Trois parties corrigées étape par étape : arbre pondéré et
+                  probabilité conditionnelle, vecteur normal et produit
+                  scalaire, intégrale et aire.
+                </p>
+                <span className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-blue-900">
+                  Lire le sujet corrigé 2
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </TrackedLink>
+            </div>
+
+            <TrackedLink
+              href="/exercices-type-bac-maths-terminale"
+              eventName="click_subjects_typebac_start"
+              eventParams={{
+                ...baseEventParams,
+                cta_location: "corrige_guide_section",
+                destination_page: "/exercices-type-bac-maths-terminale",
+              }}
+              className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-blue-900 px-5 py-3 text-center font-bold text-white hover:bg-blue-800 sm:w-auto"
+            >
+              Continuer avec les exercices type bac guidés
+              <ArrowRight className="h-4 w-4" />
+            </TrackedLink>
+          </section>
+
           <section className="grid gap-8 lg:grid-cols-[0.85fr_1fr] lg:items-start">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
@@ -1091,12 +1278,14 @@ export default function SujetsTypeBacMathsTerminalePage() {
                   Sujet complet 1
                 </p>
                 <h2 className="mt-3 text-3xl font-bold text-slate-950">
-                  Sujet complet 1 : analyse, suites et limites
+                  Sujet complet 1 — suites, logarithme et limites avec corrigé
+                  guidé
                 </h2>
                 <p className="mt-4 leading-7 text-slate-700">
-                  Voici un sujet d’entraînement SprintMaths, construit dans
-                  l’esprit des exercices type bac. Il sert à travailler les
-                  méthodes, mais ne constitue pas une annale officielle.
+                  Voici un sujet d’entraînement SprintMaths avec corrigé guidé
+                  pour chaque partie, construit dans l’esprit des exercices type
+                  bac. Il sert à travailler les méthodes, mais ne constitue pas
+                  une annale officielle.
                 </p>
                 <TrackedLink
                   href="/exercices-type-bac-maths-terminale"
@@ -1229,14 +1418,15 @@ export default function SujetsTypeBacMathsTerminalePage() {
                   Sujet complet 2
                 </p>
                 <h2 className="mt-3 text-3xl font-bold text-slate-950">
-                  Sujet complet 2 : probabilités, géométrie et intégrales
+                  Sujet complet 2 — probabilités, géométrie et intégrales avec
+                  corrigé guidé
                 </h2>
                 <p className="mt-4 leading-7 text-slate-700">
-                  Voici un deuxième sujet d’entraînement SprintMaths, construit
-                  dans l’esprit des exercices type bac. Il permet de travailler
-                  trois chapitres classiques : probabilités, géométrie dans
-                  l’espace et intégrales. Ce contenu n’est pas une annale
-                  officielle.
+                  Voici un deuxième sujet d’entraînement SprintMaths avec
+                  corrigé guidé, construit dans l’esprit des exercices type bac.
+                  Il permet de travailler trois chapitres classiques :
+                  probabilités, géométrie dans l’espace et intégrales. Ce
+                  contenu n’est pas une annale officielle.
                 </p>
                 <TrackedLink
                   href="/exercices-type-bac-maths-terminale"
@@ -1373,12 +1563,12 @@ export default function SujetsTypeBacMathsTerminalePage() {
                 Chapitres Terminale
               </p>
               <h2 className="mt-3 text-3xl font-bold text-slate-950">
-                Sujets type bac par chapitre
+                Sujets type bac corrigés par chapitre
               </h2>
               <p className="mt-4 leading-7 text-slate-700">
-                Pour réviser efficacement, travaille chaque sujet type bac par
-                chapitre : commence par identifier la méthode, puis passe au
-                corrigé guidé.
+                Pour réviser efficacement, travaille chaque chapitre avec trois
+                appuis : les exercices type bac guidés, la fiche méthode, puis
+                le sujet complet avec corrigé guidé où le chapitre apparaît.
               </p>
               <p className="mt-3 leading-7 text-slate-700">
                 Pour replacer chaque notion dans l&apos;année, consulte aussi le{" "}
@@ -1473,6 +1663,23 @@ export default function SujetsTypeBacMathsTerminalePage() {
                       className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-blue-900 px-4 py-2 text-center text-sm font-bold text-blue-900 hover:bg-blue-50"
                     >
                       Méthode
+                      <ArrowRight className="h-4 w-4" />
+                    </TrackedLink>
+                    <TrackedLink
+                      href={chapter.subjectHref}
+                      eventName="click_subjects_page_anchor"
+                      eventParams={{
+                        source_page: pagePath,
+                        chapter: chapter.trackingChapter,
+                        anchor: chapter.subjectAnchor,
+                        destination_page: chapter.subjectHref,
+                        link_type: "complete_subject",
+                        intent: "sujets_type_bac",
+                        cta_location: "chapter_table_subject",
+                      }}
+                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-emerald-600 px-4 py-2 text-center text-sm font-bold text-emerald-700 hover:bg-emerald-50"
+                    >
+                      {chapter.subjectLabel}
                       <ArrowRight className="h-4 w-4" />
                     </TrackedLink>
                   </div>

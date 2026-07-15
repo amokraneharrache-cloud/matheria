@@ -210,11 +210,12 @@ Checklist Payment Link :
 
 - Produit : `SprintMaths - Pack Révision Express`.
 - Prix : `39 €` en paiement unique.
-- Offre Bac 2026 : `29 €` avec le code public `BAC2026`.
+- Offre actuelle : Pack Révision Express Bac Maths 2027, sans promotion active.
 - Vérifier le Payment Link et renseigner `NEXT_PUBLIC_STRIPE_PAYMENT_LINK`.
 - Configurer la success URL : `https://www.sprintmaths.com/merci`.
 - Rendre l'email client obligatoire côté Stripe.
-- Autoriser les codes promotionnels pour `BAC2026` et les codes partenaires.
+- Désactiver le code historique `BAC2026` et les codes promotionnels sur le
+  Payment Link courant tant qu’aucune promotion n’est décidée.
 
 ## Configuration Stripe webhook
 

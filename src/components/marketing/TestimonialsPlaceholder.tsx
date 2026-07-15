@@ -1,5 +1,6 @@
 const testimonials: { role: string; quote: string; name?: string }[] = [];
 
+// Libellés historiques conservés hors des surfaces actives.
 const placeholders = [
   "Élève Terminale — retour en attente",
   "Parent d'élève — retour en attente",

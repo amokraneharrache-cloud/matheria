@@ -106,6 +106,7 @@ export type SprintMathsEventName =
   | "click_bac2027_exercises"
   | "click_bac2027_stripe"
   | "click_bac2027_offer"
+  // Conservés pour la compatibilité avec l'historique analytics. Ne plus émettre.
   | "bac2026_primary_cta_click"
   | "bac2026_secondary_cta_click"
   | "guarantee_view"

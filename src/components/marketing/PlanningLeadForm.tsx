@@ -7,6 +7,7 @@ import { trackEvent } from "@/lib/tracking";
 const LEAD_MAGNET = "planning_bac_maths_2027";
 
 type PlanningLeadFormProps = {
+  idPrefix?: string;
   sourcePage: string;
 };
 
@@ -20,7 +21,10 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
 
-export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
+export function PlanningLeadForm({
+  idPrefix = "planning",
+  sourcePage,
+}: PlanningLeadFormProps) {
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -32,6 +36,8 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
     lead_magnet: LEAD_MAGNET,
     level: "terminale",
   };
+  const emailInputId = `${idPrefix}-email`;
+  const websiteInputId = `${idPrefix}-website`;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -94,11 +100,11 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label htmlFor="planning-email" className="sr-only">
+        <label htmlFor={emailInputId} className="sr-only">
           Email
         </label>
         <input
-          id="planning-email"
+          id={emailInputId}
           name="email"
           type="email"
           required
@@ -112,9 +118,9 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
       </div>
 
       <div className="hidden" aria-hidden="true">
-        <label htmlFor="planning-website">Site web</label>
+        <label htmlFor={websiteInputId}>Site web</label>
         <input
-          id="planning-website"
+          id={websiteInputId}
           name="website"
           tabIndex={-1}
           autoComplete="off"
@@ -133,7 +139,7 @@ export function PlanningLeadForm({ sourcePage }: PlanningLeadFormProps) {
       </Button>
 
       <p className="text-sm leading-6 text-slate-600">
-        Pas de spam. Tu recevras aussi quelques conseils de révision utiles avant le bac.
+        Email uniquement pour envoyer le planning. Aucun spam.
       </p>
 
       {message && (

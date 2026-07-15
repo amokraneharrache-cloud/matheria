@@ -577,7 +577,7 @@ export default function MethodeIntegralesTerminalePage() {
                 eventName="click_offer"
                 eventParams={{
                   ...methodEventParams,
-                  offer: "bac_maths_2027",
+                  offer: "pack_revision_express_bac_2027",
                   cta_location: "method_training_offer",
                 }}
                 className="rounded-xl border border-blue-900 bg-blue-950 p-5 font-semibold text-white shadow-sm hover:bg-blue-900"

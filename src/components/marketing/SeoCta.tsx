@@ -1,8 +1,8 @@
 import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { Button } from "@/components/ui/button";
 import {
-  BAC_2026_OFFER_PRICE,
-  BAC_2026_PROMO_CODE,
+  PACK_REVISION_EXPRESS_OFFER_ID,
+  PACK_REVISION_EXPRESS_PRICE,
 } from "@/lib/offers";
 import type { SprintMathsEventName, TrackingParams } from "@/lib/tracking";
 
@@ -48,29 +48,27 @@ export function SeoCta({
         href: stripePaymentLink,
         target: "_blank",
         rel: "noopener noreferrer",
-        label: `Profiter de l'offre à ${BAC_2026_OFFER_PRICE} €`,
+        label: `Accéder au pack à ${PACK_REVISION_EXPRESS_PRICE} €`,
         eventName: "stripe_click",
         eventParams: {
           source_page: sourcePage,
-          offer: "bac2026",
-          price: BAC_2026_OFFER_PRICE,
+          offer: PACK_REVISION_EXPRESS_OFFER_ID,
+          price: PACK_REVISION_EXPRESS_PRICE,
           currency: "EUR",
-          coupon_code: BAC_2026_PROMO_CODE,
           payment_provider: "stripe",
           cta_location: "seo_cta",
         },
         variant: "outline",
       }
     : {
-        href: "/#pricing",
-        label: "Voir l'offre Bac 2026",
+        href: "/bac-maths-2027#offre",
+        label: `Voir le pack Bac Maths 2027 à ${PACK_REVISION_EXPRESS_PRICE} €`,
         eventName: "click_offer",
         eventParams: {
           source_page: sourcePage,
-          offer: "bac2026",
-          price: BAC_2026_OFFER_PRICE,
+          offer: PACK_REVISION_EXPRESS_OFFER_ID,
+          price: PACK_REVISION_EXPRESS_PRICE,
           currency: "EUR",
-          coupon_code: BAC_2026_PROMO_CODE,
           cta_location: "seo_cta_offer_fallback",
         },
         variant: "outline",

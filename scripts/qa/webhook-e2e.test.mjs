@@ -32,7 +32,7 @@ function checkoutEvent({
   sessionId,
   email = "qa+buyer@sprintmaths.test",
   paymentStatus = "paid",
-  amount = 2900,
+  amount = 3900,
   pi = "pi_test_1",
 }) {
   return {

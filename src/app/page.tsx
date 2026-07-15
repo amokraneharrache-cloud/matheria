@@ -8,8 +8,8 @@ import { LegalFooterLinks } from "@/components/legal/LegalFooterLinks";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { CheckCircle2, BrainCircuit, Target, TrendingUp, GraduationCap, BookOpen, School, CalendarCheck, ClipboardList } from "lucide-react";
 import {
-  BAC_2026_OFFER_PRICE,
-  BAC_2026_PROMO_CODE,
+  PACK_REVISION_EXPRESS_LABEL,
+  PACK_REVISION_EXPRESS_OFFER_ID,
   PACK_REVISION_EXPRESS_PRICE,
 } from "@/lib/offers";
 import { absoluteUrl, SITE_NAME, SITE_TAGLINE } from "@/lib/site";
@@ -44,10 +44,9 @@ export default function Home() {
   };
   const checkoutParams = {
     source_page: "/",
-    offer: "bac2026",
-    price: BAC_2026_OFFER_PRICE,
+    offer: PACK_REVISION_EXPRESS_OFFER_ID,
+    price: PACK_REVISION_EXPRESS_PRICE,
     currency: "EUR",
-    coupon_code: BAC_2026_PROMO_CODE,
     payment_provider: "stripe",
   };
 
@@ -313,23 +312,22 @@ export default function Home() {
         {/* Pricing Section */}
         <section id="pricing" className="px-4 py-20 bg-slate-50">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Offre Bac 2026 claire et sans abonnement</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Pack Bac Maths 2027, clair et sans abonnement</h2>
             <p className="text-lg text-slate-600 mb-12">
-              Le Pack Révision Express est en paiement unique. Code {BAC_2026_PROMO_CODE} : {BAC_2026_OFFER_PRICE} € au lieu de {PACK_REVISION_EXPRESS_PRICE} €.
+              Le Pack Révision Express Bac Maths 2027 coûte {PACK_REVISION_EXPRESS_PRICE} € en paiement unique, sans abonnement.
             </p>
             
             <Card className="max-w-md mx-auto border-2 border-blue-900 shadow-xl relative">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-900 text-white px-4 py-1 rounded-full text-sm font-bold tracking-wide">
-                OFFRE BAC 2026
+                BAC MATHS 2027
               </div>
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">Pack Révision Express</h3>
-                <div className="flex items-end justify-center gap-3 mb-3">
-                  <span className="text-5xl font-extrabold text-slate-900">{BAC_2026_OFFER_PRICE}€</span>
-                  <span className="pb-2 text-lg font-bold text-slate-400 line-through">{PACK_REVISION_EXPRESS_PRICE}€</span>
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">{PACK_REVISION_EXPRESS_LABEL}</h3>
+                <div className="flex items-end justify-center mb-3">
+                  <span className="text-5xl font-extrabold text-slate-900">{PACK_REVISION_EXPRESS_PRICE} €</span>
                 </div>
                 <p className="text-slate-600 mb-6 font-medium">
-                  Avec le code {BAC_2026_PROMO_CODE}. Paiement unique. Accès complet jusqu’à l’examen. Pas d’abonnement.
+                  Paiement unique. Accès au parcours Bac Maths 2027. Pas d’abonnement.
                 </p>
                 <ul className="space-y-4 mb-8 text-left">
                   <li className="flex items-center gap-3">
@@ -365,7 +363,7 @@ export default function Home() {
                       eventParams={{ ...checkoutParams, cta_location: "home_pricing" }}
                     >
                       <Button size="lg" className="w-full text-lg h-14">
-                        Profiter de l&apos;offre à {BAC_2026_OFFER_PRICE} €
+                        Accéder au pack à {PACK_REVISION_EXPRESS_PRICE} €
                       </Button>
                     </TrackedLink>
                     <p className="text-xs text-center text-slate-500 font-medium">
@@ -399,10 +397,10 @@ export default function Home() {
             <div className="space-y-6">
               {[
                 { q: "Mon enfant est très en difficulté, est-ce adapté ?", a: "Oui, notre diagnostic initial permet de repérer précisément les bases manquantes pour proposer des exercices adaptés, sans le décourager." },
-                { q: "Dois-je payer un abonnement tous les mois ?", a: `Non. Le Pack Révision Express est un paiement unique. Prix public : ${PACK_REVISION_EXPRESS_PRICE} €. Offre Bac 2026 : ${BAC_2026_OFFER_PRICE} € avec le code ${BAC_2026_PROMO_CODE}.` },
+                { q: "Dois-je payer un abonnement tous les mois ?", a: `Non. Le Pack Révision Express Bac Maths 2027 coûte ${PACK_REVISION_EXPRESS_PRICE} € en paiement unique, sans abonnement.` },
                 { q: "Sur quels supports ça fonctionne ?", a: "SprintMaths est une application web accessible directement depuis le navigateur de n'importe quel smartphone, tablette ou ordinateur." }
-              ].map((faq, i) => (
-                <Card key={i} className="border border-slate-200">
+              ].map((faq) => (
+                <Card key={faq.q} className="border border-slate-200">
                   <CardContent className="p-6">
                     <h3 className="font-bold text-lg mb-2 flex justify-between items-center">
                       {faq.q}

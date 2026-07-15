@@ -36,7 +36,6 @@ export const publicSeoRoutes = [
   "/bac-maths-2027",
   "/sujets-type-bac-maths-terminale",
   "/exercices-type-bac-maths-terminale",
-  "/bac-maths-terminale-2026",
   "/bac-terminale-maths",
   "/bac-premiere-maths",
   "/brevet-maths",
