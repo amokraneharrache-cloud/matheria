@@ -528,15 +528,18 @@ export default function MethodeIntegralesTerminalePage() {
                 Voir le programme Intégrales
               </TrackedLink>
               <TrackedLink
-                href="/sujets-type-bac-maths-terminale"
+                href="/sujets-type-bac-maths-terminale#sujet-guide-probabilites-geometrie-integrales"
                 eventName="click_method_chapter_subjects"
                 eventParams={{
                   ...methodEventParams,
-                  cta_location: "method_training_subjects",
+                  intent: "sujet_type_bac_corrige",
+                  destination_page:
+                    "/sujets-type-bac-maths-terminale#sujet-guide-probabilites-geometrie-integrales",
+                  cta_location: "method_training_subject_corrige",
                 }}
                 className="rounded-xl border border-slate-200 bg-white p-5 font-semibold text-slate-800 shadow-sm hover:border-blue-200 hover:bg-blue-50 hover:text-blue-950"
               >
-                Voir les sujets type bac
+                S&apos;entraîner avec un sujet type bac corrigé
               </TrackedLink>
               <TrackedLink
                 href="/exercices-type-bac-maths-terminale"

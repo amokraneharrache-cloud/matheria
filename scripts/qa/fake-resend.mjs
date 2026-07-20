@@ -7,6 +7,11 @@ export class Resend {
     this.emails = {
       send: async (payload) => {
         const s = store();
+        // Échec simulé par le test (API down, clé invalide, etc.) : le SDK
+        // Resend renvoie { error } sans throw, on reproduit ce contrat.
+        if (s.emailsSendError) {
+          return { data: null, error: s.emailsSendError };
+        }
         const id = "re_fake_" + ++s.idSeq;
         s.emails.push({ id, ...payload });
         return { data: { id }, error: null };

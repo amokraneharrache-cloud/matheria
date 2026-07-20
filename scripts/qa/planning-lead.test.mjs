@@ -27,6 +27,21 @@ function resetStore() {
   store().leads.length = 0;
   store().emails.length = 0;
   store().leadsInsertError = null;
+  store().emailsSendError = null;
+}
+
+// Capture console.error en sérialisant les objets (logStep passe un objet).
+async function captureErrorLogs(fn) {
+  const origError = console.error;
+  const lines = [];
+  console.error = (...args) =>
+    lines.push(args.map((a) => (typeof a === "string" ? a : JSON.stringify(a))).join(" "));
+  try {
+    const result = await fn();
+    return { result, logs: lines.join("\n") };
+  } finally {
+    console.error = origError;
+  }
 }
 
 function containsEmail(value) {
@@ -132,4 +147,107 @@ test("6. doublon (contrainte unique 23505) -> 200 idempotent, pas de second emai
   assert.equal(body.duplicate, true);
   assert.equal(body.emailSkippedReason, "duplicate_lead");
   assert.equal(store().emails.length, 0, "aucun second email sur doublon");
+});
+
+test("7. échec Resend APRÈS save -> lead sauvé, 200 contrôlé emailSent:false, logs sans PII", async () => {
+  resetStore();
+  store().emailsSendError = {
+    name: "application_error",
+    message: "Resend API unavailable for qa+resendfail@example.com",
+  };
+
+  const { result: res, logs } = await captureErrorLogs(() =>
+    POST(makeRequest({ email: "qa+resendfail@example.com", sourcePage: "/planning-revision-bac-maths" })),
+  );
+  const body = await res.json();
+
+  // Priorité Supabase : le lead est sauvé même si l'email échoue.
+  assert.equal(res.status, 200);
+  assert.equal(body.success, true);
+  assert.equal(body.saved, true);
+  assert.equal(body.emailSent, false);
+  assert.equal(body.emailSkippedReason, "resend_send_failed");
+  assert.equal(store().leads.length, 1, "le lead doit être persisté malgré l'échec Resend");
+  assert.equal(store().emails.length, 0, "aucun email capturé quand Resend échoue");
+
+  // Log serveur présent et safe (email redacté).
+  assert.match(logs, /\[leads\/planning\] resend_send_failed/);
+  assert.ok(!logs.includes("qa+resendfail@example.com"), "l'email ne doit pas fuiter dans les logs");
+  assert.ok(!containsEmail(body), "aucun email dans la réponse HTTP");
+});
+
+test("8. contenu de l'email planning : liens planning/imprimable/diagnostic/sujets corrigés + contact, sans promo", async () => {
+  resetStore();
+
+  await POST(makeRequest({ email: "qa+content@example.com", sourcePage: "/planning-revision-bac-maths" }));
+
+  assert.equal(store().emails.length, 1);
+  const sent = store().emails[0];
+  assert.equal(sent.subject, "Ton planning Bac Maths 2027 — 30 jours");
+
+  for (const part of ["html", "text"]) {
+    const content = sent[part];
+    assert.match(content, /\/planning-revision-bac-maths/, `${part}: lien planning`);
+    assert.match(content, /\/planning-bac-maths-2027\.html/, `${part}: version imprimable`);
+    assert.match(content, /\/diagnostic/, `${part}: lien diagnostic`);
+    assert.match(
+      content,
+      /\/sujets-type-bac-maths-terminale#sujet-corrige-guide/,
+      `${part}: lien sujets type bac corrigés`,
+    );
+    // Ton factuel : pas de code promo, pas de fausse urgence, pas de promesse de note.
+    assert.doesNotMatch(content, /BAC2026|promo|-\s?\d+\s?%|garanti/i, `${part}: pas de promo/promesse`);
+    assert.doesNotMatch(content, /derni(è|e)re chance|vite|urgent/i, `${part}: pas de fausse urgence`);
+  }
+
+  // Support/contact présent dans le texte.
+  assert.match(sent.text, /@/, "le texte contient un email de contact");
+});
+
+test("9. bloc succès : 3 CTAs + lien offre, events dédiés, params 100% whitelist sans PII", async () => {
+  const {
+    PLANNING_LEAD_MAGNET,
+    PLANNING_SUCCESS_CTA_LOCATION,
+    PLANNING_SUCCESS_INTENT,
+    PLANNING_SUCCESS_LINKS,
+    PLANNING_SUCCESS_OFFER_LINK,
+  } = await import("@/components/marketing/planningSuccessLinks");
+  const { sanitizeTrackingParams } = await import("@/lib/tracking");
+
+  // Les 3 prochaines étapes, dans l'ordre spécifié (diagnostic en premier).
+  assert.deepEqual(
+    PLANNING_SUCCESS_LINKS.map((l) => [l.eventName, l.href]),
+    [
+      ["click_planning_success_diagnostic", "/diagnostic"],
+      ["click_planning_success_subjects", "/sujets-type-bac-maths-terminale#sujet-corrige-guide"],
+      ["click_planning_success_typebac", "/exercices-type-bac-maths-terminale"],
+    ],
+  );
+  assert.equal(PLANNING_SUCCESS_LINKS[0].kind, "primary", "le diagnostic est le CTA principal");
+  assert.equal(PLANNING_SUCCESS_OFFER_LINK.eventName, "click_planning_success_offer");
+  assert.equal(PLANNING_SUCCESS_OFFER_LINK.href, "/bac-maths-2027#offre");
+  assert.equal(PLANNING_SUCCESS_CTA_LOCATION, "planning_success_state");
+  assert.equal(PLANNING_SUCCESS_INTENT, "post_optin_next_step");
+
+  // Params composés comme dans PlanningLeadForm.successEventParams(...).
+  const params = {
+    source_page: "/planning-revision-bac-maths",
+    lead_magnet: PLANNING_LEAD_MAGNET,
+    level: "terminale",
+    destination_page: PLANNING_SUCCESS_LINKS[0].href,
+    cta_location: PLANNING_SUCCESS_CTA_LOCATION,
+    intent: PLANNING_SUCCESS_INTENT,
+  };
+  assert.deepEqual(sanitizeTrackingParams(params), params, "tous les params passent la whitelist");
+
+  // Anti-PII : email/prénom/pseudo injectés sont strippés par le sanitizer.
+  const polluted = sanitizeTrackingParams({
+    ...params,
+    email: "leak@example.com",
+    parent_email: "leak@example.com",
+    student_pseudo: "Leo",
+    prenom: "Leo",
+  });
+  assert.deepEqual(polluted, params, "aucune clé hors whitelist ne survit");
+  assert.ok(!containsEmail(polluted), "aucun email après sanitization");
 });

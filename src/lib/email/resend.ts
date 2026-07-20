@@ -65,53 +65,47 @@ export async function sendPlanningRevisionEmail(params: SendPlanningRevisionEmai
   const planningUrl = `${siteUrl}/planning-revision-bac-maths`;
   const printableUrl = `${siteUrl}/planning-bac-maths-2027.html`;
   const diagnosticUrl = `${siteUrl}/diagnostic`;
+  const correctedSubjectsUrl = `${siteUrl}/sujets-type-bac-maths-terminale#sujet-corrige-guide`;
 
   const text = `Bonjour,
 
-Voici ton planning de révision Bac Maths 2027.
+C'est bien noté : voici ton planning de révision Bac Maths 2027.
 
-L'idée n'est pas de tout revoir au hasard, mais de travailler les chapitres qui rapportent le plus et de t'entraîner sur des exercices type bac.
+L'idée n'est pas de tout revoir au hasard, mais de travailler les chapitres qui rapportent le plus (suites, limites, dérivation et convexité, logarithme, intégrales, probabilités, géométrie dans l'espace) et de t'entraîner sur des exercices type bac.
 
-Au programme :
-- suites ;
-- limites ;
-- dérivation et convexité ;
-- logarithme ;
-- intégrales ;
-- probabilités ;
-- géométrie dans l'espace.
-
-Commence ici :
+1) Ouvre ton planning :
 ${planningUrl}
 
-Version imprimable :
+Version imprimable (à garder sur ton bureau) :
 ${printableUrl}
 
-Puis fais ton diagnostic gratuit :
+2) Identifie tes chapitres prioritaires avec le diagnostic gratuit :
 ${diagnosticUrl}
 
+3) Entraîne-toi sur un sujet type bac corrigé pas à pas :
+${correctedSubjectsUrl}
+
+Une question ? Réponds directement à cet email ou écris à ${CONTACT_EMAIL}.
+
 À bientôt,
-SprintMaths`;
+L'équipe SprintMaths`;
+
+  const linkBlock = (label: string, url: string) =>
+    `<p style="margin: 16px 0 4px;"><strong>${label}</strong><br><a href="${url}" style="color: #1e3a8a;">${url}</a></p>`;
 
   const html = `
-    <div style="font-family: Arial, sans-serif; color: #111827; line-height: 1.6;">
+    <div style="font-family: Arial, sans-serif; color: #111827; line-height: 1.6; max-width: 560px;">
       <p>Bonjour,</p>
-      <p>Voici ton planning de révision Bac Maths 2027.</p>
-      <p>L'idée n'est pas de tout revoir au hasard, mais de travailler les chapitres qui rapportent le plus et de t'entraîner sur des exercices type bac.</p>
-      <p><strong>Au programme :</strong></p>
-      <ul>
-        <li>suites ;</li>
-        <li>limites ;</li>
-        <li>dérivation et convexité ;</li>
-        <li>logarithme ;</li>
-        <li>intégrales ;</li>
-        <li>probabilités ;</li>
-        <li>géométrie dans l'espace.</li>
-      </ul>
-      <p>Commence ici :<br><a href="${planningUrl}">${planningUrl}</a></p>
-      <p>Version imprimable :<br><a href="${printableUrl}">${printableUrl}</a></p>
-      <p>Puis fais ton diagnostic gratuit :<br><a href="${diagnosticUrl}">${diagnosticUrl}</a></p>
-      <p>À bientôt,<br>SprintMaths</p>
+      <p>C'est bien noté : voici ton planning de révision Bac Maths 2027.</p>
+      <p>L'idée n'est pas de tout revoir au hasard, mais de travailler les chapitres qui rapportent le plus (suites, limites, dérivation et convexité, logarithme, intégrales, probabilités, géométrie dans l'espace) et de t'entraîner sur des exercices type bac.</p>
+      <p style="margin: 24px 0;">
+        <a href="${planningUrl}" style="display: inline-block; background: #1e3a8a; color: #ffffff; padding: 12px 24px; border-radius: 9999px; font-weight: 700; text-decoration: none;">Ouvrir mon planning</a>
+      </p>
+      ${linkBlock("Version imprimable (à garder sur ton bureau) :", printableUrl)}
+      ${linkBlock("Identifie tes chapitres prioritaires avec le diagnostic gratuit :", diagnosticUrl)}
+      ${linkBlock("Entraîne-toi sur un sujet type bac corrigé pas à pas :", correctedSubjectsUrl)}
+      <p style="margin-top: 24px;">Une question ? Réponds directement à cet email ou écris à <a href="mailto:${CONTACT_EMAIL}" style="color: #1e3a8a;">${CONTACT_EMAIL}</a>.</p>
+      <p>À bientôt,<br>L'équipe SprintMaths</p>
     </div>
   `;
 

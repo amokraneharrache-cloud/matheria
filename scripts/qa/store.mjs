@@ -13,6 +13,9 @@ export function store() {
       // Contrôle de test : simuler une erreur Supabase sur un insert `leads`
       // (null = insert normal). N'affecte ni le webhook ni access_codes.
       leadsInsertError: null,
+      // Contrôle de test : simuler un échec Resend sur emails.send
+      // (null = envoi normal capturé dans `emails`).
+      emailsSendError: null,
     };
   }
   return globalThis.__QA__;

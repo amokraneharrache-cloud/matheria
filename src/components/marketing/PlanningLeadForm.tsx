@@ -2,9 +2,23 @@
 
 import { useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
-import { trackEvent } from "@/lib/tracking";
+import { trackEvent, type TrackingParams } from "@/lib/tracking";
+import {
+  PLANNING_LEAD_MAGNET,
+  PLANNING_SUCCESS_CTA_LOCATION,
+  PLANNING_SUCCESS_INTENT,
+  PLANNING_SUCCESS_LINKS,
+  PLANNING_SUCCESS_OFFER_LINK,
+} from "@/components/marketing/planningSuccessLinks";
 
-const LEAD_MAGNET = "planning_bac_maths_2027";
+const LEAD_MAGNET = PLANNING_LEAD_MAGNET;
+
+const SUCCESS_CTA_BASE_CLASS =
+  "inline-flex min-h-12 items-center justify-center rounded-full px-5 text-sm font-semibold transition";
+const SUCCESS_CTA_CLASS = {
+  primary: `${SUCCESS_CTA_BASE_CLASS} bg-[#1e3a8a] text-white shadow-md hover:bg-[#1e3a8a]/90`,
+  secondary: `${SUCCESS_CTA_BASE_CLASS} border-2 border-[#1e3a8a] bg-white text-[#1e3a8a] hover:bg-slate-50`,
+} as const;
 
 type PlanningLeadFormProps = {
   idPrefix?: string;
@@ -29,6 +43,7 @@ export function PlanningLeadForm({
   const [website, setWebsite] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [emailSent, setEmailSent] = useState(false);
   const isSubmittingRef = useRef(false);
 
   const trackingParams = {
@@ -38,6 +53,15 @@ export function PlanningLeadForm({
   };
   const emailInputId = `${idPrefix}-email`;
   const websiteInputId = `${idPrefix}-website`;
+
+  function successEventParams(destinationPage: string): TrackingParams {
+    return {
+      ...trackingParams,
+      destination_page: destinationPage,
+      cta_location: PLANNING_SUCCESS_CTA_LOCATION,
+      intent: PLANNING_SUCCESS_INTENT,
+    };
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -56,6 +80,7 @@ export function PlanningLeadForm({
     isSubmittingRef.current = true;
     setStatus("loading");
     setMessage("");
+    setEmailSent(false);
     trackEvent("lead_magnet_request", trackingParams);
 
     try {
@@ -77,12 +102,9 @@ export function PlanningLeadForm({
       }
 
       trackEvent("email_optin", trackingParams);
+      setEmailSent(Boolean(result.emailSent));
       setStatus("success");
-      setMessage(
-        result.emailSent
-          ? "C'est envoyé. Vérifie ta boîte mail dans quelques instants."
-          : "Demande enregistrée. La version imprimable est disponible juste ici.",
-      );
+      setMessage("");
       setEmail("");
       setWebsite("");
     } catch (error) {
@@ -142,76 +164,75 @@ export function PlanningLeadForm({
         Email uniquement pour envoyer le planning. Aucun spam.
       </p>
 
-      {message && (
+      {status === "error" && message && (
         <div
-          className={
-            status === "success"
-              ? "rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold leading-6 text-emerald-900"
-              : "rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-semibold leading-6 text-red-900"
-          }
-          role={status === "error" ? "alert" : "status"}
+          className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-semibold leading-6 text-red-900"
+          role="alert"
         >
           <p>{message}</p>
-          {status === "success" && (
-            <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+        </div>
+      )}
+
+      {status === "success" && (
+        <div
+          className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-emerald-950 sm:p-6"
+          role="status"
+        >
+          <h3 className="text-lg font-bold leading-7">
+            {emailSent ? "Ton planning est envoyé" : "Ta demande est enregistrée"}
+          </h3>
+          <p className="mt-2 text-sm leading-6">
+            {emailSent
+              ? "Vérifie ta boîte mail dans quelques instants (pense aux spams)."
+              : "L'email n'a pas pu partir immédiatement : la version imprimable du planning reste disponible juste en dessous."}{" "}
+            Prochaine étape : identifie tes chapitres prioritaires, puis commence à
+            t&apos;entraîner sur des exercices guidés.
+          </p>
+
+          <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+            {PLANNING_SUCCESS_LINKS.map((link) => (
               <a
-                href="/diagnostic"
-                onClick={() =>
-                  trackEvent("click_planning_diagnostic", {
-                    ...trackingParams,
-                    destination_page: "/diagnostic",
-                    cta_location: "planning_form_success",
-                    intent: "diagnostic",
-                  })
-                }
-                className="inline-flex text-blue-900 underline"
+                key={link.eventName}
+                href={link.href}
+                onClick={() => trackEvent(link.eventName, successEventParams(link.href))}
+                className={SUCCESS_CTA_CLASS[link.kind]}
               >
-                Faire le diagnostic gratuit
+                {link.label}
               </a>
-              <a
-                href="/exercices-type-bac-maths-terminale"
-                onClick={() =>
-                  trackEvent("click_planning_typebac", {
-                    ...trackingParams,
-                    destination_page: "/exercices-type-bac-maths-terminale",
-                    cta_location: "planning_form_success",
-                    intent: "typebac_practice",
-                  })
-                }
-                className="inline-flex text-blue-900 underline"
-              >
-                Essayer un exercice type bac guidé
-              </a>
+            ))}
+          </div>
+
+          {!emailSent && (
+            <p className="mt-3 text-sm leading-6">
               <a
                 href="/planning-bac-maths-2027.html"
                 onClick={() =>
                   trackEvent("lead_magnet_download", {
-                    ...trackingParams,
-                    destination_page: "/planning-bac-maths-2027.html",
-                    cta_location: "planning_form_success",
+                    ...successEventParams("/planning-bac-maths-2027.html"),
+                    intent: undefined,
                   })
                 }
-                className="inline-flex text-blue-900 underline"
+                className="font-semibold text-emerald-900 underline"
               >
-                Ouvrir la version imprimable
+                Ouvrir la version imprimable du planning
               </a>
-              <a
-                href="/bac-maths-2027#offre"
-                onClick={() =>
-                  trackEvent("click_planning_offer", {
-                    ...trackingParams,
-                    destination_page: "/bac-maths-2027#offre",
-                    offer: "pack_revision_express_bac_2027",
-                    cta_location: "planning_form_success",
-                    intent: "offer",
-                  })
-                }
-                className="inline-flex text-blue-900 underline"
-              >
-                Voir le Pack Révision Express
-              </a>
-            </div>
+            </p>
           )}
+
+          <p className="mt-3 text-sm leading-6 text-emerald-900/80">
+            <a
+              href={PLANNING_SUCCESS_OFFER_LINK.href}
+              onClick={() =>
+                trackEvent(PLANNING_SUCCESS_OFFER_LINK.eventName, {
+                  ...successEventParams(PLANNING_SUCCESS_OFFER_LINK.href),
+                  offer: PLANNING_SUCCESS_OFFER_LINK.offer,
+                })
+              }
+              className="underline"
+            >
+              {PLANNING_SUCCESS_OFFER_LINK.label}
+            </a>
+          </p>
         </div>
       )}
     </form>
