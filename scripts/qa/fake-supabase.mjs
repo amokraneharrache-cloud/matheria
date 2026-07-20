@@ -25,6 +25,11 @@ class Query {
     this._filters.push([col, val]);
     return this;
   }
+  // Utilisé par le healthcheck (`select("id").limit(1)`), awaité directement.
+  limit(n) {
+    this._limit = n;
+    return this;
+  }
   _rows() {
     return this.table === "leads" ? store().leads : store().accessCodes;
   }
@@ -46,7 +51,22 @@ class Query {
   async _exec(kind) {
     const s = store();
     if (this._op === "select") {
+      // Lenteur simulée (test de timeout du healthcheck).
+      if (s.selectDelayMs > 0) {
+        await new Promise((resolve) => setTimeout(resolve, s.selectDelayMs));
+      }
+      // Erreur simulée (Supabase en pause, projet injoignable...).
+      if (s.selectError) {
+        return { data: null, error: s.selectError };
+      }
       const found = this._rows().filter((r) => this._match(r));
+      // Sans .single()/.maybeSingle(), Supabase renvoie un tableau de lignes.
+      if (kind === null) {
+        return {
+          data: typeof this._limit === "number" ? found.slice(0, this._limit) : found,
+          error: null,
+        };
+      }
       const row = found[0] || null;
       if (!row && kind === "single") {
         return { data: null, error: { code: "PGRST116", message: "no rows" } };

@@ -7,6 +7,7 @@ const SENSITIVE_ENV_KEYS = [
   "STRIPE_SECRET_KEY",
   "STRIPE_WEBHOOK_SECRET",
   "RESEND_API_KEY",
+  "HEALTHCHECK_TOKEN",
 ] as const;
 
 function escapeRegExp(value: string) {

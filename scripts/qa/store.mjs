@@ -16,6 +16,10 @@ export function store() {
       // Contrôle de test : simuler un échec Resend sur emails.send
       // (null = envoi normal capturé dans `emails`).
       emailsSendError: null,
+      // Contrôles de test pour le healthcheck : simuler une erreur ou une
+      // lenteur sur un SELECT (null / 0 = lecture normale immédiate).
+      selectError: null,
+      selectDelayMs: 0,
     };
   }
   return globalThis.__QA__;

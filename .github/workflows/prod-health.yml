@@ -1,0 +1,56 @@
+name: Prod health
+
+# Supervision légère de la production SprintMaths.
+# Lecture seule : aucune soumission de formulaire, aucun lead créé, aucun email envoyé.
+#
+# Secret requis  : HEALTHCHECK_TOKEN (même valeur que la variable Vercel Production).
+# Variable (opt.): PROD_BASE_URL (défaut https://www.sprintmaths.com).
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Toutes les 6 heures (4 exécutions/jour). Heure UTC, décalée de l'heure pile
+    # pour éviter les pics de charge des runners GitHub.
+    - cron: "17 */6 * * *"
+
+# Un seul run à la fois : un check en retard ne doit pas s'empiler.
+concurrency:
+  group: prod-health
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Smoke test production
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Le smoke test n'utilise que l'API fetch native de Node : aucune dépendance
+      # à installer, donc pas de npm ci (run plus rapide et sans surface supply chain).
+
+      - name: Vérifier la présence du secret
+        env:
+          HEALTHCHECK_TOKEN: ${{ secrets.HEALTHCHECK_TOKEN }}
+        run: |
+          if [ -z "$HEALTHCHECK_TOKEN" ]; then
+            echo "::error::Le secret HEALTHCHECK_TOKEN n'est pas configuré dans ce dépôt (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+          echo "Secret présent (valeur masquée par GitHub)."
+
+      - name: Smoke test production
+        env:
+          HEALTHCHECK_TOKEN: ${{ secrets.HEALTHCHECK_TOKEN }}
+          PROD_BASE_URL: ${{ vars.PROD_BASE_URL }}
+        run: npm run qa:prod
