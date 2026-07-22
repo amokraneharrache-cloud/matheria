@@ -237,7 +237,7 @@ export async function restoreBetaAccess(data: {
       console.warn("Supabase Service Role non configuré. Impossible de restaurer l'accès en mode développement sans base de données.");
       return {
         success: false as const,
-        message: "Aucun espace élève trouvé avec cet email. Vérifiez l'email utilisé lors de la réservation ou créez l'espace élève.",
+        message: "Aucun espace élève trouvé avec cet email. Vérifiez l'email utilisé lors de l'achat ou créez l'espace élève.",
       };
     }
 
@@ -255,7 +255,7 @@ export async function restoreBetaAccess(data: {
     if (!codeRow) {
       return {
         success: false as const,
-        message: "Code d'accès introuvable. Vérifiez le code reçu après réservation.",
+        message: "Code d'accès introuvable. Vérifiez le code reçu après l'achat.",
       };
     }
 

@@ -263,27 +263,30 @@ Les codes `MATH-XXXX` sont conservés pour simplicité et cohérence maths.
 `/admin/codes` reste disponible pour générer un code manuel, dépanner un client
 ou vérifier les derniers codes créés.
 
-## Email automatique après réservation
+## Email automatique après achat
 
-Objet : `Votre code d'accès SprintMaths`
+Objet : `Votre accès au Pack Révision Express SprintMaths`
 
 Corps :
 
 ```txt
 Bonjour,
 
-Merci pour votre réservation du Pack Révision Express SprintMaths.
+Merci pour votre achat du Pack Révision Express Bac Maths 2027.
 
 Voici votre code d'accès personnel :
 [CODE_UNIQUE]
 
-Pour créer l'espace élève :
+1) Pour créer l'espace élève et accéder au pack :
 https://www.sprintmaths.com/merci
 
-Si vous avez déjà créé l'espace :
+2) Si vous avez déjà créé l'espace :
 https://www.sprintmaths.com/connexion
 
 Ce code est personnel et utilisable une seule fois pour créer l'espace élève.
+Le pack est une web app accessible depuis un navigateur sur téléphone, tablette et ordinateur.
+
+Besoin d'aide ? Écrivez à contact@sprintmaths.com.
 
 À bientôt,
 L'équipe SprintMaths

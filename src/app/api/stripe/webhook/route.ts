@@ -1,6 +1,7 @@
 import type Stripe from "stripe";
 import { createAccessCodeForEmail } from "@/lib/accessCodes";
 import { sendAccessCodeEmail } from "@/lib/email/resend";
+import { PACK_REVISION_EXPRESS_OFFER_ID } from "@/lib/offers";
 import { stripe } from "@/lib/stripe";
 
 export const runtime = "nodejs";
@@ -141,10 +142,14 @@ export async function POST(request: Request) {
 
     const paymentIntentId = getPaymentIntentId(session);
     const baseLogParams = {
+      product: PACK_REVISION_EXPRESS_OFFER_ID,
       stripeSessionId: session.id,
       paymentIntentId,
       amountTotal: session.amount_total,
       currency: session.currency,
+      timestamp: new Date(
+        (event.created ?? Math.floor(Date.now() / 1000)) * 1000,
+      ).toISOString(),
     };
 
     logServerFunnelEvent("purchase", {

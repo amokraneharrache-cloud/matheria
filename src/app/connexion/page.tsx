@@ -55,7 +55,7 @@ export default function ConnexionPage() {
             Connexion à l&apos;espace élève
           </h1>
           <p className="mt-2 text-gray-600 text-sm">
-            Utilisez l&apos;email parent et le code d&apos;accès personnel reçu après réservation.
+            Utilisez l&apos;email parent et le code d&apos;accès personnel reçu après l&apos;achat.
           </p>
         </div>
 
@@ -86,7 +86,7 @@ export default function ConnexionPage() {
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 uppercase"
             />
             <p className="mt-1.5 text-xs text-gray-500">
-              Ce code personnel est celui reçu après votre réservation.
+              Ce code personnel est celui reçu après votre achat.
             </p>
           </div>
 
@@ -117,7 +117,7 @@ export default function ConnexionPage() {
           <p className="text-sm text-gray-500">
             Pas encore d&apos;espace élève ?{" "}
             <Link href="/merci" className="text-indigo-600 hover:underline font-medium">
-              Créer l&apos;espace après réservation
+              Créer l&apos;espace après achat
             </Link>
           </p>
         </div>

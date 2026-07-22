@@ -82,7 +82,7 @@ export default function DiagnosticPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) {
-      setError("L'email est requis pour recevoir les résultats.");
+      setError("L'email est requis pour afficher les résultats.");
       return;
     }
     
@@ -258,7 +258,7 @@ export default function DiagnosticPage() {
         {step === 4 && (
           <div className="flex-1 animate-in slide-in-from-right-4 fade-in duration-300">
             <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Dernière étape !</h1>
-            <p className="text-slate-500 mb-8">Où devons-nous envoyer le bilan de départ de {pseudo || "votre enfant"} ?</p>
+            <p className="text-slate-500 mb-8">Indiquez l&apos;email du parent pour afficher le bilan de départ de {pseudo || "votre enfant"}.</p>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">

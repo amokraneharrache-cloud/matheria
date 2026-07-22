@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { PACK_REVISION_EXPRESS_LABEL } from "@/lib/offers";
 import { CONTACT_EMAIL } from "@/lib/site";
 
 type SendAccessCodeEmailParams = {
@@ -132,19 +133,20 @@ export async function sendAccessCodeEmail(params: SendAccessCodeEmailParams) {
 
   const text = `Bonjour,
 
-Merci pour votre réservation du Pack Révision Express SprintMaths.
+Merci pour votre achat du ${PACK_REVISION_EXPRESS_LABEL}.
 
 Voici votre code d'accès personnel :
 
 ${params.accessCode}
 
-Pour créer l'espace élève :
+1) Pour créer l'espace élève et accéder au pack :
 ${merciUrl}
 
-Si vous avez déjà créé l'espace :
+2) Si vous avez déjà créé l'espace :
 ${connexionUrl}
 
 Ce code est personnel et utilisable une seule fois pour créer l'espace élève.
+Le pack est une web app accessible depuis un navigateur sur téléphone, tablette et ordinateur.
 
 Besoin d'aide ? Écrivez à ${CONTACT_EMAIL}.
 
@@ -154,12 +156,13 @@ L'équipe SprintMaths`;
   const html = `
     <div style="font-family: Arial, sans-serif; color: #111827; line-height: 1.6;">
       <p>Bonjour,</p>
-      <p>Merci pour votre réservation du Pack Révision Express SprintMaths.</p>
+      <p>Merci pour votre achat du <strong>${PACK_REVISION_EXPRESS_LABEL}</strong>.</p>
       <p>Voici votre code d'accès personnel :</p>
       <p style="font-size: 24px; font-weight: 700; letter-spacing: 0.08em; color: #4f46e5;">${params.accessCode}</p>
-      <p>Pour créer l'espace élève :<br><a href="${merciUrl}">${merciUrl}</a></p>
-      <p>Si vous avez déjà créé l'espace :<br><a href="${connexionUrl}">${connexionUrl}</a></p>
+      <p><strong>1) Pour créer l'espace élève et accéder au pack :</strong><br><a href="${merciUrl}">${merciUrl}</a></p>
+      <p><strong>2) Si vous avez déjà créé l'espace :</strong><br><a href="${connexionUrl}">${connexionUrl}</a></p>
       <p>Ce code est personnel et utilisable une seule fois pour créer l'espace élève.</p>
+      <p>Le pack est une web app accessible depuis un navigateur sur téléphone, tablette et ordinateur.</p>
       <p>Besoin d'aide ? Écrivez à <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>.</p>
       <p>À bientôt,<br>L'équipe SprintMaths</p>
     </div>
@@ -169,7 +172,7 @@ L'équipe SprintMaths`;
     from,
     to: params.to,
     replyTo,
-    subject: "Votre code d'accès SprintMaths",
+    subject: "Votre accès au Pack Révision Express SprintMaths",
     html,
     text,
   });

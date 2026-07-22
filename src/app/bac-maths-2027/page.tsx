@@ -10,14 +10,15 @@ import {
   GraduationCap,
   LineChart,
   ListChecks,
-  ShieldCheck,
   Smartphone,
   Target,
 } from "lucide-react";
 import { FaqAccordion } from "@/components/marketing/FaqAccordion";
+import { GuaranteeNote } from "@/components/marketing/GuaranteeNote";
 import { InternalLinks } from "@/components/marketing/InternalLinks";
 import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { OfferViewTracker } from "@/components/tracking/OfferViewTracker";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { Button } from "@/components/ui/button";
 import { PACK_REVISION_EXPRESS_PRICE } from "@/lib/offers";
@@ -28,7 +29,7 @@ const pagePath = "/bac-maths-2027";
 const subjectsTypeBacPath = "/sujets-type-bac-maths-terminale";
 
 const description =
-  "Prépare le Bac Maths 2027 avec SprintMaths : diagnostic gratuit, planning de révision, exercices type bac guidés étape par étape et progression sur téléphone.";
+  "Prépare ta Terminale spécialité maths avant la rentrée avec un parcours Bac Maths 2027 structuré : planning, méthodes, exercices guidés et sujets type bac corrigés.";
 
 export const metadata: Metadata = {
   title: {
@@ -66,6 +67,16 @@ const faqItems: FaqItem[] = [
       "Oui. La page et le Pack Révision Express visent les élèves de Terminale spécialité maths qui préparent le Bac Maths 2027, avec des chapitres, méthodes et exercices adaptés au programme de Terminale.",
   },
   {
+    question: "Pourquoi commencer avant la rentrée ?",
+    answer:
+      "Commencer pendant l'été permet d'identifier les lacunes, reprendre les méthodes essentielles et organiser l'année avant l'arrivée des premiers chapitres de Terminale. Il ne s'agit pas de préparer tout le bac en quelques semaines.",
+  },
+  {
+    question: "Que contient exactement le pack ?",
+    answer:
+      "Le pack donne accès à une web app avec 176 questions d'entraînement Terminale, 12 exercices guidés, 3 sujets type bac, 13 fiches méthodes, des plans de révision sur 7 ou 14 jours et le suivi de progression.",
+  },
+  {
     question: "Est-ce que ce sont des annales officielles ?",
     answer:
       "Non. SprintMaths propose des exercices et sujets type bac guidés pour s'entraîner, sans prétendre remplacer les sujets officiels ni se présenter comme une banque d'annales officielles.",
@@ -83,7 +94,12 @@ const faqItems: FaqItem[] = [
   {
     question: "Peut-on utiliser SprintMaths sur téléphone ?",
     answer:
-      "Oui. SprintMaths est pensé mobile-first pour réviser facilement sur téléphone, avec des exercices guidés, des méthodes courtes et un suivi de progression.",
+      "Oui. La web app est accessible depuis un navigateur sur téléphone, tablette et ordinateur. L'interface est pensée mobile-first pour des sessions courtes.",
+  },
+  {
+    question: "Combien de temps l'accès est-il disponible ?",
+    answer:
+      "L'accès au parcours Bac Maths 2027 est prévu jusqu'aux épreuves du Bac 2027. Il s'agit d'un paiement unique, sans abonnement.",
   },
   {
     question: "Y a-t-il une garantie ?",
@@ -195,12 +211,12 @@ const chapterProgramClusterLinks: Partial<
 };
 
 const packItems = [
-  "Exercices type bac guidés",
-  "Fiches méthodes courtes",
-  "Programme de révision",
-  "Suivi de progression",
-  "Accès mobile",
-  "Code d'accès automatique après paiement",
+  "176 questions d'entraînement Terminale",
+  "12 exercices guidés, découpés étape par étape",
+  "3 sujets type bac dans le Mode Bac",
+  "13 fiches méthodes avec erreurs fréquentes et exemples",
+  "Plans de révision sur 7 ou 14 jours",
+  "Suivi des sessions, scores et chapitres travaillés",
 ];
 
 const screenshots = [
@@ -266,73 +282,65 @@ export default function BacMaths2027Page() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_390px] lg:items-center">
           <div className="min-w-0">
             <p className="mb-4 inline-flex rounded-full bg-blue-100 px-3 py-1 text-sm font-bold text-blue-900">
-              Objectif Bac Maths 2027 — Terminale spécialité maths
+              Rentrée 2026 — Objectif Bac Maths 2027
             </p>
             <h1 className="max-w-4xl text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
-              Bac Maths 2027 : révise la spécialité maths avec des exercices guidés
+              Prépare ta Terminale spécialité maths avant la rentrée
             </h1>
             <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-700">
-              Révise les exercices type bac sans rester bloqué. SprintMaths aide
-              les élèves de Terminale à s&apos;entraîner sur téléphone avec des
-              exercices guidés étape par étape, des méthodes claires, une
-              progression et une note indicative.
+              Un parcours structuré avec planning, méthodes, exercices guidés
+              et sujets type bac corrigés pour commencer l&apos;année avec des
+              bases claires.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <TrackedLink
-                href="/diagnostic"
-                eventName="click_bac2027_diagnostic"
+                href={stripeHref}
+                target={stripeTarget}
+                rel={stripeRel}
+                eventName={offerEventName}
                 eventParams={{
                   ...baseEventParams,
+                  destination_page: stripeHref,
+                  payment_provider: stripePaymentLink ? "stripe" : undefined,
                   cta_location: "bac2027_hero_primary",
                 }}
                 className="w-full sm:w-auto"
               >
                 <Button size="lg" className="w-full px-4 text-base sm:w-auto sm:px-8 sm:text-lg">
-                  Faire le diagnostic gratuit
+                  {stripePaymentLink
+                    ? `Acheter le pack — ${PACK_REVISION_EXPRESS_PRICE} €`
+                    : `Voir le pack — ${PACK_REVISION_EXPRESS_PRICE} €`}
                 </Button>
               </TrackedLink>
               <TrackedLink
-                href="/exercices-type-bac-maths-terminale"
-                eventName="click_exercises"
+                href={`${subjectsTypeBacPath}#sujet-corrige-guide`}
+                eventName="click_bac2027_exercises"
                 eventParams={{
                   ...baseEventParams,
+                  destination_page: `${subjectsTypeBacPath}#sujet-corrige-guide`,
                   cta_location: "bac2027_hero_secondary",
                 }}
                 className="w-full sm:w-auto"
               >
                 <Button variant="outline" size="lg" className="w-full px-4 text-base sm:w-auto sm:px-8 sm:text-lg">
-                  Essayer un exercice type bac guidé
-                </Button>
-              </TrackedLink>
-              <TrackedLink
-                href="/planning-revision-bac-maths"
-                eventName="click_lead_magnet_planning"
-                eventParams={{
-                  ...planningEventParams,
-                  cta_location: "bac2027_hero_planning",
-                }}
-                className="w-full sm:w-auto"
-              >
-                <Button variant="outline" size="lg" className="w-full px-4 text-base sm:w-auto sm:px-8 sm:text-lg">
-                  <CalendarDays className="h-4 w-4" />
-                  Recevoir le planning 30 jours
+                  Découvrir un extrait gratuit
                 </Button>
               </TrackedLink>
             </div>
             <p className="mt-4 text-sm font-semibold text-slate-600">
-              Pas d&apos;abonnement. Accès simple par code. Garantie 7 jours.
+              39 € TTC · Paiement unique · Aucun abonnement · Garantie 7 jours
             </p>
             <TrackedLink
-              href={`${pagePath}#offre`}
-              eventName="click_bac2027_offer"
+              href="/diagnostic"
+              eventName="click_bac2027_diagnostic"
               eventParams={{
                 ...baseEventParams,
-                destination_page: `${pagePath}#offre`,
-                cta_location: "bac2027_hero_offer_link",
+                destination_page: "/diagnostic",
+                cta_location: "bac2027_hero_diagnostic_link",
               }}
               className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-blue-900 hover:underline"
             >
-              Voir le Pack Révision Express
+              Commencer par le diagnostic gratuit
               <ArrowRight className="h-4 w-4" />
             </TrackedLink>
           </div>
@@ -375,8 +383,8 @@ export default function BacMaths2027Page() {
         <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-3">
           {[
             { value: "39 €", label: "paiement unique" },
-            { value: "7 jours", label: "garantie d'essai" },
-            { value: "/20", label: "note indicative" },
+            { value: "176", label: "questions Terminale" },
+            { value: "12", label: "exercices guidés" },
           ].map((stat) => (
             <div key={stat.label} className="rounded-xl bg-slate-50 p-4 text-center">
               <p className="text-3xl font-black text-blue-950">{stat.value}</p>
@@ -393,24 +401,24 @@ export default function BacMaths2027Page() {
           <section className="grid gap-8 lg:grid-cols-[0.85fr_1fr] lg:items-start">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
-                Révisions 2027
+                Été 2026
               </p>
               <h2 className="mt-3 text-3xl font-bold text-slate-950">
-                Préparer le Bac Maths 2027 sans réviser au hasard
+                Pourquoi commencer avant septembre ?
               </h2>
               <p className="mt-4 leading-7 text-slate-700">
-                Le risque en Terminale, ce n&apos;est pas seulement de manquer de
-                cours. C&apos;est surtout de passer d&apos;un chapitre à l&apos;autre sans
-                savoir quoi travailler en priorité, ni comment transformer une
-                correction lue trop vite en méthode utilisable.
+                L&apos;été sert à reprendre les bases et les méthodes sans la
+                pression des contrôles. L&apos;objectif n&apos;est pas de faire tout le
+                programme en avance, mais d&apos;arriver en Terminale avec un cadre
+                de travail clair.
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {[
-                "Identifier les chapitres prioritaires avant de foncer.",
-                "Construire un planning de révision bac maths réaliste.",
-                "S'entraîner sur des exercices type bac en plusieurs étapes.",
-                "Suivre la progression pour savoir quoi renforcer ensuite.",
+                "Identifier les lacunes avant les premiers cours de Terminale.",
+                "Reprendre les méthodes et automatismes essentiels.",
+                "Organiser l'année de spécialité maths avec un plan réaliste.",
+                "Commencer les exercices guidés sans attendre mars 2027.",
               ].map((item) => (
                 <article key={item} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
                   <CheckCircle2 className="h-5 w-5 text-emerald-600" />
@@ -612,8 +620,15 @@ export default function BacMaths2027Page() {
 
           <section
             id="offre"
-            className="grid grid-cols-1 gap-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:grid-cols-[1fr_0.9fr] lg:items-center"
+            className="relative grid grid-cols-1 gap-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:grid-cols-[1fr_0.9fr] lg:items-start"
           >
+            <OfferViewTracker
+              sourcePage={pagePath}
+              offer="pack_revision_express_bac_2027"
+              price={PACK_REVISION_EXPRESS_PRICE}
+              currency="EUR"
+              ctaLocation="bac2027_offer_section"
+            />
             <div className="min-w-0">
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
                 Pack Révision Express
@@ -622,11 +637,18 @@ export default function BacMaths2027Page() {
                 Ce que contient le Pack Révision Express
               </h2>
               <p className="mt-4 leading-7 text-slate-700">
-                Le pack rassemble l&apos;essentiel pour préparer le Bac Maths 2027 :
-                exercices type bac guidés, fiches méthodes, programme de
-                révision, progression, accès mobile et code d&apos;accès automatique
-                après paiement.
+                Pour les élèves qui entrent en Terminale spécialité maths et
+                veulent reprendre leurs bases, identifier leurs lacunes et
+                commencer l&apos;année avec une méthode de travail structurée.
               </p>
+              <div className="mt-5 rounded-xl border border-blue-100 bg-blue-50 p-5">
+                <h3 className="font-bold text-slate-950">À qui s&apos;adresse le pack ?</h3>
+                <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-6 text-slate-700">
+                  <li>Élèves qui entrent en Terminale spécialité maths.</li>
+                  <li>Élèves qui ont des bases fragiles ou manquent de méthode.</li>
+                  <li>Élèves autonomes qui veulent prendre de l&apos;avance sans réviser au hasard.</li>
+                </ul>
+              </div>
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 {packItems.map((item) => (
                   <div key={item} className="flex items-center gap-3 rounded-xl bg-slate-50 p-4">
@@ -635,9 +657,14 @@ export default function BacMaths2027Page() {
                   </div>
                 ))}
               </div>
+              <p className="mt-5 text-sm leading-6 text-slate-600">
+                Ressources d&apos;entraînement créées par SprintMaths, non
+                officielles. Les sujets type bac ne sont pas des annales
+                officielles.
+              </p>
             </div>
 
-            <div className="min-w-0 rounded-2xl border-2 border-blue-900 bg-blue-50 p-6">
+            <div className="order-first min-w-0 rounded-2xl border-2 border-blue-900 bg-blue-50 p-6 lg:order-none">
               <p className="text-sm font-bold uppercase text-blue-900">
                 Paiement unique
               </p>
@@ -646,26 +673,39 @@ export default function BacMaths2027Page() {
                   {PACK_REVISION_EXPRESS_PRICE} €
                 </span>
                 <span className="pb-2 text-sm font-semibold text-slate-600">
-                  Pack Révision Express
+                  TTC
                 </span>
               </div>
-              <p className="mt-3 text-sm font-semibold text-slate-700">
-                Offres ponctuelles possibles selon la période.
-              </p>
               <ul className="mt-5 space-y-3 text-sm text-slate-700">
                 <li className="flex gap-2">
-                  <ShieldCheck className="h-5 w-5 shrink-0 text-emerald-600" />
-                  Garantie 7 jours.
+                  <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />
+                  Paiement unique, sans abonnement.
                 </li>
                 <li className="flex gap-2">
                   <Smartphone className="h-5 w-5 shrink-0 text-blue-800" />
-                  Accès simple par code, utilisable sur téléphone.
+                  Web app sur téléphone, tablette et ordinateur.
                 </li>
                 <li className="flex gap-2">
-                  <LineChart className="h-5 w-5 shrink-0 text-amber-700" />
-                  Note indicative /20 pour se situer, sans garantie de résultat.
+                  <CalendarDays className="h-5 w-5 shrink-0 text-blue-800" />
+                  Accès au parcours prévu jusqu&apos;aux épreuves du Bac 2027.
                 </li>
               </ul>
+
+              <div className="mt-6 rounded-xl border border-slate-200 bg-white p-5">
+                <h3 className="font-bold text-slate-950">Après votre paiement</h3>
+                <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-slate-700">
+                  <li>Confirmation immédiate par Stripe.</li>
+                  <li>Code d&apos;accès envoyé automatiquement par email.</li>
+                  <li>Création de l&apos;espace élève depuis la page indiquée.</li>
+                  <li>Assistance à {CONTACT_EMAIL} en cas de problème.</li>
+                </ol>
+              </div>
+
+              <GuaranteeNote
+                className="mt-5"
+                sourcePage={pagePath}
+                variant="compact"
+              />
               <TrackedLink
                 href={stripeHref}
                 target={stripeTarget}
@@ -681,12 +721,19 @@ export default function BacMaths2027Page() {
               >
                 <Button size="lg" className="w-full whitespace-normal px-4 text-base sm:px-8 sm:text-lg">
                   {stripePaymentLink
-                    ? "Accéder au Pack Révision Express"
-                    : "Voir le Pack Révision Express"}
+                    ? `Acheter le pack — ${PACK_REVISION_EXPRESS_PRICE} € TTC`
+                    : `Voir le pack — ${PACK_REVISION_EXPRESS_PRICE} € TTC`}
                 </Button>
               </TrackedLink>
               <p className="mt-3 text-center text-xs font-medium text-slate-500">
-                Paiement sécurisé par Stripe si l&apos;offre est ouverte. Aucun abonnement.
+                Paiement sécurisé par Stripe. Aucun prélèvement récurrent.
+              </p>
+              <p className="mt-3 text-center text-xs leading-5 text-slate-500">
+                Une question ? <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-blue-900 underline">{CONTACT_EMAIL}</a>
+                {" · "}
+                <Link href="/cgv" className="font-semibold text-blue-900 underline">CGV</Link>
+                {" · "}
+                <Link href="/remboursement" className="font-semibold text-blue-900 underline">Remboursement</Link>
               </p>
             </div>
           </section>
@@ -694,17 +741,28 @@ export default function BacMaths2027Page() {
           <section>
             <div className="max-w-3xl">
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
-                Interface
+                Preuves réelles
               </p>
               <h2 className="mt-3 text-3xl font-bold text-slate-950">
-                Réviser sur téléphone, sans perdre le fil
+                Découvrez un extrait avant d&apos;acheter
               </h2>
               <p className="mt-4 leading-7 text-slate-700">
-                Les captures ci-dessous montrent l&apos;esprit de l&apos;expérience :
-                progression, exercices guidés, note indicative et méthodes
-                courtes. Les intitulés visibles de la page restent centrés sur le
-                Bac Maths 2027.
+                Ces captures montrent le produit réellement livré : tableau de
+                bord, exercice guidé, note indicative et fiche méthode. Vous
+                pouvez aussi consulter un sujet corrigé gratuit avant de décider.
               </p>
+              <TrackedLink
+                href={`${subjectsTypeBacPath}#sujet-corrige-guide`}
+                eventName="click_bac2027_exercises"
+                eventParams={{
+                  ...baseEventParams,
+                  destination_page: `${subjectsTypeBacPath}#sujet-corrige-guide`,
+                  cta_location: "bac2027_proof_excerpt",
+                }}
+                className="mt-5 inline-flex"
+              >
+                <Button variant="outline">Voir un sujet corrigé gratuit</Button>
+              </TrackedLink>
             </div>
             <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {screenshots.map((screenshot) => (
@@ -761,41 +819,50 @@ export default function BacMaths2027Page() {
 
           <section className="rounded-2xl bg-blue-950 p-8 text-center text-white">
             <h2 className="text-3xl font-bold">
-              Bac Maths 2027 : commence par savoir quoi travailler
+              Commence la Terminale avec un parcours déjà structuré
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-blue-100">
-              Le diagnostic gratuit est le point de départ le plus simple pour
-              organiser les révisions et repérer les exercices type bac à
-              travailler en priorité.
+              Le Pack Révision Express réunit les questions, méthodes,
+              exercices guidés et sujets type bac dans une seule web app.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
               <TrackedLink
-                href="/diagnostic"
-                eventName="click_bac2027_diagnostic"
+                href={stripeHref}
+                target={stripeTarget}
+                rel={stripeRel}
+                eventName={offerEventName}
                 eventParams={{
                   ...baseEventParams,
+                  destination_page: stripeHref,
+                  payment_provider: stripePaymentLink ? "stripe" : undefined,
                   cta_location: "bac2027_final_primary",
                 }}
                 className="w-full sm:w-auto"
               >
                 <Button variant="secondary" size="lg" className="w-full px-4 text-base sm:w-auto sm:px-8 sm:text-lg">
-                  Faire le diagnostic gratuit
+                  {stripePaymentLink
+                    ? `Acheter le pack — ${PACK_REVISION_EXPRESS_PRICE} €`
+                    : `Voir le pack — ${PACK_REVISION_EXPRESS_PRICE} €`}
                 </Button>
               </TrackedLink>
               <TrackedLink
-                href="/exercices-type-bac-maths-terminale"
-                eventName="click_exercises"
+                href={`${subjectsTypeBacPath}#sujet-corrige-guide`}
+                eventName="click_bac2027_exercises"
                 eventParams={{
                   ...baseEventParams,
+                  destination_page: `${subjectsTypeBacPath}#sujet-corrige-guide`,
                   cta_location: "bac2027_final_secondary",
                 }}
                 className="w-full sm:w-auto"
               >
                 <Button variant="outline" size="lg" className="w-full px-4 text-base sm:w-auto sm:px-8 sm:text-lg">
-                  Essayer un exercice type bac guidé
+                  Voir un extrait gratuit
                 </Button>
               </TrackedLink>
             </div>
+            <p className="mt-4 text-sm text-blue-200">
+              39 € TTC · Paiement unique · Aucun abonnement
+            </p>
           </section>
 
           <section className="rounded-2xl border border-dashed border-blue-200 bg-blue-50 p-6">

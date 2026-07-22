@@ -3,12 +3,12 @@
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { GuaranteeNote } from "@/components/marketing/GuaranteeNote";
+import { OfferViewTracker } from "@/components/tracking/OfferViewTracker";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { CheckCircle2, AlertCircle, ArrowRight, Target, BrainCircuit } from "lucide-react";
-import { Suspense, useEffect, useMemo, useRef, useSyncExternalStore } from "react";
-import { trackViewOffer } from "@/lib/tracking";
+import { Suspense, useEffect, useMemo, useSyncExternalStore } from "react";
 import { getSessionStorageItem, storageEvents } from "@/lib/storageKeys";
 import {
   PACK_REVISION_EXPRESS_LABEL,
@@ -50,7 +50,6 @@ function getServerDiagnosticResultContextSnapshot() {
 
 function ResultContent() {
   const searchParams = useSearchParams();
-  const viewOfferTracked = useRef(false);
   const storedContextSnapshot = useSyncExternalStore(
     subscribeToDiagnosticResultContext,
     getDiagnosticResultContextSnapshot,
@@ -99,11 +98,15 @@ function ResultContent() {
   const offerHref = stripePaymentLink ?? "/bac-maths-2027#offre";
   const offerTarget = stripePaymentLink ? "_blank" : undefined;
   const offerRel = stripePaymentLink ? "noopener noreferrer" : undefined;
-  const offerClickEventName = stripePaymentLink ? "stripe_click" : "click_bac2027_offer";
+  const offerClickEventName = stripePaymentLink
+    ? "click_bac2027_stripe"
+    : "click_bac2027_offer";
 
   const isBrevet = exam === "brevet";
   const isTerminale = exam === "terminale";
   const examName = isBrevet ? "Brevet" : isTerminale ? "Bac de Terminale" : "Bac de maths";
+  const alternativePath = isBrevet ? "/brevet-maths" : "/bac-premiere-maths";
+  const alternativeLabel = isBrevet ? "Voir le parcours Brevet" : "Voir le parcours Première";
 
   const diffMap: Record<string, string> = {
     calcul: "Calcul & bases",
@@ -129,15 +132,6 @@ function ResultContent() {
     }),
     [exam, level],
   );
-
-  useEffect(() => {
-    if (viewOfferTracked.current) {
-      return;
-    }
-
-    viewOfferTracked.current = true;
-    trackViewOffer(offerTrackingParams);
-  }, [offerTrackingParams]);
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -213,7 +207,15 @@ function ResultContent() {
           </CardContent>
         </Card>
 
+        {isTerminale ? (
         <div className="bg-white rounded-2xl p-8 border shadow-sm text-center mb-12 relative overflow-hidden">
+          <OfferViewTracker
+            sourcePage="/diagnostic/resultat"
+            offer="pack_revision_express_bac_2027"
+            price={PACK_REVISION_EXPRESS_PRICE}
+            currency="EUR"
+            ctaLocation="diagnostic_result_offer"
+          />
           <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-600 to-violet-600"></div>
           <h2 className="text-2xl font-bold text-slate-900 mb-2">{PACK_REVISION_EXPRESS_LABEL}</h2>
           <div className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1 mb-6">
@@ -262,7 +264,7 @@ function ResultContent() {
               >
                 <Button size="lg" className="w-full text-lg h-14 shadow-lg bg-blue-600 hover:bg-blue-700 text-white">
                   {stripePaymentLink
-                    ? `Accéder au pack à ${PACK_REVISION_EXPRESS_PRICE} €`
+                    ? `Acheter le pack à ${PACK_REVISION_EXPRESS_PRICE} €`
                     : `Voir le pack à ${PACK_REVISION_EXPRESS_PRICE} €`}
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
@@ -271,18 +273,35 @@ function ResultContent() {
                 Paiement sécurisé par Stripe si l&apos;offre est ouverte. Paiement unique, sans abonnement.
               </p>
             </div>
-            <Link href="/" className="block">
+            <Link href="/bac-maths-2027#offre" className="block">
               <Button variant="ghost" className="w-full">
-                Recevoir les infos par email
+                Voir le détail du pack
               </Button>
             </Link>
             <div className="pt-4 mt-4 border-t border-slate-100">
               <Link href="/acces" className="text-sm font-medium text-slate-500 hover:text-slate-800 underline underline-offset-4">
-                J&apos;ai déjà réservé mon accès
+                J&apos;ai déjà acheté mon accès
               </Link>
             </div>
           </div>
         </div>
+        ) : (
+          <div className="mb-12 rounded-2xl border bg-white p-8 text-center shadow-sm">
+            <h2 className="text-2xl font-bold text-slate-900">
+              Continuer avec le parcours adapté
+            </h2>
+            <p className="mx-auto mt-3 max-w-lg text-slate-600">
+              Le Pack Révision Express Bac Maths 2027 est réservé aux élèves de
+              Terminale spécialité maths. Retrouvez plutôt les ressources
+              gratuites correspondant à l&apos;objectif indiqué.
+            </p>
+            <Link href={alternativePath} className="mt-6 block">
+              <Button size="lg" className="w-full">
+                {alternativeLabel}
+              </Button>
+            </Link>
+          </div>
+        )}
       </main>
     </div>
   );

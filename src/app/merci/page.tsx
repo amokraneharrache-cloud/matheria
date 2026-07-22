@@ -57,7 +57,7 @@ export default function MerciPage() {
         </div>
 
         <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-800">
-          <strong>Vous venez de réserver le Pack Révision Express.</strong> Après
+          <strong>Vous venez d&apos;acheter le Pack Révision Express.</strong> Après
           paiement, votre code d’accès personnel est envoyé automatiquement par
           email. Collez-le ici pour créer l’espace élève.
         </div>

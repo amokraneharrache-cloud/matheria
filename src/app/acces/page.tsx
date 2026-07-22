@@ -14,7 +14,7 @@ export default function AccesPage() {
           </div>
           <h1 className="text-3xl font-extrabold text-gray-900">Accéder à SprintMaths</h1>
           <p className="mt-3 text-gray-600">
-            Vous avez réservé le Pack Révision Express ? Choisissez votre situation.
+            Vous avez acheté le Pack Révision Express ? Choisissez votre situation.
           </p>
         </div>
 
@@ -48,10 +48,10 @@ export default function AccesPage() {
           </Link>
         </div>
 
-        {/* Pas encore réservé */}
+        {/* Pas encore acheté */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 text-center space-y-3">
           <h2 className="text-base font-medium text-gray-700">
-            Vous n&apos;avez pas encore réservé ?
+            Vous n&apos;avez pas encore acheté ?
           </h2>
           <Link href="/#pricing" className="block w-full">
             <Button variant="outline" size="lg" className="w-full text-base h-12 border-gray-300 text-gray-700 hover:bg-gray-50">

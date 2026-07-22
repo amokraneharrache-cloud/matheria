@@ -5,6 +5,7 @@ import { UrgencyBanner } from "@/components/marketing/UrgencyBanner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LegalFooterLinks } from "@/components/legal/LegalFooterLinks";
+import { OfferViewTracker } from "@/components/tracking/OfferViewTracker";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { CheckCircle2, BrainCircuit, Target, TrendingUp, GraduationCap, BookOpen, School, CalendarCheck, ClipboardList } from "lucide-react";
 import {
@@ -12,7 +13,7 @@ import {
   PACK_REVISION_EXPRESS_OFFER_ID,
   PACK_REVISION_EXPRESS_PRICE,
 } from "@/lib/offers";
-import { absoluteUrl, SITE_NAME, SITE_TAGLINE } from "@/lib/site";
+import { absoluteUrl, SITE_NAME } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: {
@@ -37,11 +38,6 @@ export const metadata: Metadata = {
 export default function Home() {
   const stripePaymentLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK;
   const diagnosticClickParams = { source_page: "/" };
-  const planningClickParams = {
-    source_page: "/",
-    lead_magnet: "planning_bac_maths_2027",
-    level: "terminale",
-  };
   const checkoutParams = {
     source_page: "/",
     offer: PACK_REVISION_EXPRESS_OFFER_ID,
@@ -87,42 +83,51 @@ export default function Home() {
         <section className="px-4 py-20 text-center bg-gradient-to-b from-blue-50 to-white">
           <div className="container mx-auto max-w-4xl">
             <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-blue-100 text-blue-900 mb-6">
-              {SITE_TAGLINE}
+              Rentrée 2026 — Objectif Bac Maths 2027
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
-              Réviser les maths du Brevet au Bac avec un <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-violet-600">parcours structuré</span>
+              Prépare ta Terminale spécialité maths <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-violet-600">avant la rentrée</span>
             </h1>
             <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
-              Plan de révision, exercices ciblés et progression par chapitre. À quelques semaines de l&apos;examen, SprintMaths aide votre enfant à savoir quoi réviser, à s&apos;entraîner en sessions courtes et à progresser sans conflit à la maison. <span className="block mt-2 text-blue-800 font-medium">Pour Terminale : exercices guidés type bac, méthodes et progression par chapitre.</span>
+              Un parcours structuré avec planning, méthodes, exercices guidés
+              et sujets type bac corrigés pour commencer l&apos;année avec des
+              bases claires.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-6">
+              <TrackedLink
+                href="/bac-maths-2027#offre"
+                className="w-full sm:w-auto"
+                eventName="click_bac2027_offer"
+                eventParams={{
+                  source_page: "/",
+                  destination_page: "/bac-maths-2027#offre",
+                  offer: PACK_REVISION_EXPRESS_OFFER_ID,
+                  price: PACK_REVISION_EXPRESS_PRICE,
+                  currency: "EUR",
+                  cta_location: "home_hero_primary",
+                }}
+              >
+                <Button size="lg" className="w-full sm:w-auto">
+                  Voir le pack à {PACK_REVISION_EXPRESS_PRICE} €
+                </Button>
+              </TrackedLink>
               <TrackedLink
                 href="/diagnostic"
                 className="w-full sm:w-auto"
                 eventName="click_diagnostic"
                 eventParams={{
                   ...diagnosticClickParams,
-                  cta_location: "home_hero_primary",
-                }}
-              >
-                <Button size="lg" className="w-full sm:w-auto">
-                  Faire le diagnostic gratuit
-                </Button>
-              </TrackedLink>
-              <TrackedLink
-                href="/planning-revision-bac-maths"
-                className="w-full sm:w-auto"
-                eventName="click_lead_magnet_planning"
-                eventParams={{
-                  ...planningClickParams,
-                  cta_location: "home_hero_planning",
+                  cta_location: "home_hero_secondary",
                 }}
               >
                 <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                  Recevoir le planning Bac Maths 2027
+                  Faire le diagnostic gratuit
                 </Button>
               </TrackedLink>
             </div>
+            <p className="text-sm font-semibold text-slate-600">
+              Pack à 39 € TTC · Paiement unique · Aucun abonnement · Garantie 7 jours
+            </p>
             <Link href="/connexion" className="text-sm font-medium text-slate-500 hover:text-slate-800 underline underline-offset-4 block mt-4">
               J&apos;ai déjà un espace élève — Se connecter
             </Link>
@@ -310,7 +315,14 @@ export default function Home() {
         </section>
 
         {/* Pricing Section */}
-        <section id="pricing" className="px-4 py-20 bg-slate-50">
+        <section id="pricing" className="relative px-4 py-20 bg-slate-50">
+          <OfferViewTracker
+            sourcePage="/"
+            offer={PACK_REVISION_EXPRESS_OFFER_ID}
+            price={PACK_REVISION_EXPRESS_PRICE}
+            currency="EUR"
+            ctaLocation="home_pricing"
+          />
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">Pack Bac Maths 2027, clair et sans abonnement</h2>
             <p className="text-lg text-slate-600 mb-12">
@@ -359,7 +371,7 @@ export default function Home() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="block w-full"
-                      eventName="stripe_click"
+                      eventName="click_bac2027_stripe"
                       eventParams={{ ...checkoutParams, cta_location: "home_pricing" }}
                     >
                       <Button size="lg" className="w-full text-lg h-14">
