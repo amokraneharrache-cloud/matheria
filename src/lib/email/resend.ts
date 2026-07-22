@@ -66,6 +66,7 @@ export async function sendPlanningRevisionEmail(params: SendPlanningRevisionEmai
   const printableUrl = `${siteUrl}/planning-bac-maths-2027.html`;
   const diagnosticUrl = `${siteUrl}/diagnostic`;
   const correctedSubjectsUrl = `${siteUrl}/sujets-type-bac-maths-terminale#sujet-corrige-guide`;
+  const offerUrl = `${siteUrl}/bac-maths-2027?utm_source=planning_email&utm_medium=email&utm_campaign=rentree_2026#offre`;
 
   const text = `Bonjour,
 
@@ -84,6 +85,9 @@ ${diagnosticUrl}
 
 3) Entraîne-toi sur un sujet type bac corrigé pas à pas :
 ${correctedSubjectsUrl}
+
+4) Si tu veux réunir les méthodes, exercices guidés et sujets type bac dans un parcours complet, découvre le Pack Révision Express à 39 € en paiement unique :
+${offerUrl}
 
 Une question ? Réponds directement à cet email ou écris à ${CONTACT_EMAIL}.
 
@@ -104,6 +108,7 @@ L'équipe SprintMaths`;
       ${linkBlock("Version imprimable (à garder sur ton bureau) :", printableUrl)}
       ${linkBlock("Identifie tes chapitres prioritaires avec le diagnostic gratuit :", diagnosticUrl)}
       ${linkBlock("Entraîne-toi sur un sujet type bac corrigé pas à pas :", correctedSubjectsUrl)}
+      ${linkBlock("Découvre le Pack Révision Express à 39 € en paiement unique :", offerUrl)}
       <p style="margin-top: 24px;">Une question ? Réponds directement à cet email ou écris à <a href="mailto:${CONTACT_EMAIL}" style="color: #1e3a8a;">${CONTACT_EMAIL}</a>.</p>
       <p>À bientôt,<br>L'équipe SprintMaths</p>
     </div>
