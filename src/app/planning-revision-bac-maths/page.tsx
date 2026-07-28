@@ -441,6 +441,17 @@ export default function PlanningRevisionBacMathsPage() {
                 Terminale PDF, la ressource envoyée ici est une page web
                 imprimable, et non un PDF.
               </p>
+              <p className="mt-4 leading-7 text-slate-700">
+                Pour choisir tes priorités et exploiter les corrections avant
+                de remplir le calendrier, consulte le{" "}
+                <Link
+                  href="/articles/comment-reviser-bac-maths-30-jours"
+                  className="font-bold text-blue-900 hover:underline"
+                >
+                  guide pour organiser 30 jours de révision du Bac Maths
+                </Link>
+                .
+              </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               {contentItems.map((item) => (
