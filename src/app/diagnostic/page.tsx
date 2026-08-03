@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -315,6 +316,19 @@ export default function DiagnosticPage() {
           </div>
         )}
       </main>
+      {step === 1 ? (
+        <aside className="border-t border-emerald-100 bg-emerald-50 px-4 py-5 text-center">
+          <p className="text-sm leading-6 text-slate-700">
+            Entrée en Terminale en septembre ?{" "}
+            <Link
+              href="/preparer-entree-terminale-specialite-maths"
+              className="font-bold text-blue-900 underline underline-offset-4"
+            >
+              Voir les prérequis de Première à réviser
+            </Link>
+          </p>
+        </aside>
+      ) : null}
     </div>
   );
 }

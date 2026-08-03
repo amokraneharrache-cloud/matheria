@@ -152,6 +152,12 @@ export default function Home() {
                   text: "Diagnostic, planning, exercices type bac guidés et Pack Révision Express pour la Terminale.",
                 },
                 {
+                  href: "/preparer-entree-terminale-specialite-maths",
+                  icon: BookOpen,
+                  title: "Entrée en Terminale",
+                  text: "Les prérequis de Première à revoir avant septembre avec un programme léger sur 14 jours.",
+                },
+                {
                   href: "/planning-revision-bac-maths",
                   icon: CalendarCheck,
                   title: "Planning gratuit",

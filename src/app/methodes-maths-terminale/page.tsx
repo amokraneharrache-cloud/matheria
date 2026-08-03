@@ -192,6 +192,41 @@ export default function MethodesMathsTerminalePage() {
             ))}
           </section>
 
+          <section className="rounded-2xl border border-blue-100 bg-blue-50 p-6 sm:p-8">
+            <h2 className="text-3xl font-bold text-slate-950">
+              Ressources transversales pour le Bac Maths
+            </h2>
+            <p className="mt-3 max-w-3xl text-slate-700">
+              Ces deux guides complètent les méthodes par exercice : l&apos;un sert
+              à retrouver une formule, l&apos;autre à rédiger les justifications.
+            </p>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <Link
+                href="/formules-bac-maths-terminale"
+                className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+              >
+                <h3 className="text-xl font-bold text-blue-950">
+                  Formules Bac Maths Terminale
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  Formules, conditions d&apos;utilisation et erreurs fréquentes,
+                  organisées par chapitre.
+                </p>
+              </Link>
+              <Link
+                href="/redaction-bac-maths-terminale"
+                className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+              >
+                <h3 className="text-xl font-bold text-blue-950">
+                  Bien rédiger au Bac Maths
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  Phrases utiles, hypothèses à citer et exemples avant / après.
+                </p>
+              </Link>
+            </div>
+          </section>
+
           <section>
             <h2 className="text-3xl font-bold text-slate-950">
               Les méthodes Terminale disponibles

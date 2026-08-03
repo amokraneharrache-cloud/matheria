@@ -249,6 +249,40 @@ export function ProgramSeoPage({ goal, h1, intro }: ProgramSeoPageProps) {
             })}
           </div>
 
+          {isTerminale ? (
+            <section className="rounded-2xl border border-blue-100 bg-blue-50 p-6 sm:p-8">
+              <h2 className="text-2xl font-bold text-slate-950">
+                Ressources pour utiliser le programme
+              </h2>
+              <div className="mt-5 grid gap-4 md:grid-cols-2">
+                <Link
+                  href="/formules-bac-maths-terminale"
+                  className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+                >
+                  <h3 className="text-lg font-bold text-blue-950">
+                    Retrouver les formules par chapitre
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">
+                    Une fiche imprimable avec les hypothèses et les erreurs
+                    fréquentes.
+                  </p>
+                </Link>
+                <Link
+                  href="/preparer-entree-terminale-specialite-maths"
+                  className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+                >
+                  <h3 className="text-lg font-bold text-blue-950">
+                    Préparer l&apos;entrée en Terminale
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">
+                    Les prérequis de Première à revoir avant septembre, sans
+                    commencer un planning Bac.
+                  </p>
+                </Link>
+              </div>
+            </section>
+          ) : null}
+
           <div className="grid gap-5 md:grid-cols-3">
             {[
               {

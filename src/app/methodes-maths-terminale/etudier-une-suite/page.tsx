@@ -106,6 +106,11 @@ const internalLinks = [
     label: "Sujets type bac corrigés Terminale",
   },
   { href: "/methodes-maths-terminale", label: "Toutes les méthodes Terminale" },
+  { href: "/formules-bac-maths-terminale#suites", label: "Formules sur les suites" },
+  {
+    href: "/redaction-bac-maths-terminale#recurrence",
+    label: "Rédiger une récurrence",
+  },
   { href: "/bac-maths-2027", label: "Bac Maths 2027" },
   { href: "/diagnostic", label: "Diagnostic gratuit" },
 ];

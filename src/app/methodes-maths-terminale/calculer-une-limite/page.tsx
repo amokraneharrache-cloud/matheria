@@ -105,6 +105,11 @@ const internalLinks = [
     label: "Sujets type bac corrigés Terminale",
   },
   { href: "/methodes-maths-terminale", label: "Toutes les méthodes Terminale" },
+  { href: "/formules-bac-maths-terminale#limites", label: "Formules de limites" },
+  {
+    href: "/redaction-bac-maths-terminale#tvi",
+    label: "Rédiger avec le TVI",
+  },
   { href: "/bac-maths-2027", label: "Bac Maths 2027" },
   { href: "/planning-revision-bac-maths", label: "Planning Bac Maths 2027" },
   { href: "/diagnostic", label: "Diagnostic gratuit" },

@@ -4,10 +4,16 @@ import { absoluteUrl, legalRoutes, publicSeoRoutes } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date("2026-06-14T00:00:00.000Z");
+  const acquisitionRoutes = new Set([
+    "/formules-bac-maths-terminale",
+    "/redaction-bac-maths-terminale",
+    "/preparer-entree-terminale-specialite-maths",
+  ]);
+  const acquisitionLastModified = new Date("2026-07-29T00:00:00.000Z");
 
   const staticRoutes: MetadataRoute.Sitemap = publicSeoRoutes.map((route) => ({
     url: absoluteUrl(route),
-    lastModified,
+    lastModified: acquisitionRoutes.has(route) ? acquisitionLastModified : lastModified,
     changeFrequency: route === "/" ? "weekly" : "monthly",
     priority:
       route === "/"

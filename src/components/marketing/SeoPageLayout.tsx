@@ -26,7 +26,7 @@ export function SeoPageLayout({
 }: SeoPageLayoutProps) {
   return (
     <div className="min-h-screen bg-white text-slate-900">
-      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur print:hidden">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           <Link href="/" className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-900">
@@ -56,7 +56,7 @@ export function SeoPageLayout({
       </header>
       {showUrgencyBanner && <UrgencyBanner sourcePage={urgencySourcePage} />}
       <main>{children}</main>
-      <footer className="border-t border-slate-200 bg-slate-950 px-4 py-10 text-center text-sm text-slate-400">
+      <footer className="border-t border-slate-200 bg-slate-950 px-4 py-10 text-center text-sm text-slate-400 print:hidden">
         <div className="mx-auto max-w-6xl">
           <Link href="/" className="inline-flex items-center justify-center gap-2">
             <div className="flex h-6 w-6 items-center justify-center rounded bg-slate-700 text-xs font-bold text-white">

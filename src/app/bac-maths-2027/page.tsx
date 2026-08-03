@@ -412,6 +412,13 @@ export default function BacMaths2027Page() {
                 programme en avance, mais d&apos;arriver en Terminale avec un cadre
                 de travail clair.
               </p>
+              <Link
+                href="/preparer-entree-terminale-specialite-maths"
+                className="mt-5 inline-flex items-center gap-2 font-bold text-blue-900 hover:underline"
+              >
+                Voir les prérequis de Première et le programme léger sur 14 jours
+                <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {[

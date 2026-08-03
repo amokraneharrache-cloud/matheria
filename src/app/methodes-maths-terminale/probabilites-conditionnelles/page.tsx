@@ -141,6 +141,14 @@ const internalLinks = [
     label: "Toutes les méthodes Terminale",
   },
   {
+    href: "/formules-bac-maths-terminale#probabilites",
+    label: "Formules de probabilités",
+  },
+  {
+    href: "/redaction-bac-maths-terminale#probabilites",
+    label: "Rédiger une réponse de probabilités",
+  },
+  {
     href: "/programme-maths-terminale/derivation-convexite",
     label: "Programme Dérivation et convexité",
   },

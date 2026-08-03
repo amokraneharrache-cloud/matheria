@@ -278,6 +278,10 @@ const internalLinks = [
   { href: "/programme-maths-terminale", label: "Programme Terminale" },
   { href: "/methodes-maths-terminale", label: "Méthodes Terminale" },
   { href: "/exercices-maths-terminale", label: "Exercices Terminale" },
+  {
+    href: "/redaction-bac-maths-terminale",
+    label: "Bien rédiger au Bac Maths",
+  },
 ];
 
 export default function ExercicesTypeBacMathsTerminalePage() {

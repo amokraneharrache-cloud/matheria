@@ -33,6 +33,9 @@ export function absoluteUrl(path = "/") {
 export const publicSeoRoutes = [
   "/",
   "/planning-revision-bac-maths",
+  "/formules-bac-maths-terminale",
+  "/redaction-bac-maths-terminale",
+  "/preparer-entree-terminale-specialite-maths",
   "/bac-maths-2027",
   "/sujets-type-bac-maths-terminale",
   "/exercices-type-bac-maths-terminale",

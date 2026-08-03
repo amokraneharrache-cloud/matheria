@@ -92,6 +92,14 @@ const internalLinks = [
     label: "Sujets type bac corrigés Terminale",
   },
   { href: "/methodes-maths-terminale", label: "Toutes les méthodes Terminale" },
+  {
+    href: "/formules-bac-maths-terminale#derivation",
+    label: "Formules de dérivation",
+  },
+  {
+    href: "/redaction-bac-maths-terminale#variations",
+    label: "Rédiger une étude de variations",
+  },
   { href: "/programme-maths-terminale/limites", label: "Programme Limites Terminale" },
   { href: "/bac-maths-2027", label: "Bac Maths 2027" },
   { href: "/diagnostic", label: "Diagnostic gratuit" },
