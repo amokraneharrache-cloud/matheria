@@ -137,6 +137,10 @@ const internalLinks = [
     label: "Toutes les méthodes Terminale",
   },
   {
+    href: "/demonstrations-bac-maths-terminale#appartenance",
+    label: "Démontrer une appartenance en géométrie",
+  },
+  {
     href: "/programme-maths-terminale",
     label: "Programme maths Terminale",
   },

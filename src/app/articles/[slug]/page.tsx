@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, BookOpen, Check, ChevronRight } from "lucide-react";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { PrintButton } from "@/components/marketing/PrintButton";
 import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { articles, getArticleBySlug, type ArticleCta } from "@/data/articles";
@@ -71,6 +72,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       url: absoluteUrl(path),
       type: "article",
       publishedTime: article.publishedAt,
+      modifiedTime: article.updatedAt,
     },
   };
 }
@@ -115,7 +117,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </h1>
             <p className="mt-5 text-lg text-slate-700">{article.description}</p>
             <p className="mt-4 text-sm font-semibold text-slate-500">
-              Publié le {new Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(new Date(article.publishedAt))}
+              {article.updatedAt ? "Mis à jour" : "Publié"} le{" "}
+              {new Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(
+                new Date(article.updatedAt ?? article.publishedAt),
+              )}
             </p>
           </div>
         </header>
@@ -144,6 +149,42 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                       <p key={paragraph}>{paragraph}</p>
                     ))}
                   </div>
+
+                  {section.errorExample ? (
+                    <div className="mt-6 grid gap-4">
+                      <div className="rounded-xl border border-red-200 bg-red-50 p-5">
+                        <p className="text-sm font-bold uppercase tracking-wide text-red-800">
+                          Exemple incorrect
+                        </p>
+                        <p className="mt-2 font-mono text-base leading-7 text-red-950">
+                          {section.errorExample.incorrect}
+                        </p>
+                      </div>
+                      <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
+                        <p className="text-sm font-bold uppercase tracking-wide text-amber-800">
+                          Pourquoi c&apos;est faux ou insuffisant
+                        </p>
+                        <p className="mt-2 leading-7 text-amber-950">
+                          {section.errorExample.explanation}
+                        </p>
+                      </div>
+                      <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-5">
+                        <p className="text-sm font-bold uppercase tracking-wide text-emerald-800">
+                          Version corrigée
+                        </p>
+                        <p className="mt-2 font-mono text-base leading-7 text-emerald-950">
+                          {section.errorExample.corrected}
+                        </p>
+                      </div>
+                      <Link
+                        href={section.errorExample.methodHref}
+                        className="inline-flex items-center gap-2 font-bold text-blue-900 hover:underline print:hidden"
+                      >
+                        {section.errorExample.methodLabel}
+                        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                      </Link>
+                    </div>
+                  ) : null}
 
                   {section.plan ? (
                     <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200">
@@ -180,6 +221,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                           </li>
                         ))}
                       </ul>
+                      {section.printLabel ? (
+                        <div className="mt-5 border-t border-slate-200 pt-5">
+                          <PrintButton label={section.printLabel} />
+                        </div>
+                      ) : null}
                     </div>
                   ) : null}
 

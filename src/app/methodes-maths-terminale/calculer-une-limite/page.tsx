@@ -110,6 +110,14 @@ const internalLinks = [
     href: "/redaction-bac-maths-terminale#tvi",
     label: "Rédiger avec le TVI",
   },
+  {
+    href: "/demonstrations-bac-maths-terminale#limites",
+    label: "Justifier une limite",
+  },
+  {
+    href: "/python-bac-maths-terminale#dichotomie",
+    label: "Approcher une solution par dichotomie en Python",
+  },
   { href: "/bac-maths-2027", label: "Bac Maths 2027" },
   { href: "/planning-revision-bac-maths", label: "Planning Bac Maths 2027" },
   { href: "/diagnostic", label: "Diagnostic gratuit" },

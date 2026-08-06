@@ -66,11 +66,11 @@ const fiveSteps = [
 const probabilityNotations = [
   {
     title: "P(A)",
-    text: "Probabilité que l'événement A se réalise dans toute la population.",
+    text: "Probabilité que l'événement A se réalise dans l'univers probabilisé.",
   },
   {
     title: "P_A(B)",
-    text: "Probabilité que B se réalise sachant que A est déjà réalisé.",
+    text: "Probabilité que B se réalise sachant que A est déjà réalisé. On rencontre aussi la notation P(B | A).",
   },
   {
     title: "P(A ∩ B)",
@@ -84,13 +84,24 @@ const commonMistakes = [
   "Additionner des probabilités qui ne correspondent pas à des chemins différents.",
   "Oublier le complémentaire.",
   "Ne pas définir les événements.",
+  "Confondre événements incompatibles et événements indépendants.",
+];
+
+const finalChecklist = [
+  "J’ai défini chaque événement par une phrase.",
+  "J’ai distingué P(A), P_A(B) et P(A ∩ B).",
+  "À chaque nœud de l’arbre, la somme des branches vaut 1.",
+  "J’ai multiplié les probabilités d’un même chemin.",
+  "J’ai additionné uniquement des chemins incompatibles menant à l’événement demandé.",
+  "J’ai vérifié l’égalité P(A ∩ B) = P(A)P(B) avant de conclure à l’indépendance.",
+  "Ma dernière phrase interprète la probabilité dans le contexte.",
 ];
 
 const faqItems: FaqItem[] = [
   {
     question: "Quelle est la différence entre P(A ∩ B) et P_A(B) ?",
     answer:
-      "P(A ∩ B) est la probabilité que A et B arrivent ensemble. P_A(B) est une probabilité conditionnelle : elle mesure la probabilité de B une fois que A est déjà réalisé. La relation utile est P(A ∩ B) = P(A) × P_A(B).",
+      "P(A ∩ B) est la probabilité que A et B arrivent ensemble. Si P(A) > 0, P_A(B) est la probabilité de B sachant A et la relation utile est P(A ∩ B) = P(A) × P_A(B).",
   },
   {
     question: "Comment construire un arbre pondéré ?",
@@ -100,7 +111,7 @@ const faqItems: FaqItem[] = [
   {
     question: "Quand multiplier les probabilités ?",
     answer:
-      "On multiplie quand on suit un seul chemin dans l'arbre. Par exemple, le chemin A puis B donne P(A ∩ B) = P(A) × P_A(B).",
+      "On multiplie quand on suit un seul chemin dans l'arbre. Si P(A) > 0, le chemin A puis B donne P(A ∩ B) = P(A) × P_A(B).",
   },
   {
     question: "Quand additionner les chemins ?",
@@ -147,6 +158,18 @@ const internalLinks = [
   {
     href: "/redaction-bac-maths-terminale#probabilites",
     label: "Rédiger une réponse de probabilités",
+  },
+  {
+    href: "/articles/probabilites-loi-binomiale-terminale",
+    label: "Article Probabilités et loi binomiale",
+  },
+  {
+    href: "/demonstrations-bac-maths-terminale#independance",
+    label: "Démontrer l’indépendance de deux événements",
+  },
+  {
+    href: "/python-bac-maths-terminale#simulation",
+    label: "Simuler une expérience aléatoire en Python",
   },
   {
     href: "/programme-maths-terminale/derivation-convexite",
@@ -252,7 +275,7 @@ export default function MethodeProbabilitesConditionnellesPage() {
       <div className="px-4 py-14">
         <div className="mx-auto max-w-6xl space-y-14">
           <section className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start">
-            <div>
+            <div className="min-w-0">
               <ListChecks className="h-7 w-7 text-blue-800" />
               <h2 className="mt-4 text-3xl font-bold text-slate-950">
                 La méthode en 5 étapes
@@ -299,7 +322,7 @@ export default function MethodeProbabilitesConditionnellesPage() {
                 Étape 1 : identifier les événements
               </h2>
             </div>
-            <div className="space-y-4 text-lg leading-8 text-slate-700">
+            <div className="min-w-0 space-y-4 text-lg leading-8 text-slate-700">
               <p>
                 Commence par traduire l&apos;énoncé en événements courts. Par exemple,
                 A peut signifier “utilise l&apos;application” et R peut signifier
@@ -321,7 +344,7 @@ export default function MethodeProbabilitesConditionnellesPage() {
                 Étape 2 : repérer les probabilités données
               </h2>
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="grid gap-4 md:grid-cols-3">
                 {probabilityNotations.map((item) => (
                   <article
@@ -340,6 +363,21 @@ export default function MethodeProbabilitesConditionnellesPage() {
                 phrase “parmi les élèves qui vérifient A” correspond à P_A(B), pas à
                 P(A ∩ B). C&apos;est le point qui change presque tout.
               </p>
+              <div className="mt-5 rounded-xl border-2 border-blue-200 bg-blue-50 p-5 sm:p-6">
+                <h3 className="text-xl font-bold text-blue-950">
+                  Définition d’une probabilité conditionnelle
+                </h3>
+                <p className="mt-3 text-lg leading-8 text-blue-950">
+                  Si P(A) ≠ 0 — donc P(A) &gt; 0 — la probabilité de B sachant A est
+                  définie par
+                </p>
+                <p className="mt-3 overflow-x-auto whitespace-nowrap rounded-lg bg-white px-4 py-3 text-center font-mono text-lg font-bold text-slate-950">
+                  P_A(B) = P(B | A) = P(A ∩ B) / P(A).
+                </p>
+                <p className="mt-3 leading-7 text-blue-950">
+                  On en déduit la formule du chemin : P(A ∩ B) = P(A) × P_A(B).
+                </p>
+              </div>
             </div>
           </section>
 
@@ -420,7 +458,7 @@ export default function MethodeProbabilitesConditionnellesPage() {
                 Étape 5 : utiliser les probabilités totales
               </h2>
             </div>
-            <div className="space-y-4 text-lg leading-8 text-slate-700">
+            <div className="min-w-0 space-y-4 text-lg leading-8 text-slate-700">
               <p>
                 Quand un événement peut arriver par plusieurs chemins différents, on
                 calcule chaque chemin, puis on additionne. Pour un événement R, si les
@@ -435,6 +473,92 @@ export default function MethodeProbabilitesConditionnellesPage() {
                 additionne seulement des chemins complets, incompatibles, qui mènent
                 au même événement demandé.
               </p>
+              <div className="rounded-xl bg-blue-50 p-5 text-blue-950">
+                <p className="font-bold">Formule générale</p>
+                <p className="mt-2 leading-7">
+                  Si A₁, …, Aₙ forment une partition de l’univers et si chaque
+                  P(Aᵢ) &gt; 0, alors
+                </p>
+                <p className="mt-2 overflow-x-auto whitespace-nowrap font-mono font-bold">
+                  P(B) = Σᵢ₌₁ⁿ P(Aᵢ ∩ B) = Σᵢ₌₁ⁿ P(Aᵢ)P(B | Aᵢ).
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section
+            id="independance"
+            className="scroll-mt-24 grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start"
+          >
+            <div>
+              <CheckCircle2 className="h-7 w-7 text-blue-800" />
+              <h2 className="mt-4 text-3xl font-bold text-slate-950">
+                Indépendance ou incompatibilité ?
+              </h2>
+            </div>
+            <div className="space-y-5 text-lg leading-8 text-slate-700">
+              <div className="grid gap-4 md:grid-cols-2">
+                <article className="rounded-xl border border-amber-200 bg-amber-50 p-5">
+                  <h3 className="font-bold text-amber-950">Événements incompatibles</h3>
+                  <p className="mt-2 text-base leading-7 text-amber-950">
+                    Ils ne peuvent pas se réaliser ensemble : P(A ∩ B) = 0.
+                  </p>
+                </article>
+                <article className="rounded-xl border border-emerald-200 bg-emerald-50 p-5">
+                  <h3 className="font-bold text-emerald-950">Événements indépendants</h3>
+                  <p className="mt-2 text-base leading-7 text-emerald-950">
+                    La réalisation de l’un ne modifie pas la probabilité de l’autre :
+                    P(A ∩ B) = P(A)P(B).
+                  </p>
+                </article>
+              </div>
+              <p>
+                Si P(A) &gt; 0, l’indépendance équivaut aussi à P_A(B) = P(B). Deux
+                événements incompatibles de probabilités toutes deux non nulles ne
+                sont pas indépendants, puisque 0 ≠ P(A)P(B).
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <div className="max-w-3xl">
+              <Target className="h-7 w-7 text-blue-800" />
+              <h2 className="mt-4 text-3xl font-bold text-slate-950">
+                Trois exemples corrigés, du plus direct au plus complet
+              </h2>
+            </div>
+            <div className="mt-6 grid gap-5 lg:grid-cols-2">
+              <article className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                <p className="text-sm font-bold uppercase tracking-wide text-blue-800">
+                  Exemple 1 — un chemin
+                </p>
+                <h3 className="mt-2 text-xl font-bold text-slate-950">
+                  Passer du conditionnement à l’intersection
+                </h3>
+                <p className="mt-3 leading-7 text-slate-700">
+                  P(A) = 0,4 et P_A(B) = 0,3. Alors P(A ∩ B) = 0,4 × 0,3 = 0,12.
+                </p>
+                <p className="mt-3 rounded-lg bg-emerald-50 p-4 leading-7 text-emerald-950">
+                  Conclusion : la probabilité que A et B se réalisent ensemble vaut
+                  0,12.
+                </p>
+              </article>
+              <article className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                <p className="text-sm font-bold uppercase tracking-wide text-blue-800">
+                  Exemple 2 — tester l’indépendance
+                </p>
+                <h3 className="mt-2 text-xl font-bold text-slate-950">
+                  Comparer une intersection à un produit
+                </h3>
+                <p className="mt-3 leading-7 text-slate-700">
+                  P(A) = 0,4, P(B) = 0,5 et P(A ∩ B) = 0,2. Or P(A)P(B) = 0,4 ×
+                  0,5 = 0,2.
+                </p>
+                <p className="mt-3 rounded-lg bg-emerald-50 p-4 leading-7 text-emerald-950">
+                  Conclusion : l’égalité caractéristique est vérifiée ; A et B sont
+                  indépendants.
+                </p>
+              </article>
             </div>
           </section>
 
@@ -479,7 +603,7 @@ export default function MethodeProbabilitesConditionnellesPage() {
             <div>
               <ClipboardList className="h-7 w-7 text-blue-800" />
               <h2 className="mt-4 text-3xl font-bold text-slate-950">
-                Exemple guidé
+                Exemple 3 : arbre pondéré complet
               </h2>
               <p className="mt-4 text-lg leading-8 text-slate-700">
                 On applique la méthode sur un énoncé court, avec un arbre implicite
@@ -519,6 +643,26 @@ export default function MethodeProbabilitesConditionnellesPage() {
                   </div>
                 </div>
               </div>
+
+              <div className="mt-5 overflow-hidden rounded-xl border border-slate-200">
+                <div className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-3 bg-slate-50 p-4 text-sm sm:text-base">
+                  <span>Chemin A puis R</span>
+                  <strong>0,3 × 0,8 = 0,24</strong>
+                  <span>Chemin A puis non R</span>
+                  <strong>0,3 × 0,2 = 0,06</strong>
+                  <span>Chemin non A puis R</span>
+                  <strong>0,7 × 0,5 = 0,35</strong>
+                  <span>Chemin non A puis non R</span>
+                  <strong>0,7 × 0,5 = 0,35</strong>
+                </div>
+              </div>
+              <p className="mt-5 rounded-xl border-l-4 border-emerald-600 bg-emerald-50 p-5 leading-7 text-emerald-950">
+                <strong>Conclusion rédigée :</strong> l’événement R est obtenu par
+                les deux chemins incompatibles A ∩ R et non A ∩ R. D’après la
+                formule des probabilités totales, P(R) = 0,24 + 0,35 = 0,59. La
+                probabilité qu’une personne choisie au hasard réussisse le test est
+                donc égale à 0,59.
+              </p>
             </article>
           </section>
 
@@ -637,6 +781,24 @@ export default function MethodeProbabilitesConditionnellesPage() {
             title="Continuer dans le cluster probabilités"
             links={internalLinks}
           />
+
+          <section className="rounded-2xl border-2 border-blue-200 bg-blue-50 p-6 sm:p-8">
+            <ClipboardList className="h-7 w-7 text-blue-800" />
+            <h2 className="mt-4 text-3xl font-bold text-slate-950">
+              Mini-checklist avant de conclure
+            </h2>
+            <ul className="mt-6 grid gap-3 md:grid-cols-2">
+              {finalChecklist.map((item) => (
+                <li key={item} className="flex gap-3 rounded-xl bg-white p-4 leading-7 text-slate-700">
+                  <CheckCircle2
+                    className="mt-1 h-5 w-5 shrink-0 text-emerald-600"
+                    aria-hidden="true"
+                  />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
 
           <FaqAccordion items={faqItems} sourcePage={pagePath} />
         </div>

@@ -113,6 +113,14 @@ const internalLinks = [
     href: "/sujets-type-bac-maths-terminale",
     label: "Sujets type bac maths Terminale",
   },
+  {
+    href: "/demonstrations-bac-maths-terminale#primitives",
+    label: "Montrer qu’une expression est une primitive",
+  },
+  {
+    href: "/equations-differentielles-terminale",
+    label: "Résoudre les équations différentielles",
+  },
   { href: "/bac-maths-2027", label: "Bac Maths 2027" },
 ];
 

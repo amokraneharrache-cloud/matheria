@@ -4,16 +4,26 @@ import { absoluteUrl, legalRoutes, publicSeoRoutes } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date("2026-06-14T00:00:00.000Z");
-  const acquisitionRoutes = new Set([
-    "/formules-bac-maths-terminale",
-    "/redaction-bac-maths-terminale",
-    "/preparer-entree-terminale-specialite-maths",
+  const routeLastModified = new Map<string, Date>([
+    ["/formules-bac-maths-terminale", new Date("2026-07-29T00:00:00.000Z")],
+    ["/redaction-bac-maths-terminale", new Date("2026-07-29T00:00:00.000Z")],
+    [
+      "/preparer-entree-terminale-specialite-maths",
+      new Date("2026-07-29T00:00:00.000Z"),
+    ],
+    ["/demonstrations-bac-maths-terminale", new Date("2026-08-04T00:00:00.000Z")],
+    ["/python-bac-maths-terminale", new Date("2026-08-05T00:00:00.000Z")],
+    ["/equations-differentielles-terminale", new Date("2026-08-05T00:00:00.000Z")],
+    ["/quiz-maths-terminale-specialite", new Date("2026-08-05T00:00:00.000Z")],
+    [
+      "/methodes-maths-terminale/probabilites-conditionnelles",
+      new Date("2026-08-04T00:00:00.000Z"),
+    ],
   ]);
-  const acquisitionLastModified = new Date("2026-07-29T00:00:00.000Z");
 
   const staticRoutes: MetadataRoute.Sitemap = publicSeoRoutes.map((route) => ({
     url: absoluteUrl(route),
-    lastModified: acquisitionRoutes.has(route) ? acquisitionLastModified : lastModified,
+    lastModified: routeLastModified.get(route) ?? lastModified,
     changeFrequency: route === "/" ? "weekly" : "monthly",
     priority:
       route === "/"
@@ -36,7 +46,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const articleRoutes = articles.map((article) => ({
     url: absoluteUrl(`/articles/${article.slug}`),
-    lastModified: new Date(article.publishedAt),
+    lastModified: new Date(article.updatedAt ?? article.publishedAt),
     changeFrequency: "monthly" as const,
     priority: 0.75,
   }));

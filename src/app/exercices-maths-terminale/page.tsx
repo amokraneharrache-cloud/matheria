@@ -326,6 +326,30 @@ export default function ExercicesMathsTerminalePage() {
             </div>
           </section>
 
+          <section className="rounded-2xl border border-emerald-100 bg-emerald-50 p-6 sm:p-8">
+            <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+              <div>
+                <p className="text-sm font-bold uppercase tracking-[0.16em] text-emerald-900">
+                  Quiz Terminale spécialité
+                </p>
+                <h2 className="mt-3 text-3xl font-bold text-slate-950">
+                  Repérer les chapitres à retravailler en 20 questions
+                </h2>
+                <p className="mt-4 max-w-3xl leading-7 text-slate-700">
+                  Avant un entraînement approfondi, le quiz permet de vérifier des
+                  réflexes courts sur neuf thèmes et renvoie vers les ressources liées.
+                </p>
+              </div>
+              <Link
+                href="/quiz-maths-terminale-specialite"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-emerald-800 px-5 py-3 text-center font-bold text-white hover:bg-emerald-700"
+              >
+                Faire le quiz Terminale
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </section>
+
           <section className="rounded-2xl border border-blue-100 bg-blue-50 p-6 sm:p-8">
             <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>

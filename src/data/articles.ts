@@ -26,6 +26,14 @@ export type ArticlePlan = {
   days: ArticlePlanDay[];
 };
 
+export type ArticleErrorExample = {
+  incorrect: string;
+  explanation: string;
+  corrected: string;
+  methodHref: string;
+  methodLabel: string;
+};
+
 export type ArticleLink = {
   label: string;
   href: string;
@@ -44,8 +52,10 @@ export type ArticleLink = {
 export type ArticleSection = {
   heading: string;
   body: string[];
+  errorExample?: ArticleErrorExample;
   plan?: ArticlePlan;
   list?: ArticleList;
+  printLabel?: string;
   internalLinks?: ArticleLink[];
   cta?: ArticleCta;
 };
@@ -57,6 +67,7 @@ export type Article = {
   category: "terminale" | "premiere" | "brevet";
   keywords: string[];
   publishedAt: string;
+  updatedAt?: string;
   intro?: string[];
   introCta?: ArticleCta;
   content: ArticleSection[];
@@ -446,6 +457,14 @@ export const articles: Article[] = [
         ],
       },
     ],
+    relatedLinks: [
+      {
+        href: "/equations-differentielles-terminale",
+        label: "Équations différentielles en Terminale",
+        description:
+          "Utiliser l’exponentielle pour résoudre y’ = ay et y’ = ay + b, avec conditions initiales et exercices corrigés.",
+      },
+    ],
   },
   {
     slug: "logarithme-terminale-methodes",
@@ -500,6 +519,16 @@ export const articles: Article[] = [
         body: [
           "En probabilités, la difficulté vient souvent de la traduction de l'énoncé. Il faut nommer les événements, repérer les pourcentages et distinguer une probabilité simple d'une probabilité conditionnelle. Dire que 5 % des pièces venant de la machine A sont défectueuses ne signifie pas P(D) = 0,05, mais P_A(D) = 0,05.",
           "Un arbre pondéré aide à rendre cette traduction visible. Le premier niveau représente souvent un choix ou une origine, le second niveau un résultat. Les probabilités le long d'un chemin se multiplient, puis les chemins menant au même événement s'additionnent. Cette méthode donne une structure claire aux calculs.",
+        ],
+        internalLinks: [
+          {
+            label: "Méthode probabilités conditionnelles en Terminale",
+            href: "/methodes-maths-terminale/probabilites-conditionnelles",
+            description:
+              "Définition, arbre pondéré, probabilités totales, indépendance et exemples corrigés.",
+            cluster: "probabilites",
+            level: "terminale",
+          },
         ],
       },
       {
@@ -644,40 +673,278 @@ export const articles: Article[] = [
   },
   {
     slug: "erreurs-frequentes-bac-maths-terminale",
-    title: "Erreurs fréquentes au bac de maths Terminale",
+    title: "Erreurs fréquentes au Bac Maths Terminale : comment les éviter",
     description:
-      "Les erreurs fréquentes en maths Terminale et les réflexes à installer pour mieux préparer les exercices type bac.",
+      "Douze erreurs fréquentes au Bac Maths Terminale avec exemples corrigés, méthodes liées et checklist à imprimer avant de rendre sa copie.",
     category: "terminale",
-    keywords: ["erreurs bac maths", "Terminale", "méthode révision", "exercices type bac"],
+    keywords: [
+      "erreurs fréquentes bac maths Terminale",
+      "erreurs bac maths",
+      "checklist bac maths",
+      "éviter erreurs maths Terminale",
+    ],
     publishedAt: "2026-04-28",
+    updatedAt: "2026-08-04",
+    intro: [
+      "Une erreur de copie n'est pas toujours une méconnaissance du cours. Elle peut venir d'un signe perdu, d'une hypothèse oubliée, d'une notation mal lue ou d'une conclusion trop rapide. Cette ressource sert à repérer ces fautes avant qu'elles ne se répètent.",
+      "La page sur la rédaction explique comment formuler un raisonnement. Ici, l'objectif est différent : contrôler ce qui peut rendre un calcul faux ou une réponse insuffisante, puis associer chaque erreur à un réflexe concret.",
+    ],
     content: [
       {
-        heading: "Répondre trop vite à la première étape",
+        heading: "1. Erreurs de calcul et de signe",
         body: [
-          "Une erreur fréquente en Terminale consiste à chercher immédiatement le résultat final. Beaucoup d'exercices sont pourtant construits en étapes : identifier une forme, choisir une méthode, calculer, puis conclure. Sauter la première étape peut faire perdre le fil, même lorsque l'élève connaît le cours. Lire la question deux fois est parfois le meilleur gain de temps.",
-          "Dans les exercices guidés, cette logique devient visible. Chaque question demande une décision : quelle formule utiliser, quel domaine vérifier, quel facteur étudier. S'entraîner de cette manière aide l'élève à ralentir au bon moment. Le but n'est pas de travailler lentement, mais de ne pas confondre vitesse et précipitation.",
+          "Les signes se perdent surtout dans une soustraction entre parenthèses, une puissance ou une multiplication par un nombre négatif. Avant de poursuivre, isole la transformation sensible et vérifie-la sur une ligne dédiée.",
         ],
+        errorExample: {
+          incorrect: "−3² = 9",
+          explanation:
+            "Sans parenthèses, la puissance porte sur 3 avant l'opposé : −3² signifie −(3²), donc −9.",
+          corrected: "−3² = −9, tandis que (−3)² = 9.",
+          methodHref: "/formules-bac-maths-terminale",
+          methodLabel: "Revoir les formules et leurs conditions",
+        },
       },
       {
-        heading: "Oublier les conditions",
+        heading: "2. Oublier les conditions d’existence",
         body: [
-          "Les conditions sont partout : domaine du logarithme, dénominateur non nul, positivité d'une quantité, indépendance pour une loi binomiale, continuité pour une intégrale dans certains contextes. Les oublier peut rendre un raisonnement faux même si le calcul est correct. En Terminale, la méthode compte autant que le résultat.",
-          "Un bon réflexe consiste à écrire les conditions dès qu'elles apparaissent. Pour ln(x - 1), on note x > 1. Pour un quotient, on exclut les zéros du dénominateur. Pour une loi binomiale, on justifie le schéma. Ces lignes ne sont pas du remplissage : elles protègent le raisonnement.",
+          "Un logarithme exige un argument strictement positif, une fraction un dénominateur non nul et une racine carrée un radicand positif ou nul. Écris le domaine avant toute transformation.",
         ],
+        errorExample: {
+          incorrect: "ln(x − 2) est défini pour tout réel x.",
+          explanation:
+            "La fonction logarithme n'est définie que lorsque son argument est strictement positif.",
+          corrected: "ln(x − 2) est défini si x − 2 > 0, donc pour x > 2.",
+          methodHref: "/methodes-maths-terminale/logarithme",
+          methodLabel: "Méthode : travailler avec le logarithme",
+        },
       },
       {
-        heading: "Mal exploiter une dérivée",
+        heading: "3. Confondre implication et équivalence",
         body: [
-          "Calculer une dérivée juste puis ne pas savoir quoi en faire est une difficulté très courante. La dérivée doit conduire à une étude de signe, puis aux variations. Si l'élève ne factorise pas, il peut se retrouver avec une expression inutilisable. Si le tableau de signes est incomplet, la conclusion devient fragile.",
-          "Pour éviter cela, il faut associer automatiquement dérivée, signe et variations. Après chaque calcul de f'(x), l'élève devrait se demander quels facteurs ont un signe connu et quelles valeurs annulent la dérivée. Cette question transforme un calcul isolé en outil de résolution.",
+          "Dans la résolution d'une équation, ⇔ relie deux conditions ayant le même ensemble de solutions. Si une étape n'est pas réversible, utilise ⇒, puis vérifie les solutions candidates dans l'équation initiale.",
         ],
+        errorExample: {
+          incorrect: "x² = 4 ⇔ x = 2",
+          explanation:
+            "Le réel −2 vérifie aussi l'équation. L'équivalence écrite supprime donc une solution.",
+          corrected: "x² = 4 ⇔ x = −2 ou x = 2.",
+          methodHref: "/methodes-maths-terminale",
+          methodLabel: "Retrouver les méthodes Terminale",
+        },
       },
       {
-        heading: "Ne pas corriger ses erreurs avec méthode",
+        heading: "4. Utiliser un théorème sans vérifier ses hypothèses",
         body: [
-          "Relire une correction ne suffit pas toujours. Il faut comprendre à quel moment l'erreur est apparue : mauvaise formule, mauvais domaine, signe perdu, conclusion absente, calcul non simplifié. Un carnet d'erreurs très court peut suffire : chapitre, type d'erreur, réflexe à installer. C'est souvent plus utile qu'une longue fiche recopiée.",
-          "Les notes indicatives /20 sur des sujets type bac peuvent servir à repérer les chapitres à retravailler, à condition de rester lucide : ce sont des repères internes à SprintMaths, pas une correction de professeur ni une prédiction. Leur intérêt est de donner une direction. Ensuite, les fiches méthodes et les exercices ciblés permettent de corriger précisément ce qui bloque.",
+          "Le nom d'un théorème ne remplace pas la vérification de ses hypothèses. Pour le théorème des valeurs intermédiaires, il faut notamment un intervalle, la continuité et un encadrement de la valeur cherchée.",
         ],
+        errorExample: {
+          incorrect: "D'après le TVI, f(x) = 0 admet une solution.",
+          explanation:
+            "La continuité de f et l'encadrement de 0 entre deux valeurs de f ne sont pas établis.",
+          corrected:
+            "f est continue sur [a ; b] et 0 est compris entre f(a) et f(b). D'après le TVI, il existe c ∈ [a ; b] tel que f(c) = 0.",
+          methodHref: "/methodes-maths-terminale/calculer-une-limite",
+          methodLabel: "Méthode : continuité et TVI",
+        },
+      },
+      {
+        heading: "5. Mal lire une probabilité conditionnelle",
+        body: [
+          "Les expressions « parmi les A », « sachant A » ou « chez les A » indiquent que l'univers de référence est restreint à A. Elles correspondent à P_A(B), pas directement à une intersection.",
+        ],
+        errorExample: {
+          incorrect: "P_A(B) = P(A ∩ B)",
+          explanation:
+            "La probabilité conditionnelle est rapportée à P(A). Les deux valeurs ne coïncident pas en général.",
+          corrected: "Si P(A) > 0, P_A(B) = P(A ∩ B) / P(A).",
+          methodHref: "/methodes-maths-terminale/probabilites-conditionnelles",
+          methodLabel: "Méthode : probabilités conditionnelles",
+        },
+      },
+      {
+        heading: "6. Confondre indépendance et incompatibilité",
+        body: [
+          "Deux événements incompatibles ne peuvent pas se produire ensemble. Deux événements indépendants peuvent se produire ensemble : connaître l'un ne change pas la probabilité de l'autre.",
+        ],
+        errorExample: {
+          incorrect: "A et B sont incompatibles, donc indépendants.",
+          explanation:
+            "Si A et B sont incompatibles, P(A ∩ B) = 0. S'ils ont tous les deux une probabilité non nulle, ce résultat diffère de P(A)P(B), donc ils ne sont pas indépendants.",
+          corrected:
+            "A et B sont indépendants si et seulement si P(A ∩ B) = P(A)P(B).",
+          methodHref: "/methodes-maths-terminale/probabilites-conditionnelles",
+          methodLabel: "Comparer incompatibilité et indépendance",
+        },
+      },
+      {
+        heading: "7. Oublier la constante dans une primitive",
+        body: [
+          "Si une fonction f admet une primitive F sur un intervalle I, toutes ses primitives sur I sont de la forme F + C, avec C ∈ ℝ. Dans une intégrale définie, cette constante s'annule dans F(b) − F(a).",
+        ],
+        errorExample: {
+          incorrect: "La primitive de 2x est F(x) = x².",
+          explanation:
+            "x² est une primitive particulière, pas l'ensemble des primitives sur l'intervalle étudié.",
+          corrected: "Les primitives de x ↦ 2x sont F(x) = x² + C, avec C ∈ ℝ.",
+          methodHref: "/methodes-maths-terminale/integrales",
+          methodLabel: "Méthode : primitives et intégrales",
+        },
+      },
+      {
+        heading: "8. Mal utiliser un tableau de variation",
+        body: [
+          "Le signe de f donne la position de la courbe par rapport à l'axe des abscisses. Le signe de f′ donne les variations de f. Ces deux informations ne doivent pas être confondues.",
+        ],
+        errorExample: {
+          incorrect: "f(x) ≥ 0 sur I, donc f est croissante sur I.",
+          explanation:
+            "La positivité de f ne renseigne pas sur son sens de variation.",
+          corrected:
+            "Si I est un intervalle, f est dérivable sur I et f′(x) ≥ 0 pour tout x ∈ I, alors f est croissante sur I.",
+          methodHref: "/methodes-maths-terminale/tableau-variation",
+          methodLabel: "Méthode : construire un tableau de variation",
+        },
+      },
+      {
+        heading: "9. Donner une conclusion absente ou trop vague",
+        body: [
+          "Un calcul isolé oblige le lecteur à deviner ce qui a été démontré. La dernière phrase doit reprendre l'objet et les mots de la question.",
+        ],
+        errorExample: {
+          incorrect: "Donc 0,59.",
+          explanation:
+            "Le nombre n'est relié ni à l'événement recherché ni à son interprétation.",
+          corrected: "La probabilité que la personne réussisse le test est donc P(R) = 0,59.",
+          methodHref: "/redaction-bac-maths-terminale",
+          methodLabel: "Guide : bien conclure une réponse",
+        },
+      },
+      {
+        heading: "10. Présenter un arrondi comme une valeur exacte",
+        body: [
+          "Conserve la valeur exacte pendant les étapes intermédiaires lorsque c'est possible. N'arrondis qu'au rang demandé et utilise le symbole ≈ pour une valeur approchée.",
+        ],
+        errorExample: {
+          incorrect: "1/3 = 0,33",
+          explanation:
+            "0,33 est un arrondi au centième, pas la valeur exacte de 1/3.",
+          corrected: "1/3 ≈ 0,33 au centième.",
+          methodHref: "/exercices-type-bac-maths-terminale",
+          methodLabel: "S'entraîner à présenter les calculs",
+        },
+      },
+      {
+        heading: "11. Ne pas répondre à la question posée",
+        body: [
+          "Une question peut demander une existence, une unicité, une interprétation ou une comparaison. Relis le verbe de consigne avant la dernière phrase.",
+        ],
+        errorExample: {
+          incorrect: "On trouve f′(x) = 2x − 3.",
+          explanation:
+            "Si la question demande les variations de f, le calcul de f′ n'est qu'une étape intermédiaire.",
+          corrected:
+            "Si f est dérivable sur ℝ et f′(x) = 2x − 3, alors f est décroissante sur ]−∞ ; 3/2] puis croissante sur [3/2 ; +∞[.",
+          methodHref: "/redaction-bac-maths-terminale",
+          methodLabel: "Guide : répondre et conclure précisément",
+        },
+      },
+      {
+        heading: "12. Mal gérer le temps",
+        body: [
+          "Rester bloqué longtemps sur une question empêche de traiter des parties accessibles. Note la piste déjà trouvée, laisse un espace et reviens plus tard si le temps le permet.",
+        ],
+        errorExample: {
+          incorrect: "Je poursuis le même calcul sans nouvelle idée pendant quinze minutes.",
+          explanation:
+            "Le temps engagé n'apporte plus d'information et réduit celui disponible pour les autres questions.",
+          corrected:
+            "Je marque la question, j'écris l'étape certaine, puis je passe à la suivante avant de revenir.",
+          methodHref: "/exercices-type-bac-maths-terminale",
+          methodLabel: "S'entraîner sur un format type Bac",
+        },
+      },
+      {
+        heading: "Checklist imprimable avant de rendre la copie",
+        body: [
+          "Cette checklist ne remplace pas une relecture attentive. Elle sert à contrôler les erreurs les plus coûteuses sans refaire tout le sujet.",
+        ],
+        list: {
+          variant: "checklist",
+          title: "Contrôle final de la copie",
+          items: [
+            "J'ai répondu à chaque verbe de consigne.",
+            "J'ai vérifié domaines, dénominateurs et hypothèses.",
+            "J'ai distingué implication et équivalence.",
+            "J'ai contrôlé les signes et les parenthèses.",
+            "J'ai utilisé ≈ pour les valeurs approchées.",
+            "J'ai conservé les valeurs exactes quand elles étaient demandées.",
+            "J'ai nommé les événements en probabilités.",
+            "J'ai distingué f, f′ et leurs signes.",
+            "J'ai ajouté la constante aux primitives générales.",
+            "Chaque résultat important possède une phrase de conclusion.",
+          ],
+        },
+        printLabel: "Imprimer la checklist",
+      },
+      {
+        heading: "Les 10 vérifications des cinq dernières minutes",
+        body: [
+          "Commence par les contrôles rapides et objectifs. Ne relance pas un long calcul sauf si une incohérence évidente apparaît.",
+        ],
+        list: {
+          variant: "checklist",
+          items: [
+            "1. Les numéros de questions sont visibles et dans le bon ordre.",
+            "2. Aucune question traitée au brouillon n'a été oubliée sur la copie.",
+            "3. Les signes moins et les parenthèses sensibles sont contrôlés.",
+            "4. Les intervalles et ensembles de définition sont indiqués.",
+            "5. Les hypothèses des théorèmes utilisés apparaissent.",
+            "6. Les notations de probabilités correspondent aux événements définis.",
+            "7. Les arrondis ont le rang et le symbole demandés.",
+            "8. Les unités ou unités d'aire sont présentes quand elles ont un sens.",
+            "9. Chaque tableau est accompagné d'une conclusion.",
+            "10. La dernière phrase répond exactement à la question posée.",
+          ],
+        },
+      },
+    ],
+    faq: [
+      {
+        question: "Faut-il refaire tous les calculs pendant la relecture ?",
+        answer:
+          "Non. Commence par les contrôles rapides : signes, domaines, hypothèses, arrondis et conclusions. Reprends un calcul complet seulement si un résultat paraît incohérent.",
+      },
+      {
+        question: "Quelle différence avec le guide de rédaction ?",
+        answer:
+          "Le guide de rédaction montre comment formuler une justification. Cette page sert à repérer ce qui peut rendre une réponse fausse, incomplète ou hors sujet avant de rendre la copie.",
+      },
+      {
+        question: "Une checklist garantit-elle tous les points ?",
+        answer:
+          "Non. Elle aide à repérer certaines erreurs, mais ne remplace ni la compréhension du cours, ni le choix de la méthode, ni l'exactitude des calculs.",
+      },
+    ],
+    relatedLinks: [
+      {
+        label: "Bien rédiger au Bac Maths",
+        href: "/redaction-bac-maths-terminale",
+        description: "Construire des phrases et justifications rigoureuses.",
+      },
+      {
+        label: "Formules Bac Maths Terminale",
+        href: "/formules-bac-maths-terminale",
+        description: "Retrouver les formules avec leurs conditions d'utilisation.",
+      },
+      {
+        label: "Démonstrations utiles en Terminale",
+        href: "/demonstrations-bac-maths-terminale",
+        description: "Choisir le raisonnement adapté à l'objectif de la question.",
+      },
+      {
+        label: "Planning de révision Bac Maths",
+        href: "/planning-revision-bac-maths",
+        description: "Organiser les révisions de Terminale avant l'épreuve.",
       },
     ],
   },

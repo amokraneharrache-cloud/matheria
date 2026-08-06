@@ -111,6 +111,14 @@ const internalLinks = [
     href: "/redaction-bac-maths-terminale#recurrence",
     label: "Rédiger une récurrence",
   },
+  {
+    href: "/demonstrations-bac-maths-terminale#recurrence",
+    label: "Construire une démonstration par récurrence",
+  },
+  {
+    href: "/python-bac-maths-terminale#suite-recurrence",
+    label: "Calculer les termes d’une suite en Python",
+  },
   { href: "/bac-maths-2027", label: "Bac Maths 2027" },
   { href: "/diagnostic", label: "Diagnostic gratuit" },
 ];

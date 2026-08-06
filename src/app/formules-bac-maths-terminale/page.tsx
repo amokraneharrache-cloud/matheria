@@ -771,6 +771,21 @@ export default function FormulesBacMathsTerminalePage() {
                 ))}
               </div>
             </nav>
+            <div className="mt-5 rounded-2xl border border-blue-100 bg-white p-5 print:hidden">
+              <h2 className="text-xl font-bold text-slate-950">
+                Comprendre les équations différentielles
+              </h2>
+              <p className="mt-2 leading-7 text-slate-700">
+                La page dédiée distingue y&apos; = ay, y&apos; = ay + b, solution
+                générale et condition initiale avec quatre exercices corrigés.
+              </p>
+              <Link
+                href="/equations-differentielles-terminale"
+                className="mt-3 inline-flex font-bold text-blue-900 underline underline-offset-4"
+              >
+                Voir la méthode complète
+              </Link>
+            </div>
           </div>
         </section>
 

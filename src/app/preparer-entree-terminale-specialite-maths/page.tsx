@@ -683,7 +683,7 @@ export default function PreparerEntreeTerminaleSpecialiteMathsPage() {
 
             <section className={styles.screenOnly}>
               <h2 className="text-3xl font-bold text-slate-950">Continuer selon ton besoin</h2>
-              <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+              <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
                 {[
                   {
                     icon: BookOpenCheck,
@@ -712,6 +712,20 @@ export default function PreparerEntreeTerminaleSpecialiteMathsPage() {
                     text: "À utiliser plus tard pour organiser les révisions avant l’épreuve, pas pour préparer septembre.",
                     href: "/planning-revision-bac-maths",
                     label: "Voir le planning Bac",
+                  },
+                  {
+                    icon: BookOpenCheck,
+                    title: "Python en Terminale",
+                    text: "Reprendre les boucles et les fonctions avec des exemples de suites, seuils et simulations.",
+                    href: "/python-bac-maths-terminale",
+                    label: "Voir les exemples Python",
+                  },
+                  {
+                    icon: CheckCircle2,
+                    title: "Quiz Terminale",
+                    text: "Tester neuf thèmes en vingt questions corrigées, sans compte et sans email.",
+                    href: "/quiz-maths-terminale-specialite",
+                    label: "Faire le quiz",
                   },
                 ].map((item) => (
                   <article key={item.title} className="rounded-2xl bg-slate-50 p-6">

@@ -279,6 +279,39 @@ export function ProgramSeoPage({ goal, h1, intro }: ProgramSeoPageProps) {
                     commencer un planning Bac.
                   </p>
                 </Link>
+                <Link
+                  href="/python-bac-maths-terminale"
+                  className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+                >
+                  <h3 className="text-lg font-bold text-blue-950">
+                    Comprendre les programmes Python
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">
+                    Suites, seuils, sommes, dichotomie et simulations expliqués ligne par ligne.
+                  </p>
+                </Link>
+                <Link
+                  href="/equations-differentielles-terminale"
+                  className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+                >
+                  <h3 className="text-lg font-bold text-blue-950">
+                    Résoudre les équations différentielles
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">
+                    Méthode, conditions initiales et quatre exercices corrigés progressifs.
+                  </p>
+                </Link>
+                <Link
+                  href="/quiz-maths-terminale-specialite"
+                  className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+                >
+                  <h3 className="text-lg font-bold text-blue-950">
+                    Tester les neuf grands thèmes
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">
+                    Un quiz local de vingt questions avec explications et ressources associées.
+                  </p>
+                </Link>
               </div>
             </section>
           ) : null}

@@ -282,6 +282,14 @@ const internalLinks = [
     href: "/redaction-bac-maths-terminale",
     label: "Bien rédiger au Bac Maths",
   },
+  {
+    href: "/articles/erreurs-frequentes-bac-maths-terminale",
+    label: "Erreurs fréquentes à vérifier",
+  },
+  {
+    href: "/demonstrations-bac-maths-terminale",
+    label: "Démonstrations utiles en Terminale",
+  },
 ];
 
 export default function ExercicesTypeBacMathsTerminalePage() {

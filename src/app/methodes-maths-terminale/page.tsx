@@ -197,10 +197,10 @@ export default function MethodesMathsTerminalePage() {
               Ressources transversales pour le Bac Maths
             </h2>
             <p className="mt-3 max-w-3xl text-slate-700">
-              Ces deux guides complètent les méthodes par exercice : l&apos;un sert
-              à retrouver une formule, l&apos;autre à rédiger les justifications.
+              Ces guides complètent les méthodes par exercice : retrouver une
+              formule, rédiger une justification ou construire une démonstration.
             </p>
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
               <Link
                 href="/formules-bac-maths-terminale"
                 className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
@@ -222,6 +222,50 @@ export default function MethodesMathsTerminalePage() {
                 </h3>
                 <p className="mt-2 text-sm leading-6 text-slate-700">
                   Phrases utiles, hypothèses à citer et exemples avant / après.
+                </p>
+              </Link>
+              <Link
+                href="/demonstrations-bac-maths-terminale"
+                className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+              >
+                <h3 className="text-xl font-bold text-blue-950">
+                  Démonstrations utiles en Terminale
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  Objectifs, hypothèses, schémas logiques et erreurs fréquentes.
+                </p>
+              </Link>
+              <Link
+                href="/python-bac-maths-terminale"
+                className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+              >
+                <h3 className="text-xl font-bold text-blue-950">
+                  Python en Terminale
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  Traduire suites, seuils, sommes, dichotomie et simulations en programmes courts.
+                </p>
+              </Link>
+              <Link
+                href="/equations-differentielles-terminale"
+                className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+              >
+                <h3 className="text-xl font-bold text-blue-950">
+                  Équations différentielles
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  Deux formes de référence, conditions initiales et exercices corrigés.
+                </p>
+              </Link>
+              <Link
+                href="/quiz-maths-terminale-specialite"
+                className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+              >
+                <h3 className="text-xl font-bold text-blue-950">
+                  Quiz Terminale spécialité
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  Vingt questions corrigées pour repérer rapidement les thèmes à retravailler.
                 </p>
               </Link>
             </div>
