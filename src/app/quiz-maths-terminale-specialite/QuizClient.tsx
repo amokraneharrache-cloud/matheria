@@ -122,8 +122,8 @@ export function QuizClient({ questions }: QuizClientProps) {
           const isRevealed = Boolean(revealedAnswers[question.id]);
           const isCorrect = selectedIndex === question.correctIndex;
           const isFirstOfTheme =
-            questionIndex === 0 ||
-            questions[questionIndex - 1]?.themeId !== question.themeId;
+            questions.findIndex((item) => item.themeId === question.themeId) ===
+            questionIndex;
 
           return (
             <li
@@ -252,6 +252,26 @@ export function QuizClient({ questions }: QuizClientProps) {
               Aucune erreur parmi les questions déjà corrigées. Continue à vérifier les autres thèmes pour obtenir une vue complète.
             </p>
           )}
+          <div className="mt-6 border-t border-slate-200 pt-5">
+            <h3 className="font-bold text-slate-950">Ressources générales</h3>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {[
+                ["/programme-maths-terminale", "Programme"],
+                ["/methodes-maths-terminale", "Méthodes"],
+                ["/exercices-maths-terminale", "Exercices"],
+                ["/formules-bac-maths-terminale", "Formules"],
+                ["/demonstrations-bac-maths-terminale", "Démonstrations"],
+              ].map(([href, label]) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-blue-900 hover:border-blue-300"
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+          </div>
         </section>
       ) : null}
     </section>

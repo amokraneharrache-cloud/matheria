@@ -19,7 +19,7 @@ import { breadcrumbJsonLd, faqJsonLd, type FaqItem } from "@/lib/seo";
 const pagePath = "/equations-differentielles-terminale";
 const title = "Équations différentielles Terminale : méthode et exercices corrigés";
 const description =
-  "Méthode complète sur les équations différentielles en Terminale : y’ = ay, y’ = ay + b, conditions initiales, vérification et exercices corrigés.";
+  "Apprends à résoudre y’ = ay et y’ = ay + b, utiliser une condition initiale, vérifier une solution et traiter des exercices corrigés de Terminale.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -111,6 +111,7 @@ type CorrectedExercise = {
   calculations: string[];
   justification: string;
   conclusion: string;
+  mistake: string;
 };
 
 const exercises: CorrectedExercise[] = [
@@ -123,34 +124,38 @@ const exercises: CorrectedExercise[] = [
     justification:
       "Pour y(x) = Ce⁻²ˣ, on obtient y’(x) = −2Ce⁻²ˣ = −2y(x). Réciproquement, le résultat de cours donne toutes les solutions de cette forme.",
     conclusion: "Les solutions sur ℝ sont exactement les fonctions y(x) = Ce⁻²ˣ, avec C ∈ ℝ.",
+    mistake: "Remplacer Ce⁻²ˣ par Ce²ˣ et perdre le signe négatif du coefficient a.",
   },
   {
-    label: "Exercice 2 — condition initiale",
-    title: "Résoudre y’ = 3y − 6 avec y(0) = 5",
-    statement: "Déterminer la solution de l’équation différentielle qui vérifie la valeur initiale donnée.",
-    method: "Trouver d’abord la solution générale de y’ = 3y − 6, puis utiliser y(0) = 5.",
+    label: "Exercice 2 — équation avec second membre",
+    title: "Résoudre y’ = 3y − 6",
+    statement: "Déterminer toutes les fonctions dérivables sur ℝ qui vérifient y’ = 3y − 6.",
+    method: "Reconnaître y’ = ay + b avec a = 3 et b = −6, puis chercher la solution particulière constante.",
     calculations: [
       "La solution particulière constante vaut −b/a = −(−6)/3 = 2.",
       "La solution générale est y(x) = 2 + Ce³ˣ.",
-      "y(0) = 2 + Ce⁰ = 2 + C = 5, donc C = 3.",
+      "La constante C peut prendre n’importe quelle valeur réelle puisqu’aucune condition initiale n’est donnée.",
     ],
     justification:
-      "La condition initiale fixe une seule valeur de C dans la famille générale. La fonction obtenue est bien dérivable sur ℝ.",
-    conclusion: "L’unique solution vérifiant y(0) = 5 est y(x) = 2 + 3e³ˣ.",
+      "Pour y(x) = 2 + Ce³ˣ, y’(x) = 3Ce³ˣ et 3y(x) − 6 = 3(2 + Ce³ˣ) − 6 = 3Ce³ˣ.",
+    conclusion: "Les solutions sur ℝ sont exactement y(x) = 2 + Ce³ˣ, avec C ∈ ℝ.",
+    mistake: "Écrire seulement Ce³ˣ et oublier la solution particulière constante 2.",
   },
   {
-    label: "Exercice 3 — vérification",
-    title: "Vérifier une solution proposée",
-    statement: "Montrer que f(x) = 4e⁻ˣ + 2 vérifie y’ = −y + 2 sur ℝ.",
-    method: "Calculer f’, puis remplacer y par f dans le membre droit.",
+    label: "Exercice 3 — condition initiale et vérification",
+    title: "Résoudre y’ = −y + 2 avec y(0) = 6",
+    statement: "Déterminer la solution vérifiant la condition initiale, puis vérifier le résultat obtenu.",
+    method: "Écrire la solution générale, déterminer C avec y(0) = 6, puis comparer y’ à −y + 2.",
     calculations: [
-      "f’(x) = −4e⁻ˣ.",
-      "−f(x) + 2 = −(4e⁻ˣ + 2) + 2 = −4e⁻ˣ.",
-      "Ainsi f’(x) = −f(x) + 2 pour tout réel x.",
+      "Ici a = −1 et b = 2 ; la solution particulière vaut −b/a = 2.",
+      "La solution générale est y(x) = 2 + Ce⁻ˣ.",
+      "y(0) = 2 + C = 6, donc C = 4.",
+      "Pour y(x) = 2 + 4e⁻ˣ, y’(x) = −4e⁻ˣ et −y(x) + 2 = −4e⁻ˣ.",
     ],
     justification:
-      "L’égalité est vérifiée sur tout ℝ, qui est bien l’intervalle de définition et de dérivabilité de f.",
-    conclusion: "La fonction f est donc une solution de y’ = −y + 2 sur ℝ.",
+      "L’équation différentielle et la condition y(0) = 6 sont toutes deux vérifiées sur ℝ ; la condition initiale sélectionne une unique fonction dans la famille.",
+    conclusion: "L’unique solution cherchée est y(x) = 2 + 4e⁻ˣ.",
+    mistake: "Vérifier seulement y(0) = 6 sans contrôler l’égalité y’ = −y + 2 pour tout réel x.",
   },
   {
     label: "Exercice 4 — modélisation",
@@ -169,6 +174,7 @@ const exercises: CorrectedExercise[] = [
       "La constante 20 correspond à l’état d’équilibre du modèle, car −0,25 × 20 + 5 = 0.",
     conclusion:
       "Selon ce modèle, T(t) = 20 + 60e⁻⁰·²⁵ᵗ et la température après 4 heures est d’environ 42,1 °C.",
+    mistake: "Oublier l’unité, le caractère approché de T(4) ou le domaine t ≥ 0 du modèle.",
   },
 ];
 
@@ -246,6 +252,11 @@ export default function EquationsDifferentiellesTerminalePage() {
           <section id="cas" className="scroll-mt-24">
             <ListChecks className="h-7 w-7 text-blue-800" aria-hidden="true" />
             <h2 className="mt-4 text-3xl font-bold text-slate-950">2 et 3. Résoudre les deux formes de référence</h2>
+            <p className="mt-4 max-w-4xl text-lg leading-8 text-slate-700">
+              On cherche ici des solutions définies sur ℝ. L’exponentielle eᵃˣ y est
+              définie et dérivable, et la constante réelle C distingue les fonctions
+              de la famille. Une condition initiale fixera ensuite une valeur unique de C.
+            </p>
             <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200">
               <table className="min-w-[820px] w-full border-collapse text-left">
                 <thead className="bg-slate-950 text-white">
@@ -287,7 +298,7 @@ export default function EquationsDifferentiellesTerminalePage() {
           <section id="condition-initiale" className="scroll-mt-24 grid gap-8 lg:grid-cols-[0.75fr_1fr]">
             <div>
               <ClipboardCheck className="h-7 w-7 text-blue-800" aria-hidden="true" />
-              <h2 className="mt-4 text-3xl font-bold text-slate-950">5 et 7. Utiliser une condition initiale</h2>
+              <h2 className="mt-4 text-3xl font-bold text-slate-950">4 et 5. Utiliser une condition initiale et déterminer la constante</h2>
             </div>
             <div className="space-y-4 text-lg leading-8 text-slate-700">
               <p>
@@ -322,7 +333,7 @@ export default function EquationsDifferentiellesTerminalePage() {
           <section id="comportement" className="scroll-mt-24 grid gap-8 lg:grid-cols-[0.75fr_1fr]">
             <div>
               <LineChart className="h-7 w-7 text-blue-800" aria-hidden="true" />
-              <h2 className="mt-4 text-3xl font-bold text-slate-950">8. Étudier le comportement d’une solution</h2>
+              <h2 className="mt-4 text-3xl font-bold text-slate-950">7. Étudier le comportement d’une solution</h2>
             </div>
             <div className="space-y-4 text-lg leading-8 text-slate-700">
               <p>
@@ -335,7 +346,7 @@ export default function EquationsDifferentiellesTerminalePage() {
           </section>
 
           <section id="modelisation" className="scroll-mt-24">
-            <h2 className="text-3xl font-bold text-slate-950">9. Modéliser une évolution simple</h2>
+            <h2 className="text-3xl font-bold text-slate-950">8. Modéliser une évolution simple</h2>
             <p className="mt-4 max-w-4xl text-lg leading-8 text-slate-700">
               L’équation décrit un modèle choisi pour la situation. Il faut identifier la grandeur, la variable, l’unité et la valeur initiale avant de calculer.
             </p>
@@ -380,6 +391,10 @@ export default function EquationsDifferentiellesTerminalePage() {
                         <h4 className="font-bold">Conclusion</h4>
                         <p className="mt-2 leading-7">{exercise.conclusion}</p>
                       </div>
+                      <div className="rounded-xl bg-red-50 p-4 text-red-950">
+                        <h4 className="font-bold">Erreur fréquente associée</h4>
+                        <p className="mt-2 leading-7">{exercise.mistake}</p>
+                      </div>
                     </div>
                   </div>
                 </article>
@@ -403,7 +418,7 @@ export default function EquationsDifferentiellesTerminalePage() {
             </article>
             <article className="rounded-2xl border border-red-200 bg-red-50 p-6">
               <TriangleAlert className="h-7 w-7 text-red-700" aria-hidden="true" />
-              <h2 className="mt-4 text-2xl font-bold text-red-950">10. Erreurs fréquentes</h2>
+              <h2 className="mt-4 text-2xl font-bold text-red-950">9. Erreurs fréquentes</h2>
               <ul className="mt-5 space-y-3 leading-7 text-red-950">
                 {frequentMistakes.map((mistake) => <li key={mistake}>• {mistake}</li>)}
               </ul>
@@ -428,7 +443,7 @@ export default function EquationsDifferentiellesTerminalePage() {
           <section className="rounded-2xl bg-slate-950 p-6 text-white sm:p-8">
             <h2 className="text-2xl font-bold">Vérifie la distinction entre les deux formes</h2>
             <p className="mt-3 max-w-3xl leading-7 text-slate-300">
-              Deux questions du quiz Terminale portent sur les solutions générales et l’état d’équilibre.
+              Une question du quiz Terminale porte sur la solution générale de l’équation y’ = ay.
             </p>
             <Link href="/quiz-maths-terminale-specialite#equations-differentielles" className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-full bg-white px-5 py-3 font-bold text-blue-950">
               Faire les questions associées

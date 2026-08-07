@@ -19,7 +19,7 @@ import styles from "../seo-resource.module.css";
 const pagePath = "/python-bac-maths-terminale";
 const title = "Python au Bac Maths Terminale : algorithmes et exemples";
 const description =
-  "Comprendre les programmes Python utiles en Terminale : suites, seuils, sommes, dichotomie, simulations, programmes à trous et erreurs corrigées.";
+  "Découvre les programmes Python utiles en Terminale spécialité maths : suites, seuils, sommes, dichotomie, simulations et probabilités, avec exemples expliqués.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -61,7 +61,7 @@ const pythonStructures = [
 const examples: PythonExample[] = [
   {
     id: "bases",
-    section: "1. Les bases Python réellement utiles",
+    section: "1. Les bases Python à maîtriser",
     objective: "Comprendre une affectation et une condition simple.",
     code: `u = 2
 # On remplace u par la valeur suivante
@@ -89,15 +89,15 @@ print(u, message)`,
   {
     id: "suite-recurrence",
     section: "2. Calculer les termes d’une suite définie par récurrence",
-    objective: "Calculer u₅ pour u₀ = 2 et uₙ₊₁ = 0,5uₙ + 3.",
+    objective: "Calculer u₅ pour u₀ = 2 et uₙ₊₁ = 0,8uₙ + 3.",
     code: `u = 2  # valeur de u_0
 
 for n in range(5):
     # u reçoit le terme suivant
-    u = 0.5 * u + 3
+    u = 0.8 * u + 3
 
 print(u)`,
-    result: "Résultat attendu : 5.875",
+    result: "Résultat attendu : 10.74016",
     explanation: [
       "Avant la boucle, u contient u₀.",
       "range(5) produit cinq passages, associés ici au calcul de u₁ à u₅.",
@@ -111,31 +111,31 @@ print(u)`,
   {
     id: "seuil",
     section: "3. Rechercher le premier rang dépassant un seuil",
-    objective: "Trouver le premier rang n pour lequel uₙ > 5,9.",
+    objective: "Trouver le premier rang n pour lequel uₙ > 10.",
     code: `u = 2  # valeur de u_0
 n = 0
 
 # On continue tant que le seuil n'est pas dépassé
-while u <= 5.9:
-    u = 0.5 * u + 3
+while u <= 10:
+    u = 0.8 * u + 3
     n = n + 1
 
 print(n, u)`,
-    result: "Résultat attendu : 6 5.9375",
+    result: "Résultat attendu : 5 10.74016",
     explanation: [
       "u et n représentent au départ u₀ et son rang 0.",
-      "La boucle continue tant que le seuil 5,9 n’est pas strictement dépassé.",
+      "La boucle continue tant que le seuil 10 n’est pas strictement dépassé.",
       "u et n sont mis à jour ensemble afin de conserver le bon indice.",
-      "À la sortie, la condition est fausse : uₙ > 5,9 et n est le premier rang correspondant.",
+      "À la sortie, la condition est fausse : uₙ > 10 et n est le premier rang correspondant.",
     ],
     mistake:
-      "Oublier n = n + 1 ou utiliser u < 5.9 lorsque l’énoncé demande un dépassement strict et qu’une égalité est possible.",
-    exercise: "Recherche de la même manière le premier rang pour lequel uₙ > 5,99.",
+      "Oublier n = n + 1 ou utiliser u < 10 lorsque l’énoncé demande un dépassement strict et qu’une égalité est possible.",
+    exercise: "Recherche de la même manière le premier rang pour lequel uₙ > 12.",
   },
   {
     id: "somme",
     section: "4. Calculer une somme",
-    objective: "Calculer 1² + 2² + … + 10².",
+    objective: "Calculer la somme des dix premiers termes vₖ = k², de v₁ à v₁₀.",
     code: `somme = 0  # accumulateur
 
 for k in range(1, 11):
@@ -276,9 +276,10 @@ print(terme(3))`,
   },
   {
     id: "corriger-erreur",
-    section: "10. Repérer et corriger une erreur dans un programme",
+    section: "10. Identifier et corriger une erreur dans un programme",
     objective: "Corriger le calcul de la somme des entiers de 1 à 5.",
-    code: `somme = 0  # correction : partir de 0
+    code: `# Version corrigée du programme
+somme = 0  # correction : partir de 0
 
 # 6 est exclu, donc la boucle va de 1 à 5
 for k in range(1, 6):
@@ -306,6 +307,15 @@ const memoItems = [
   "J’initialise un compteur ou une somme avant de l’actualiser.",
   "Je contrôle l’indentation de chaque bloc.",
   "Je teste le résultat sur un cas calculable à la main.",
+];
+
+const globalPythonMistakes = [
+  "Confondre l’affectation = avec la comparaison ==.",
+  "Oublier que la borne finale de range est exclue.",
+  "Décaler le rang d’une suite d’un passage de boucle.",
+  "Utiliser while sans mettre à jour la variable de sa condition.",
+  "Placer return trop tôt dans une fonction ou une boucle.",
+  "Interpréter une fréquence simulée comme une probabilité exacte.",
 ];
 
 const faqItems: FaqItem[] = [
@@ -489,6 +499,20 @@ export default function PythonBacMathsTerminalePage() {
               ))}
             </section>
 
+            <section className="rounded-2xl border border-red-200 bg-red-50 p-6 sm:p-8">
+              <TriangleAlert className="h-7 w-7 text-red-700" aria-hidden="true" />
+              <h2 className="mt-4 text-3xl font-bold text-red-950">
+                Erreurs fréquentes dans un programme Python
+              </h2>
+              <ul className="mt-6 grid gap-3 md:grid-cols-2">
+                {globalPythonMistakes.map((mistake) => (
+                  <li key={mistake} className="rounded-xl bg-white p-4 leading-7 text-red-950">
+                    {mistake}
+                  </li>
+                ))}
+              </ul>
+            </section>
+
             <section className={`${styles.checklistCard} rounded-2xl border-2 border-blue-200 bg-blue-50 p-6 sm:p-8`}>
               <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
                 <div>
@@ -519,7 +543,7 @@ export default function PythonBacMathsTerminalePage() {
             <section className="rounded-2xl bg-slate-950 p-6 text-white sm:p-8 print:hidden">
               <h2 className="text-2xl font-bold">Teste maintenant tes réflexes Python</h2>
               <p className="mt-3 max-w-3xl leading-7 text-slate-300">
-                Le quiz Terminale contient trois questions d’algorithmique parmi les vingt questions corrigées.
+                Le quiz Terminale contient deux questions d’algorithmique parmi les vingt questions corrigées.
               </p>
               <Link
                 href="/quiz-maths-terminale-specialite#algorithmique-python"

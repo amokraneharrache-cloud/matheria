@@ -13,7 +13,7 @@ import { quizQuestions, quizThemes } from "./questions";
 const pagePath = "/quiz-maths-terminale-specialite";
 const title = "Quiz Maths Terminale spécialité : 20 questions corrigées";
 const description =
-  "Teste tes connaissances en Terminale spécialité maths avec 20 questions corrigées : suites, limites, fonctions, probabilités, intégrales, géométrie, équations différentielles et Python.";
+  "Teste tes connaissances avec 20 questions corrigées sur les suites, limites, dérivation, probabilités, intégrales, géométrie, Python et équations différentielles.";
 
 export const metadata: Metadata = {
   title: { absolute: title },

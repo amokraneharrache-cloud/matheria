@@ -12,9 +12,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       new Date("2026-07-29T00:00:00.000Z"),
     ],
     ["/demonstrations-bac-maths-terminale", new Date("2026-08-04T00:00:00.000Z")],
-    ["/python-bac-maths-terminale", new Date("2026-08-05T00:00:00.000Z")],
-    ["/equations-differentielles-terminale", new Date("2026-08-05T00:00:00.000Z")],
-    ["/quiz-maths-terminale-specialite", new Date("2026-08-05T00:00:00.000Z")],
+    ["/python-bac-maths-terminale", new Date("2026-08-06T00:00:00.000Z")],
+    ["/equations-differentielles-terminale", new Date("2026-08-06T00:00:00.000Z")],
+    ["/quiz-maths-terminale-specialite", new Date("2026-08-06T00:00:00.000Z")],
     [
       "/methodes-maths-terminale/probabilites-conditionnelles",
       new Date("2026-08-04T00:00:00.000Z"),
