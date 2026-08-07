@@ -117,6 +117,14 @@ const recommendedExercises = [
 const internalLinks = [
   { href: "/programme-maths-terminale", label: "Programme maths Terminale" },
   {
+    href: "/denombrement-terminale-specialite-maths",
+    label: "Dénombrement et coefficients binomiaux",
+  },
+  {
+    href: "/articles/probabilites-loi-binomiale-terminale",
+    label: "Méthode complète sur la loi binomiale",
+  },
+  {
     href: "/exercices-maths-terminale/probabilites",
     label: "Exercices probabilités Terminale",
   },

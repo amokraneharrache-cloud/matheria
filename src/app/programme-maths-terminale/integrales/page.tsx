@@ -121,6 +121,10 @@ const recommendedExercises = [
 ];
 
 const internalLinks = [
+  {
+    href: "/primitives-terminale-specialite-maths",
+    label: "Calculer une primitive : méthode complète",
+  },
   { href: "/programme-maths-terminale", label: "Programme maths Terminale" },
   {
     href: "/programme-maths-terminale/derivation-convexite",

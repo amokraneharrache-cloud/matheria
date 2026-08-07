@@ -212,6 +212,14 @@ const internalLinks = [
     label: "Chapitre probabilités Terminale",
   },
   {
+    href: "/articles/probabilites-loi-binomiale-terminale",
+    label: "Méthode complète sur la loi binomiale",
+  },
+  {
+    href: "/denombrement-terminale-specialite-maths",
+    label: "Méthodes de dénombrement",
+  },
+  {
     href: "/methodes-maths-terminale/probabilites-conditionnelles",
     label: "Méthode probabilités conditionnelles",
   },

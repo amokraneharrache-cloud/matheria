@@ -302,6 +302,28 @@ export function ProgramSeoPage({ goal, h1, intro }: ProgramSeoPageProps) {
                   </p>
                 </Link>
                 <Link
+                  href="/denombrement-terminale-specialite-maths"
+                  className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+                >
+                  <h3 className="text-lg font-bold text-blue-950">
+                    Choisir une méthode de dénombrement
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">
+                    Tableau de décision, coefficients binomiaux et six exercices corrigés.
+                  </p>
+                </Link>
+                <Link
+                  href="/primitives-terminale-specialite-maths"
+                  className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+                >
+                  <h3 className="text-lg font-bold text-blue-950">
+                    Reconnaître et calculer une primitive
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">
+                    Formules, domaines, méthode en quatre étapes et exercices corrigés.
+                  </p>
+                </Link>
+                <Link
                   href="/quiz-maths-terminale-specialite"
                   className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
                 >

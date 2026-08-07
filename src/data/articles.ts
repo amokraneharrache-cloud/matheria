@@ -459,6 +459,12 @@ export const articles: Article[] = [
     ],
     relatedLinks: [
       {
+        href: "/primitives-terminale-specialite-maths",
+        label: "Primitives en Terminale",
+        description:
+          "Reconnaître les formes usuelles et composées, vérifier en dérivant et déterminer une constante.",
+      },
+      {
         href: "/equations-differentielles-terminale",
         label: "Équations différentielles en Terminale",
         description:
@@ -507,12 +513,19 @@ export const articles: Article[] = [
   },
   {
     slug: "probabilites-loi-binomiale-terminale",
-    title: "Probabilités et loi binomiale en Terminale",
+    title: "Loi binomiale Terminale : méthode et exercices corrigés",
     description:
-      "Comprendre les probabilités conditionnelles, les arbres pondérés et la loi binomiale pour les exercices de maths Terminale.",
+      "Reconnais une loi binomiale en Terminale, traduis exactement, au plus et au moins, puis calcule les probabilités avec cinq exercices corrigés.",
     category: "terminale",
-    keywords: ["probabilités Terminale", "loi binomiale", "arbre pondéré", "bac maths"],
+    keywords: [
+      "loi binomiale Terminale",
+      "loi binomiale exercice corrigé",
+      "reconnaître une loi binomiale",
+      "calcul loi binomiale",
+      "probabilité au moins au plus exactement",
+    ],
     publishedAt: "2026-04-28",
+    updatedAt: "2026-08-07",
     content: [
       {
         heading: "Traduire l'énoncé en événements",

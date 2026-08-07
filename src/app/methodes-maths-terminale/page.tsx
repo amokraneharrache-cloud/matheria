@@ -258,6 +258,28 @@ export default function MethodesMathsTerminalePage() {
                 </p>
               </Link>
               <Link
+                href="/denombrement-terminale-specialite-maths"
+                className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+              >
+                <h3 className="text-xl font-bold text-blue-950">
+                  Dénombrement : choisir la bonne méthode
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  Addition, multiplication, permutations, combinaisons et exercices corrigés.
+                </p>
+              </Link>
+              <Link
+                href="/primitives-terminale-specialite-maths"
+                className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
+              >
+                <h3 className="text-xl font-bold text-blue-950">
+                  Primitives : reconnaître puis vérifier
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-700">
+                  Tableau des primitives, domaines et méthode en quatre étapes.
+                </p>
+              </Link>
+              <Link
                 href="/quiz-maths-terminale-specialite"
                 className="rounded-xl border border-blue-100 bg-white p-5 hover:border-blue-300"
               >

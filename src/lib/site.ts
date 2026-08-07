@@ -40,6 +40,8 @@ export const publicSeoRoutes = [
   "/python-bac-maths-terminale",
   "/equations-differentielles-terminale",
   "/quiz-maths-terminale-specialite",
+  "/denombrement-terminale-specialite-maths",
+  "/primitives-terminale-specialite-maths",
   "/bac-maths-2027",
   "/sujets-type-bac-maths-terminale",
   "/exercices-type-bac-maths-terminale",

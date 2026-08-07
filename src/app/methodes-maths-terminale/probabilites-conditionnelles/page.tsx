@@ -164,6 +164,10 @@ const internalLinks = [
     label: "Article Probabilités et loi binomiale",
   },
   {
+    href: "/denombrement-terminale-specialite-maths",
+    label: "Dénombrement et coefficients binomiaux",
+  },
+  {
     href: "/demonstrations-bac-maths-terminale#independance",
     label: "Démontrer l’indépendance de deux événements",
   },

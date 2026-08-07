@@ -200,6 +200,10 @@ const lockedExercises = [
 
 const internalLinks = [
   {
+    href: "/primitives-terminale-specialite-maths",
+    label: "Revoir la méthode des primitives",
+  },
+  {
     href: "/programme-maths-terminale/integrales",
     label: "Programme Intégrales Terminale",
   },

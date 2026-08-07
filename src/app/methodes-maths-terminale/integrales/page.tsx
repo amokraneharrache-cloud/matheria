@@ -90,6 +90,10 @@ const primitiveChecks = [
 
 const internalLinks = [
   {
+    href: "/primitives-terminale-specialite-maths",
+    label: "Méthode complète pour calculer une primitive",
+  },
+  {
     href: "/programme-maths-terminale/integrales",
     label: "Programme Intégrales Terminale",
   },
