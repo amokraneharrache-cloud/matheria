@@ -17,6 +17,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/quiz-maths-terminale-specialite", new Date("2026-08-06T00:00:00.000Z")],
     ["/denombrement-terminale-specialite-maths", new Date("2026-08-07T00:00:00.000Z")],
     ["/primitives-terminale-specialite-maths", new Date("2026-08-07T00:00:00.000Z")],
+    ["/programme-maths-terminale", new Date("2026-08-10T00:00:00.000Z")],
+    ["/coefficient-specialite-maths-bac-2027", new Date("2026-08-10T00:00:00.000Z")],
+    ["/calculatrice-bac-maths-2027", new Date("2026-08-10T00:00:00.000Z")],
     [
       "/methodes-maths-terminale/probabilites-conditionnelles",
       new Date("2026-08-04T00:00:00.000Z"),

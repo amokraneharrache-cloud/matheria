@@ -43,6 +43,8 @@ export const publicSeoRoutes = [
   "/denombrement-terminale-specialite-maths",
   "/primitives-terminale-specialite-maths",
   "/bac-maths-2027",
+  "/coefficient-specialite-maths-bac-2027",
+  "/calculatrice-bac-maths-2027",
   "/sujets-type-bac-maths-terminale",
   "/exercices-type-bac-maths-terminale",
   "/bac-terminale-maths",

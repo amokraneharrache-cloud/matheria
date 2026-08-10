@@ -896,6 +896,43 @@ export default function BacMaths2027Page() {
             </TrackedLink>
           </section>
 
+          <section>
+            <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+              Repères officiels
+            </p>
+            <h2 className="mt-3 text-3xl font-bold text-slate-950">
+              Comprendre le cadre du Bac Maths 2027
+            </h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {[
+                {
+                  href: "/programme-maths-terminale",
+                  title: "Programme 2026-2027",
+                  text: "Les chapitres réellement applicables en Terminale et leurs liens.",
+                },
+                {
+                  href: "/coefficient-specialite-maths-bac-2027",
+                  title: "Coefficient de la spécialité",
+                  text: "Le coefficient 16, les points pondérés et les différents cas en mathématiques.",
+                },
+                {
+                  href: "/calculatrice-bac-maths-2027",
+                  title: "Calculatrice et mode examen",
+                  text: "La règle officielle, la mention du sujet et le matériel conforme.",
+                },
+              ].map((resource) => (
+                <Link
+                  key={resource.href}
+                  href={resource.href}
+                  className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:border-blue-300 hover:bg-blue-50"
+                >
+                  <h3 className="text-xl font-bold text-blue-950">{resource.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{resource.text}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
+
           <InternalLinks
             currentPath={pagePath}
             title="Continuer les révisions Bac Maths"
