@@ -20,6 +20,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/programme-maths-terminale", new Date("2026-08-10T00:00:00.000Z")],
     ["/coefficient-specialite-maths-bac-2027", new Date("2026-08-10T00:00:00.000Z")],
     ["/calculatrice-bac-maths-2027", new Date("2026-08-10T00:00:00.000Z")],
+    ["/grand-oral-maths-2027", new Date("2026-08-13T00:00:00.000Z")],
+    ["/sujets-grand-oral-maths", new Date("2026-08-13T00:00:00.000Z")],
+    ["/questions-jury-grand-oral-maths", new Date("2026-08-13T00:00:00.000Z")],
     [
       "/methodes-maths-terminale/probabilites-conditionnelles",
       new Date("2026-08-04T00:00:00.000Z"),

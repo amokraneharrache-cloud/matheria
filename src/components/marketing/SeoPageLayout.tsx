@@ -12,6 +12,7 @@ type SeoPageLayoutProps = {
 
 const navLinks = [
   { href: "/bac-maths-2027", label: "Bac 2027" },
+  { href: "/grand-oral-maths-2027", label: "Grand Oral" },
   { href: "/bac-terminale-maths", label: "Bac Terminale" },
   { href: "/bac-premiere-maths", label: "Bac Première" },
   { href: "/brevet-maths", label: "Brevet" },
@@ -34,7 +35,7 @@ export function SeoPageLayout({
             </div>
             <span className="text-xl font-bold text-blue-900">SprintMaths</span>
           </Link>
-          <nav className="hidden items-center gap-5 text-sm font-semibold text-slate-600 md:flex">
+          <nav className="hidden items-center gap-5 text-sm font-semibold text-slate-600 lg:flex">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} className="hover:text-blue-900">
                 {link.label}
