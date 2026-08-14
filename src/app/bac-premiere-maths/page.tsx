@@ -187,6 +187,34 @@ export default function BacPremiereMathsPage() {
             ))}
           </section>
 
+          <section className="rounded-3xl border-2 border-blue-200 bg-blue-50 p-6 sm:p-8">
+            <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+              Épreuve anticipée de mathématiques
+            </p>
+            <h2 className="mt-3 text-3xl font-bold text-slate-950">
+              Comprendre le format, puis s’entraîner
+            </h2>
+            <p className="mt-3 max-w-3xl leading-7 text-slate-700">
+              Retrouve les règles officielles de l&apos;épreuve, les sujets zéro
+              Éduscol et 50 automatismes corrigés sans calculatrice.
+            </p>
+            <div className="mt-6 grid gap-3 md:grid-cols-3">
+              {[
+                ["/epreuve-anticipee-maths-premiere", "Format de l’épreuve"],
+                ["/sujets-zero-maths-premiere", "Sujets zéro analysés"],
+                ["/automatismes-maths-premiere", "Automatismes corrigés"],
+              ].map(([href, label]) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="rounded-xl border border-blue-100 bg-white p-4 font-bold text-blue-950 hover:border-blue-300"
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+          </section>
+
           <SeoCta
             title="Construire un plan de révision Première"
             description="Le diagnostic gratuit aide à identifier les priorités avant de commencer les sessions par chapitre."

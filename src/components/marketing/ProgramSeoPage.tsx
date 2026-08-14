@@ -249,6 +249,33 @@ export function ProgramSeoPage({ goal, h1, intro }: ProgramSeoPageProps) {
             })}
           </div>
 
+          {goal === "bac-premiere" ? (
+            <section className="rounded-2xl border border-blue-200 bg-blue-50 p-6 sm:p-8">
+              <h2 className="text-2xl font-bold text-slate-950">
+                Préparer l’épreuve anticipée de mathématiques
+              </h2>
+              <p className="mt-3 max-w-3xl leading-7 text-slate-700">
+                Le programme donne les chapitres ; ces trois ressources distinguent
+                les règles de l&apos;épreuve, les sujets officiels et l&apos;entraînement rapide.
+              </p>
+              <div className="mt-5 grid gap-3 md:grid-cols-3">
+                {[
+                  ["/epreuve-anticipee-maths-premiere", "Format et préparation"],
+                  ["/sujets-zero-maths-premiere", "Sujets zéro Éduscol"],
+                  ["/automatismes-maths-premiere", "50 automatismes corrigés"],
+                ].map(([href, label]) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="rounded-xl border border-blue-100 bg-white p-4 font-bold text-blue-950 hover:border-blue-300"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
           {isTerminale ? (
             <section className="rounded-2xl border border-blue-100 bg-blue-50 p-6 sm:p-8">
               <h2 className="text-2xl font-bold text-slate-950">

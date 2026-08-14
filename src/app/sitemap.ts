@@ -23,6 +23,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/grand-oral-maths-2027", new Date("2026-08-13T00:00:00.000Z")],
     ["/sujets-grand-oral-maths", new Date("2026-08-13T00:00:00.000Z")],
     ["/questions-jury-grand-oral-maths", new Date("2026-08-13T00:00:00.000Z")],
+    ["/epreuve-anticipee-maths-premiere", new Date("2026-08-13T00:00:00.000Z")],
+    ["/sujets-zero-maths-premiere", new Date("2026-08-13T00:00:00.000Z")],
+    ["/automatismes-maths-premiere", new Date("2026-08-13T00:00:00.000Z")],
     [
       "/methodes-maths-terminale/probabilites-conditionnelles",
       new Date("2026-08-04T00:00:00.000Z"),

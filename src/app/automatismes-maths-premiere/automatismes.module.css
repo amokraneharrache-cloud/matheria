@@ -1,0 +1,30 @@
+.printMemo {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+@media print {
+  @page {
+    margin: 12mm;
+  }
+
+  .screenContent {
+    display: none !important;
+  }
+
+  .printMemo {
+    border: 0;
+    box-shadow: none;
+    color: #000;
+    padding: 0;
+  }
+
+  .printMemo h2 {
+    font-size: 22pt;
+  }
+
+  .printMemo li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
