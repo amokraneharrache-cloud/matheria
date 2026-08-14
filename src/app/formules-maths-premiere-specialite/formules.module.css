@@ -1,0 +1,55 @@
+.formulaCard {
+  break-inside: avoid;
+  max-width: 100%;
+  min-width: 0;
+  page-break-inside: avoid;
+}
+
+.printHeader {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  .screenOnly {
+    display: none !important;
+  }
+
+  .printHeader {
+    display: block;
+    margin-bottom: 8mm;
+  }
+
+  .printHeader p {
+    color: #1e3a8a;
+    font-size: 9pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .printHeader h1 {
+    color: #020617;
+    font-size: 22pt;
+    line-height: 1.15;
+    margin-top: 3mm;
+  }
+
+  .formulaCard {
+    border-color: #cbd5e1;
+    box-shadow: none;
+  }
+
+  .formulaDisplay {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    print-color-adjust: exact;
+  }
+
+  .formulaCard pre {
+    white-space: pre-wrap;
+  }
+}

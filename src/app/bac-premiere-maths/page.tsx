@@ -195,14 +195,17 @@ export default function BacPremiereMathsPage() {
               Comprendre le format, puis s’entraîner
             </h2>
             <p className="mt-3 max-w-3xl leading-7 text-slate-700">
-              Retrouve les règles officielles de l&apos;épreuve, les sujets zéro
-              Éduscol et 50 automatismes corrigés sans calculatrice.
+              Retrouve les règles officielles, les sujets zéro, la fiche de
+              formules, le quiz et des entraînements corrigés.
             </p>
-            <div className="mt-6 grid gap-3 md:grid-cols-3">
+            <div className="mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
               {[
                 ["/epreuve-anticipee-maths-premiere", "Format de l’épreuve"],
                 ["/sujets-zero-maths-premiere", "Sujets zéro analysés"],
                 ["/automatismes-maths-premiere", "Automatismes corrigés"],
+                ["/formules-maths-premiere-specialite", "Formules de Première"],
+                ["/quiz-maths-premiere-specialite", "Quiz de 30 questions"],
+                ["/exercices-epreuve-anticipee-maths-premiere", "Exercices corrigés"],
               ].map(([href, label]) => (
                 <Link
                   key={href}

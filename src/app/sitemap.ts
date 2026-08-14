@@ -26,6 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/epreuve-anticipee-maths-premiere", new Date("2026-08-13T00:00:00.000Z")],
     ["/sujets-zero-maths-premiere", new Date("2026-08-13T00:00:00.000Z")],
     ["/automatismes-maths-premiere", new Date("2026-08-13T00:00:00.000Z")],
+    ["/formules-maths-premiere-specialite", new Date("2026-08-14T00:00:00.000Z")],
+    ["/quiz-maths-premiere-specialite", new Date("2026-08-14T00:00:00.000Z")],
+    [
+      "/exercices-epreuve-anticipee-maths-premiere",
+      new Date("2026-08-14T00:00:00.000Z"),
+    ],
     [
       "/methodes-maths-terminale/probabilites-conditionnelles",
       new Date("2026-08-04T00:00:00.000Z"),

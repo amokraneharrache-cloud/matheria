@@ -255,14 +255,17 @@ export function ProgramSeoPage({ goal, h1, intro }: ProgramSeoPageProps) {
                 Préparer l’épreuve anticipée de mathématiques
               </h2>
               <p className="mt-3 max-w-3xl leading-7 text-slate-700">
-                Le programme donne les chapitres ; ces trois ressources distinguent
-                les règles de l&apos;épreuve, les sujets officiels et l&apos;entraînement rapide.
+                Le programme donne les chapitres ; ces ressources relient règles de
+                l&apos;épreuve, sujets officiels, fiche de formules, quiz et entraînements.
               </p>
-              <div className="mt-5 grid gap-3 md:grid-cols-3">
+              <div className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {[
                   ["/epreuve-anticipee-maths-premiere", "Format et préparation"],
                   ["/sujets-zero-maths-premiere", "Sujets zéro Éduscol"],
                   ["/automatismes-maths-premiere", "50 automatismes corrigés"],
+                  ["/formules-maths-premiere-specialite", "Formules de Première"],
+                  ["/quiz-maths-premiere-specialite", "Quiz de 30 questions"],
+                  ["/exercices-epreuve-anticipee-maths-premiere", "Exercices corrigés"],
                 ].map(([href, label]) => (
                   <Link
                     key={href}
