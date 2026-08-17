@@ -125,6 +125,7 @@ export default function SujetBacMaths2026CorrigePage() {
 
           <ChapterInternalLinks title="Poursuivre la révision" variant="cards" links={[
             { href: "/annales-bac-maths-terminale", label: "Toutes les annales 2026" }, { href: "/planning-revision-bac-maths", label: "Planning de révision" }, { href: "/formules-bac-maths-terminale", label: "Formules de Terminale" }, { href: "/redaction-bac-maths-terminale", label: "Rédaction au bac" }, { href: "/quiz-maths-terminale-specialite", label: "Quiz de spécialité" }, { href: "/sujets-type-bac-maths-terminale", label: "Sujets type bac" },
+            { href: "/sujet-bac-maths-2025-corrige", label: "Sujet 2025 corrigé" }, { href: "/sujet-bac-maths-2024-corrige", label: "Sujet 2024 corrigé" }, { href: "/annales-bac-maths-par-chapitre", label: "Annales par chapitre" },
           ]} />
 
           <OfficialSources sources={[

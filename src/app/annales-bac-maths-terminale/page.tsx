@@ -70,6 +70,7 @@ export default function AnnalesBacMathsTerminalePage() {
           <QuickAnswer title="10 sujets Terminale 2026 actuellement publiés" tone="emerald">
             <p>Deux journées pour chacun des cinq ensembles de centres recensés : Métropole–La Réunion–Mayotte, Antilles-Guyane, Amérique du Nord, centres étrangers groupe 1 et Asie.</p>
             <p className="text-base">Pour les deux journées principales de Métropole–La Réunion–Mayotte, consulte aussi le <Link href="/sujet-bac-maths-2026-corrige" className="font-bold underline">corrigé détaillé 2026</Link>.</p>
+            <p className="text-base">Pour remonter dans les sessions : <Link href="/sujet-bac-maths-2025-corrige" className="font-bold underline">sujet 2025 corrigé</Link>, <Link href="/sujet-bac-maths-2024-corrige" className="font-bold underline">sujet 2024 corrigé</Link> ou <Link href="/annales-bac-maths-par-chapitre" className="font-bold underline">24 exercices classés par chapitre</Link>.</p>
           </QuickAnswer>
 
           <section id="definitions" className="scroll-mt-24">
@@ -120,6 +121,9 @@ export default function AnnalesBacMathsTerminalePage() {
 
           <ChapterInternalLinks title="Préparer, s’entraîner et corriger" variant="cards" links={[
             { href: "/sujet-bac-maths-2026-corrige", label: "Sujet Bac Maths 2026 corrigé" },
+            { href: "/sujet-bac-maths-2025-corrige", label: "Sujet Bac Maths 2025 corrigé" },
+            { href: "/sujet-bac-maths-2024-corrige", label: "Sujet Bac Maths 2024 corrigé" },
+            { href: "/annales-bac-maths-par-chapitre", label: "Annales par chapitre" },
             { href: "/sujets-type-bac-maths-terminale", label: "Sujets type bac SprintMaths" },
             { href: "/exercices-type-bac-maths-terminale", label: "Exercices type bac" },
             { href: "/planning-revision-bac-maths", label: "Planning de révision" },

@@ -29,9 +29,11 @@ export type ExamCorrectionExercise = {
 export function OfficialExamCorrection({
   dayId,
   exercises,
+  officialPdfUrl,
 }: {
   dayId: string;
   exercises: readonly ExamCorrectionExercise[];
+  officialPdfUrl?: string;
 }) {
   const [allOpen, setAllOpen] = useState(false);
   const [openExercises, setOpenExercises] = useState<Record<string, boolean>>({});
@@ -70,6 +72,17 @@ export function OfficialExamCorrection({
                   </p>
                   <h3 className="mt-2 text-2xl font-bold text-slate-950">{exercise.title}</h3>
                   <p className="mt-3 leading-7 text-slate-700">{exercise.topics}</p>
+                  {officialPdfUrl ? (
+                    <a
+                      href={officialPdfUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-3 inline-flex items-center gap-2 font-bold text-blue-900 underline underline-offset-4"
+                    >
+                      Voir le sujet officiel complet
+                      <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                    </a>
+                  ) : null}
                 </div>
                 <button
                   type="button"
