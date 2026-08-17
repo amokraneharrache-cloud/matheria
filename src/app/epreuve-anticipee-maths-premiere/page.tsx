@@ -311,6 +311,10 @@ export default function EpreuveAnticipeeMathsPremierePage() {
             title="Continuer dans le cluster Première"
             variant="cards"
             links={[
+              {
+                href: "/sujet-epreuve-anticipee-maths-2026-corrige",
+                label: "Premier sujet 2026 corrigé et analysé",
+              },
               { href: "/sujets-zero-maths-premiere", label: "Sujets zéro officiels analysés" },
               { href: "/automatismes-maths-premiere", label: "50 automatismes corrigés" },
               { href: "/programme-maths-premiere", label: "Programme de maths Première" },

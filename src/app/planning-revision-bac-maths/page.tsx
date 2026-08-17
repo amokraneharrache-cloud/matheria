@@ -535,6 +535,23 @@ export default function PlanningRevisionBacMathsPage() {
                 </article>
               ))}
             </div>
+            <p className="mt-5 max-w-3xl text-sm leading-6 text-slate-700">
+              Pour les révisions transversales, garde aussi sous la main la{" "}
+              <Link
+                href="/formules-bac-maths-terminale"
+                className="font-bold text-blue-900 hover:underline"
+              >
+                fiche complète des formules du Bac Maths
+              </Link>{" "}
+              et vérifie que tu sais reconstruire les{" "}
+              <Link
+                href="/demonstrations-bac-maths-terminale"
+                className="font-bold text-blue-900 hover:underline"
+              >
+                démonstrations à connaître en Terminale
+              </Link>
+              .
+            </p>
           </section>
 
           <section className="grid gap-5 lg:grid-cols-2">
