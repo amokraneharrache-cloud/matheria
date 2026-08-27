@@ -87,3 +87,22 @@ ALTER TABLE practice_sessions ENABLE ROW LEVEL SECURITY;
 -- Note : Nous n'ajoutons PAS de politiques publiques (anon ou authenticated).
 -- Les insertions se font côté backend via les Server Actions avec la "Service Role Key",
 -- ce qui bypass le RLS. Cela garantit que personne ne peut lire/écrire publiquement depuis le navigateur.
+
+-- ---------------------------------------------------------------------------
+-- J58 : consentement marketing, désinscription et séquence email.
+-- Le détail est dans supabase/migrations/2026-08-26-email-consent-and-sequence.sql
+-- (migration idempotente, à appliquer sur les bases existantes).
+--
+-- Colonnes ajoutées à `leads` :
+--   marketing_consent boolean NOT NULL DEFAULT false
+--   marketing_consent_at timestamptz
+--   consent_version text
+--   acquisition_source text
+--   unsubscribe_token text (index unique partiel)
+--   marketing_unsubscribed_at timestamptz
+--
+-- Table ajoutée : email_sequence_sends (lead_id, step) UNIQUE -> idempotence.
+--
+-- RÈGLE MÉTIER : marketing_consent est faux par défaut et ne doit jamais être
+-- passé à true sans action volontaire de la personne concernée.
+-- ---------------------------------------------------------------------------

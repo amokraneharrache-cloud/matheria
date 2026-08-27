@@ -21,6 +21,12 @@ class Query {
     this._insertRow = Array.isArray(row) ? row[0] : row;
     return this;
   }
+  // J58 : `update(...).eq(...)` (désinscription, finalisation d'un envoi).
+  update(patch) {
+    this._op = "update";
+    this._patch = patch;
+    return this;
+  }
   eq(col, val) {
     this._filters.push([col, val]);
     return this;
@@ -31,7 +37,10 @@ class Query {
     return this;
   }
   _rows() {
-    return this.table === "leads" ? store().leads : store().accessCodes;
+    const s = store();
+    if (this.table === "leads") return s.leads;
+    if (this.table === "email_sequence_sends") return s.sequenceSends;
+    return s.accessCodes;
   }
   _match(r) {
     return this._filters.every(([c, v]) => r[c] === v);
@@ -73,7 +82,31 @@ class Query {
       }
       return { data: row, error: null };
     }
+    if (this._op === "update") {
+      const matched = this._rows().filter((r) => this._match(r));
+      for (const row of matched) {
+        Object.assign(row, this._patch);
+      }
+      // `.update(...).select("id")` renvoie les lignes touchées.
+      return { data: matched.map((r) => ({ id: r.id })), error: null };
+    }
     if (this._op === "insert") {
+      if (this.table === "email_sequence_sends") {
+        if (s.sequenceInsertError) {
+          return { data: null, error: s.sequenceInsertError };
+        }
+        const row = { ...this._insertRow };
+        // Reproduit l'index UNIQUE(lead_id, step) : c'est lui qui porte
+        // l'idempotence en production, le test doit l'exercer vraiment.
+        if (
+          s.sequenceSends.some((r) => r.lead_id === row.lead_id && r.step === row.step)
+        ) {
+          return { data: null, error: { code: UNIQUE_VIOLATION, message: "duplicate step" } };
+        }
+        row.id = "seq_" + ++s.idSeq;
+        s.sequenceSends.push(row);
+        return { data: { id: row.id }, error: null };
+      }
       if (this.table === "leads") {
         s.lastLeadClientMode = this.clientMode;
         s.leadClientModes.push(this.clientMode);

@@ -137,6 +137,8 @@ export type TrackingParams = {
   faq_question?: string;
   lead_magnet?: string;
   link_type?: string;
+  /** "true" | "false" — opt-in marketing. Booléen non identifiant, jamais de PII. */
+  marketing_consent?: string;
   payment_provider?: string;
   source_page?: string;
   utm_source?: string;
@@ -181,6 +183,7 @@ const ALLOWED_STRING_PARAMS = [
   "faq_question",
   "lead_magnet",
   "link_type",
+  "marketing_consent",
   "payment_provider",
   "subject",
   "part",

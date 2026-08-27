@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronLeft, Check, ArrowRight, Loader2 } from "lucide-react";
 import { saveLead } from "../actions";
+import { MARKETING_CONSENT_LABEL } from "@/lib/email/consentText";
+import { getStoredUtmEventParams } from "@/lib/utm";
 import {
   trackDiagnosticCompleted,
   trackDiagnosticStarted,
@@ -47,6 +49,7 @@ export default function DiagnosticPage() {
   const [level, setLevel] = useState("");
   const [difficulties, setDifficulties] = useState<string[]>([]);
   const [email, setEmail] = useState("");
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [pseudo, setPseudo] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -97,6 +100,8 @@ export default function DiagnosticPage() {
       parent_email: email,
       student_pseudo: pseudo,
       source: "diagnostic_funnel",
+      marketing_consent: marketingConsent,
+      utm_source: getStoredUtmEventParams().utm_source,
     };
 
     try {
@@ -120,6 +125,7 @@ export default function DiagnosticPage() {
       trackEmailOptin({
         ...trackingParams,
         cta_location: "diagnostic_email_step",
+        marketing_consent: marketingConsent ? "true" : "false",
       });
 
       try {
@@ -290,6 +296,39 @@ export default function DiagnosticPage() {
                   placeholder="votre@email.com"
                 />
               </div>
+
+              {/*
+                Case FACULTATIVE, jamais précochée. Le résultat du diagnostic
+                s'affiche que la case soit cochée ou non.
+              */}
+              <div className="flex items-start gap-3 rounded-xl bg-slate-50 p-3">
+                <input
+                  id="marketing-consent"
+                  name="marketingConsent"
+                  type="checkbox"
+                  checked={marketingConsent}
+                  onChange={(e) => setMarketingConsent(e.target.checked)}
+                  className="mt-1 h-5 w-5 shrink-0 cursor-pointer rounded border-slate-400 text-blue-900 focus:ring-2 focus:ring-blue-100"
+                />
+                <label
+                  htmlFor="marketing-consent"
+                  className="cursor-pointer text-sm leading-6 text-slate-700"
+                >
+                  {MARKETING_CONSENT_LABEL}
+                </label>
+              </div>
+
+              <p className="text-sm leading-6 text-slate-600">
+                L&apos;email sert à afficher et retrouver le bilan, que la case soit
+                cochée ou non.{" "}
+                <Link
+                  href="/politique-confidentialite"
+                  className="font-semibold text-blue-900 underline underline-offset-2"
+                >
+                  Politique de confidentialité
+                </Link>
+                .
+              </p>
 
               {error && (
                 <div className="p-3 bg-red-50 text-red-600 rounded-lg text-sm">

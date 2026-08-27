@@ -176,25 +176,27 @@ test("7. échec Resend APRÈS save -> lead sauvé, 200 contrôlé emailSent:fals
   assert.ok(!containsEmail(body), "aucun email dans la réponse HTTP");
 });
 
-test("8. contenu de l'email planning : liens planning/imprimable/diagnostic/sujets corrigés + contact, sans promo", async () => {
+test("8. contenu de l'email de livraison : ressource + micro-action, sans offre commerciale", async () => {
   resetStore();
 
   await POST(makeRequest({ email: "qa+content@example.com", sourcePage: "/planning-revision-bac-maths" }));
 
   assert.equal(store().emails.length, 1);
   const sent = store().emails[0];
-  assert.equal(sent.subject, "Ton planning Bac Maths 2027 — 30 jours");
+  assert.match(sent.subject, /planning/i, "l'objet annonce la ressource demandée");
 
   for (const part of ["html", "text"]) {
     const content = sent[part];
     assert.match(content, /\/planning-revision-bac-maths/, `${part}: lien planning`);
     assert.match(content, /\/planning-bac-maths-2027\.html/, `${part}: version imprimable`);
-    assert.match(content, /\/diagnostic/, `${part}: lien diagnostic`);
-    assert.match(
-      content,
-      /\/sujets-type-bac-maths-terminale#sujet-corrige-guide/,
-      `${part}: lien sujets type bac corrigés`,
-    );
+    assert.match(content, /\/diagnostic/, `${part}: unique ressource complémentaire`);
+    // La micro-action est ce qui distingue une livraison utile d'un simple lien.
+    assert.match(content, /surligne les 3 chapitres/i, `${part}: micro-action`);
+
+    // L'email de livraison est transactionnel : il ne prospecte pas.
+    assert.doesNotMatch(content, /39\s*€/, `${part}: pas de prix`);
+    assert.doesNotMatch(content, /Pack Révision Express/i, `${part}: pas d'offre`);
+
     // Ton factuel : pas de code promo, pas de fausse urgence, pas de promesse de note.
     assert.doesNotMatch(content, /BAC2026|promo|-\s?\d+\s?%|garanti/i, `${part}: pas de promo/promesse`);
     assert.doesNotMatch(content, /derni(è|e)re chance|vite|urgent/i, `${part}: pas de fausse urgence`);
@@ -202,6 +204,8 @@ test("8. contenu de l'email planning : liens planning/imprimable/diagnostic/suje
 
   // Support/contact présent dans le texte.
   assert.match(sent.text, /@/, "le texte contient un email de contact");
+  // Un transactionnel n'a pas d'en-tête de désinscription (rien à désinscrire).
+  assert.equal(sent.headers, undefined, "pas d'en-tête List-Unsubscribe sur un transactionnel");
 });
 
 test("9. bloc succès : 3 CTAs + lien offre, events dédiés, params 100% whitelist sans PII", async () => {

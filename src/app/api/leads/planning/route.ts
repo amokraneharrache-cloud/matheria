@@ -1,4 +1,5 @@
 import { sendPlanningRevisionEmail, isResendEmailConfigured } from "@/lib/email/resend";
+import { buildConsentFields, normalizeAcquisitionSource } from "@/lib/email/consent";
 import { absoluteUrl } from "@/lib/site";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { getSupabaseAdmin, isLocalDevRuntime } from "@/lib/supabaseAdmin";
@@ -101,6 +102,7 @@ async function insertPlanningLead(
 async function savePlanningLead(
   email: string,
   sourcePage: string,
+  consent: { marketingConsent: boolean; acquisitionSource: string },
 ): Promise<SaveResult> {
   const leadRow = {
     parent_email: email,
@@ -109,6 +111,8 @@ async function savePlanningLead(
     difficulties: [],
     source: `${LEAD_MAGNET}:${sourcePage}`,
     wants_pack: false,
+    acquisition_source: consent.acquisitionSource,
+    ...buildConsentFields(consent.marketingConsent),
   };
 
   const supabaseAdmin = getSupabaseAdmin();
@@ -172,9 +176,19 @@ export async function POST(request: Request) {
   }
 
   const sourcePage = sanitizeSourcePage(record.sourcePage);
+  // Opt-in marketing : seul un `true` explicite compte. Toute autre valeur
+  // (absente, "false", "on", null…) vaut refus.
+  const marketingConsent = record.marketingConsent === true;
+  const acquisitionSource = normalizeAcquisitionSource(
+    record.utmSource,
+    request.headers.get("referer"),
+  );
 
   try {
-    const saveResult = await savePlanningLead(email, sourcePage);
+    const saveResult = await savePlanningLead(email, sourcePage, {
+      marketingConsent,
+      acquisitionSource,
+    });
     let emailSent = false;
     let emailSkippedReason: string | undefined;
 

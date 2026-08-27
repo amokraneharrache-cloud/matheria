@@ -11,8 +11,9 @@
     "test:planning": "node --import ./scripts/qa/register.mjs ./scripts/qa/planning-lead.test.mjs",
     "test:diagnostic": "node --import ./scripts/qa/register.mjs ./scripts/qa/diagnostic-lead.test.mjs",
     "test:health": "node --import ./scripts/qa/register.mjs ./scripts/qa/health.test.mjs",
-    "test": "npm run test:webhook && npm run test:planning && npm run test:diagnostic && npm run test:health",
-    "qa:prod": "node scripts/qa/prod-smoke.mjs"
+    "test": "npm run test:webhook && npm run test:planning && npm run test:diagnostic && npm run test:health && npm run test:email",
+    "qa:prod": "node scripts/qa/prod-smoke.mjs",
+    "test:email": "node --import ./scripts/qa/register.mjs ./scripts/qa/email-sequence.test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.104.1",

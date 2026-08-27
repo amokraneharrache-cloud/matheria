@@ -1,8 +1,11 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { MARKETING_CONSENT_LABEL } from "@/lib/email/consentText";
 import { trackEvent, type TrackingParams } from "@/lib/tracking";
+import { getStoredUtmEventParams } from "@/lib/utm";
 import {
   PLANNING_LEAD_MAGNET,
   PLANNING_SUCCESS_CTA_LOCATION,
@@ -41,6 +44,7 @@ export function PlanningLeadForm({
 }: PlanningLeadFormProps) {
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const [emailSent, setEmailSent] = useState(false);
@@ -53,6 +57,7 @@ export function PlanningLeadForm({
   };
   const emailInputId = `${idPrefix}-email`;
   const websiteInputId = `${idPrefix}-website`;
+  const consentInputId = `${idPrefix}-marketing-consent`;
 
   function successEventParams(destinationPage: string): TrackingParams {
     return {
@@ -93,6 +98,10 @@ export function PlanningLeadForm({
           email: normalizedEmail,
           sourcePage,
           website,
+          marketingConsent,
+          // Source d'acquisition uniquement (jamais d'email) : le serveur la
+          // normalise avant stockage.
+          utmSource: getStoredUtmEventParams().utm_source,
         }),
       });
       const result = (await response.json().catch(() => null)) as ApiResponse | null;
@@ -101,12 +110,16 @@ export function PlanningLeadForm({
         throw new Error(result?.message || "Impossible d'envoyer la demande.");
       }
 
-      trackEvent("email_optin", trackingParams);
+      trackEvent("email_optin", {
+        ...trackingParams,
+        marketing_consent: marketingConsent ? "true" : "false",
+      });
       setEmailSent(Boolean(result.emailSent));
       setStatus("success");
       setMessage("");
       setEmail("");
       setWebsite("");
+      setMarketingConsent(false);
     } catch (error) {
       setStatus("error");
       setMessage(
@@ -151,6 +164,25 @@ export function PlanningLeadForm({
         />
       </div>
 
+      {/*
+        Case FACULTATIVE et jamais précochée. Le planning est envoyé dans tous
+        les cas : la ressource gratuite n'est pas conditionnée à l'acceptation
+        marketing.
+      */}
+      <div className="flex items-start gap-3 rounded-xl bg-slate-50 p-3">
+        <input
+          id={consentInputId}
+          name="marketingConsent"
+          type="checkbox"
+          checked={marketingConsent}
+          onChange={(event) => setMarketingConsent(event.target.checked)}
+          className="mt-1 h-5 w-5 shrink-0 cursor-pointer rounded border-slate-400 text-blue-900 focus:ring-2 focus:ring-blue-100"
+        />
+        <label htmlFor={consentInputId} className="cursor-pointer text-sm leading-6 text-slate-700">
+          {MARKETING_CONSENT_LABEL}
+        </label>
+      </div>
+
       <Button
         type="submit"
         size="lg"
@@ -161,7 +193,14 @@ export function PlanningLeadForm({
       </Button>
 
       <p className="text-sm leading-6 text-slate-600">
-        Email uniquement pour envoyer le planning. Aucun spam.
+        Ton email sert à t&apos;envoyer le planning, que tu coches ou non la case.{" "}
+        <Link
+          href="/politique-confidentialite"
+          className="font-semibold text-blue-900 underline underline-offset-2"
+        >
+          Politique de confidentialité
+        </Link>
+        .
       </p>
 
       {status === "error" && message && (

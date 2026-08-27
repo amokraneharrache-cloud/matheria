@@ -2,6 +2,7 @@
 
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { buildConsentFields, normalizeAcquisitionSource } from '@/lib/email/consent';
 import { logStep } from '@/lib/safeLog';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
@@ -18,6 +19,14 @@ export type LeadData = {
   difficulties: string[];
   source?: string;
   wants_pack?: boolean;
+  /**
+   * Opt-in marketing facultatif. Seul un `true` explicite vaut consentement ;
+   * la date et la version de preuve sont toujours calculées côté serveur, et
+   * jamais reprises du client.
+   */
+  marketing_consent?: boolean;
+  /** utm_source brut ; normalisé côté serveur avant stockage. */
+  utm_source?: string;
 };
 
 export type SaveLeadResult = {
@@ -61,8 +70,17 @@ export async function saveLead(data: LeadData): Promise<SaveLeadResult> {
     return { success: true, saved: false, mocked: true, clientMode: 'mock' };
   }
 
+  // Le client ne fournit qu'une intention (`marketing_consent`). La preuve
+  // — date, version de wording, jeton de désinscription — est construite ici.
+  const { marketing_consent: intent, utm_source: utmSource, ...leadFields } = data;
+  const row = {
+    ...leadFields,
+    acquisition_source: normalizeAcquisitionSource(utmSource),
+    ...buildConsentFields(intent === true),
+  };
+
   try {
-    const { error } = await storage.client.from('leads').insert([data]);
+    const { error } = await storage.client.from('leads').insert([row]);
 
     if (!error) {
       return { success: true, saved: true, duplicate: false, clientMode: storage.clientMode };

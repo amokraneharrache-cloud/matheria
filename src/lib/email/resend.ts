@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 import { PACK_REVISION_EXPRESS_LABEL } from "@/lib/offers";
 import { CONTACT_EMAIL } from "@/lib/site";
+import { renderEmail0, type SequenceStep } from "@/lib/email/sequence";
 
 type SendAccessCodeEmailParams = {
   to: string;
@@ -12,6 +13,18 @@ type SendAccessCodeEmailParams = {
 type SendPlanningRevisionEmailParams = {
   to: string;
   siteUrl: string;
+  /**
+   * Lien de désinscription. Optionnel : l'email 0 est transactionnel, il ne
+   * l'affiche pas. Il est accepté pour homogénéiser la signature côté runner.
+   */
+  unsubscribeUrl?: string;
+};
+
+type SendNurtureEmailParams = {
+  to: string;
+  siteUrl: string;
+  unsubscribeUrl: string;
+  step: SequenceStep;
 };
 
 let resendClient: Resend | null = null;
@@ -63,65 +76,53 @@ function normalizeSiteUrl(siteUrl: string) {
 export async function sendPlanningRevisionEmail(params: SendPlanningRevisionEmailParams) {
   const { from, replyTo } = getEmailConfig();
   const siteUrl = normalizeSiteUrl(params.siteUrl);
-  const planningUrl = `${siteUrl}/planning-revision-bac-maths`;
-  const printableUrl = `${siteUrl}/planning-bac-maths-2027.html`;
-  const diagnosticUrl = `${siteUrl}/diagnostic`;
-  const correctedSubjectsUrl = `${siteUrl}/sujets-type-bac-maths-terminale#sujet-corrige-guide`;
-  const offerUrl = `${siteUrl}/bac-maths-2027?utm_source=planning_email&utm_medium=email&utm_campaign=rentree_2026#offre`;
 
-  const text = `Bonjour,
-
-C'est bien noté : voici ton planning de révision Bac Maths 2027.
-
-L'idée n'est pas de tout revoir au hasard, mais de travailler les chapitres qui rapportent le plus (suites, limites, dérivation et convexité, logarithme, intégrales, probabilités, géométrie dans l'espace) et de t'entraîner sur des exercices type bac.
-
-1) Ouvre ton planning :
-${planningUrl}
-
-Version imprimable (à garder sur ton bureau) :
-${printableUrl}
-
-2) Identifie tes chapitres prioritaires avec le diagnostic gratuit :
-${diagnosticUrl}
-
-3) Entraîne-toi sur un sujet type bac corrigé pas à pas :
-${correctedSubjectsUrl}
-
-4) Si tu veux réunir les méthodes, exercices guidés et sujets type bac dans un parcours complet, découvre le Pack Révision Express à 39 € en paiement unique :
-${offerUrl}
-
-Une question ? Réponds directement à cet email ou écris à ${CONTACT_EMAIL}.
-
-À bientôt,
-L'équipe SprintMaths`;
-
-  const linkBlock = (label: string, url: string) =>
-    `<p style="margin: 16px 0 4px;"><strong>${label}</strong><br><a href="${url}" style="color: #1e3a8a;">${url}</a></p>`;
-
-  const html = `
-    <div style="font-family: Arial, sans-serif; color: #111827; line-height: 1.6; max-width: 560px;">
-      <p>Bonjour,</p>
-      <p>C'est bien noté : voici ton planning de révision Bac Maths 2027.</p>
-      <p>L'idée n'est pas de tout revoir au hasard, mais de travailler les chapitres qui rapportent le plus (suites, limites, dérivation et convexité, logarithme, intégrales, probabilités, géométrie dans l'espace) et de t'entraîner sur des exercices type bac.</p>
-      <p style="margin: 24px 0;">
-        <a href="${planningUrl}" style="display: inline-block; background: #1e3a8a; color: #ffffff; padding: 12px 24px; border-radius: 9999px; font-weight: 700; text-decoration: none;">Ouvrir mon planning</a>
-      </p>
-      ${linkBlock("Version imprimable (à garder sur ton bureau) :", printableUrl)}
-      ${linkBlock("Identifie tes chapitres prioritaires avec le diagnostic gratuit :", diagnosticUrl)}
-      ${linkBlock("Entraîne-toi sur un sujet type bac corrigé pas à pas :", correctedSubjectsUrl)}
-      ${linkBlock("Découvre le Pack Révision Express à 39 € en paiement unique :", offerUrl)}
-      <p style="margin-top: 24px;">Une question ? Réponds directement à cet email ou écris à <a href="mailto:${CONTACT_EMAIL}" style="color: #1e3a8a;">${CONTACT_EMAIL}</a>.</p>
-      <p>À bientôt,<br>L'équipe SprintMaths</p>
-    </div>
-  `;
+  // Email transactionnel : il délivre ce qui a été demandé. Il ne contient
+  // aucune offre commerciale et n'a donc pas d'en-tête de désinscription.
+  const email = renderEmail0({
+    siteUrl,
+    unsubscribeUrl: params.unsubscribeUrl ?? "",
+  });
 
   return getResendClient().emails.send({
     from,
     to: params.to,
     replyTo,
-    subject: "Ton planning Bac Maths 2027 — 30 jours",
-    html,
-    text,
+    subject: email.subject,
+    html: email.html,
+    text: email.text,
+  });
+}
+
+/**
+ * Envoi d'une étape de la séquence nurture.
+ *
+ * L'appelant DOIT avoir vérifié `marketing_consent = true` et l'absence de
+ * désinscription : cette fonction ne refait pas ce contrôle, elle envoie.
+ */
+export async function sendNurtureEmail(params: SendNurtureEmailParams) {
+  const { from, replyTo } = getEmailConfig();
+  const siteUrl = normalizeSiteUrl(params.siteUrl);
+
+  const email = params.step.render({
+    siteUrl,
+    unsubscribeUrl: params.unsubscribeUrl,
+  });
+
+  return getResendClient().emails.send({
+    from,
+    to: params.to,
+    replyTo,
+    subject: email.subject,
+    html: email.html,
+    text: email.text,
+    headers: {
+      // RFC 8058 : désinscription en un clic depuis Gmail/Outlook, sans
+      // ouvrir la page. Améliore nettement la délivrabilité et évite que la
+      // personne passe par le bouton "spam" pour se débarrasser des emails.
+      "List-Unsubscribe": `<${params.unsubscribeUrl}>`,
+      "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+    },
   });
 }
 

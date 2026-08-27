@@ -53,6 +53,10 @@ export default function PolitiqueConfidentialitePage() {
           <li>Scores, nombre de questions, chapitres travaillés et historique de sessions.</li>
           <li>Historique local conservé dans le navigateur de l’utilisateur.</li>
           <li>Données de leads issues du diagnostic gratuit.</li>
+          <li>
+            Choix concernant les emails facultatifs, date et version du
+            consentement, source d’acquisition et état de désinscription.
+          </li>
           <li>Informations techniques strictement nécessaires au fonctionnement du site.</li>
         </ul>
       </LegalSection>
@@ -66,8 +70,33 @@ export default function PolitiqueConfidentialitePage() {
           <li>Enregistrer les résultats de sessions et afficher la progression.</li>
           <li>Répondre aux demandes de support, d’accès ou de remboursement.</li>
           <li>Suivre les demandes issues du diagnostic gratuit.</li>
+          <li>
+            Envoyer, uniquement avec un consentement facultatif, des conseils,
+            exercices et informations sur les offres SprintMaths.
+          </li>
           <li>Assurer la sécurité et le bon fonctionnement technique du service.</li>
         </ul>
+      </LegalSection>
+
+      <LegalSection title="Emails facultatifs et désinscription">
+        <p>
+          La réception du planning ou du résultat du diagnostic ne dépend pas de
+          l’inscription aux emails de conseils. La case proposée dans les
+          formulaires est facultative et n’est jamais précochée.
+        </p>
+        <p>
+          En cas d’accord, SprintMaths peut utiliser l’adresse email, la source
+          d’acquisition et les informations générales fournies dans le formulaire
+          pour envoyer des conseils de révision, des exercices et, ponctuellement,
+          des informations sur ses offres. La base juridique de ces envois est le
+          consentement.
+        </p>
+        <p>
+          Ce consentement peut être retiré à tout moment grâce au lien de
+          désinscription présent dans chaque email, ou en écrivant à {CONTACT_EMAIL}.
+          Le retrait n’empêche pas l’envoi des messages strictement nécessaires à
+          une demande ou à un achat.
+        </p>
       </LegalSection>
 
       <LegalSection title="Mesure d’audience et campagnes publicitaires">
@@ -129,6 +158,12 @@ export default function PolitiqueConfidentialitePage() {
           L’historique local stocké dans le navigateur peut être supprimé par
           l’utilisateur en vidant les données du site dans son navigateur.
         </p>
+        <p>
+          Les données liées aux emails facultatifs sont conservées pendant une
+          durée raisonnable au regard de la relation avec SprintMaths. La preuve
+          du consentement et la désinscription peuvent être conservées afin de
+          respecter le choix exprimé et d’éviter tout nouvel envoi non souhaité.
+        </p>
       </LegalSection>
 
       <LegalSection title="Prestataires techniques">
@@ -136,7 +171,10 @@ export default function PolitiqueConfidentialitePage() {
         <ul className="list-disc space-y-2 pl-6">
           <li>Supabase : base de données et services techniques associés.</li>
           <li>Stripe : traitement sécurisé des paiements.</li>
-          <li>Resend : envoi des emails transactionnels liés à l’accès.</li>
+          <li>
+            Resend : envoi des emails transactionnels et, lorsque la personne y
+            a consenti, des emails de conseils et d’offres.
+          </li>
           <li>Vercel : hébergement et déploiement du site et de l’application.</li>
         </ul>
         <p>

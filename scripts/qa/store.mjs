@@ -5,6 +5,8 @@ export function store() {
     globalThis.__QA__ = {
       accessCodes: [],
       leads: [],
+      // J58 : état de séquence email (table email_sequence_sends).
+      sequenceSends: [],
       emails: [],
       idSeq: 0,
       leadClientModes: [],
@@ -13,6 +15,8 @@ export function store() {
       // Contrôle de test : simuler une erreur Supabase sur un insert `leads`
       // (null = insert normal). N'affecte ni le webhook ni access_codes.
       leadsInsertError: null,
+      // Contrôle de test : simuler une erreur sur un insert email_sequence_sends.
+      sequenceInsertError: null,
       // Contrôle de test : simuler un échec Resend sur emails.send
       // (null = envoi normal capturé dans `emails`).
       emailsSendError: null,
