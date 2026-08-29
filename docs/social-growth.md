@@ -14,13 +14,20 @@ Rapport complet : [`docs/social/J60.md`](social/J60.md).
 
 - Date réelle : samedi 29 août 2026, fin de vague rentrée.
 - Destination Social → lead retenue : `/planning-revision-bac-maths`.
-- Baseline live : 12 lignes leads, 0 consentant marketing, 0 source
-  d'acquisition, 0 envoi de séquence, 0 échec.
+- Comptes authentifiés et alignés sur `@sprintmaths_fr` ; l'ancien handle
+  TikTok a été corrigé.
 - Production : 3 masters verticaux 1080×1920 et 1 carrousel de 7 slides.
-- Publication : 0, car Chrome n'est pas connecté à Codex. Ne pas créer de
-  compte avant l'audit des sessions existantes.
-- Statut : **PARTIEL / NO GO publication**. Reprendre par l'audit, les liens
-  UTM et la publication de `f01-rentree-terminale-3-actions`.
+- Publication : 3 TikTok publics, 3 Reels Instagram, 3 Shorts YouTube publics
+  et 1 carrousel Instagram, soit 10 publications pour 4 idées originales.
+- Baseline funnel après publication : 12 lignes leads, 0 consentant marketing,
+  0 source d'acquisition, 0 envoi de séquence, 0 échec.
+- Premiers compteurs : TikTok 72 / 53 / 45 vues ; YouTube 5 / 2 / 3 vues et
+  1 abonné ; métriques Instagram non encore consolidées.
+- Tracking : lien YouTube cliquable et testé avec UTM intactes. TikTok ne
+  propose pas de champ site ; Instagram Web exige l'application mobile pour
+  poser le lien.
+- Statut : **GO J60**. Prochains relevés à 48 h et 7 jours, sans winner déclaré
+  sur quelques minutes de données.
 
 Cette destination J60 remplace, pour la vague d'acquisition consentante, le
 lien `/automatismes-maths-premiere` documenté en J1. Le contenu gratuit sans
@@ -288,11 +295,18 @@ contenus.
 
 ## 4. Publications
 
-Aucune publication à ce jour. Le tableau se remplit à partir de la première.
-
 | Date | Plateforme | Sujet | Format | Hook | URL/site associé | Vues | Rétention | Partages | Sauvegardes | Clics | Verdict |
 | --- | --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| — | — | — | — | — | — | — | — | — | — | — | — |
+| 29/08/2026 | TikTok | Rentrée Terminale : 3 actions | Vidéo 27,5 s | Tu rentres en Terminale spé maths ? | `https://www.tiktok.com/@sprintmaths_fr/video/7679550615088827670` | 72 | n.d. | n.d. | n.d. | n.d. | Trop tôt |
+| 29/08/2026 | TikTok | −20 % puis +20 % | Vidéo 22 s | Tu reviens au prix de départ ? | `https://www.tiktok.com/@sprintmaths_fr/video/7679550946958970134` | 53 | n.d. | n.d. | n.d. | n.d. | Trop tôt |
+| 29/08/2026 | TikTok | `−3²` / `(−3)²` | Vidéo 21,2 s | Cette ligne coûte des points | `https://www.tiktok.com/@sprintmaths_fr/video/7679551034695486742` | 45 | n.d. | n.d. | n.d. | n.d. | Trop tôt |
+| 29/08/2026 | Instagram | Rentrée Terminale : 3 actions | Reel | Tu rentres en Terminale spé maths ? | `https://www.instagram.com/sprintmaths_fr/reel/DcoyGBnsNVr/` | n.d. | n.d. | n.d. | n.d. | n.d. | Trop tôt |
+| 29/08/2026 | Instagram | −20 % puis +20 % | Reel | Tu reviens au prix de départ ? | `https://www.instagram.com/sprintmaths_fr/reel/DcoyVyQsQQn/` | n.d. | n.d. | n.d. | n.d. | n.d. | Trop tôt |
+| 29/08/2026 | Instagram | `−3²` / `(−3)²` | Reel | Cette ligne coûte des points | `https://www.instagram.com/sprintmaths_fr/reel/DcoykoWMUGJ/` | n.d. | n.d. | n.d. | n.d. | n.d. | Trop tôt |
+| 29/08/2026 | Instagram | Checklist rentrée | Carrousel 7 slides | Checklist en 5 points | `https://www.instagram.com/sprintmaths_fr/p/Dcoy0A1COcP/` | n.d. | — | n.d. | n.d. | n.d. | Trop tôt |
+| 29/08/2026 | YouTube | Rentrée Terminale : 3 actions | Short | Fais ces 3 choses d'abord | `https://youtube.com/shorts/-aj5aoummOo` | 5 | n.d. | n.d. | n.d. | n.d. | Trop tôt |
+| 29/08/2026 | YouTube | −20 % puis +20 % | Short | Tu reviens au prix de départ ? | `https://youtube.com/shorts/xouFDM4PVjY` | 2 | n.d. | n.d. | n.d. | n.d. | Trop tôt |
+| 29/08/2026 | YouTube | `−3²` / `(−3)²` | Short | `−3²` n'est pas `(−3)²` | `https://youtube.com/shorts/5SoB-E6UwVQ` | 3 | n.d. | n.d. | n.d. | n.d. | Trop tôt |
 
 Règle de remplissage : relevé à **48 h** puis à **7 jours**. Un verdict posé à
 6 h de publication n'a aucune valeur.

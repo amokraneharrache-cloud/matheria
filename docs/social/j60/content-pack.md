@@ -23,13 +23,24 @@ Master : `output/f01-rentree-terminale-3-actions-master.mp4` — 27,5 s.
 | 16,0–21,5 s | « 3. Choisis 3 points vraiment faibles. Commence par celui qui bloque le reste. » |
 | 21,5–27,5 s | « Ton planning 30 jours est prêt. SprintMaths · lien en bio. Aucune vente. Un plan clair pour commencer. » |
 
-### TikTok / Instagram Reels
+### TikTok — légende publiée
 
 ```
 Tu rentres en Terminale spé maths ?
 Ne relis pas tout : reprends les bases, teste-toi, puis choisis 3 priorités.
 
-Planning gratuit sur SprintMaths, lien en bio.
+Planning gratuit sur sprintmaths.com (dans la bio).
+
+#Maths #Terminale #SpecialiteMaths #Bac2027
+```
+
+### Instagram Reels — légende publiée
+
+```
+Tu rentres en Terminale spé maths ?
+Ne relis pas tout : reprends les bases, teste-toi, puis choisis 3 priorités.
+
+Planning gratuit : sprintmaths.com
 
 #Maths #Terminale #SpecialiteMaths #Bac2027
 ```
@@ -136,15 +147,16 @@ Légende :
 La Terminale spé maths ne demande pas de revoir toute la Première.
 Commence par ces 5 points et choisis trois priorités réelles.
 
-Enregistre la checklist pour septembre. Planning gratuit dans le lien en bio.
+Enregistre la checklist pour septembre. Planning gratuit : sprintmaths.com
 
 #Maths #Terminale #SpecialiteMaths #Bac2027
 ```
 
-## Ordre de publication dès déblocage
+## Ordre publié le 29 août 2026
 
-1. V1 rentrée sur TikTok, Reels et Shorts ; carrousel Instagram le même jour.
-2. V2 question flash le lendemain.
-3. V3 erreur classique le jour suivant.
-4. Vérification de chaque URL de post immédiatement après publication.
-5. Relevé métriques à 48 h et 7 jours, sans supprimer un contenu faible.
+1. V1 rentrée sur TikTok, Reels et Shorts.
+2. V2 question flash sur TikTok, Reels et Shorts.
+3. V3 erreur classique sur TikTok, Reels et Shorts.
+4. Carrousel Instagram de 7 slides.
+5. Chaque publication a été ouverte ou vérifiée dans le tableau de bord de la
+   plateforme ; prochains relevés à 48 h et 7 jours.
