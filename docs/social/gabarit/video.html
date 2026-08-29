@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Gabarit vidéo SprintMaths</title>
+<style>
+  :root{
+    --brand:#1e3a8a; --brand-deep:#152a63; --accent:#f59e0b;
+    --ink:#ffffff; --dim:#a5b4dc;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#0b1020;height:100%;overflow:hidden;
+    font-family:"Helvetica Neue",-apple-system,Arial,sans-serif}
+
+  /* Scène 1080x1920, mise à l'échelle pour tenir dans la fenêtre.
+     Mode enregistrement (touche F) : échelle 0,5 exactement, soit 540x960
+     à l'écran. Sur un écran Retina (facteur 2), la capture sort en
+     1080x1920 réels. C'est ce qui permet d'enregistrer en pleine
+     définition sur un portable dont l'écran ne fait pas 1920 px de haut. */
+  #stage{position:absolute;top:50%;left:50%;width:1080px;height:1920px;
+    transform-origin:center center;background:var(--brand);overflow:hidden}
+
+  /* Zone sûre : les interfaces TikTok/Reels/Shorts mangent les bords.
+     Tout le texte reste dans ce cadre. */
+  .safe{position:absolute;left:96px;right:96px;top:300px;bottom:420px;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;gap:38px}
+
+  /* Coupe franche : deux plans ne se superposent jamais. Un fondu croisé
+     de texte sur texte produit un ghosting illisible en vertical. */
+  .beat{position:absolute;inset:0;display:none;flex-direction:column;
+    justify-content:center;align-items:center;gap:38px}
+  .beat.on{display:flex;animation:beat-in .16s ease-out}
+  @keyframes beat-in{from{opacity:0;transform:translateY(16px)}
+                     to{opacity:1;transform:none}}
+
+  h1{font-size:118px;line-height:1.08;font-weight:800;color:var(--ink);
+    letter-spacing:-2px}
+  h1 em{font-style:normal;color:var(--accent)}
+  .q{font-size:88px;line-height:1.15;font-weight:700;color:var(--ink)}
+  .calc{font-size:104px;font-weight:800;color:var(--ink);
+    font-variant-numeric:tabular-nums;letter-spacing:-1px}
+  .calc.muted{color:var(--dim);font-size:82px}
+  .big{font-size:270px;font-weight:800;color:var(--ink);letter-spacing:-8px;line-height:1}
+  .big.accent{color:var(--accent)}
+  .kicker{font-size:64px;font-weight:700;color:var(--dim)}
+  .rule{width:280px;height:12px;border-radius:6px;background:var(--accent)}
+  .count{font-size:200px;font-weight:800;color:var(--accent);line-height:1}
+
+  /* Signature de fin, discrète, jamais en intro */
+  #sig{position:absolute;left:0;right:0;bottom:190px;text-align:center;
+    font-size:44px;font-weight:700;color:var(--dim);letter-spacing:2px;opacity:0;
+    transition:opacity .25s}
+  #sig.on{opacity:1}
+
+  /* Barre de progression : repère de montage, masquée à l'enregistrement */
+  #bar{position:absolute;left:0;bottom:0;height:8px;width:0;background:var(--accent);opacity:.5}
+  body.rec #bar{display:none}
+
+  #hud{position:fixed;left:16px;top:16px;z-index:10;color:#93a3c8;
+    font:12px/1.6 ui-monospace,Menlo,monospace;background:#0f172aee;
+    padding:12px 14px;border-radius:10px;border:1px solid #24304d;max-width:330px}
+  body.rec #hud{display:none}
+  #hud b{color:#e2e8f0}
+  #hud kbd{background:#1e293b;border-radius:4px;padding:1px 6px;color:#cbd5e1}
+</style>
+</head>
+<body>
+
+<div id="hud">
+  <b>Gabarit vidéo SprintMaths</b><br>
+  <kbd>espace</kbd> jouer / rejouer · <kbd>F</kbd> mode enregistrement<br>
+  <span style="color:#64748b">mode F : 540×960 à l'écran = 1080×1920 en Retina</span><br>
+  <kbd>1</kbd>–<kbd>4</kbd> changer de vidéo · <kbd>H</kbd> masquer<br>
+  <span id="hud-scene"></span>
+</div>
+
+<div id="stage">
+  <div class="safe" id="safe"></div>
+  <div id="sig">sprintmaths.com</div>
+  <div id="bar"></div>
+</div>
+
+<script>
+/* ---------------------------------------------------------------
+   Une vidéo = une liste de « beats ».
+   t  : seconde de départ · html : contenu affiché
+   Le découpage de V1 reproduit exactement docs/social-growth.md §9.2
+   --------------------------------------------------------------- */
+const SCENES = {
+  1: {
+    id: "a01-evolutions-20",
+    titre: "V1 — −20 % puis +20 %",
+    duree: 22,
+    sig: 19.5,
+    beats: [
+      { t: 0.0,  html: `<h1>−20 %<br>puis <em>+20 %</em></h1><div class="rule"></div><div class="q">Tu reviens au prix de départ ?</div>` },
+      { t: 2.0,  html: `<div class="calc muted">100 € → −20 % → +20 %</div><div class="count" id="cd">3</div>` },
+      { t: 5.0,  html: `<div class="big">NON</div>` },
+      { t: 7.5,  html: `<div class="big accent">96 €</div>` },
+      { t: 9.5,  html: `<div class="calc">100 × 0,8 = 80</div>` },
+      { t: 12.5, html: `<div class="calc muted">100 × 0,8 = 80</div><div class="calc">80 × 1,2 = 96</div>` },
+      { t: 16.0, html: `<div class="calc">0,8 × 1,2 = 0,96</div><div class="rule"></div><div class="big accent" style="font-size:180px">−4 %</div>` },
+      { t: 19.5, html: `<h1>Les pourcentages<br>ne s'additionnent pas.</h1><div class="q" style="color:var(--accent)">Les coefficients se multiplient.</div>` }
+    ]
+  },
+  2: {
+    id: "b01-carre-oppose",
+    titre: "V2 — −3² n'est pas (−3)²",
+    duree: 20,
+    sig: 17.5,
+    beats: [
+      { t: 0.0,  html: `<div class="kicker">Cette ligne coûte des points<br>chaque année</div><div class="big" style="font-size:200px">−3² = 9</div>` },
+      { t: 2.5,  html: `<div class="big" style="font-size:200px">−3² = 9</div><div class="q" style="color:var(--accent)">Faux.</div>` },
+      { t: 5.0,  html: `<div class="q">Sans parenthèses,<br>la puissance passe avant l'opposé</div>` },
+      { t: 8.5,  html: `<div class="calc">−3² = −(3²) = <span style="color:var(--accent)">−9</span></div>` },
+      { t: 12.0, html: `<div class="calc muted">−3² = −9</div><div class="calc">(−3)² = <span style="color:var(--accent)">9</span></div>` },
+      { t: 15.0, html: `<h1>Deux écritures.<br><em>Deux résultats.</em></h1>` },
+      { t: 17.5, html: `<div class="q">Recopie les deux lignes.<br>C'est la même faute chaque année.</div>` }
+    ]
+  },
+  3: {
+    id: "c01-binomiale-4-conditions",
+    titre: "V3 — Reconnaître une loi binomiale",
+    duree: 26,
+    sig: 23,
+    beats: [
+      { t: 0.0,  html: `<h1>Reconnaître une<br>loi binomiale<br><em>en 20 secondes</em></h1>` },
+      { t: 2.5,  html: `<div class="kicker">1 / 4</div><div class="q">La <span style="color:var(--accent)">même épreuve</span><br>répétée n fois</div>` },
+      { t: 6.5,  html: `<div class="kicker">2 / 4</div><div class="q">Deux issues :<br><span style="color:var(--accent)">succès ou échec</span></div>` },
+      { t: 10.5, html: `<div class="kicker">3 / 4</div><div class="q">Les répétitions sont<br><span style="color:var(--accent)">indépendantes</span></div>` },
+      { t: 14.5, html: `<div class="kicker">4 / 4</div><div class="q">La probabilité p<br>reste <span style="color:var(--accent)">constante</span></div>` },
+      { t: 18.5, html: `<div class="q">X compte les succès</div><div class="calc">X ~ B(n ; p)</div>` },
+      { t: 23.0, html: `<h1>Une condition manque ?<br><em>Ce n'est pas une binomiale.</em></h1>` }
+    ]
+  },
+  4: {
+    id: "d03-automatismes-epreuve",
+    titre: "V4 — Automatismes épreuve anticipée",
+    duree: 24,
+    sig: 21,
+    beats: [
+      { t: 0.0,  html: `<h1>L'épreuve anticipée<br>commence <em>sans<br>calculatrice</em></h1>` },
+      { t: 3.0,  html: `<div class="q">Des questions courtes,<br>à traiter de tête</div><div class="kicker">Exemple :</div>` },
+      { t: 6.0,  html: `<div class="q">Un taux passe de<br><span style="color:var(--accent)">32 % à 38 %</span></div><div class="q">Il augmente de combien ?</div>` },
+      { t: 9.5,  html: `<div class="count" id="cd">3</div>` },
+      { t: 12.5, html: `<div class="calc">38 − 32 = <span style="color:var(--accent)">6 points</span></div>` },
+      { t: 15.5, html: `<div class="calc muted">6 points de pourcentage</div><div class="calc">6 / 32 = <span style="color:var(--accent)">18,75 %</span></div><div class="kicker">le taux d'évolution</div>` },
+      { t: 19.0, html: `<h1>Deux réponses justes.<br><em>Deux questions différentes.</em></h1>` },
+      { t: 21.0, html: `<div class="q">50 automatismes corrigés,<br>gratuits, sur SprintMaths</div>` }
+    ]
+  }
+};
+
+const stage = document.getElementById('stage');
+const safe  = document.getElementById('safe');
+const sig   = document.getElementById('sig');
+const bar   = document.getElementById('bar');
+const hudScene = document.getElementById('hud-scene');
+
+let current = 1, raf = null, t0 = 0;
+
+function fit(){
+  if (document.body.classList.contains('rec')) {
+    stage.style.transform = 'translate(-50%,-50%) scale(0.5)';
+    return;
+  }
+  const w = window.innerWidth  || document.documentElement.clientWidth  || 1080;
+  const h = window.innerHeight || document.documentElement.clientHeight || 1920;
+  const s = Math.max(0.05, Math.min(w / 1080, h / 1920) * 0.94);
+  stage.style.transform = `translate(-50%,-50%) scale(${s})`;
+}
+
+function load(n){
+  current = n;
+  const sc = SCENES[n];
+  safe.innerHTML = sc.beats.map((b,i)=>`<div class="beat" data-i="${i}">${b.html}</div>`).join('');
+  sig.classList.remove('on');
+  bar.style.width = '0';
+  hudScene.textContent = `${sc.titre} · ${sc.duree}s · ${sc.id}`;
+  show(0);
+}
+
+function show(i){
+  safe.querySelectorAll('.beat').forEach(el=>{
+    el.classList.toggle('on', +el.dataset.i === i);
+  });
+}
+
+function play(){
+  const sc = SCENES[current];
+  cancelAnimationFrame(raf);
+  sig.classList.remove('on');
+  t0 = performance.now();
+
+  const tick = (now)=>{
+    const t = (now - t0) / 1000;
+    let idx = 0;
+    sc.beats.forEach((b,i)=>{ if (t >= b.t) idx = i; });
+    show(idx);
+
+    // compte à rebours, quand le beat courant en contient un
+    const cd = safe.querySelector('.beat.on .count');
+    if (cd){
+      const start = sc.beats[idx].t;
+      const left = Math.max(1, 3 - Math.floor(t - start));
+      cd.textContent = left;
+    }
+
+    sig.classList.toggle('on', t >= sc.sig);
+    bar.style.width = Math.min(100, (t / sc.duree) * 100) + '%';
+
+    if (t < sc.duree) raf = requestAnimationFrame(tick);
+  };
+  raf = requestAnimationFrame(tick);
+}
+
+addEventListener('keydown', e=>{
+  if (e.code === 'Space'){ e.preventDefault(); play(); }
+  if (e.key.toLowerCase() === 'f'){ document.body.classList.toggle('rec'); fit(); }
+  if (e.key.toLowerCase() === 'h'){ document.getElementById('hud').style.display =
+      document.getElementById('hud').style.display === 'none' ? 'block' : 'none'; }
+  if (['1','2','3','4'].includes(e.key)){ load(+e.key); }
+});
+
+addEventListener('resize', fit);
+addEventListener('load', fit);
+load(1); fit(); setTimeout(fit, 60);
+</script>
+</body>
+</html>
