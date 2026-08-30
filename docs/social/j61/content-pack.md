@@ -52,3 +52,11 @@ https://www.sprintmaths.com/diagnostic?utm_source=youtube&utm_medium=social&utm_
 - Événement principal : `diagnostic_complete`
 - Événements secondaires : `diagnostic_start`, `diagnostic_result_view`, `diagnostic_email_request`, `diagnostic_resource_click`
 - Première lecture : ne pas déclarer de gagnant avant un volume suffisant ; relever vues, rétention, interactions et clics après au moins 24 à 48 h.
+
+## Publication réelle — 30/08/2026
+
+| Plateforme | URL | État initial |
+| --- | --- | --- |
+| TikTok | <https://www.tiktok.com/@sprintmaths_fr/video/7679788380598717718> | Public, 0 vue/0 like/0 commentaire au contrôle immédiat |
+| Instagram | <https://www.instagram.com/sprintmaths_fr/reel/Dcqbi5UMvNy/> | Reel partagé, métriques non consolidées |
+| YouTube | <https://youtube.com/shorts/oDaqhmcmwAk> | Public, aucune restriction de droits, métriques non consolidées |

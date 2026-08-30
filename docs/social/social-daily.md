@@ -18,7 +18,7 @@
 
 | Jour | Date | Action principale | Contenu | Mesure |
 | --- | --- | --- | --- | --- |
-| 1 | Dim. 30/08 | Question flash | Limite ou dérivée, pause de 10 secondes | Baseline J60 à 24 h, sans verdict |
+| 1 | Dim. 30/08 | **Publié** | Mini-diagnostic de 3 prérequis de Première → diagnostic complet | Baseline J60 à 24 h, sans verdict |
 | 2 | Lun. 31/08 | Erreur fréquente | Une faute d'équation ou de probabilité | Commentaires et sauvegardes |
 | 3 | Mar. 01/09 | Rentrée / organisation | Trois priorités de septembre | Premiers relevés J60 à 48 h |
 | 4 | Mer. 02/09 | Méthode | Reconnaître une loi binomiale | Visites profil et clics |
@@ -29,3 +29,12 @@
 Les dix publications J60 sont en ligne. Ajouter le lien Instagram depuis
 l'application mobile dès que possible et surveiller l'éligibilité future du
 lien TikTok, sans créer de doublon de compte.
+
+### Exécution J61 — jour 1
+
+- TikTok : <https://www.tiktok.com/@sprintmaths_fr/video/7679788380598717718>
+- Instagram : <https://www.instagram.com/sprintmaths_fr/reel/Dcqbi5UMvNy/>
+- YouTube : <https://youtube.com/shorts/oDaqhmcmwAk>
+- Master : `j61/output/d01-mini-diagnostic-terminale-master.mp4`.
+- Aucun commentaire à traiter au relevé initial. Prochaine lecture utile à
+  24–48 h ; ne pas optimiser sur les compteurs immédiats.

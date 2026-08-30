@@ -8,6 +8,30 @@ Première ouverture : **21 août 2026** (vendredi).
 
 ---
 
+## Point opérationnel J61 — 30/08/2026
+
+- Nouveau master original : mini-diagnostic Terminale, 27 s, 1080×1920,
+  publié sur TikTok, Instagram Reels et YouTube Shorts.
+- TikTok : <https://www.tiktok.com/@sprintmaths_fr/video/7679788380598717718>
+  — 0 vue/0 like/0 commentaire au contrôle immédiat.
+- Instagram : <https://www.instagram.com/sprintmaths_fr/reel/Dcqbi5UMvNy/>
+  — partage confirmé, métriques initiales non consolidées.
+- YouTube : <https://youtube.com/shorts/oDaqhmcmwAk> — public, sans restriction
+  de droits, métriques initiales non consolidées.
+- Campagne : `diagnostic_social`, contenu `d01-mini-diagnostic`, UTM distinctes
+  par plateforme.
+- Relevé J60 à J+1 : TikTok 269–284 vues par vidéo ; Instagram 31 vues sur
+  30 jours et 0 interaction ; YouTube 584 vues cumulées sur les trois Shorts
+  dans la fenêtre 48 h affichée. Aucun winner déclaré.
+- Profils : Instagram Web impose toujours l'application mobile pour le lien ;
+  TikTok ne propose toujours aucun champ site. Aucun contournement.
+- Aucun commentaire ni question audience observé. Aucun lead social attribué.
+
+Rapport complet : [`J61-acquisition-engine.md`](J61-acquisition-engine.md),
+sections C et G.
+
+---
+
 ## Point opérationnel J60 — 29/08/2026
 
 Rapport complet : [`docs/social/J60.md`](social/J60.md).

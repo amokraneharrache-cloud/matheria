@@ -1,0 +1,161 @@
+# SprintMaths — Acquisition Growth
+
+Source de vérité transversale pour le moteur visiteur → diagnostic → lead
+consenti → valeur email → achat. Les journaux SEO, Social et Email conservent
+le détail de leur canal ; ce document rassemble les décisions et les KPI.
+
+Dernière mise à jour : **30 août 2026 — J61**.
+
+## North Star
+
+**Nouveaux leads avec consentement marketing prouvé par semaine.**
+
+Un email transactionnel demandé n'est pas un opt-in. Un lead ne compte dans la
+North Star que si `marketing_consent = true`, avec
+`marketing_consent_at` et `consent_version` renseignés.
+
+Baseline J61 : **0 nouveau lead consenti sur 7 jours**.
+
+## Diagnostic
+
+- `/diagnostic` est désormais un vrai test de 10 questions, indexable, avec
+  résultat immédiat et sans email obligatoire.
+- Cinq domaines ont chacun deux questions : calcul, fonctions/dérivation,
+  suites, probabilités, raisonnement/géométrie.
+- Le résultat reste prudent : score global, cinq sous-scores, deux priorités au
+  maximum, corrections et ressources ciblées.
+- L'envoi du bilan est facultatif. La case marketing est distincte, non
+  précochée et sans effet sur la délivrance transactionnelle.
+- Événements : `diagnostic_start`, `diagnostic_complete`,
+  `diagnostic_result_view`, `diagnostic_email_request` et
+  `diagnostic_resource_click`.
+
+## SEO
+
+- GSC 7 jours au 27/08 : **10 clics, 230 impressions, CTR 4,3 %, position 31**.
+- GSC 28 jours : **22 clics, 416 impressions, CTR 5,3 %, position 28**.
+- Indexation : **38 URL indexées / 42 non indexées** ; aucune URL « explorée,
+  actuellement non indexée ».
+- Action SEO unique J61 : transformation de `/diagnostic` en page utile,
+  rendue indexable avec canonical et ajoutée au sitemap.
+- Aucune seconde page créée et aucune demande manuelle d'indexation : la mise à
+  jour du sitemap suffit à ce stade.
+
+Journal détaillé : [`seo-j48-indexation-authority.md`](seo-j48-indexation-authority.md).
+
+## Social
+
+- J60 a produit trois idées originales sur TikTok, Instagram et YouTube, plus
+  un carrousel Instagram.
+- Relevé J61 : TikTok J60 totalise 269 à 284 vues par vidéo ; Instagram affiche
+  31 vues sur 30 jours et 0 interaction ; les trois Shorts J60 totalisent 584
+  vues sur les dernières 48 h affichées.
+- J61 publie un nouveau master de 27 s, « mini-diagnostic Terminale », sur les
+  trois plateformes avec campagne `diagnostic_social`.
+- Les profils TikTok et Instagram ne permettent toujours pas de poser le lien
+  cliquable depuis le Web ; le domaine reste visible en bio. YouTube conserve
+  un lien cliquable.
+
+Journal détaillé : [`social-growth.md`](social-growth.md).
+
+## Direct Distribution
+
+Recherche J61 : 10 prospects adultes/intermédiaires évalués, sans sollicitation
+de mineurs. Trois dépassent le seuil avec une page active, des ressources
+externes déjà référencées et un canal public :
+
+| Prospect | Score | Canal | État |
+| --- | ---: | --- | --- |
+| Génération Zébrée | 10/10 | `team@generationzebree.fr` | Envoyé le 30/08 |
+| Bpi — Autoformation | 10/10 | `valorisations.autoformation@bpi.fr` | Envoyé le 30/08 |
+| Inès Maths | 9/10 | `revision@inesmaths.fr` | Envoyé le 30/08 |
+
+Les messages font 50 à 100 mots, sont personnalisés et proposent le diagnostic
+comme ressource utile, sans demander de backlink. Aucun doublon Gmail n'existait
+avant envoi et aucun bounce n'est observé au relevé initial. Aucune communauté
+n'a été utilisée faute de règle d'autopromotion explicitement compatible
+vérifiée.
+
+## Leads
+
+Relevé production après suppression des lignes de QA :
+
+| KPI | Avant J61 | Après J61 |
+| --- | ---: | ---: |
+| Lignes `leads` | 12 | 12 |
+| Consentements marketing | 0 | 0 |
+| Désinscriptions | 0 | 0 |
+| Sources historiques | 6 diagnostic / 6 planning | inchangé |
+| `acquisition_source` renseignée | 0 | 0 |
+
+Les deux soumissions réelles de validation sur la même adresse de test ont
+confirmé l'upsert sans doublon puis ont été supprimées intégralement.
+
+## Email
+
+- Le planning et le diagnostic ont chacun un email transactionnel dédié.
+- Le diagnostic envoie un bilan seulement sur demande, même sans consentement
+  marketing, et ne contient pas de vente du Pack.
+- La séquence nurture est réservée aux opt-ins et son ancre J+2/J+4/... est
+  désormais `marketing_consent_at`, jamais la date historique de création.
+- Cron configuré : `0 8 * * *` sur `/api/cron/email-sequence`.
+- État production : **0 consentant, 0 envoi de séquence, 0 échec enregistré**.
+- Une délivrance Resend réelle sur `delivered@resend.dev` a validé le chemin
+  transactionnel. Le smoke public passe 6 routes sur 6 ; le contrôle `/health`
+  reste non concluant avec le jeton local disponible (401), sans le confondre
+  avec une panne du produit public.
+
+Journal détaillé : [`email-growth.md`](email-growth.md).
+
+## Revenue
+
+- Achat J61 attribuable : **0**.
+- Revenu J61 attribuable : **0 €**.
+- Les six `access_codes` existants ne sont pas interprétés comme six achats :
+  aucune preuve transactionnelle ne permet cette attribution.
+
+## Daily scorecard
+
+`n.d.` signifie que la donnée n'est pas disponible de façon fiable, et non
+qu'elle vaut zéro.
+
+| Date | Source | Sessions | Leads | Opt-ins | Offer clicks | Purchases |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| 30/08/2026 | Google | n.d. | 0 | 0 | n.d. | 0 |
+| 30/08/2026 | TikTok | n.d. | 0 | 0 | n.d. | 0 |
+| 30/08/2026 | Instagram | n.d. | 0 | 0 | n.d. | 0 |
+| 30/08/2026 | YouTube | n.d. | 0 | 0 | n.d. | 0 |
+| 30/08/2026 | Direct outreach | n.d. | 0 | 0 | n.d. | 0 |
+| 30/08/2026 | Direct | n.d. | 0 | 0 | n.d. | 0 |
+| 30/08/2026 | Email | n.d. | 0 | 0 | n.d. | 0 |
+| 30/08/2026 | Autre | n.d. | 0 | 0 | n.d. | 0 |
+
+## Experiments
+
+| Expérience | Hypothèse | Mesure | Statut |
+| --- | --- | --- | --- |
+| Diagnostic sans gate | Montrer le résultat avant l'email augmente la confiance et les complétions | Starts → results → email requests | Lancée |
+| Mini-diagnostic social | Un aperçu interactif crée plus d'intention qu'un conseil générique | Vues, rétention, clics, leads | Lancée |
+| Distribution éditoriale | Des intermédiaires qualifiés peuvent produire des visites plus intentionnelles | Clics UTM, leads, réponses | 3 envois |
+| Email facultatif | Une proposition après valeur produit des opt-ins plus sains | Requests, opt-ins, désinscriptions | Lancée |
+
+## Plan 30 jours
+
+1. Relever chaque semaine starts, complétions, demandes d'email, opt-ins et
+   clics ressources ; ne pas réécrire le funnel avant volume exploitable.
+2. Publier 3 à 4 vidéos originales par semaine, avec au moins deux variantes du
+   mécanisme mini-test avant toute conclusion de format.
+3. Répondre aux trois prospects J61 ; une seule relance sobre à J+7 si aucun
+   retour, puis clôture.
+4. Mesurer les UTM `diagnostic_social` et `diagnostic_direct` dans les leads,
+   sans attribuer les visites non instrumentées.
+5. Refaire le point GSC à J+7 et J+28 ; observer `/diagnostic`, sans créer une
+   nouvelle page pour remplir un quota.
+6. Maintenir le cron et la séquence ; corriger seulement un bug démontré.
+7. Décider J62 selon le premier signal : portée sociale, clics de distribution
+   ou complétions sans opt-in.
+
+## Décision
+
+**GO acquisition, NO GO nouvelle refonte.** Le bottleneck est maintenant la
+distribution qualifiée et la mesure, plus la construction du diagnostic.

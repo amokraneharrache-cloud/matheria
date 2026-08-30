@@ -12,6 +12,43 @@ qu'il apprend quelque chose.
 
 ---
 
+## Mise à jour J61 — Diagnostic 2.0
+
+Le flow diagnostic décrit plus bas est désormais historique. Depuis le
+30 août 2026 :
+
+```
+/diagnostic → 10 questions → résultat immédiat sans email
+                                 │
+                                 ├─ corrections + ressources
+                                 └─ email facultatif
+                                      │
+                                      ▼
+                         POST /api/leads/diagnostic
+                                      │
+                         email transactionnel dédié
+                                      │
+                  consentement séparé, jamais précoché
+```
+
+- Source : `diagnostic_2:/diagnostic`.
+- L'API stocke le niveau courant et les difficultés, jamais les réponses.
+- La délivrance du bilan ne dépend pas du consentement marketing.
+- Un opt-in explicite ultérieur met à jour le lead existant sans doublon.
+- La séquence nurture utilise `marketing_consent_at` comme ancre. Un ancien
+  lead qui consent aujourd'hui commence à J+2 aujourd'hui, pas depuis sa date
+  de création historique.
+- Un test de non-régression couvre ce cas.
+- Relevé production après QA : 12 leads, 0 consentant, 0 ligne de séquence,
+  0 échec. Le cron reste `0 8 * * *`.
+- La délivrance transactionnelle a été validée avec l'adresse de test Resend,
+  puis les données de test ont été supprimées.
+
+Fichiers principaux : `src/app/api/leads/diagnostic/route.ts`,
+`src/lib/email/diagnostic.ts`, `src/lib/email/sequenceRunner.ts`.
+
+---
+
 ## 1. Flow initial (état avant J58)
 
 ```
