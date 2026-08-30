@@ -70,7 +70,7 @@ export default function Home() {
               }}
             >
               <Button size="sm" className="hidden sm:flex">
-                Faire le diagnostic gratuit
+                Tester mes prérequis
               </Button>
             </TrackedLink>
           </div>
@@ -121,7 +121,7 @@ export default function Home() {
                 }}
               >
                 <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                  Faire le diagnostic gratuit
+                  Faire le mini-test (10 questions)
                 </Button>
               </TrackedLink>
             </div>
@@ -399,7 +399,7 @@ export default function Home() {
                     }}
                   >
                     <Button size="lg" className="w-full text-lg h-14">
-                      Faire le diagnostic gratuit
+                      Faire le mini-test gratuit
                     </Button>
                   </TrackedLink>
                 )}
@@ -414,7 +414,7 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Questions fréquentes</h2>
             <div className="space-y-6">
               {[
-                { q: "Mon enfant est très en difficulté, est-ce adapté ?", a: "Oui, notre diagnostic initial permet de repérer précisément les bases manquantes pour proposer des exercices adaptés, sans le décourager." },
+                { q: "Mon enfant est très en difficulté, est-ce adapté ?", a: "Le mini-test de 10 questions donne un premier repère sur cinq domaines et propose des ressources gratuites pour les points à consolider. Il ne remplace pas l'évaluation d'un professeur." },
                 { q: "Dois-je payer un abonnement tous les mois ?", a: `Non. Le Pack Révision Express Bac Maths 2027 coûte ${PACK_REVISION_EXPRESS_PRICE} € en paiement unique, sans abonnement.` },
                 { q: "Sur quels supports ça fonctionne ?", a: "SprintMaths est une application web accessible directement depuis le navigateur de n'importe quel smartphone, tablette ou ordinateur." }
               ].map((faq) => (
@@ -435,7 +435,7 @@ export default function Home() {
         <section className="px-4 py-20 bg-blue-900 text-white text-center">
           <div className="container mx-auto max-w-3xl">
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">Prêt à aider votre enfant à progresser avant l’examen ?</h2>
-            <p className="text-xl text-blue-200 mb-10">Commencez dès aujourd&apos;hui par une évaluation gratuite de son niveau.</p>
+            <p className="text-xl text-blue-200 mb-10">Commencez par 10 questions pour repérer les prérequis à consolider.</p>
             <TrackedLink
               href="/diagnostic"
               eventName="click_diagnostic"
@@ -445,7 +445,7 @@ export default function Home() {
               }}
             >
               <Button size="lg" variant="secondary" className="text-lg px-10 h-14">
-                Faire le diagnostic gratuit
+                Faire le mini-test gratuit
               </Button>
             </TrackedLink>
           </div>

@@ -18,6 +18,9 @@ export type SprintMathsEventName =
   | "stripe_click"
   | "diagnostic_start"
   | "diagnostic_complete"
+  | "diagnostic_result_view"
+  | "diagnostic_email_request"
+  | "diagnostic_resource_click"
   | "click_lead_magnet_planning"
   | "email_optin"
   | "lead_magnet_request"
@@ -348,6 +351,18 @@ export function trackDiagnosticStarted(params: TrackingParams = {}) {
 
 export function trackDiagnosticCompleted(params: TrackingParams = {}) {
   trackEvent("diagnostic_complete", params);
+}
+
+export function trackDiagnosticResultView(params: TrackingParams = {}) {
+  trackEvent("diagnostic_result_view", params);
+}
+
+export function trackDiagnosticEmailRequest(params: TrackingParams = {}) {
+  trackEvent("diagnostic_email_request", params);
+}
+
+export function trackDiagnosticResourceClick(params: TrackingParams = {}) {
+  trackEvent("diagnostic_resource_click", params);
 }
 
 export function trackViewOffer(params: TrackingParams = {}) {

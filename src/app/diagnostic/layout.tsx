@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Diagnostic de départ",
+  title: "Mini-test de prérequis Terminale spécialité maths",
+  description:
+    "10 questions de maths avec résultat immédiat, sous-scores, corrections et ressources adaptées pour préparer l'entrée en Terminale spécialité maths.",
+  alternates: {
+    canonical: "/diagnostic",
+  },
   robots: {
-    index: false,
+    index: true,
     follow: true,
     googleBot: {
-      index: false,
+      index: true,
       follow: true,
     },
   },

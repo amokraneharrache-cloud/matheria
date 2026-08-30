@@ -1,4 +1,4 @@
-import { Question } from "./types";
+import type { Question } from "@/data/questions/types";
 
 export const bacPremiereQuestions: Question[] = [
   // ===================== CALCUL ALGÉBRIQUE (12 questions) =====================

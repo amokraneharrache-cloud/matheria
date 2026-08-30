@@ -14,6 +14,7 @@ type LeadRow = {
   id: string;
   parent_email: string;
   created_at: string;
+  marketing_consent_at?: string | null;
   marketing_consent: boolean | null;
   marketing_unsubscribed_at: string | null;
   unsubscribe_token: string | null;
@@ -93,7 +94,7 @@ export async function runNurtureSequence(
   const { data: leadsData, error: leadsError } = await client
     .from("leads")
     .select(
-      "id, parent_email, created_at, marketing_consent, marketing_unsubscribed_at, unsubscribe_token",
+      "id, parent_email, created_at, marketing_consent, marketing_consent_at, marketing_unsubscribed_at, unsubscribe_token",
     )
     .eq("marketing_consent", true);
 
@@ -132,7 +133,10 @@ export async function runNurtureSequence(
   const purchaserCache = new Map<string, boolean>();
 
   for (const lead of leads) {
-    const pending = dueSteps(new Date(lead.created_at), now).filter(
+    // Un lead ancien qui consent aujourd'hui entre dans la séquence à partir
+    // de son opt-in explicite, jamais rétroactivement depuis sa création.
+    const sequenceStartedAt = lead.marketing_consent_at ?? lead.created_at;
+    const pending = dueSteps(new Date(sequenceStartedAt), now).filter(
       (step) => !alreadyHandled.has(`${lead.id}:${step.key}`),
     );
 

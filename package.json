@@ -9,7 +9,7 @@
     "lint": "eslint",
     "test:webhook": "node --import ./scripts/qa/register.mjs ./scripts/qa/webhook-e2e.test.mjs",
     "test:planning": "node --import ./scripts/qa/register.mjs ./scripts/qa/planning-lead.test.mjs",
-    "test:diagnostic": "node --import ./scripts/qa/register.mjs ./scripts/qa/diagnostic-lead.test.mjs",
+    "test:diagnostic": "node --import ./scripts/qa/register.mjs ./scripts/qa/diagnostic-lead.test.mjs && node --import ./scripts/qa/register.mjs ./scripts/qa/diagnostic-2.test.mjs",
     "test:health": "node --import ./scripts/qa/register.mjs ./scripts/qa/health.test.mjs",
     "test": "npm run test:webhook && npm run test:planning && npm run test:diagnostic && npm run test:health && npm run test:email",
     "qa:prod": "node scripts/qa/prod-smoke.mjs",

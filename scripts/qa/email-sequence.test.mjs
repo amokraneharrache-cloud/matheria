@@ -272,6 +272,26 @@ test("un lead consentant reçoit les étapes échues, et seulement elles", async
   assert.ok(store().sequenceSends.every((row) => row.status === "sent"));
 });
 
+test("un ancien lead qui consent aujourd'hui démarre à la date d'opt-in", async () => {
+  reset();
+  store().leads.push({
+    id: "lead_old_new_consent",
+    parent_email: "nouvel-optin@example.test",
+    created_at: daysAgo(30),
+    marketing_consent_at: daysAgo(1),
+    marketing_consent: true,
+    marketing_unsubscribed_at: null,
+    unsubscribe_token: "z".repeat(64),
+  });
+
+  const summary = await runNurtureSequence(adminClient(), { siteUrl: SITE });
+
+  assert.equal(summary.eligibleLeads, 1);
+  assert.equal(summary.sent, 0, "J+2 n'est pas encore dû depuis l'opt-in actuel");
+  assert.equal(store().emails.length, 0);
+  assert.equal(store().sequenceSends.length, 0);
+});
+
 // --- 7. Idempotence ----------------------------------------------------------
 
 test("double exécution : aucun email n'est envoyé deux fois", async () => {

@@ -592,11 +592,11 @@ export default function BacMaths2027Page() {
                 Diagnostic
               </p>
               <h2 className="mt-3 text-3xl font-bold text-slate-950">
-                Commence gratuitement avec un diagnostic
+                Commence gratuitement avec 10 questions
               </h2>
               <p className="mt-4 leading-7 text-slate-700">
-                Le diagnostic gratuit aide à savoir par où commencer : chapitres
-                à revoir, niveau de confiance et premières priorités pour
+                Le mini-test vérifie cinq domaines de prérequis, affiche le
+                résultat immédiatement et suggère deux priorités maximum pour
                 réviser sans se disperser.
               </p>
             </div>
@@ -606,8 +606,8 @@ export default function BacMaths2027Page() {
                 Une première étape sans paiement
               </h3>
               <p className="mt-3 leading-7 text-slate-700">
-                Utile pour l&apos;élève qui ne sait pas quoi travailler, et pour le
-                parent qui veut comprendre où concentrer l&apos;effort.
+                Utile pour obtenir un premier repère avant la Terminale, avec
+                les corrections et des ressources gratuites adaptées.
               </p>
               <TrackedLink
                 href="/diagnostic"
@@ -619,7 +619,7 @@ export default function BacMaths2027Page() {
                 className="mt-5 block w-full"
               >
                 <Button size="lg" className="w-full px-4 text-base sm:px-8 sm:text-lg">
-                  Faire le diagnostic gratuit
+                  Faire le mini-test gratuit
                 </Button>
               </TrackedLink>
             </div>

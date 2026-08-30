@@ -138,8 +138,8 @@ La raison est simple : un planning ne sert à rien s'il te fait réviser dans
 l'ordre du programme. Ce qui fait gagner des points, c'est de travailler en
 premier ce qui te coûte le plus cher le jour de l'épreuve.
 
-Si tu ne sais pas lesquels choisir, le diagnostic gratuit te les désigne en
-5 minutes :
+Si tu veux un premier repère, le mini-test gratuit vérifie 5 domaines de
+prérequis en 10 questions :
 ${diagnostic}
 
 Bonnes révisions,
@@ -155,8 +155,8 @@ ${secondaryLink("Version imprimable, à garder sur ton bureau", printable)}
   <p style="margin:0;">Ouvre le planning et <strong>surligne les 3 chapitres</strong> sur lesquels tu es le moins à l'aise. Uniquement 3. C'est par eux que tu commences demain.</p>
 </div>
 <p>La raison est simple : un planning ne sert à rien s'il te fait réviser dans l'ordre du programme. Ce qui fait gagner des points, c'est de travailler en premier ce qui te coûte le plus cher le jour de l'épreuve.</p>
-<p>Si tu ne sais pas lesquels choisir, le diagnostic gratuit te les désigne en 5 minutes :</p>
-${secondaryLink("Faire le diagnostic gratuit", diagnostic)}
+<p>Si tu veux un premier repère, le mini-test gratuit vérifie 5 domaines de prérequis en 10 questions :</p>
+${secondaryLink("Faire le mini-test gratuit", diagnostic)}
 <p style="margin-top:28px;">Bonnes révisions,<br>L'équipe SprintMaths</p>`,
     context,
     { marketing: false },
@@ -298,7 +298,7 @@ aujourd'hui, fais la 2. Jamais la 1.
 DANS QUEL ORDRE PRENDRE LES CHAPITRES
 
 Pas dans l'ordre du programme. Dans l'ordre de ce qui te coûte des points.
-Le diagnostic gratuit te donne cet ordre en 5 minutes :
+Le mini-test gratuit t'aide à repérer jusqu'à deux domaines à consolider :
 ${diagnostic}
 
 À bientôt,
@@ -323,7 +323,7 @@ Un exercice type bac, chronométré, sans regarder le cours.</p>
 
 <p style="font-weight:700;margin-top:26px;">Dans quel ordre prendre les chapitres</p>
 <p>Pas dans l'ordre du programme. Dans l'ordre de ce qui te coûte des points.</p>
-${button("Trouver mes chapitres prioritaires", diagnostic)}
+${button("Repérer mes prérequis à consolider", diagnostic)}
 <p style="margin-top:24px;">À bientôt,<br>L'équipe SprintMaths</p>`,
       context,
       { marketing: true },

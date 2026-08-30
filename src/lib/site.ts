@@ -32,6 +32,7 @@ export function absoluteUrl(path = "/") {
 
 export const publicSeoRoutes = [
   "/",
+  "/diagnostic",
   "/planning-revision-bac-maths",
   "/formules-bac-maths-terminale",
   "/redaction-bac-maths-terminale",

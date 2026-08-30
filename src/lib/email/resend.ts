@@ -2,6 +2,8 @@ import { Resend } from "resend";
 import { PACK_REVISION_EXPRESS_LABEL } from "@/lib/offers";
 import { CONTACT_EMAIL } from "@/lib/site";
 import { renderEmail0, type SequenceStep } from "@/lib/email/sequence";
+import { renderDiagnosticEmail } from "@/lib/email/diagnostic";
+import type { DiagnosticDomainId } from "@/lib/diagnostic";
 
 type SendAccessCodeEmailParams = {
   to: string;
@@ -25,6 +27,14 @@ type SendNurtureEmailParams = {
   siteUrl: string;
   unsubscribeUrl: string;
   step: SequenceStep;
+};
+
+type SendDiagnosticEmailParams = {
+  to: string;
+  siteUrl: string;
+  score: number;
+  total: number;
+  weakDomains: readonly DiagnosticDomainId[];
 };
 
 let resendClient: Resend | null = null;
@@ -82,6 +92,25 @@ export async function sendPlanningRevisionEmail(params: SendPlanningRevisionEmai
   const email = renderEmail0({
     siteUrl,
     unsubscribeUrl: params.unsubscribeUrl ?? "",
+  });
+
+  return getResendClient().emails.send({
+    from,
+    to: params.to,
+    replyTo,
+    subject: email.subject,
+    html: email.html,
+    text: email.text,
+  });
+}
+
+export async function sendDiagnosticResultEmail(params: SendDiagnosticEmailParams) {
+  const { from, replyTo } = getEmailConfig();
+  const email = renderDiagnosticEmail({
+    siteUrl: normalizeSiteUrl(params.siteUrl),
+    score: params.score,
+    total: params.total,
+    weakDomains: params.weakDomains,
   });
 
   return getResendClient().emails.send({
