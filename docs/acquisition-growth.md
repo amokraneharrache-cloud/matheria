@@ -4,7 +4,79 @@ Source de vérité transversale pour le moteur visiteur → diagnostic → lead
 consenti → valeur email → achat. Les journaux SEO, Social et Email conservent
 le détail de leur canal ; ce document rassemble les décisions et les KPI.
 
-Dernière mise à jour : **30 août 2026 — J61**.
+Dernière mise à jour : **31 août 2026 — J62**.
+
+## J62 — annales 100 % corrigées
+
+### Acquisition
+
+- Actif SEO principal : le hub `/annales-bac-maths-terminale` passe de
+  **2 corrigés détaillés sur 10 sujets (20 %)** à **10 sur 10 (100 %)**.
+  Huit routes centre/jour ont été ajoutées ; les 40 exercices officiels sont
+  couverts, avec accès au PDF ministériel et correction SprintMaths originale.
+- GSC au relevé J62 : **7 clics, 216 impressions, CTR 3,2 %, position 31** sur
+  7 jours ; **22 clics, 423 impressions, CTR 5,2 %, position 28,9** sur
+  28 jours. Le hub annales n'a encore que 1 impression sur 7 jours et 3 sur
+  28 jours, sans clic : il n'existe donc pas encore de signal post-déploiement.
+- Social amont : TikTok J60/J61 se situe entre 261 et 292 vues par vidéo avec
+  une rétention courte ; Instagram atteint 50 vues sur J61 et 186 vues cumulées
+  sur les trois Reels J60 ; YouTube affiche 547 vues sur 28 jours et le Short
+  J61 atteint 41 vues avec 44,1 % de visionnage moyen.
+- Le master J62, un vrai exercice Bac Maths 2026 Asie Jour 2, est prêt en
+  1080 × 1920 avec campagne `annales_social`. Sa publication reste bloquée
+  avant upload par l'autorisation Chrome d'accès aux fichiers locaux ; aucune
+  métrique J62 n'est donc inventée.
+- La télémétrie persistée ne permet pas de compter de façon fiable les visites,
+  starts, complétions et vues de résultat du diagnostic : ces valeurs restent
+  `n.d.`.
+
+### Leads
+
+| KPI | Relevé J62 |
+| --- | ---: |
+| Lignes `leads` | 12 |
+| Nouveaux leads depuis J61 | 0 |
+| Consentements marketing totaux | 0 |
+| Nouveaux opt-ins depuis J61 | 0 |
+| Désinscriptions | 0 |
+| Sources historiques | 6 diagnostic / 6 planning |
+| `acquisition_source` renseignée | 0 |
+| Envois `email_sequence_sends` | 0 sent / 0 failed / 0 skipped |
+| Achats attribuables J62 | 0 |
+| Revenu attribuable J62 | 0 € |
+
+Zéro envoi de séquence est le comportement attendu tant qu'aucun consentement
+marketing n'est prouvé. Le diagnostic n'a pas été modifié pendant J62.
+
+### Distribution
+
+Cinq relais nouveaux maximum ont été qualifiés, sans doublon Gmail ni relance
+des trois contacts J61 :
+
+| Prospect | Audience | Page précise | Accepte des ressources externes ? | Contact | Score | État |
+| --- | --- | --- | --- | --- | ---: | --- |
+| APMEP — responsable des annales | Professeurs de mathématiques et élèves | Ressources / annales Bac et formulaire du responsable | Oui, canal dédié aux annales | Formulaire APMEP | 10/10 | Message prérempli, confirmation d'envoi requise |
+| Mathoutils — Jason Lapeyronnie | Élèves et professeurs de lycée | Annales de Bac 2026 et page Contact | Oui, la page accepte explicitement les suggestions | Formulaire Mathoutils | 9/10 | Message prérempli, confirmation d'envoi requise |
+| Onisep — ressources éducatives | Lycéens, familles et équipes éducatives | Ressources éducatives pour l'orientation | Oui, remarques et suggestions acceptées | `ressources@onisep.fr` | 8/10 | Envoyé le 31/08/2026 |
+| Pierre Carrée | Professeurs et élèves de Terminale | Annales 2026, 12 sujets corrigés | Partiel : formulaire ouvert, politique externe non explicite | Formulaire public | 7/10 | Non contacté |
+| AlloAnnales | Élèves, parents et professeurs | Annales Bac 2026 et réseau éducatif | Non démontré ; service directement concurrent | `contact@digika.fr` | 7/10 | Non contacté |
+
+Les messages qualifiés font 50 à 100 mots, sont personnalisés, proposent la
+banque 10/10 comme ressource gratuite et ne demandent aucun backlink. Onisep
+constitue l'opportunité non-SEO J62 : diffusion utile d'une ressource, sans
+objectif principal de lien.
+
+### Résultats
+
+- Couverture éditoriale : **10/10 sujets, 40/40 exercices, 100 %**.
+- Release : commit `1ede0a6`, push `main`, déploiement Vercel production
+  `READY`, 12/12 routes critiques en HTTP 200 et huit nouvelles URL présentes
+  dans le sitemap.
+- Distribution : 1 message envoyé, 2 prêts sous confirmation, 0 réponse et
+  0 mention/lien observés au relevé initial.
+- Social J62 : 0 publication et donc 0 première métrique tant que l'upload
+  Chrome reste bloqué.
+- Conversion J62 : 0 nouveau lead, 0 opt-in, 0 envoi nurture, 0 achat, 0 €.
 
 ## North Star
 
