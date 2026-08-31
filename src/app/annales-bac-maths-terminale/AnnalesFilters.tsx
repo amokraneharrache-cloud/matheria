@@ -45,7 +45,7 @@ export function AnnalesFilters() {
       </div>
 
       <p className="mt-4 text-sm text-slate-600" aria-live="polite">
-        {visibleAnnales.length} sujet{visibleAnnales.length > 1 ? "s" : ""} affiché{visibleAnnales.length > 1 ? "s" : ""}. Tous les liens ouvrent le PDF publié par le ministère.
+        {visibleAnnales.length} sujet{visibleAnnales.length > 1 ? "s" : ""} affiché{visibleAnnales.length > 1 ? "s" : ""}. Chaque sujet possède son PDF ministériel et son corrigé détaillé SprintMaths.
       </p>
 
       <div className="mt-5 overflow-x-auto rounded-2xl border border-slate-200">
@@ -73,9 +73,7 @@ export function AnnalesFilters() {
                   </a>
                 </td>
                 <td className="px-4 py-4 align-top">
-                  {annale.correctionHref ? (
-                    <Link href={annale.correctionHref} className="font-bold text-blue-900 underline underline-offset-4">Correction détaillée</Link>
-                  ) : <span className="text-slate-500">Pas encore publiée</span>}
+                  <Link href={annale.correctionHref} className="font-bold text-blue-900 underline underline-offset-4">Corrigé détaillé</Link>
                 </td>
               </tr>
             ))}

@@ -52,7 +52,7 @@ export default function AnnalesBacMathsTerminalePage() {
       <ChapterHero
         eyebrow="Annales officielles · spécialité mathématiques · session 2026"
         title="Annales du Bac Maths Terminale spécialité"
-        description="Dix sujets officiels 2026, classés par centre, jour et chapitre. Les PDF restent ceux du ministère ; les corrigés signalés comme SprintMaths sont des propositions pédagogiques indépendantes."
+        description="Dix sujets officiels 2026, classés par centre, jour et chapitre. Chacun possède son PDF ministériel et un corrigé détaillé SprintMaths couvrant ses quatre exercices."
         secondaryDescription="Ce hub est mis à jour à partir des publications institutionnelles. Il ne transforme ni un sujet zéro, ni un exercice d’entraînement, ni un sujet type SprintMaths en annale officielle."
         ctas={[]}
       />
@@ -67,9 +67,9 @@ export default function AnnalesBacMathsTerminalePage() {
 
       <section className="px-4 py-14">
         <div className="mx-auto max-w-6xl space-y-16">
-          <QuickAnswer title="10 sujets Terminale 2026 actuellement publiés" tone="emerald">
+          <QuickAnswer title="10 sujets officiels · 10 corrigés détaillés" tone="emerald">
             <p>Deux journées pour chacun des cinq ensembles de centres recensés : Métropole–La Réunion–Mayotte, Antilles-Guyane, Amérique du Nord, centres étrangers groupe 1 et Asie.</p>
-            <p className="text-base">Pour les deux journées principales de Métropole–La Réunion–Mayotte, consulte aussi le <Link href="/sujet-bac-maths-2026-corrige" className="font-bold underline">corrigé détaillé 2026</Link>.</p>
+            <p className="text-base">Tous les sujets présentés ci-dessous disposent désormais d’un corrigé détaillé SprintMaths. Les deux journées de Métropole–La Réunion–Mayotte restent réunies dans le <Link href="/sujet-bac-maths-2026-corrige" className="font-bold underline">corrigé détaillé 2026</Link>.</p>
             <p className="text-base">Pour remonter dans les sessions : <Link href="/sujet-bac-maths-2025-corrige" className="font-bold underline">sujet 2025 corrigé</Link>, <Link href="/sujet-bac-maths-2024-corrige" className="font-bold underline">sujet 2024 corrigé</Link> ou <Link href="/annales-bac-maths-par-chapitre" className="font-bold underline">24 exercices classés par chapitre</Link>.</p>
           </QuickAnswer>
 

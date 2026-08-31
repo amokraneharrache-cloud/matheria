@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { articles } from "@/data/articles";
+import { bac2026CorrectionRoutes } from "@/data/bac2026Corrections";
 import { absoluteUrl, legalRoutes, publicSeoRoutes } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -24,8 +25,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/grand-oral-maths-2027", new Date("2026-08-13T00:00:00.000Z")],
     ["/sujets-grand-oral-maths", new Date("2026-08-13T00:00:00.000Z")],
     ["/questions-jury-grand-oral-maths", new Date("2026-08-13T00:00:00.000Z")],
-    ["/annales-bac-maths-terminale", new Date("2026-08-15T00:00:00.000Z")],
-    ["/annales-bac-maths-par-chapitre", new Date("2026-08-15T00:00:00.000Z")],
+    ["/annales-bac-maths-terminale", new Date("2026-08-31T00:00:00.000Z")],
+    ["/annales-bac-maths-par-chapitre", new Date("2026-08-31T00:00:00.000Z")],
     ["/sujet-bac-maths-2024-corrige", new Date("2026-08-15T00:00:00.000Z")],
     ["/sujet-bac-maths-2025-corrige", new Date("2026-08-15T00:00:00.000Z")],
     ["/sujet-bac-maths-2026-corrige", new Date("2026-08-15T00:00:00.000Z")],
@@ -68,6 +69,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.3,
   }));
 
+  const bac2026CorrectionSitemapRoutes: MetadataRoute.Sitemap = bac2026CorrectionRoutes.map((route) => ({
+    url: absoluteUrl(route),
+    lastModified: new Date("2026-08-31T00:00:00.000Z"),
+    changeFrequency: "monthly",
+    priority: 0.9,
+  }));
+
   const articleRoutes = articles.map((article) => ({
     url: absoluteUrl(`/articles/${article.slug}`),
     lastModified: new Date(article.updatedAt ?? article.publishedAt),
@@ -75,5 +83,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75,
   }));
 
-  return [...staticRoutes, ...legalSitemapRoutes, ...articleRoutes];
+  return [...staticRoutes, ...bac2026CorrectionSitemapRoutes, ...legalSitemapRoutes, ...articleRoutes];
 }

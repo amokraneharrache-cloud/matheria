@@ -6,6 +6,7 @@ import { ResourceTable, ResourceToc } from "@/components/marketing/J41SeoBlocks"
 import { OfficialSources, QuickAnswer, StaticFaq } from "@/components/marketing/J42SeoBlocks";
 import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { bac2026CorrectionSubjects } from "@/data/bac2026Corrections";
 import { breadcrumbJsonLd, faqJsonLd, type FaqItem } from "@/lib/seo";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
 import { ChapterAnnalesFilters } from "./ChapterAnnalesFilters";
@@ -121,6 +122,19 @@ export default function AnnalesBacMathsParChapitrePage() {
             <Filter className="h-8 w-8 text-emerald-800" aria-hidden="true" />
             <div><h2 className="text-3xl font-bold text-slate-950">Quelle annale choisir ?</h2><p className="mt-3 max-w-4xl leading-7 text-slate-700">“Je découvre” prend l’exercice accessible disponible, ou à défaut le premier intermédiaire. “Je maîtrise les bases” cible l’intermédiaire. “Je veux me tester” correspond au niveau Soutenu de SprintMaths.</p></div>
             <ResourceTable caption="Un point de départ par chapitre et par niveau" headers={["Chapitre", "Je découvre", "Je maîtrise les bases", "Je veux me tester"]} rows={orientationRows} />
+          </section>
+
+          <section className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 sm:p-8">
+            <BookOpenCheck className="h-8 w-8 text-emerald-800" aria-hidden="true" />
+            <h2 className="mt-4 text-3xl font-bold text-slate-950">Corrigés 2026 des autres centres</h2>
+            <p className="mt-3 max-w-4xl leading-7 text-slate-700">L’index par chapitre ci-dessus conserve sa sélection de 24 exercices Métropole 2024–2026. Pour travailler un sujet complet 2026 d’Antilles-Guyane, d’Amérique du Nord, d’Asie ou des centres étrangers, chaque journée possède maintenant sa correction intégrale.</p>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {bac2026CorrectionSubjects.map((subject) => (
+                <Link key={subject.slug} href={`/annales/bac-maths-2026/${subject.slug}`} className="rounded-xl border border-emerald-200 bg-white p-4 font-bold leading-6 text-emerald-950 hover:border-emerald-400 hover:bg-emerald-50">
+                  {subject.center}<br /><span className="text-sm font-semibold">{subject.day} · 4 exercices corrigés</span>
+                </Link>
+              ))}
+            </div>
           </section>
 
           <ChapterInternalLinks title="Naviguer entre les trois sessions" variant="cards" links={[
