@@ -64,5 +64,6 @@ pas artificiellement un nouveau format.
 - Labels IA activés sur les trois plateformes. Attribution SIWIS/Piper présente
   dans les légendes ; sous-titres incrustés partout et SRT exact sur YouTube.
 - Baseline immédiate : TikTok `11` vues, `0` like, `0` partage ; un commentaire
-  propriétaire avec UTM est public. Instagram et YouTube : compteurs trop tôt ou
-  non exposés. Relevé de rétention utile à 24–48 h.
+  propriétaire avec UTM est public. Instagram : vues `--`, `0` interaction,
+  activité profil ou nouvel abonné. YouTube : compteur de vues non exposé,
+  `0` like et commentaire. Relevé de rétention utile à 24–48 h.
