@@ -23,7 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/coefficient-specialite-maths-bac-2027", new Date("2026-08-10T00:00:00.000Z")],
     ["/calculatrice-bac-maths-2027", new Date("2026-08-10T00:00:00.000Z")],
     ["/grand-oral-maths-2027", new Date("2026-08-13T00:00:00.000Z")],
-    ["/sujets-grand-oral-maths", new Date("2026-08-13T00:00:00.000Z")],
+    ["/sujets-grand-oral-maths", new Date("2026-09-01T00:00:00.000Z")],
     ["/questions-jury-grand-oral-maths", new Date("2026-08-13T00:00:00.000Z")],
     ["/annales-bac-maths-terminale", new Date("2026-08-31T00:00:00.000Z")],
     ["/annales-bac-maths-par-chapitre", new Date("2026-08-31T00:00:00.000Z")],

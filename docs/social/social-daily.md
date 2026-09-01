@@ -30,6 +30,22 @@ Les dix publications J60 sont en ligne. Ajouter le lien Instagram depuis
 l'application mobile dès que possible et surveiller l'éligibilité future du
 lien TikTok, sans créer de doublon de compte.
 
+## Calendrier audio J63 — 1er au 7 septembre 2026
+
+Cadence : quatre idées originales dans la semaine, dont trois avec voix off. Les
+jours sans publication servent à mesurer, répondre et préparer ; ils ne créent
+pas artificiellement un nouveau format.
+
+| Jour | Idée originale | Traitement audio | Statut / mesure |
+| --- | --- | --- | --- |
+| Mar. 01/09 | Vrai sujet Bac 2026 : lancers francs | **Voix SIWIS + sous-titres + bed original + 2 SFX** | Master J63 prêt ; publication cross-platform puis baseline à 24–48 h |
+| Mer. 02/09 | Aucun nouveau concept | Lecture des commentaires et vérification du son publié | Rétention première seconde, durée moyenne, clics |
+| Jeu. 03/09 | Erreur à l’oral : traduire `P(X ≥ 2)` | **Voix off + sous-titres**, effet d’arrêt très court | Script préparé ; publication après retour du premier master |
+| Ven. 04/09 | Aucun nouveau concept | Préparation et réponses utiles | Ne pas conclure sur moins de 24 h |
+| Sam. 05/09 | Question flash : seuil de probabilité | **Voix off + chrono court + sous-titres** | Comparer la clarté du hook, pas seulement les vues |
+| Dim. 06/09 | Mini-carte « formule → français » | Silence volontaire possible, texte + SFX seulement | Contrôler sauvegardes et partages ; expliquer ce choix si retenu |
+| Lun. 07/09 | Aucun nouveau concept | Bilan hebdomadaire | Leads consentants, clics, rétention médiane et choix J64 |
+
 ### Exécution J61 — jour 1
 
 - TikTok : <https://www.tiktok.com/@sprintmaths_fr/video/7679788380598717718>

@@ -21,10 +21,130 @@ const chapterOptions: GrandOralChapter[] = [
 const specialtyOptions: GrandOralSpecialty[] = ["Aucune", "Physique", "SES", "NSI", "SVT"];
 const difficultyOptions: GrandOralDifficulty[] = ["Accessible", "Intermédiaire", "Exigeant"];
 
+const subjectGroups = [
+  {
+    id: "probabilites",
+    title: "Sujets de Grand Oral Maths sur les probabilités",
+    description:
+      "Hasard, conditionnement, espérance, échantillonnage et loi binomiale : chaque sujet part d’une question précise, pas d’un simple exposé de cours.",
+    matches: (subject: GrandOralSubject) => subject.chapter === "Probabilités",
+  },
+  {
+    id: "suites",
+    title: "Suites et modèles d’évolution",
+    matches: (subject: GrandOralSubject) => subject.category === "Suites et modèles d’évolution",
+  },
+  {
+    id: "exponentielle-logarithme",
+    title: "Exponentielle et logarithme",
+    matches: (subject: GrandOralSubject) => subject.category === "Exponentielle et logarithme",
+  },
+  {
+    id: "derivation-optimisation",
+    title: "Dérivation et optimisation",
+    matches: (subject: GrandOralSubject) => subject.category === "Dérivation et optimisation",
+  },
+  {
+    id: "integrales",
+    title: "Intégrales et quantités cumulées",
+    matches: (subject: GrandOralSubject) => subject.category === "Intégrales et quantités cumulées",
+  },
+  {
+    id: "geometrie",
+    title: "Géométrie et espace",
+    matches: (subject: GrandOralSubject) => subject.category === "Géométrie et espace",
+  },
+  {
+    id: "algorithmique",
+    title: "Algorithmique et informatique",
+    matches: (subject: GrandOralSubject) => subject.category === "Algorithmique et informatique",
+  },
+  {
+    id: "autres-specialites",
+    title: "Mathématiques et autres spécialités",
+    matches: (subject: GrandOralSubject) =>
+      subject.category === "Mathématiques et autres spécialités" &&
+      subject.chapter !== "Probabilités",
+  },
+] as const;
+
 function difficultyClassName(difficulty: GrandOralDifficulty) {
   if (difficulty === "Accessible") return "bg-emerald-100 text-emerald-900";
   if (difficulty === "Intermédiaire") return "bg-amber-100 text-amber-900";
   return "bg-rose-100 text-rose-900";
+}
+
+function isSurveySubject(subject: GrandOralSubject) {
+  return subject.question.toLocaleLowerCase("fr").includes("sondage");
+}
+
+function SubjectCard({
+  subject,
+  headingLevel = 3,
+}: {
+  subject: GrandOralSubject;
+  headingLevel?: 3 | 4;
+}) {
+  const Heading = headingLevel === 4 ? "h4" : "h3";
+
+  return (
+    <article
+      id={`sujet-grand-oral-${subject.id}`}
+      className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm [contain-intrinsic-size:auto_420px] [content-visibility:auto] sm:p-6"
+    >
+      <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wide">
+        <span className="rounded-full bg-blue-100 px-3 py-1 text-blue-900">
+          Sujet {subject.id}
+        </span>
+        <span className={`rounded-full px-3 py-1 ${difficultyClassName(subject.difficulty)}`}>
+          {subject.difficulty}
+        </span>
+        <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">
+          {subject.specialty === "Aucune" ? "Maths" : `Maths + ${subject.specialty}`}
+        </span>
+      </div>
+
+      <p className="mt-3 text-sm font-semibold text-blue-900">{subject.category}</p>
+      <Heading className="mt-2 text-xl font-bold leading-8 text-slate-950">
+        {subject.question}
+      </Heading>
+
+      <dl className="mt-5 space-y-4 text-sm leading-6 text-slate-700">
+        <div>
+          <dt className="font-bold text-slate-950">Notions mobilisées</dt>
+          <dd>{subject.notions.join(" · ")}</dd>
+        </div>
+        <div>
+          <dt className="font-bold text-slate-950">Pourquoi le sujet fonctionne</dt>
+          <dd>{subject.why}</dd>
+        </div>
+        <div>
+          <dt className="font-bold text-slate-950">Piste de raisonnement</dt>
+          <dd>{subject.approach}</dd>
+        </div>
+        <div className="rounded-xl bg-amber-50 p-4 text-amber-950">
+          <dt className="font-bold">Point de vigilance</dt>
+          <dd>{subject.warning}</dd>
+        </div>
+      </dl>
+    </article>
+  );
+}
+
+function SubjectGrid({
+  subjects,
+  headingLevel = 3,
+}: {
+  subjects: GrandOralSubject[];
+  headingLevel?: 3 | 4;
+}) {
+  return (
+    <div className="mt-5 grid gap-5 lg:grid-cols-2">
+      {subjects.map((subject) => (
+        <SubjectCard key={subject.id} subject={subject} headingLevel={headingLevel} />
+      ))}
+    </div>
+  );
 }
 
 export function SubjectFilters({ subjects }: { subjects: GrandOralSubject[] }) {
@@ -41,6 +161,14 @@ export function SubjectFilters({ subjects }: { subjects: GrandOralSubject[] }) {
           (difficulty === "Toutes" || subject.difficulty === difficulty),
       ),
     [chapter, difficulty, specialty, subjects],
+  );
+
+  const groupedSubjects = useMemo(
+    () =>
+      subjectGroups
+        .map((group) => ({ ...group, subjects: filteredSubjects.filter(group.matches) }))
+        .filter((group) => group.subjects.length > 0),
+    [filteredSubjects],
   );
 
   function resetFilters() {
@@ -133,49 +261,69 @@ export function SubjectFilters({ subjects }: { subjects: GrandOralSubject[] }) {
       </p>
 
       {filteredSubjects.length > 0 ? (
-        <div className="mt-5 grid gap-5 lg:grid-cols-2">
-          {filteredSubjects.map((subject) => (
-            <article
-              key={subject.id}
-              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm [contain-intrinsic-size:auto_420px] [content-visibility:auto] sm:p-6"
-            >
-              <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wide">
-                <span className="rounded-full bg-blue-100 px-3 py-1 text-blue-900">
-                  Sujet {subject.id}
-                </span>
-                <span className={`rounded-full px-3 py-1 ${difficultyClassName(subject.difficulty)}`}>
-                  {subject.difficulty}
-                </span>
-                <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">
-                  {subject.specialty === "Aucune" ? "Maths" : `Maths + ${subject.specialty}`}
-                </span>
-              </div>
+        <div className="mt-10 space-y-14">
+          {groupedSubjects.map((group) => {
+            if (group.id === "probabilites") {
+              const surveys = group.subjects.filter(isSurveySubject);
+              const otherProbabilitySubjects = group.subjects.filter(
+                (subject) => !isSurveySubject(subject),
+              );
 
-              <p className="mt-3 text-sm font-semibold text-blue-900">{subject.category}</p>
-              <h3 className="mt-2 text-xl font-bold leading-8 text-slate-950">
-                {subject.question}
-              </h3>
+              return (
+                <section
+                  key={group.id}
+                  id={group.id}
+                  aria-labelledby={`${group.id}-title`}
+                  className="scroll-mt-24"
+                >
+                  <h2 id={`${group.id}-title`} className="text-3xl font-bold text-slate-950">
+                    {group.title}
+                  </h2>
+                  <p className="mt-3 max-w-4xl leading-7 text-slate-700">{group.description}</p>
 
-              <dl className="mt-5 space-y-4 text-sm leading-6 text-slate-700">
-                <div>
-                  <dt className="font-bold text-slate-950">Notions mobilisées</dt>
-                  <dd>{subject.notions.join(" · ")}</dd>
-                </div>
-                <div>
-                  <dt className="font-bold text-slate-950">Pourquoi le sujet fonctionne</dt>
-                  <dd>{subject.why}</dd>
-                </div>
-                <div>
-                  <dt className="font-bold text-slate-950">Piste de raisonnement</dt>
-                  <dd>{subject.approach}</dd>
-                </div>
-                <div className="rounded-xl bg-amber-50 p-4 text-amber-950">
-                  <dt className="font-bold">Point de vigilance</dt>
-                  <dd>{subject.warning}</dd>
-                </div>
-              </dl>
-            </article>
-          ))}
+                  {surveys.length > 0 ? (
+                    <section
+                      id="sondages"
+                      aria-labelledby="sondages-title"
+                      className="mt-9 scroll-mt-24 rounded-2xl border border-blue-200 bg-blue-50 p-5 sm:p-7"
+                    >
+                      <h3 id="sondages-title" className="text-2xl font-bold text-slate-950">
+                        Grand Oral Maths : sondages et statistiques
+                      </h3>
+                      <p className="mt-2 max-w-3xl leading-7 text-slate-700">
+                        Deux angles pour distinguer l’incertitude aléatoire d’un échantillon des biais
+                        de sélection ou de non-réponse.
+                      </p>
+                      <SubjectGrid subjects={surveys} headingLevel={4} />
+                    </section>
+                  ) : null}
+
+                  {otherProbabilitySubjects.length > 0 ? (
+                    <div className="mt-9">
+                      <h3 className="text-2xl font-bold text-slate-950">
+                        Autres problématiques de probabilités
+                      </h3>
+                      <SubjectGrid subjects={otherProbabilitySubjects} headingLevel={4} />
+                    </div>
+                  ) : null}
+                </section>
+              );
+            }
+
+            return (
+              <section
+                key={group.id}
+                id={group.id}
+                aria-labelledby={`${group.id}-title`}
+                className="scroll-mt-24"
+              >
+                <h2 id={`${group.id}-title`} className="text-3xl font-bold text-slate-950">
+                  {group.title}
+                </h2>
+                <SubjectGrid subjects={group.subjects} />
+              </section>
+            );
+          })}
         </div>
       ) : (
         <div className="mt-5 rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
