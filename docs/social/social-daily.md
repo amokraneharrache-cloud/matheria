@@ -38,7 +38,7 @@ pas artificiellement un nouveau format.
 
 | Jour | Idée originale | Traitement audio | Statut / mesure |
 | --- | --- | --- | --- |
-| Mar. 01/09 | Vrai sujet Bac 2026 : lancers francs | **Voix SIWIS + sous-titres + bed original + 2 SFX** | Master J63 prêt ; publication cross-platform puis baseline à 24–48 h |
+| Mar. 01/09 | Vrai sujet Bac 2026 : lancers francs | **Voix SIWIS + sous-titres + bed original + 2 SFX** | Publié sur TikTok, Instagram et YouTube ; baseline à 24–48 h |
 | Mer. 02/09 | Aucun nouveau concept | Lecture des commentaires et vérification du son publié | Rétention première seconde, durée moyenne, clics |
 | Jeu. 03/09 | Erreur à l’oral : traduire `P(X ≥ 2)` | **Voix off + sous-titres**, effet d’arrêt très court | Script préparé ; publication après retour du premier master |
 | Ven. 04/09 | Aucun nouveau concept | Préparation et réponses utiles | Ne pas conclure sur moins de 24 h |
@@ -54,3 +54,15 @@ pas artificiellement un nouveau format.
 - Master : `j61/output/d01-mini-diagnostic-terminale-master.mp4`.
 - Aucun commentaire à traiter au relevé initial. Prochaine lecture utile à
   24–48 h ; ne pas optimiser sur les compteurs immédiats.
+
+### Exécution J63 — jour 1
+
+- TikTok : <https://www.tiktok.com/@sprintmaths_fr/video/7680653117402156310>
+- Instagram : <https://www.instagram.com/sprintmaths_fr/reel/DcwbkZOMvY1/>
+- YouTube : <https://youtube.com/shorts/jProp11lAX0>
+- Master : `j63/output/a63-bac-2026-lancers-francs-audio-master.mp4`.
+- Labels IA activés sur les trois plateformes. Attribution SIWIS/Piper présente
+  dans les légendes ; sous-titres incrustés partout et SRT exact sur YouTube.
+- Baseline immédiate : TikTok `11` vues, `0` like, `0` partage ; un commentaire
+  propriétaire avec UTM est public. Instagram et YouTube : compteurs trop tôt ou
+  non exposés. Relevé de rétention utile à 24–48 h.
