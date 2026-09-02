@@ -2481,5 +2481,6 @@ Message mathete.net préparé (77 mots) :
 > Amokrane — SprintMaths
 
 Aucun message ne demande un backlink, un dofollow ou un échange. Les trois
-envois possibles (deux nouveaux messages et la réponse ParcMaths) restent
-soumis à la confirmation au clic final.
+Les deux nouveaux messages et la réponse ParcMaths ont été envoyés le
+02/09/2026 après confirmation explicite ; aucune réponse n'était encore reçue
+au contrôle de clôture.

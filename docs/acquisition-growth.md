@@ -56,7 +56,7 @@ sans preuve transactionnelle complémentaire.
   première image. Le même master, les légendes et les trois UTMs sont prêts.
 - Distribution : quatre prospects examinés, Portail‑Éducation et mathete.net
   qualifiés à 9/10, sans doublon Gmail. Deux messages et une réponse ParcMaths
-  sont prêts, tous en attente de confirmation d’envoi.
+  envoyés le 02/09 après confirmation ; 0 réponse au contrôle.
 
 Verdict provisoire : **GO SEO et créatif ; audio indécidable ; conversion nulle**.
 Le goulot démontré reste le passage reach → visite qualifiée, suivi du passage

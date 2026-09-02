@@ -34,6 +34,8 @@ Première ouverture : **21 août 2026** (vendredi).
 - Publication TikTok, Instagram et YouTube : en attente du déblocage du
   sélecteur natif de fichiers Chrome et de la confirmation au clic public.
 
+Clôture J64 (02/09/2026) : TikTok [publié/en examen](https://www.tiktok.com/@sprintmaths_fr/video/7680816082440998166), Reel Instagram [publié](https://www.instagram.com/sprintmaths_fr/reel/DcxkL5QskgL/), Short YouTube [publié](https://youtube.com/shorts/p6yFRir6YzA). Mesurer à J+24 h et J+7.
+
 Rapport et livrables : [`social/J64.md`](social/J64.md) et
 [`social/j64/content-pack.md`](social/j64/content-pack.md).
 
