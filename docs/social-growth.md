@@ -8,6 +8,37 @@ Première ouverture : **21 août 2026** (vendredi).
 
 ---
 
+## Point opérationnel J64 — 2/09/2026
+
+- Le relevé J63 a été fait environ une heure après publication, donc trop tôt
+  pour un verdict audio : TikTok 77 vues et 0 interaction ; Instagram 0
+  interaction et compteurs de vues encore `--` ; YouTube 59 vues depuis
+  publication, 17 vues engagées, 31,5 % « ont choisi de regarder » et 68,5 %
+  ont balayé.
+- YouTube affiche 0,8 h de watch time et une durée moyenne de 2:49 sur un Short
+  de 25,2 s. Cette valeur très précoce est sensible aux boucles ; la rétention
+  détaillée est encore en traitement. Elle n’est pas convertie en pourcentage.
+- Audit du hook J63 : voix audible vers `0,055 s`, mais l’écran d’ouverture
+  reste une promesse générique « vrai sujet de Bac » ; la question mathématique
+  n’apparaît qu’autour de `2,0 s`. Le premier problème démontré est le hook,
+  pas l’audio.
+- Effet audio : **trop tôt pour conclure**. Les trois Shorts silencieux J60
+  restent entre 272 et 302 vues sur TikTok et entre 131 et 426 vues sur
+  YouTube ; une seule observation parlée d’environ une heure n’est pas un A/B.
+- Nouveau master commun J64 : intégrale vraie/faux du Bac 2026 Asie J1,
+  formule visible dès T=0, compte à rebours, révélation et réflexe
+  `F(1) − F(0)`. Durée 17,2 s, 1080×1920, H.264/AAC, 30 i/s, voix SIWIS,
+  sous-titres et assets audio originaux.
+- Campagne : `annales_social`, contenu `j64_asie_j1_affirmation_4`, destination
+  `/annales/bac-maths-2026/asie-jour-1-corrige`, sources UTM propres à chaque plateforme.
+- Publication TikTok, Instagram et YouTube : en attente du déblocage du
+  sélecteur natif de fichiers Chrome et de la confirmation au clic public.
+
+Rapport et livrables : [`social/J64.md`](social/J64.md) et
+[`social/j64/content-pack.md`](social/j64/content-pack.md).
+
+---
+
 ## Point opérationnel J61 — 30/08/2026
 
 - Nouveau master original : mini-diagnostic Terminale, 27 s, 1080×1920,

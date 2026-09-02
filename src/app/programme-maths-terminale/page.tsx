@@ -24,12 +24,14 @@ import { breadcrumbJsonLd, faqJsonLd, type FaqItem } from "@/lib/seo";
 const pagePath = "/programme-maths-terminale";
 const title = "Programme Maths Terminale 2026-2027 : chapitres de spécialité";
 const description =
-  "Consulte le programme de maths de Terminale spécialité applicable en 2026-2027, ses chapitres, ses prérequis et les ressources pour les travailler.";
+  "Compare le programme de maths de Terminale spécialité 2026-2027 et le nouveau programme 2027-2028, avec les chapitres et ressources pour les travailler.";
 
 const currentProgramUrl =
   "https://eduscol.education.gouv.fr/sites/default/files/document/spe246annexe1158907pdf-84159.pdf";
 const programCalendarUrl =
   "https://eduscol.education.gouv.fr/5817/programmes-et-ressources-en-mathematiques-voie-gt";
+const futureProgramUrl =
+  "https://www.education.gouv.fr/bo/2026/Hebdo14/MENE2602919A";
 const bacScopeUrl =
   "https://www.education.gouv.fr/bo/2023/Hebdo36/MENE2323020N";
 
@@ -283,6 +285,7 @@ export default function ProgrammeMathsTerminalePage() {
         label="Sommaire du programme de maths Terminale"
         items={[
           { href: "#programme-applicable", label: "Programme applicable" },
+          { href: "#programme-2027", label: "Rentrée 2027" },
           { href: "#chapitres", label: "Tous les chapitres" },
           { href: "#nouveautes", label: "Nouveautés de Terminale" },
           { href: "#prerequis", label: "Prérequis de Première" },
@@ -312,6 +315,67 @@ export default function ProgrammeMathsTerminalePage() {
               </p>
             </QuickAnswer>
           </div>
+
+          <section id="programme-2027" className="scroll-mt-24">
+            <h2 className="text-3xl font-bold text-slate-950">
+              Programme spé maths Terminale 2027 : quel texte utiliser ?
+            </h2>
+            <p className="mt-4 max-w-4xl text-lg leading-8 text-slate-700">
+              Le mot « 2027 » peut désigner la session du Bac 2027 ou la rentrée
+              scolaire de septembre 2027. Les deux situations ne reposent pas sur le
+              même programme officiel.
+            </p>
+            <div className="mt-7 grid gap-5 md:grid-cols-2">
+              <article className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6">
+                <p className="text-sm font-bold uppercase tracking-wide text-emerald-800">
+                  Année 2026-2027 · Bac 2027
+                </p>
+                <h3 className="mt-3 text-2xl font-bold text-emerald-950">
+                  Programme actuellement en vigueur
+                </h3>
+                <p className="mt-3 leading-7 text-emerald-950">
+                  Les élèves qui passent le Bac en juin 2027 étudient encore le
+                  programme publié en 2019. La liste détaillée des chapitres se trouve
+                  juste après cette comparaison.
+                </p>
+                <a
+                  href={currentProgramUrl}
+                  className="mt-4 inline-flex font-bold text-emerald-950 underline underline-offset-4"
+                >
+                  Consulter le programme officiel applicable
+                </a>
+              </article>
+              <article className="rounded-2xl border border-blue-200 bg-blue-50 p-6">
+                <p className="text-sm font-bold uppercase tracking-wide text-blue-800">
+                  Rentrée 2027 · année 2027-2028
+                </p>
+                <h3 className="mt-3 text-2xl font-bold text-blue-950">
+                  Nouveau programme publié en 2026
+                </h3>
+                <p className="mt-3 leading-7 text-blue-950">
+                  Le nouveau texte entre en vigueur en Terminale en septembre 2027.
+                  Il concerne donc d&apos;abord les élèves de Première pendant l&apos;année
+                  2026-2027, puis leur passage en Terminale.
+                </p>
+                <a
+                  href={futureProgramUrl}
+                  className="mt-4 inline-flex font-bold text-blue-950 underline underline-offset-4"
+                >
+                  Lire le nouveau programme au Bulletin officiel
+                </a>
+              </article>
+            </div>
+            <p className="mt-5 text-lg leading-8 text-slate-700">
+              Tu entres en Terminale en septembre 2026 ? Commence par le{" "}
+              <Link
+                href="/preparer-entree-terminale-specialite-maths"
+                className="font-bold text-blue-900 underline underline-offset-4"
+              >
+                diagnostic des prérequis de Première
+              </Link>
+              , puis suis le programme 2026-2027 présenté ici.
+            </p>
+          </section>
 
           <section id="chapitres" className="scroll-mt-24">
             <BookOpenCheck className="h-7 w-7 text-blue-800" aria-hidden="true" />
@@ -471,6 +535,11 @@ export default function ProgrammeMathsTerminalePage() {
                 href: programCalendarUrl,
                 label: "Calendrier d’entrée en vigueur des programmes publiés en 2026",
                 description: "Éduscol précise une application en Terminale à la rentrée 2027-2028.",
+              },
+              {
+                href: futureProgramUrl,
+                label: "Nouveau programme de spécialité mathématiques publié en 2026",
+                description: "Bulletin officiel du 2 avril 2026, applicable en Terminale à partir de 2027-2028.",
               },
               {
                 href: bacScopeUrl,

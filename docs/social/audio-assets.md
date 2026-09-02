@@ -8,6 +8,10 @@
 | Bed harmonique J63 | Généré par `docs/social/j63/generate-media.mjs` | SprintMaths | Création interne | 2026-09-01 | Fond musical original, sans sample tiers |
 | Hook montant J63 | Généré par `docs/social/j63/generate-media.mjs` | SprintMaths | Création interne | 2026-09-01 | Accent sonore à 0,12 s |
 | Reveal J63 | Généré par `docs/social/j63/generate-media.mjs` | SprintMaths | Création interne | 2026-09-01 | Accent sonore au dévoilement du seuil |
+| Bed harmonique J64 | Généré par `docs/social/j64/generate-media.mjs` | SprintMaths | Création interne | 2026-09-02 | Fond musical original, sans sample tiers |
+| Hook montant J64 | Généré par `docs/social/j64/generate-media.mjs` | SprintMaths | Création interne | 2026-09-02 | Accent sonore à T=0 |
+| Countdown J64 | Généré par `docs/social/j64/generate-media.mjs` | SprintMaths | Création interne | 2026-09-02 | Son bref répété pendant le compte à rebours |
+| Reveal J64 | Généré par `docs/social/j64/generate-media.mjs` | SprintMaths | Création interne | 2026-09-02 | Accent sonore à la révélation « Faux » |
 
 Attribution publique utilisée : « Voix synthétique : SIWIS — Yamagishi, Honnet, Garner et Lazaridis, University of Edinburgh — CC BY 4.0 ; synthèse Piper. »
 

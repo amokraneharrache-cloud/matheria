@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:01,050
+Vrai ou faux ?
+
+2
+00:00:01,050 --> 00:00:04,300
+L’intégrale de 0 à 1 de e puissance n x vaut e puissance n sur n.
+
+3
+00:00:04,300 --> 00:00:05,600
+Trois, deux, un.
+
+4
+00:00:05,600 --> 00:00:06,450
+Faux.
+
+5
+00:00:06,450 --> 00:00:10,600
+Aux bornes, c’est e puissance n moins un, le tout sur n.
+
+6
+00:00:10,600 --> 00:00:13,400
+Le réflexe : borne haute moins borne basse.
+
+7
+00:00:13,400 --> 00:00:17,200
+Tous les corrigés du Bac sont gratuits sur SprintMaths.

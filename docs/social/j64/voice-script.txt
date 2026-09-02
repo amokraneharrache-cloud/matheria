@@ -1,0 +1,1 @@
+Vrai ou faux ? L’intégrale de zéro à un de e puissance n x vaut e puissance n sur n. Trois, deux, un. Faux. Aux bornes, c’est e puissance n moins un, le tout sur n. Le réflexe : borne haute moins borne basse. Tous les corrigés du Bac sont gratuits sur SprintMaths.

@@ -10,7 +10,7 @@ Le fond musical est une nappe harmonique originale générée localement. Son ni
 
 ## SFX
 
-Deux effets originaux et sobres au maximum : un accent montant dans les 200 premières millisecondes, puis un son de révélation au seuil numérique. Aucun bruitage continu, aucun sample tiers et aucune imitation de notification de plateforme.
+Trois familles d’effets originaux et sobres au maximum : un accent montant dans les 200 premières millisecondes, un compte à rebours bref si le format le justifie, puis un son de révélation. Aucun bruitage continu, aucun sample tiers et aucune imitation de notification de plateforme.
 
 ## Mixing
 
@@ -36,6 +36,12 @@ Commande J63 :
 node docs/social/j63/generate-media.mjs
 ```
 
+Commande J64 :
+
+```bash
+node docs/social/j64/generate-media.mjs
+```
+
 ## Platform-specific audio
 
 - TikTok : hook sonore immédiat, voix intelligible sans dépendre d’un son tendance, sous-titres incrustés.
@@ -45,3 +51,5 @@ node docs/social/j63/generate-media.mjs
 ## Learnings
 
 Les quatre publications J60/J61 auditées étaient muettes et perdaient l’essentiel de leur audience dans les premières secondes. Le master J62 contient déjà une voix, mais son pic atteint presque 0 dBFS. J63 établit donc une première baseline audio contrôlée ; toute comparaison avec les posts silencieux restera observationnelle jusqu’à disposer de plusieurs contenus parlés comparables.
+
+Le relevé J64 ne permet toujours pas de conclure sur l’effet de l’audio : J63 n’avait qu’environ une heure au moment de la mesure. Le premier signal exploitable vient de YouTube (`68,5 %` de balayage), tandis que la rétention détaillée reste en traitement. L’audit image par image montre surtout un problème de hook : la voix démarre vers `0,055 s`, mais la question mathématique n’apparaît qu’autour de `2,0 s`. J64 place donc la formule complète dès la première image et ramène le master à `17,2 s`.

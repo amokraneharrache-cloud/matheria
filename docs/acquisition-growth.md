@@ -4,7 +4,64 @@ Source de vérité transversale pour le moteur visiteur → diagnostic → lead
 consenti → valeur email → achat. Les journaux SEO, Social et Email conservent
 le détail de leur canal ; ce document rassemble les décisions et les KPI.
 
-Dernière mise à jour : **31 août 2026 — J62**.
+Dernière mise à jour : **2 septembre 2026 — J64**.
+
+## J64 — mesure, hook direct et Programme Terminale 2027
+
+### Mesure du funnel
+
+- GA4, fenêtre complète du 25 au 31 août : 48 sessions, 37 utilisateurs actifs,
+  39 utilisateurs totaux et 95 pages vues.
+- Acquisition sociale : YouTube `social` 8 sessions, 2 engagées, 25 %
+  d’engagement et 47 s d’engagement moyen ; Instagram `social` 2 sessions, 0
+  engagée ; TikTok `social` absent du tableau, soit 0 session enregistrée.
+- `/diagnostic` : 8 vues, 4 `diagnostic_start`, 2
+  `diagnostic_result_view` et 2 `diagnostic_email_request`. Taux calculés après
+  les volumes bruts : 50 % vue → start, 50 % start → résultat, 100 % résultat
+  → demande email.
+- Prudence : quatre sessions `direct / qa` sont présentes et GA4 compte 4
+  événements `email_optin`, alors que Supabase ne contient aucun consentement.
+  Les événements ne prouvent donc ni un lead persisté ni une acquisition réelle.
+
+### Base, email et revenu
+
+| KPI | Valeur J64 |
+| --- | ---: |
+| Leads cumulés | 12 |
+| Nouveaux leads depuis J63 | 0 |
+| Consentements marketing | 0 |
+| Désinscriptions | 0 |
+| Leads éligibles à la séquence | 0 |
+| `email_sequence_sends` | 0 sent / 0 failed / 0 skipped |
+| Nouveaux achats attribuables | 0 |
+| Revenu attribuable J64 | 0 € |
+
+Trois lignes historiques `source=stripe` totalisent 3,00 € dans
+`access_codes`, mais aucune n’est nouvelle depuis J63 et leur contexte n’établit
+pas une vente J64. Les six codes existants restent exclus du comptage de ventes
+sans preuve transactionnelle complémentaire.
+
+### SEO, Social et distribution
+
+- GSC : 6 clics / 196 impressions sur 7 jours et 20 / 477 sur 28 jours. La
+  requête « programme spé maths terminale 2027 » atteint 6 impressions, 0 clic
+  et une position moyenne de 10,2 sur l’URL existante.
+- Action SEO unique : clarification Bac 2027 contre rentrée 2027-2028 sur
+  `/programme-maths-terminale`, avec comparaison, source officielle et maillage
+  rentrée. Aucune nouvelle page.
+- J63 audio est trop récent pour être comparé aux vidéos silencieuses. Son
+  signal YouTube le plus utile est 68,5 % de balayage ; l’audit local montre que
+  la question mathématique attendait environ 2 s malgré une voix à T=0.
+- J64 corrige ce défaut avec un master 17,2 s où l’intégrale est visible dès la
+  première image. Le même master, les légendes et les trois UTMs sont prêts.
+- Distribution : quatre prospects examinés, Portail‑Éducation et mathete.net
+  qualifiés à 9/10, sans doublon Gmail. Deux messages et une réponse ParcMaths
+  sont prêts, tous en attente de confirmation d’envoi.
+
+Verdict provisoire : **GO SEO et créatif ; audio indécidable ; conversion nulle**.
+Le goulot démontré reste le passage reach → visite qualifiée, suivi du passage
+diagnostic → lead consenti. Aucun motif ne justifie une refonte du diagnostic ou
+de la séquence email.
 
 ## J62 — annales 100 % corrigées
 

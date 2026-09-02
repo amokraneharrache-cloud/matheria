@@ -2397,3 +2397,89 @@ Que la croissance s'arrête. 23/08 à 25 impressions reste 4× le niveau d'avant
 sitemap ; un seul jour ne fait pas une tendance, pas plus que le pic du 22/08
 n'en faisait une. La bonne mesure reste la moyenne hebdomadaire sur fenêtres
 disjointes, et il faut deux semaines complètes de plus pour trancher.
+
+---
+
+## J64 — mesure, opportunité Programme 2027 et distribution (02/09/2026)
+
+### GSC et action SEO
+
+GSC est complet jusqu’au 30 août. Sur 7 jours : **6 clics, 196 impressions,
+CTR 3,1 %, position 32,6**. Sur 28 jours : **20 clics, 477 impressions, CTR
+4,2 %, position 29,7**. La requête exacte « programme spé maths terminale
+2027 » apporte 6 impressions, 0 clic et une position moyenne de 10,2 à
+`/programme-maths-terminale`.
+
+La page existante a été renforcée sans créer d’URL : comparaison explicite
+Bac 2027 / rentrée 2027, lien vers le nouveau programme officiel publié en
+2026, maillage rentrée et `lastModified` actualisé. Détail et checkpoint :
+[`seo/J64-programme-terminale-2027.md`](seo/J64-programme-terminale-2027.md).
+
+### Réponses Gmail
+
+- ParcMaths : réponse reçue le 27 août — Frédéric Junier indique ne pas avoir
+  encore pris le temps de regarder la banque Grand Oral mais prévoit de le
+  faire. Réponse de courtoisie préparée, non envoyée avant confirmation.
+- Génération Zébrée, BPI, Inès Maths et Onisep : aucune réponse.
+- Mathlvl, Mission Maths 360 et Moussatat : aucune réponse après l’unique
+  relance. Nicolas Fabres : aucun nouveau message après la réponse du 21 août.
+- Aucun bounce SprintMaths observé.
+
+Réponse préparée pour ParcMaths :
+
+> Bonjour Frédéric,
+>
+> Merci pour votre retour. Aucun souci, prenez le temps qu’il vous faut.
+>
+> Bien cordialement,
+> Amokrane
+
+### Nouveaux prospects — plafond respecté
+
+Quatre candidats adultes/intermédiaires ont été examinés ; seuls deux
+franchissent le seuil ≥8/10.
+
+| Prospect | Audience | Page précise | Liens externes observés | Contact public | Score | État J64 |
+| --- | --- | --- | --- | --- | ---: | --- |
+| Portail‑Éducation | Collégiens, lycéens et parents | Article « meilleurs sites de ressources gratuites en maths » | Oui, dont une offre commerciale externe | `contact@portail-education.fr` | 9/10 | Nouveau, anti-doublon Gmail négatif, message préparé |
+| mathete.net | Lycéens préparant le Bac | `/math-lycee/`, section « Liens utiles » | Oui : APMEP et ToutMonExam | `contact@mathete.net` | 9/10 | Nouveau, anti-doublon Gmail négatif, message préparé |
+| Aix Maths | Lycéens et familles | `/ressources-cours-exercices-de-maths/` | Oui : APMEP, Xmaths, jaicompris, Maths et Tiques | Coordonnée email non lisible dans la page accessible | 7/10 | Non contacté |
+| L’Enseignant | Lycéens | `/annales/terminale` | Non démontré ; offre d’annales propre et concurrente | Email direct | 6/10 | Non contacté |
+
+Message Portail‑Éducation préparé (79 mots) :
+
+> Objet : Une banque gratuite d’annales par chapitre
+>
+> Bonjour,
+>
+> Votre article sur les meilleurs sites de ressources gratuites en maths cite
+> déjà plusieurs plateformes externes. SprintMaths propose gratuitement les
+> 10 sujets officiels de spécialité Maths 2026, soit 40 exercices intégralement
+> corrigés, avec un accès par centre, jour et chapitre :
+> https://www.sprintmaths.com/annales-bac-maths-par-chapitre?utm_source=portail_education&utm_medium=direct&utm_campaign=annales_direct&utm_content=j64_outreach
+>
+> Si cela complète utilement votre sélection, libre à vous de l’évaluer.
+>
+> Bien cordialement,
+> Amokrane — SprintMaths
+
+Message mathete.net préparé (77 mots) :
+
+> Objet : Un complément gratuit à vos liens utiles pour le Bac
+>
+> Bonjour,
+>
+> Votre page Maths lycée oriente déjà les élèves vers l’APMEP et ToutMonExam
+> pour s’entraîner au Bac. SprintMaths ajoute un angle complémentaire : les
+> 10 sujets officiels de spécialité Maths 2026, 40 exercices entièrement
+> corrigés et une entrée directe par chapitre :
+> https://www.sprintmaths.com/annales-bac-maths-par-chapitre?utm_source=mathete&utm_medium=direct&utm_campaign=annales_direct&utm_content=j64_outreach
+>
+> Si cette ressource est utile à vos lecteurs, libre à vous de l’examiner.
+>
+> Bien cordialement,
+> Amokrane — SprintMaths
+
+Aucun message ne demande un backlink, un dofollow ou un échange. Les trois
+envois possibles (deux nouveaux messages et la réponse ParcMaths) restent
+soumis à la confirmation au clic final.
