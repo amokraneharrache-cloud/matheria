@@ -1,0 +1,34 @@
+1
+00:00:00,000 --> 00:00:03,050
+Tu rentres en Terminale spé maths ?
+Trois questions, sans calculatrice.
+
+2
+00:00:03,050 --> 00:00:05,450
+1 · Simplifie (x² − 4)/(x − 2).
+
+3
+00:00:05,450 --> 00:00:06,550
+Réponse : x + 2.
+
+4
+00:00:06,550 --> 00:00:10,050
+2 · u₀ = 16 et chaque terme est divisé par 2.
+Que vaut u₄ ?
+
+5
+00:00:10,050 --> 00:00:11,150
+Réponse : 1.
+
+6
+00:00:11,150 --> 00:00:14,900
+3 · (2 ; 3) · (−1 ; 4) vaut combien ?
+
+7
+00:00:14,900 --> 00:00:15,950
+Réponse : 10.
+
+8
+00:00:15,950 --> 00:00:18,600
+Fais les 10 questions gratuitement
+sur SprintMaths.

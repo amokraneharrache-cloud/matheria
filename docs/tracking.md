@@ -1,5 +1,32 @@
 # Tracking
 
+## Funnel Measurement Contract — J65
+
+Ce contrat sépare une interaction d'interface, une demande transactionnelle
+réellement enregistrée et un consentement marketing. Aucun de ces événements ne
+doit contenir d'email ni de réponse détaillée au diagnostic.
+
+| Event | Déclencheur code exact | Succès serveur requis ? | Signification analytique |
+| --- | --- | --- | --- |
+| `diagnostic_start` | Clic sur le bouton qui fait passer le diagnostic de l'introduction à la première question | Non | Une personne a réellement commencé le questionnaire |
+| `diagnostic_complete` | Validation de la réponse à la dixième et dernière question, après calcul local du score | Non | Les 10 questions ont été terminées et le résultat a été calculé côté client |
+| `diagnostic_result_view` | Même transition finale que `diagnostic_complete`, juste avant l'affichage de l'état résultat | Non | Le parcours a atteint l'écran de résultat ; à ce jour son volume doit être identique à `diagnostic_complete` |
+| `diagnostic_email_request` | Réponse `success` de `/api/leads/diagnostic` avec `saved=true` | Oui, persistance Supabase prouvée | Une demande transactionnelle de bilan a été enregistrée, avec ou sans consentement marketing |
+| `lead_magnet_request` | Réponse `success` de `/api/leads/planning` avec `saved=true` | Oui, persistance Supabase prouvée | Une demande transactionnelle de planning a été enregistrée, avec ou sans consentement marketing |
+| `email_optin` | Après `saved=true`, uniquement si la case de consentement marketing soumise valait explicitement `true` | Oui, plus consentement explicite | Un consentement marketing réel a été enregistré ; ce n'est ni une vue de formulaire ni une simple demande d'email |
+
+Avant le correctif J65, `diagnostic_email_request` et `lead_magnet_request`
+partaient avant la réponse serveur, tandis que `email_optin` partait après toute
+réponse `success`, même avec `marketingConsent=false`. Ce contrat trop large
+explique qu'un volume GA4 ait pu dépasser les lignes Supabase et compter des
+`email_optin` sans aucun consentement réel. Depuis J65, une réponse honeypot
+(`saved=false`), une erreur réseau/serveur ou le mode local non persisté ne produit
+aucun de ces trois événements aval.
+
+Le funnel interprétable est donc :
+
+`diagnostic view → diagnostic_start → diagnostic_complete/result_view → diagnostic_email_request (saved) → email_optin (saved + consent)`.
+
 ## Events SEO sujets type bac J14-J15
 
 Ces events sont pousses via `TrackedLink` et `trackEvent` dans

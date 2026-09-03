@@ -4,6 +4,7 @@
 //  - IP unique par requête pour ne jamais déclencher le rate-limit (5/h/clé)
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { store } from "./store.mjs";
 
 // Le vrai handler, via l'alias résolu par les hooks.
@@ -254,4 +255,18 @@ test("9. bloc succès : 3 CTAs + lien offre, events dédiés, params 100% whitel
   });
   assert.deepEqual(polluted, params, "aucune clé hors whitelist ne survit");
   assert.ok(!containsEmail(polluted), "aucun email après sanitization");
+});
+
+test("10. contrat analytics : lead après save, opt-in seulement avec consentement", async () => {
+  const source = await readFile(
+    new URL("../../src/components/marketing/PlanningLeadForm.tsx", import.meta.url),
+    "utf8",
+  );
+  const fetchIndex = source.indexOf('fetch("/api/leads/planning"');
+  const requestEventIndex = source.indexOf('trackEvent("lead_magnet_request"');
+
+  assert.ok(fetchIndex >= 0 && requestEventIndex > fetchIndex, "l'event demande suit la réponse API");
+  assert.match(source, /if \(result\.saved\) \{/);
+  assert.match(source, /if \(submittedMarketingConsent\) \{\s*trackEvent\("email_optin"/s);
+  assert.doesNotMatch(source, /marketing_consent: marketingConsent \? "true" : "false"/);
 });

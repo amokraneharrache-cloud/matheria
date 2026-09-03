@@ -30,6 +30,7 @@ type PlanningLeadFormProps = {
 
 type ApiResponse = {
   success: boolean;
+  saved?: boolean;
   message?: string;
   emailSent?: boolean;
 };
@@ -86,7 +87,7 @@ export function PlanningLeadForm({
     setStatus("loading");
     setMessage("");
     setEmailSent(false);
-    trackEvent("lead_magnet_request", trackingParams);
+    const submittedMarketingConsent = marketingConsent;
 
     try {
       const response = await fetch("/api/leads/planning", {
@@ -98,7 +99,7 @@ export function PlanningLeadForm({
           email: normalizedEmail,
           sourcePage,
           website,
-          marketingConsent,
+          marketingConsent: submittedMarketingConsent,
           // Source d'acquisition uniquement (jamais d'email) : le serveur la
           // normalise avant stockage.
           utmSource: getStoredUtmEventParams().utm_source,
@@ -110,10 +111,15 @@ export function PlanningLeadForm({
         throw new Error(result?.message || "Impossible d'envoyer la demande.");
       }
 
-      trackEvent("email_optin", {
-        ...trackingParams,
-        marketing_consent: marketingConsent ? "true" : "false",
-      });
+      if (result.saved) {
+        trackEvent("lead_magnet_request", trackingParams);
+        if (submittedMarketingConsent) {
+          trackEvent("email_optin", {
+            ...trackingParams,
+            marketing_consent: "true",
+          });
+        }
+      }
       setEmailSent(Boolean(result.emailSent));
       setStatus("success");
       setMessage("");

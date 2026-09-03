@@ -126,12 +126,7 @@ export function DiagnosticClient() {
     emailSubmittingRef.current = true;
     setEmailStatus("loading");
     setEmailMessage("");
-    trackDiagnosticEmailRequest({
-      exam_goal: "terminale",
-      level: result.level,
-      source_page: "/diagnostic",
-      marketing_consent: marketingConsent ? "true" : "false",
-    });
+    const submittedMarketingConsent = marketingConsent;
 
     try {
       const response = await fetch("/api/leads/diagnostic", {
@@ -142,25 +137,33 @@ export function DiagnosticClient() {
           website,
           score: result.correct,
           weakDomains: result.priorityDomains.map((domain) => domain.id),
-          marketingConsent,
+          marketingConsent: submittedMarketingConsent,
           utmSource: getStoredUtmEventParams().utm_source,
         }),
       });
       const payload = (await response.json().catch(() => null)) as
-        | { success?: boolean; emailSent?: boolean; message?: string }
+        | { success?: boolean; saved?: boolean; emailSent?: boolean; message?: string }
         | null;
 
       if (!response.ok || !payload?.success) {
         throw new Error(payload?.message || "Impossible d’envoyer le bilan.");
       }
 
-      trackEvent("email_optin", {
-        exam_goal: "terminale",
-        level: result.level,
-        source_page: "/diagnostic",
-        marketing_consent: marketingConsent ? "true" : "false",
-        cta_location: "diagnostic_result_email",
-      });
+      if (payload.saved) {
+        const emailTrackingParams = {
+          exam_goal: "terminale",
+          level: result.level,
+          source_page: "/diagnostic",
+          marketing_consent: submittedMarketingConsent ? "true" : "false",
+        };
+        trackDiagnosticEmailRequest(emailTrackingParams);
+        if (submittedMarketingConsent) {
+          trackEvent("email_optin", {
+            ...emailTrackingParams,
+            cta_location: "diagnostic_result_email",
+          });
+        }
+      }
       setEmailStatus("success");
       setEmailMessage(
         payload.emailSent

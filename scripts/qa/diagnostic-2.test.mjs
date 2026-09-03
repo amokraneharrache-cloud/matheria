@@ -185,3 +185,17 @@ test("8. payloads invalides : aucun lead et aucun email", async () => {
   assert.equal(store().leads.length, 0);
   assert.equal(store().emails.length, 0);
 });
+
+test("9. contrat analytics : demande après save, opt-in seulement avec consentement", async () => {
+  const source = await readFile(
+    new URL("../../src/app/diagnostic/DiagnosticClient.tsx", import.meta.url),
+    "utf8",
+  );
+  const fetchIndex = source.indexOf('fetch("/api/leads/diagnostic"');
+  const requestEventIndex = source.indexOf("trackDiagnosticEmailRequest(emailTrackingParams)");
+
+  assert.ok(fetchIndex >= 0 && requestEventIndex > fetchIndex, "l'event demande suit la réponse API");
+  assert.match(source, /if \(payload\.saved\) \{/);
+  assert.match(source, /if \(submittedMarketingConsent\) \{\s*trackEvent\("email_optin"/s);
+  assert.doesNotMatch(source, /marketing_consent: marketingConsent \? "true" : "false"/);
+});

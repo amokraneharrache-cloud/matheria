@@ -25,9 +25,9 @@ import { breadcrumbJsonLd, faqJsonLd, type FaqItem } from "@/lib/seo";
 
 const pagePath = "/methodes-maths-terminale/integrales";
 
-const title = "Méthode intégrales en Terminale";
+const title = "Intégrales en Terminale : méthode et formules";
 const description =
-  "Méthode simple pour réussir les intégrales en Terminale : reconnaître une primitive, calculer F(b)-F(a), interpréter une aire et éviter les erreurs classiques.";
+  "Méthode et formules d’intégrales en Terminale : primitives usuelles, calcul de F(b)-F(a), aire sous la courbe et erreurs à éviter.";
 
 export const metadata: Metadata = {
   title: {
@@ -85,6 +85,29 @@ const primitiveChecks = [
   {
     title: "Vérification",
     text: "Après avoir choisi F, on dérive F mentalement : si F′ = f, la primitive est cohérente.",
+  },
+];
+
+const integralFormulaCards = [
+  {
+    title: "Fonction constante",
+    formula: "∫ₐᵇ c dx = c(b − a)",
+    detail: "Une primitive de la constante c est F(x) = cx.",
+  },
+  {
+    title: "Puissance xⁿ",
+    formula: "∫ₐᵇ xⁿ dx = (bⁿ⁺¹ − aⁿ⁺¹)/(n + 1)",
+    detail: "Cette formule vaut pour tout entier naturel n.",
+  },
+  {
+    title: "Exponentielle",
+    formula: "∫ₐᵇ eˣ dx = eᵇ − eᵃ",
+    detail: "La fonction exponentielle est sa propre primitive.",
+  },
+  {
+    title: "Fonction inverse",
+    formula: "∫ₐᵇ 1/x dx = ln(b) − ln(a)",
+    detail: "Ici, on suppose 0 < a < b pour rester sur ]0 ; +∞[.",
   },
 ];
 
@@ -293,6 +316,47 @@ export default function MethodeIntegralesTerminalePage() {
                   ))}
                 </ul>
               </aside>
+            </div>
+          </section>
+
+          <section
+            id="formules-integrales"
+            className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start"
+          >
+            <div>
+              <BookOpenCheck className="h-7 w-7 text-blue-800" />
+              <h2 className="mt-4 text-3xl font-bold text-slate-950">
+                Formules d&apos;intégrales à connaître en Terminale
+              </h2>
+              <p className="mt-4 text-lg leading-8 text-slate-700">
+                Ces formules viennent directement des primitives usuelles. Pour les
+                retenir sans les réciter à l&apos;aveugle, dérive mentalement la primitive
+                proposée avant d&apos;évaluer les bornes.
+              </p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              {integralFormulaCards.map((item) => (
+                <article
+                  key={item.title}
+                  className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+                >
+                  <h3 className="text-lg font-bold text-slate-950">{item.title}</h3>
+                  <p className="mt-3 font-mono text-base font-semibold text-blue-950 sm:text-lg">
+                    {item.formula}
+                  </p>
+                  <p className="mt-3 leading-7 text-slate-700">{item.detail}</p>
+                </article>
+              ))}
+              <p className="md:col-span-2 text-base leading-7 text-slate-700">
+                Si la forme n&apos;est pas immédiate, reviens à la méthode complète pour{" "}
+                <TrackedLink
+                  href="/primitives-terminale-specialite-maths"
+                  className="font-semibold text-blue-900 underline underline-offset-4"
+                >
+                  calculer une primitive
+                </TrackedLink>
+                .
+              </p>
             </div>
           </section>
 
