@@ -4,7 +4,36 @@ Source de vérité transversale pour le moteur visiteur → diagnostic → lead
 consenti → valeur email → achat. Les journaux SEO, Social et Email conservent
 le détail de leur canal ; ce document rassemble les décisions et les KPI.
 
-Dernière mise à jour : **2 septembre 2026 — J64**.
+Dernière mise à jour : **5 septembre 2026 — J65**.
+
+## J65 — vérité de mesure et distribution du diagnostic
+
+- Le mismatch GA4/Supabase est expliqué : les demandes email partaient avant
+  la réponse serveur et `email_optin` ne vérifiait pas le consentement. Le
+  correctif minimal exige désormais `saved=true`, puis un consentement explicite
+  pour l'opt-in. Les tests contrôlés A/B/C ont validé le contrat dans Tag
+  Assistant et Supabase ; les deux lignes QA ont été supprimées.
+- Funnel exploitable : vue → `diagnostic_start` →
+  `diagnostic_complete`/`diagnostic_result_view` → demande email persistée →
+  consentement marketing réel. La propriété GA4 existante a été renommée
+  **SprintMaths** sans changer la propriété, le flux ni le Measurement ID.
+- Base après nettoyage : 12 leads réels, dont 6 diagnostic et 6 planning ; 0
+  nouveau lead depuis J64, 0 consentement, 0 éligible nurture, 0 envoi, 0 vente
+  à 39 € et North Star à 0 sur 7 jours.
+- Distribution : mini-test envoyé à deux nouveaux relais notés au moins 8/10,
+  Lucas Petit et Geek Junior, sans doublon, Pack ni demande de backlink ; 0
+  réponse au relevé initial. Une communauté a été écartée faute de règle
+  d'autopromotion assez explicite.
+- Social : un master audio unique de 18,6 s, trois questions validées et CTA
+  diagnostic a été publié sur TikTok, Instagram et YouTube. Les métriques J64
+  montrent un signal hook négatif mais non causal ; aucun scale n'est décidé.
+- SEO : GSC frais atteint 6 clics / 227 impressions sur 7 jours et 21 / 523 sur
+  28 jours. L'action unique améliore la page intégrales existante, qui avait
+  déjà 7 impressions, plutôt que de créer une URL concurrente.
+
+Décision : **GO J65**. Le prochain goulot à traiter est le trafic qualifié vers
+le diagnostic ; huit vues ne justifient ni conclusion de conversion ni redesign.
+Rapport complet : [`J65-diagnostic-distribution.md`](J65-diagnostic-distribution.md).
 
 ## J64 — mesure, hook direct et Programme Terminale 2027
 

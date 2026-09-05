@@ -8,6 +8,35 @@ Première ouverture : **21 août 2026** (vendredi).
 
 ---
 
+## Point opérationnel J65 — 5/09/2026
+
+- Relevé J64 à environ 28 h : TikTok 242 vues, 1,69 s moyen et 0,8 % de
+  complétion ; Instagram 163 vues / 154 comptes touchés ; YouTube 43 vues,
+  6 engagées, 13,6 % ont choisi de regarder et 0:08 moyen.
+- Comparé à J63, la question visible dès T=0 n'améliore ni la durée moyenne
+  TikTok ni le choix de regarder YouTube. Verdict : **signal négatif**, sans
+  prétention A/B. La chute TikTok reste concentrée à 0:01.
+- Un seul master J65 a été produit : trois questions réelles du diagnostic,
+  18,6 s, 1080×1920, voix SIWIS à T≈0, sous-titres, musique et SFX sobres,
+  aucun watermark.
+- Publications : [TikTok](https://www.tiktok.com/@sprintmaths_fr/video/7682127172651207958),
+  [Instagram](https://www.instagram.com/sprintmaths_fr/reel/Dc6ppJEsyXG/) et
+  [YouTube](https://youtube.com/shorts/RMq72FjMiMY). TikTok est « Tout le
+  monde », Instagram publié et YouTube public sans problème de droits.
+- Compteurs immédiats : TikTok 1 vue / 0 like / 0 commentaire ; Instagram 0
+  interaction visible, vues non consolidées ; YouTube 0 vue RSS / 0 like / 0
+  commentaire. Prochain vrai relevé à J+24 h puis J+7.
+- Les liens de profil TikTok et Instagram restent indisponibles sur leurs
+  interfaces Web ; aucune légende J65 ne promet un lien en bio. La description
+  YouTube contient l'URL Diagnostic UTM complète.
+- Backlog Social alimenté par GSC : intégrales/primitives/formules, puis
+  probabilités. Aucun nouveau contenu n'est créé automatiquement avant signal.
+
+Rapport et livrables : [`J65-diagnostic-distribution.md`](J65-diagnostic-distribution.md)
+et [`social/j65/content-pack.md`](social/j65/content-pack.md).
+
+---
+
 ## Point opérationnel J64 — 2/09/2026
 
 - Le relevé J63 a été fait environ une heure après publication, donc trop tôt

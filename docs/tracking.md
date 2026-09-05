@@ -27,6 +27,24 @@ Le funnel interprétable est donc :
 
 `diagnostic view → diagnostic_start → diagnostic_complete/result_view → diagnostic_email_request (saved) → email_optin (saved + consent)`.
 
+### Validation contrôlée J65
+
+La production charge le conteneur GTM `GTM-PD7DCMRG`, relié au flux GA4
+SprintMaths `G-761C7Z47JG`. Tag Assistant et une lecture agrégée Supabase ont
+validé trois parcours avec la campagne `j65_controlled`, sans PII dans les
+événements :
+
+| Test | Action | Événements aval attendus et observés | Vérité Supabase |
+| --- | --- | --- | --- |
+| A | Résultat, sans email | Aucun `diagnostic_email_request`, aucun `email_optin` | Aucune ligne |
+| B | Email de test, case marketing vide | `diagnostic_email_request`, aucun `email_optin` | Ligne persistée, consentement faux |
+| C | Email de test, case marketing cochée | `diagnostic_email_request` et `email_optin` | Ligne persistée, consentement vrai et daté |
+
+Le nettoyage a supprimé exactement les deux lignes B/C après contrôle du
+compte ; le relevé final confirme zéro ligne QA restante. La propriété GA4
+existante porte désormais le nom **SprintMaths** ; son identifiant, son flux et
+son historique n'ont pas été remplacés.
+
 ## Events SEO sujets type bac J14-J15
 
 Ces events sont pousses via `TrackedLink` et `trackEvent` dans
