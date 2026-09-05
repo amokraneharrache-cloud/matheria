@@ -130,6 +130,11 @@ Timezone : **Europe/Paris, UTC+2**.
     deux lignes synthétiques ont ensuite été supprimées ; contrôle final : **0
     ligne QA restante**.
 
+    Limite de preuve : GA4 Realtime/DebugView est resté à zéro ou a retourné
+    des erreurs d'interface. Les événements et le déclenchement des balises
+    sont prouvés dans Tag Assistant, ainsi que la persistance dans Supabase ;
+    leur réception dans les rapports GA4 n'est pas confirmée.
+
 22. **Bug trouvé.** Oui : deux demandes étaient mesurées avant la vérité serveur
     et un opt-in marketing ne vérifiait pas la valeur de consentement. Le bug
     affectait le diagnostic et le formulaire planning.
@@ -301,6 +306,14 @@ Timezone : **Europe/Paris, UTC+2**.
 57. **Vercel.** Déploiement de code `dpl_9GCueke8jTrpdbNMuiVCic3ckFbi` :
     **READY**. Les erreurs runtime production sur une heure sont nulles au
     contrôle et les trois routes smoke répondent 200.
+
+    Clôture documentaire `4094c6d`, poussée sur `main` : déploiement
+    `dpl_6vid74gk1XQPqFz6dv1EinZcDznK` également **READY**. Au contrôle final
+    du 5 septembre à 22:18 CEST, les six pages publiques du script `qa:prod`
+    passent et la section intégrales est présente. Le septième contrôle,
+    `/api/health`, répond **401** avec le jeton local : le smoke global fait
+    donc **6/7** et la santé authentifiée n'est pas confirmée. Aucune erreur
+    runtime n'est remontée sur la dernière heure. Aucun secret n'a été modifié.
 
 58. **Git status.** Arbre J65 propre après commit ; seule demeure l'entrée
     préexistante `.claude/worktrees/suspicious-euclid-bee4f2`, volontairement

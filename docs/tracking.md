@@ -45,6 +45,11 @@ compte ; le relevé final confirme zéro ligne QA restante. La propriété GA4
 existante porte désormais le nom **SprintMaths** ; son identifiant, son flux et
 son historique n'ont pas été remplacés.
 
+Limite de validation : GA4 Realtime/DebugView n'a pas permis de confirmer la
+réception dans les rapports (zéro ou erreurs d'interface). Les preuves A/B/C
+portent sur les événements et balises dans Tag Assistant et sur la persistance
+Supabase ; elles ne constituent pas un relevé de comptages GA4.
+
 ## Events SEO sujets type bac J14-J15
 
 Ces events sont pousses via `TrackedLink` et `trackEvent` dans
