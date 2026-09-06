@@ -110,7 +110,7 @@ Date du relevé : 6 septembre 2026, Europe/Paris (CEST, UTC+2). Les données mar
 80. Diff : `git diff --check` vert.
 81. Commit : `976dc93` — « J66: connect SEO traffic to diagnostic and verify purchase tracking ».
 82. Push : `origin/main` poussé vers `github.com/amokraneharrache-cloud/matheria`.
-83. Vercel : déploiement production `dpl_GCCE7DikSY5pYiF21RRKLgMA4eD7`, état READY, commit `976dc93`, alias sprintmaths.com/www.sprintmaths.com.
+83. Vercel : déploiement code `dpl_GCCE7DikSY5pYiF21RRKLgMA4eD7` READY sur `976dc93`, puis déploiement final `dpl_G5HDjuG8jHwkEYxabcSRvvy1ai9y` READY sur `d41a4cf`; les alias sprintmaths.com/www.sprintmaths.com sont actifs.
 84. Git status : seule modification étrangère restante est `.claude/worktrees/suspicious-euclid-bee4f2`, jamais stagée ni commitée.
 85. Limites release : redirect Stripe Payment Link et réception GA4 purchase restent à confirmer avec l’accès Stripe/Google; les routes et tests négatifs production sont vérifiés.
 
