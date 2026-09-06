@@ -1,5 +1,34 @@
 # SprintMaths — Acquisition Growth
 
+## J66 — baseline des 5–6 septembre 2026
+
+Début 5/09 à 22:29 CEST ; reprise le 6/09 matin, Europe/Paris (UTC+2). Données GSC actualisées, dernière journée disponible 3/09 :
+
+| Période GSC | Clics | Impressions | CTR | Position |
+| --- | ---: | ---: | ---: | ---: |
+| 28/08–03/09 (7 j) | 9 | 277 | 3,2 % | 20,5 |
+| 07/08–03/09 (28 j) | 28 | 642 | 4,4 % | 25,9 |
+
+Pages 7 j (clics/impressions) : programme 6/163, formules 1/22, calculatrice 1/14, dérivation 1/2, Grand Oral 0/24, planning 0/18. Pages 28 j : programme 7/310, planning 6/82, calculatrice 3/29, préparer rentrée 3/19, formules 2/32, dérivation 2/17, accueil 2/8, Grand Oral 1/70.
+
+Requêtes 28 j : grand oral probabilité 0/33, programme spé maths terminale 2027 0/9, sujets sondage Grand Oral 0/9, planning revision bac s 0/8. Préparer ma rentrée Terminale spé maths 1/1 ; petits signaux formules/intégrales/probabilités. Les requêtes anonymisées empêchent de déduire les clics page de leur seule somme. Aperçu indexation : 43 indexées/37 non indexées ; causes non auditées, santé d'indexation non démontrée.
+
+GA4 : un rapport déjà ouvert sur 29/08–04/09 affichait 73 sessions, 60 utilisateurs actifs, 59 nouveaux, 1:32 d'engagement/session, 7 événements clés et 0 revenu. Entrées : programme 12, automatismes 9, annales 8, Asie J1 7, diagnostic 7, planning 5, suites 4. L'actualisation a ensuite échoué (erreurs Google puis CAPTCHA). Il s'agit d'une relecture du rapport ouvert, pas d'une extraction fraîche.
+
+La baseline communiquée 30 j (151 sessions, 124 utilisateurs, 48,34 %, 1:06, 748 événements ; période précédente 49 sessions), Bing 40/Google 24/YouTube 19/Instagram 7, l'unique vue d'offre et zéro clic Stripe ne sont **pas revalidés J66**. Pays, Qwant, TikTok, qualité et funnel actuel : n.d. Aucun filtre par pays ni conclusion « robots » sur la seule durée nulle. Autorité Google : hypothèse, non diagnostic établi.
+
+Supabase avant QA J66 : 12 leads (6 diagnostic, 6 planning), 0 consentant, 0 nouveau depuis le 24/08, 0 acquisition_source, 0 désinscrit, 0 envoi de séquence. Les six accès incluent trois créations manuelles et trois historiques Stripe à 1 € de mai ; ils ne prouvent aucune vente réelle à 39 €.
+
+Action SEO unique : enrichissement de `/formules-bac-maths-terminale` par six applications corrigées, conditions et erreurs fréquentes. Correction concomitante d'un encart obsolète sur les exclusions de l'écrit, avec le BO du 28/09/2023. Page déjà visible et cliquée (2/32 sur 28 j) ; pas de nouvelle URL ni changement de title/H1. Les CTA ne sont pas comptés comme action éditoriale.
+
+Routing : cinq positions contextuelles vers le Diagnostic ; événement générique `diagnostic_cta_click`. North Star : nouveaux leads consentants/7 j ; mesure amont clics CTA/sessions d'entrée SEO, puis résultat → demande email → consentement. Contrats J65, Diagnostic et séquence inchangés.
+
+Social : master audio 15 s prêt ; espacement J65 respecté. Distribution : trois nouveaux messages envoyés, voir [journal](j66/distribution.md). Aucune visite ou vente déduite d'un envoi.
+
+Sept jours glissants post-J65 à partir du **10/09/2026 12:53:38,456 CEST** (déploiement code le 3/09). Sept journées civiles : 4–10/09, à consulter le 11/09 après actualisation.
+
+
+
 Source de vérité transversale pour le moteur visiteur → diagnostic → lead
 consenti → valeur email → achat. Les journaux SEO, Social et Email conservent
 le détail de leur canal ; ce document rassemble les décisions et les KPI.

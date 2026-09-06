@@ -1,5 +1,58 @@
 # Tracking
 
+## J66 — QA future, purchase et routage SEO
+
+### QA future
+
+Les navigations lancées avec `utm_source=qa` OU `utm_medium=qa` (valeur entière, casse ignorée) initialisent une session QA dans `sessionStorage` pour 30 minutes d'activité. Le signal survit aux liens internes sans UTM. `GoogleTagManager` l'initialise avant de charger son script ; `trackEvent` le réapplique avant chaque événement.
+
+Le signal est `traffic_type=internal`, placé via la commande globale `gtag('set', ...)` et sur les événements applicatifs. La configuration exacte du filtre GA4 distant n'a pas pu être revalidée en J66 (erreurs Google puis CAPTCHA). Pour garantir que les QA futures ne gonflent pas cette propriété, `ga-disable-G-761C7Z47JG=true` coupe aussi la collecte vers ce flux avant son chargement. Un achat Stripe de test active également cette protection, même sans UTM. Les événements restent inspectables dans la file locale/Tag Assistant ; l'absence volontaire de collecte QA n'est pas une preuve de réception GA4.
+
+Le blocage reste actif dans le document chargé. Pour une session ordinaire, utiliser un nouvel onglet sans UTM QA, après expiration de la session QA si l'onglet est réutilisé. Aucun filtre par pays, IP seule ou `source=qa` inventé. Les données historiques restent inchangées. La date effective sera l'heure READY du déploiement J66, consignée dans le rapport.
+
+Tag Assistant referral : aucune modification des références indésirables sans preuve d'une attribution réelle ; exclure une référence ne supprime pas des événements QA.
+
+### Purchase
+
+Avant J66 : le webhook Stripe créait un accès après paiement, mais aucun événement `purchase` vérifié n'était connecté au navigateur. Une vue de `/merci` ne prouve rien.
+
+Après J66 : `/merci?session_id={CHECKOUT_SESSION_ID}` appelle `POST /api/stripe/purchase`. Le serveur récupère la session via la clé secrète Stripe avec expansion `payment_link`, exige `mode=payment`, `status=complete`, `payment_status=paid`, le lien de paiement configuré et, en production, `livemode=true`. Il ne renvoie que les trois paramètres de mesure. Une erreur, un identifiant absent/falsifié, un autre produit ou une session impayée ne produit aucun événement.
+
+- `transaction_id` = identifiant stable de session Stripe, jamais un email.
+- `value` = montant Stripe effectif en unité majeure (diviseur 100 pour EUR, devises zéro décimale prises en compte).
+- `currency` = devise Stripe en majuscules.
+- Déduplication navigateur par identifiant en mémoire et stockage local (50 derniers) ; GA4 peut également dédupliquer `transaction_id`.
+- Émission navigateur après vérification serveur, pour conserver l'attribution existante ; aucun nouvel accès créé par cet endpoint.
+- Clé secrète Stripe absente : HTTP 503 et aucun achat déclaré.
+- Le webhook refuse désormais aussi l'absence de `payment_status=paid`.
+
+**Dépendance externe restante** : vérifier/configurer sur le Payment Link Stripe existant `after_completion.redirect.url=https://www.sprintmaths.com/merci?session_id={CHECKOUT_SESSION_ID}`. L'authentification Stripe demande la clé d'accès du titulaire ; cette configuration n'est pas encore confirmée. Aucun paiement réel de QA ni fausse vente production. La réception GA4 et le statut Key Event doivent encore être vérifiés dans l'interface accessible ; aucun événement custom doublon créé.
+
+### Diagnostic CTA
+
+Un seul événement `diagnostic_cta_click`, avec `source_page` et `placement`, accompagne le composant `DiagnosticCta` :
+
+| Route | Placement |
+| --- | --- |
+| Programme Terminale | `after_intro`, après la réponse utile sur le programme applicable |
+| Automatismes Première | `after_exercise`, après l'entraîneur |
+| Hub annales | `annales_contextual`, après la liste des sujets |
+| Template huit corrections 2026 | `after_correction`, après la correction complète |
+| Exercices suites | `after_exercise`, après le premier exercice |
+
+Promesse : « Teste tes bases en 10 questions ». Sous-promesse : « Résultat et corrections immédiats. Aucun email obligatoire. » Bouton : « Faire le test gratuit ».
+
+Le conteneur public GTM-PD7DCMRG charge déjà le Google tag G-761C7Z47JG. Ses événements GA existants utilisent une whitelist sans `transaction_id`, `value` ni `placement`. Les deux nouveaux contrats passent donc par la file gtag native (`Arguments`, commande `event`, `send_to` explicite), sans deuxième custom event susceptible de déclencher en double le regex GTM `diagnostic_.*`. Les événements J65 gardent leur transport et leurs conditions serveur.
+
+Mesure J67 : `diagnostic_cta_click / sessions d'entrée SEO ciblées`, puis `diagnostic_start → result_view → diagnostic_email_request → email_optin`. Le ratio clics/sessions peut dépasser 100 % si une session clique plusieurs fois ; pour un taux de conversion, utiliser des sessions distinctes ayant cliqué.
+
+### Fenêtre post-J65
+
+Le commit fonctionnel J65 `cb80c62703b2313932beff30256e3225bd9cbaae` était READY le **3 septembre 2026 à 12:53:38,456 CEST** (Vercel `dpl_9GCueke8jTrpdbNMuiVCic3ckFbi`). Sept jours glissants entièrement post-correctif seront disponibles à partir du **10 septembre 2026 à 12:53:38,456 CEST**. Sept journées civiles complètes : **4–10 septembre**, à consulter le 11 septembre après actualisation. Les commits de documentation du 5 septembre ne déplacent pas la mise en production du code.
+
+Sources : [Google : trafic interne](https://support.google.com/analytics/answer/10104470), [Google tag API et portée des paramètres](https://developers.google.com/tag-platform/gtagjs/reference), [Stripe : après paiement d'un Payment Link](https://docs.stripe.com/payment-links/post-payment).
+
+
 ## Funnel Measurement Contract — J65
 
 Ce contrat sépare une interaction d'interface, une demande transactionnelle

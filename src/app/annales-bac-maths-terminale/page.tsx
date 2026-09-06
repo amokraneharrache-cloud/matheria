@@ -1,3 +1,4 @@
+import { DiagnosticCta } from "@/components/marketing/DiagnosticCta";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BookOpenCheck, FileCheck2, Layers3 } from "lucide-react";
@@ -97,6 +98,8 @@ export default function AnnalesBacMathsTerminalePage() {
             <p className="mt-4 max-w-4xl leading-7 text-slate-700">Les filtres sont exécutés uniquement dans le navigateur : aucun compte, stockage, suivi ou envoi au serveur. La liste complète figure dans le HTML initial.</p>
             <div className="mt-7"><AnnalesFilters /></div>
           </section>
+
+          <DiagnosticCta sourcePage={pagePath} placement="annales_contextual" context="Tu ne sais pas quels chapitres revoir avant les annales ? Fais le diagnostic." />
 
           <section id="choisir" className="scroll-mt-24 rounded-2xl border border-blue-200 bg-blue-50 p-6 sm:p-8">
             <BookOpenCheck className="h-8 w-8 text-blue-800" aria-hidden="true" />

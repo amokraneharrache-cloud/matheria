@@ -676,6 +676,51 @@ const formulaChapters: FormulaChapter[] = [
   },
 ];
 
+const formulaApplications = [
+  {
+    title: "Suites : partir du bon indice",
+    question: "Une suite géométrique vérifie u₁ = 3 et q = 2. Calcule u₅, puis u₁ + … + u₅.",
+    steps: ["Entre les rangs 1 et 5, il y a 4 multiplications : u₅ = 3 × 2⁴ = 48.", "La somme contient 5 termes. On factorise le premier : S = 3(1 + 2 + 2² + 2³ + 2⁴).", "Ainsi S = 3 × (1 − 2⁵)/(1 − 2) = 93."],
+    pitfall: "L’exposant pour u₅ vaut 4 ; celui de la formule de somme vaut 5. Ils ne comptent pas la même chose.",
+    href: "#suites", label: "Retrouver les formules de suites",
+  },
+  {
+    title: "Dérivation : reconnaître une composée",
+    question: "Dérive f(x) = ln(2x + 1) et précise le domaine où ta réponse est valable.",
+    steps: ["Le logarithme exige 2x + 1 > 0 : on travaille sur ]−1/2 ; +∞[.", "On pose u(x) = 2x + 1, donc u′(x) = 2. La formule est (ln u)′ = u′/u.", "On obtient f′(x) = 2/(2x + 1), uniquement sur cet intervalle."],
+    pitfall: "Écrire 1/(2x + 1) oublie la dérivée de la fonction intérieure. Étendre la réponse à tout réel oublie le domaine de f.",
+    href: "#derivation", label: "Revoir les règles de dérivation",
+  },
+  {
+    title: "Limites : transformer avant de remplacer",
+    question: "Calcule la limite de (x² − 4)/(x − 2) lorsque x tend vers 2.",
+    steps: ["La substitution directe donne 0/0 : elle ne fournit aucune valeur de limite.", "Pour x ≠ 2, on factorise x² − 4 = (x − 2)(x + 2), puis on simplifie le quotient en x + 2.", "La limite cherchée est donc 4. La fonction initiale reste non définie en 2."],
+    pitfall: "Une limite peut exister en un point où l’expression n’est pas définie. On ne conclut ni 0 ni 1 à partir de 0/0.",
+    href: "#limites", label: "Retrouver les règles de limites",
+  },
+  {
+    title: "Intégrales : une primitive, puis deux bornes",
+    question: "Calcule exactement l’intégrale de 0 à 1 de 2x/(x² + 1).",
+    steps: ["On reconnaît u′/u avec u(x) = x² + 1. Ce dénominateur est strictement positif sur [0 ; 1].", "Une primitive est F(x) = ln(x² + 1). On utilise F(1) − F(0).", "Le résultat vaut ln(2) − ln(1) = ln(2). Aucune approximation décimale n’est nécessaire."],
+    pitfall: "La réponse à une intégrale définie est un nombre. La constante d’une primitive s’annule dans la différence des deux bornes.",
+    href: "#integrales", label: "Revoir primitives et intégrales",
+  },
+  {
+    title: "Probabilités : exactement ou au moins ?",
+    question: "Trois essais indépendants réussissent chacun avec probabilité 0,2. Quelle est la probabilité d’au moins un succès ?",
+    steps: ["Les trois épreuves ont deux issues, sont indépendantes et gardent la même probabilité : X suit la loi binomiale de paramètres 3 et 0,2.", "« Au moins un » correspond à X ≥ 1. L’événement contraire est X = 0.", "P(X ≥ 1) = 1 − P(X = 0) = 1 − 0,8³ = 0,488, soit 48,8 %."],
+    pitfall: "P(X = 1) = 3 × 0,2 × 0,8² = 0,384 ne répond pas à la question : cette valeur exclut deux ou trois succès.",
+    href: "#probabilites", label: "Retrouver les formules de probabilités",
+  },
+  {
+    title: "Géométrie : vérifier la formule par les coordonnées",
+    question: "Dans un repère orthonormé, A(1 ; 0 ; 2) et B(3 ; 1 ; 0). Calcule la distance AB.",
+    steps: ["Le vecteur AB a pour coordonnées (3 − 1 ; 1 − 0 ; 0 − 2) = (2 ; 1 ; −2).", "On utilise la norme euclidienne : AB² = 2² + 1² + (−2)² = 9.", "Une distance est positive : AB = √9 = 3."],
+    pitfall: "Les carrés portent sur les différences de coordonnées. Ne calcule pas la différence des carrés et n’oublie pas la racine finale.",
+    href: "#geometrie", label: "Revoir les formules de géométrie",
+  },
+];
+
 const faqItems: FaqItem[] = [
   {
     question: "Faut-il apprendre toutes les formules par cœur ?",
@@ -741,13 +786,13 @@ export default function FormulesBacMathsTerminalePage() {
           <div className="mx-auto max-w-6xl">
             <aside className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 leading-7 text-amber-950">
               <strong>Programme annuel ou épreuve écrite ?</strong> Cette fiche
-              couvre les outils du cours de Terminale. Pour la session 2027, le
-              périmètre actuel de l’épreuve écrite est plus resserré : les fonctions
-              sinus et cosinus, le calcul intégral ainsi que les équations
-              différentielles y&apos; = ay et y&apos; = ay + b ne figurent pas parmi
-              les contenus évaluables à l’écrit. Ils restent au programme annuel.{" "}
+              couvre les outils du cours de Terminale. Depuis la session 2024,
+              l’épreuve porte sur le programme de Terminale spécialité en vigueur
+              et peut mobiliser les notions de Première. Les anciennes exclusions
+              de chapitres ont été abrogées : ne laisse pas de côté les intégrales,
+              les équations différentielles ou la trigonométrie pour ce motif.{" "}
               <a
-                href="https://www.education.gouv.fr/bo/22/Hebdo36/MENE2227884N.htm"
+                href="https://www.education.gouv.fr/bo/2023/Hebdo36/MENE2323020N"
                 className="font-bold underline underline-offset-4"
               >
                 Vérifier le programme officiel de l’épreuve
@@ -760,6 +805,7 @@ export default function FormulesBacMathsTerminalePage() {
             >
               <h2 className="text-2xl font-bold text-slate-950">Sommaire par chapitre</h2>
               <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                <a href="#applications-corrigees" className="rounded-xl border border-blue-100 bg-white px-4 py-3 font-semibold text-blue-950 hover:border-blue-300">6 applications corrigées</a>
                 {formulaChapters.map((chapter) => (
                   <a
                     key={chapter.id}
@@ -771,6 +817,26 @@ export default function FormulesBacMathsTerminalePage() {
                 ))}
               </div>
             </nav>
+            <section id="applications-corrigees" className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-5 sm:p-8">
+              <h2 className="text-2xl font-bold text-slate-950">6 applications corrigées pour choisir la bonne formule</h2>
+              <p className="mt-4 leading-7 text-slate-700">Une fiche sert aussi à s’entraîner. Cherche chaque réponse avant d’ouvrir sa correction, puis vérifie les conditions, les indices et le sens de la question. Ces exemples sont des entraînements originaux SprintMaths.</p>
+              <div className="mt-6 grid gap-5 lg:grid-cols-2">
+                {formulaApplications.map((example) => (
+                  <article key={example.title} className="rounded-xl border border-slate-200 p-5">
+                    <h3 className="text-lg font-bold text-slate-950">{example.title}</h3>
+                    <p className="mt-3 leading-7 text-slate-700">{example.question}</p>
+                    <details className="mt-4 rounded-lg bg-slate-50 p-4">
+                      <summary className="cursor-pointer font-bold text-blue-900 focus-visible:outline-2 focus-visible:outline-offset-4">Voir la correction</summary>
+                      <ol className="mt-4 list-decimal space-y-3 pl-5 leading-7 text-slate-700">
+                        {example.steps.map((step) => <li key={step}>{step}</li>)}
+                      </ol>
+                      <p className="mt-4 border-l-4 border-amber-400 pl-3 leading-7 text-slate-700"><strong>Piège à éviter :</strong> {example.pitfall}</p>
+                      <a href={example.href} className="mt-4 inline-flex font-bold text-blue-900 underline underline-offset-4">{example.label}</a>
+                    </details>
+                  </article>
+                ))}
+              </div>
+            </section>
             <div className="mt-5 rounded-2xl border border-blue-100 bg-white p-5 print:hidden">
               <h2 className="text-xl font-bold text-slate-950">
                 Comprendre les équations différentielles

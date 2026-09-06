@@ -11,10 +11,11 @@
     "test:planning": "node --import ./scripts/qa/register.mjs ./scripts/qa/planning-lead.test.mjs",
     "test:diagnostic": "node --import ./scripts/qa/register.mjs ./scripts/qa/diagnostic-lead.test.mjs && node --import ./scripts/qa/register.mjs ./scripts/qa/diagnostic-2.test.mjs",
     "test:health": "node --import ./scripts/qa/register.mjs ./scripts/qa/health.test.mjs",
-    "test": "npm run test:webhook && npm run test:planning && npm run test:diagnostic && npm run test:health && npm run test:email && npm run test:annales",
+    "test": "npm run test:webhook && npm run test:planning && npm run test:diagnostic && npm run test:health && npm run test:email && npm run test:annales && npm run test:tracking",
     "qa:prod": "node scripts/qa/prod-smoke.mjs",
     "test:email": "node --import ./scripts/qa/register.mjs ./scripts/qa/email-sequence.test.mjs",
-    "test:annales": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON ./scripts/qa/annales-coverage.test.mjs && node ./scripts/qa/annales-math-review.test.mjs"
+    "test:annales": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON ./scripts/qa/annales-coverage.test.mjs && node ./scripts/qa/annales-math-review.test.mjs",
+    "test:tracking": "node --import ./scripts/qa/register.mjs ./scripts/qa/purchase-tracking.test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.104.1",

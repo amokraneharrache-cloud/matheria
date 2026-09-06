@@ -1,3 +1,4 @@
+import { DiagnosticCta } from "@/components/marketing/DiagnosticCta";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BookOpenCheck, CalendarDays, GraduationCap } from "lucide-react";
@@ -124,6 +125,8 @@ export default async function Bac2026CenterCorrectionPage({ params }: PageProps)
               officialPdfUrl={subject.pdfUrl}
             />
           </section>
+
+          <DiagnosticCta sourcePage={pagePath} placement="after_correction" context="Tu bloques sur plusieurs notions ? Repère tes priorités en 10 questions." />
 
           <section className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 sm:p-8">
             <GraduationCap className="h-8 w-8 text-emerald-800" aria-hidden="true" />

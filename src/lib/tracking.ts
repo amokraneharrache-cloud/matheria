@@ -1,4 +1,5 @@
 import { getStoredUtmEventParams } from "@/lib/utm";
+import { GA4_MEASUREMENT_ID, initializeQaTracking, pushGoogleTagCommand } from "@/lib/qaTracking";
 import {
   getStorageItem,
   setStorageItem,
@@ -17,6 +18,7 @@ export type SprintMathsEventName =
   | "click_offer"
   | "stripe_click"
   | "diagnostic_start"
+  | "diagnostic_cta_click"
   | "diagnostic_complete"
   | "diagnostic_result_view"
   | "diagnostic_email_request"
@@ -132,6 +134,10 @@ export type TrackingParams = {
   level?: string;
   offer?: string;
   price?: number;
+  value?: number;
+  transaction_id?: string;
+  placement?: string;
+  traffic_type?: string;
   subject?: string;
   part?: string;
   currency?: string;
@@ -165,12 +171,15 @@ type DataLayerEvent = TrackingParams & {
 
 declare global {
   interface Window {
-    dataLayer?: DataLayerEvent[];
+    dataLayer?: (DataLayerEvent | IArguments)[];
   }
 }
 
 const ALLOWED_STRING_PARAMS = [
   "event_name",
+  "transaction_id",
+  "placement",
+  "traffic_type",
   "anchor",
   "chapter",
   "cluster",
@@ -262,6 +271,9 @@ export function sanitizeTrackingParams(params: TrackingParams = {}) {
   if (typeof params.price === "number" && Number.isFinite(params.price)) {
     sanitized.price = params.price;
   }
+  if (typeof params.value === "number" && Number.isFinite(params.value)) {
+    sanitized.value = params.value;
+  }
 
   return sanitized;
 }
@@ -297,10 +309,12 @@ export function trackEvent(eventName: SprintMathsEventName | string, params: Tra
   }
 
   const safeEventName = sanitizeString(eventName) ?? "sprintmaths_event";
+  const qa = initializeQaTracking();
   const eventParams = sanitizeTrackingParams({
     ...getStoredUtmEventParams(),
     source_page: getSourcePageFallback(),
     ...params,
+    ...(qa ? { traffic_type: "internal" } : {}),
     event_name: safeEventName,
     timestamp: params.timestamp ?? new Date().toISOString(),
   });
@@ -313,7 +327,14 @@ export function trackEvent(eventName: SprintMathsEventName | string, params: Tra
   };
 
   window.dataLayer = window.dataLayer ?? [];
-  window.dataLayer.push(dataLayerEvent);
+  if (safeEventName === "purchase" || safeEventName === "diagnostic_cta_click") {
+    // The existing GTM Google tag loads GA4. Route these new contracts directly
+    // through its command queue so all parameters survive without a second tag
+    // or a duplicate custom-event trigger in the remote GTM container.
+    pushGoogleTagCommand("event", safeEventName, { ...eventParams, send_to: GA4_MEASUREMENT_ID });
+  } else {
+    window.dataLayer.push(dataLayerEvent);
+  }
   writeDebugEvent(dataLayerEvent);
 }
 

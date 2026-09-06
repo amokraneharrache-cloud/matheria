@@ -116,3 +116,15 @@ test("5. session non payée -> 200 ignoré, aucun code", async () => {
   assert.equal(body.ignored, true);
   assert.equal(store().accessCodes.length, before, "aucun code créé pour une session non payée");
 });
+
+test("6. statut de paiement absent -> aucun accès ni email", async () => {
+  const codesBefore = store().accessCodes.length;
+  const emailsBefore = store().emails.length;
+  const event = checkoutEvent({ sessionId: "cs_test_missing_status" });
+  delete event.data.object.payment_status;
+  const response = await POST(makeRequest(event));
+  assert.equal(response.status, 200);
+  assert.equal((await response.json()).ignored, true);
+  assert.equal(store().accessCodes.length, codesBefore);
+  assert.equal(store().emails.length, emailsBefore);
+});

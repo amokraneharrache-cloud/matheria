@@ -1,3 +1,4 @@
+import { DiagnosticCta } from "@/components/marketing/DiagnosticCta";
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -386,8 +387,11 @@ export default function ExercicesSuitesTerminalePage() {
             </div>
           </section>
 
-          {visibleExercises.map((exercise) => (
-            <ExerciseSection key={exercise.id} exercise={exercise} />
+          {visibleExercises.map((exercise, index) => (
+            <div key={exercise.id} className="space-y-14">
+              <ExerciseSection exercise={exercise} />
+              {index === 0 ? <DiagnosticCta sourcePage={pagePath} placement="after_exercise" /> : null}
+            </div>
           ))}
 
           {lockedExercises.map((exercise) => (

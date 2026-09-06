@@ -1,3 +1,4 @@
+import { DiagnosticCta } from "@/components/marketing/DiagnosticCta";
 import type { Metadata } from "next";
 import { Calculator, CheckCircle2, Printer, TriangleAlert } from "lucide-react";
 import { ChapterHero, ChapterInternalLinks } from "@/components/marketing/ChapterSeoPage";
@@ -115,6 +116,8 @@ export default function AutomatismesMathsPremierePage() {
           <div className={styles.screenContent}>
             <AutomatismesTrainer />
           </div>
+
+          <DiagnosticCta sourcePage={pagePath} placement="after_exercise" context="Avant la Terminale, vérifie tes bases en 10 questions." />
 
           <section id="techniques" className={`${styles.screenContent} scroll-mt-24`}>
             <Calculator className="h-8 w-8 text-blue-800" aria-hidden="true" />

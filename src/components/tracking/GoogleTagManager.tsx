@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Script from "next/script";
 import { getTrackingMode, isTrackingDisabledOnDevice } from "@/lib/tracking";
 import { storageEvents } from "@/lib/storageKeys";
+import { initializeQaTracking } from "@/lib/qaTracking";
 
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 const trackingMode = getTrackingMode();
@@ -13,6 +14,7 @@ export function GoogleTagManager() {
 
   useEffect(() => {
     const refreshPreference = () => {
+      initializeQaTracking();
       setCanLoad(!isTrackingDisabledOnDevice());
     };
 

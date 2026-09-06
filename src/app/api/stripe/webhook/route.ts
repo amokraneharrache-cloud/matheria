@@ -124,7 +124,7 @@ export async function POST(request: Request) {
   try {
     const session = event.data.object as Stripe.Checkout.Session;
 
-    if (session.payment_status && session.payment_status !== "paid") {
+    if (session.payment_status !== "paid") {
       console.info("Stripe checkout.session.completed ignored because payment is not paid:", {
         sessionId: session.id,
         paymentStatus: session.payment_status,
@@ -154,7 +154,7 @@ export async function POST(request: Request) {
 
     logServerFunnelEvent("purchase", {
       ...baseLogParams,
-      paymentStatus: session.payment_status || "paid",
+      paymentStatus: session.payment_status,
     });
 
     const createdCode = await createAccessCodeForEmail({

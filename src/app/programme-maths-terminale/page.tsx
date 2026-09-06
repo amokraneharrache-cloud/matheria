@@ -1,3 +1,4 @@
+import { DiagnosticCta } from "@/components/marketing/DiagnosticCta";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, BookOpenCheck, Network, Route } from "lucide-react";
@@ -315,6 +316,8 @@ export default function ProgrammeMathsTerminalePage() {
               </p>
             </QuickAnswer>
           </div>
+
+          <DiagnosticCta sourcePage={pagePath} placement="after_intro" />
 
           <section id="programme-2027" className="scroll-mt-24">
             <h2 className="text-3xl font-bold text-slate-950">
