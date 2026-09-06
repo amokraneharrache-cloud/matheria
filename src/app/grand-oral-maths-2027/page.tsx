@@ -134,6 +134,36 @@ const explanationExamples = [
   },
 ] as const;
 
+const probabilityAngles = [
+  {
+    notion: "Loi binomiale",
+    question: "Peut-on « avoir la moyenne » à un QCM en répondant au hasard ?",
+    tool: "Répétition d’épreuves identiques et indépendantes, loi binomiale B(n, p) et espérance E(X) = n × p.",
+    result:
+      "Sur n questions à 4 réponses possibles, l’espérance du nombre de bonnes réponses est n × 1/4, soit un quart du total : le hasard place nettement en dessous de la moyenne.",
+    limit:
+      "Le modèle suppose des questions indépendantes et de même difficulté ; une question éliminatoire ou un indice le change.",
+  },
+  {
+    notion: "Probabilités conditionnelles",
+    question: "Un test de dépistage positif signifie-t-il qu’on est vraiment concerné ?",
+    tool: "Arbre pondéré, probabilité conditionnelle P_A(B) et formule des probabilités totales.",
+    result:
+      "Avec une situation touchant 1 % de la population et un test correct 99 fois sur 100, sur 10 000 personnes on obtient environ 99 vrais positifs et 99 faux positifs : un test positif ne donne alors qu’une chance sur deux d’être réellement concerné.",
+    limit:
+      "Les taux de réussite du test sont supposés connus et constants ; en pratique ils dépendent de la population testée.",
+  },
+  {
+    notion: "Événement contraire",
+    question: "Pourquoi deux élèves d’une classe ont-ils si souvent la même date d’anniversaire ?",
+    tool: "Probabilité de l’événement contraire et produit de probabilités d’événements indépendants.",
+    result:
+      "On calcule d’abord la probabilité que toutes les dates soient différentes, puis on prend le complément : la probabilité d’au moins une coïncidence dépasse 1/2 dès 23 personnes.",
+    limit:
+      "On suppose les 365 dates équiprobables et indépendantes, ce qui n’est qu’approché dans la réalité.",
+  },
+] as const;
+
 const preparationChecklist = [
   "Je peux expliquer pourquoi j’ai choisi la question.",
   "Je comprends tous les calculs que je présente.",
@@ -401,6 +431,48 @@ export default function GrandOralMaths2027Page() {
                 ))}
               </ul>
             </article>
+          </section>
+
+          <section>
+            <Sigma className="h-7 w-7 text-blue-800" aria-hidden="true" />
+            <h2 className="mt-4 text-3xl font-bold text-slate-950">
+              D’autres angles probabilistes pour une question de Grand Oral
+            </h2>
+            <p className="mt-3 max-w-4xl leading-7 text-slate-700">
+              L’exemple ci-dessus s’appuie sur l’espérance. D’autres notions de
+              probabilités vues en spécialité conduisent aussi à une question
+              défendable : voici trois pistes avec l’outil mobilisé, le résultat
+              à présenter et la limite à reconnaître.
+            </p>
+            <div className="mt-7 grid gap-5 lg:grid-cols-3">
+              {probabilityAngles.map((angle) => (
+                <article
+                  key={angle.notion}
+                  className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+                >
+                  <p className="text-sm font-bold uppercase tracking-wide text-blue-900">
+                    {angle.notion}
+                  </p>
+                  <h3 className="mt-2 text-lg font-bold text-slate-950">
+                    {angle.question}
+                  </h3>
+                  <dl className="mt-4 space-y-3 text-sm leading-6 text-slate-700">
+                    <div>
+                      <dt className="font-bold text-slate-950">Outil mathématique</dt>
+                      <dd className="mt-1">{angle.tool}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-bold text-slate-950">Résultat à présenter</dt>
+                      <dd className="mt-1">{angle.result}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-bold text-slate-950">Limite à signaler</dt>
+                      <dd className="mt-1">{angle.limit}</dd>
+                    </div>
+                  </dl>
+                </article>
+              ))}
+            </div>
           </section>
 
           <section>
