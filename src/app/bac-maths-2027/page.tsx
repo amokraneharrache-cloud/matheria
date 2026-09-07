@@ -214,7 +214,7 @@ const packItems = [
   "176 questions d'entraînement Terminale",
   "12 exercices guidés, découpés étape par étape",
   "3 sujets type bac dans le Mode Bac",
-  "13 fiches méthodes avec erreurs fréquentes et exemples",
+  "Les mêmes 13 fiches méthodes gratuites, accessibles dans l'espace d'entraînement",
   "Plans de révision sur 7 ou 14 jours",
   "Suivi des sessions, scores et chapitres travaillés",
 ];
