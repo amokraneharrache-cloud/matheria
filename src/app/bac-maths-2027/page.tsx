@@ -29,7 +29,7 @@ const pagePath = "/bac-maths-2027";
 const subjectsTypeBacPath = "/sujets-type-bac-maths-terminale";
 
 const description =
-  "Prépare ta Terminale spécialité maths avant la rentrée avec un parcours Bac Maths 2027 structuré : planning, méthodes, exercices guidés et sujets type bac corrigés.";
+  "Prépare ta Terminale spécialité maths tout au long de l'année avec un parcours Bac Maths 2027 structuré : planning, méthodes, exercices guidés et sujets type bac corrigés.";
 
 export const metadata: Metadata = {
   title: {
@@ -67,14 +67,14 @@ const faqItems: FaqItem[] = [
       "Oui. La page et le Pack Révision Express visent les élèves de Terminale spécialité maths qui préparent le Bac Maths 2027, avec des chapitres, méthodes et exercices adaptés au programme de Terminale.",
   },
   {
-    question: "Pourquoi commencer avant la rentrée ?",
+    question: "Pourquoi réviser régulièrement pendant l'année ?",
     answer:
-      "Commencer pendant l'été permet d'identifier les lacunes, reprendre les méthodes essentielles et organiser l'année avant l'arrivée des premiers chapitres de Terminale. Il ne s'agit pas de préparer tout le bac en quelques semaines.",
+      "Des séances courtes et régulières permettent d'identifier les lacunes, de reprendre les méthodes essentielles et de suivre le programme de Terminale au fil des chapitres. Il ne s'agit pas de préparer tout le bac en quelques semaines, mais d'éviter que le retard s'accumule.",
   },
   {
     question: "Que contient exactement le pack ?",
     answer:
-      "Le pack donne accès à une web app avec 176 questions d'entraînement Terminale, 12 exercices guidés, 3 sujets type bac, 13 fiches méthodes, des plans de révision sur 7 ou 14 jours et le suivi de progression.",
+      "Le pack donne accès à une web app avec 176 questions d'entraînement Terminale, 12 exercices guidés découpés étape par étape, 3 sujets type bac dans le Mode Bac, des plans de révision sur 7 ou 14 jours et le suivi de progression (scores et chapitres travaillés). Les 13 fiches méthodes restent gratuites et accessibles sans le pack : ce que le pack ajoute, c'est l'entraînement guidé et le suivi de la progression.",
   },
   {
     question: "Est-ce que ce sont des annales officielles ?",
@@ -282,15 +282,15 @@ export default function BacMaths2027Page() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_390px] lg:items-center">
           <div className="min-w-0">
             <p className="mb-4 inline-flex rounded-full bg-blue-100 px-3 py-1 text-sm font-bold text-blue-900">
-              Rentrée 2026 — Objectif Bac Maths 2027
+              Terminale 2026-2027 — Objectif Bac Maths 2027
             </p>
             <h1 className="max-w-4xl text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
-              Prépare ta Terminale spécialité maths avant la rentrée
+              Prépare ta Terminale spécialité maths tout au long de l&apos;année
             </h1>
             <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-700">
               Un parcours structuré avec planning, méthodes, exercices guidés
-              et sujets type bac corrigés pour commencer l&apos;année avec des
-              bases claires.
+              et sujets type bac corrigés pour réviser régulièrement et garder
+              des bases claires jusqu&apos;aux épreuves.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <TrackedLink
@@ -401,16 +401,16 @@ export default function BacMaths2027Page() {
           <section className="grid gap-8 lg:grid-cols-[0.85fr_1fr] lg:items-start">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
-                Été 2026
+                Rythme de travail
               </p>
               <h2 className="mt-3 text-3xl font-bold text-slate-950">
-                Pourquoi commencer avant septembre ?
+                Pourquoi réviser régulièrement pendant l&apos;année ?
               </h2>
               <p className="mt-4 leading-7 text-slate-700">
-                L&apos;été sert à reprendre les bases et les méthodes sans la
-                pression des contrôles. L&apos;objectif n&apos;est pas de faire tout le
-                programme en avance, mais d&apos;arriver en Terminale avec un cadre
-                de travail clair.
+                Des séances courtes et régulières évitent que les lacunes
+                s&apos;accumulent d&apos;un chapitre à l&apos;autre. L&apos;objectif n&apos;est pas de
+                tout revoir en une fois, mais de garder un cadre de travail clair
+                du premier trimestre jusqu&apos;aux épreuves.
               </p>
               <Link
                 href="/preparer-entree-terminale-specialite-maths"
@@ -422,10 +422,10 @@ export default function BacMaths2027Page() {
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {[
-                "Identifier les lacunes avant les premiers cours de Terminale.",
+                "Repérer les lacunes tôt, avant qu'elles s'accumulent.",
                 "Reprendre les méthodes et automatismes essentiels.",
                 "Organiser l'année de spécialité maths avec un plan réaliste.",
-                "Commencer les exercices guidés sans attendre mars 2027.",
+                "Avancer sur les exercices guidés sans attendre la dernière ligne droite.",
               ].map((item) => (
                 <article key={item} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
                   <CheckCircle2 className="h-5 w-5 text-emerald-600" />
@@ -606,7 +606,7 @@ export default function BacMaths2027Page() {
                 Une première étape sans paiement
               </h3>
               <p className="mt-3 leading-7 text-slate-700">
-                Utile pour obtenir un premier repère avant la Terminale, avec
+                Utile pour situer son niveau à tout moment de l&apos;année, avec
                 les corrections et des ressources gratuites adaptées.
               </p>
               <TrackedLink
@@ -644,16 +644,16 @@ export default function BacMaths2027Page() {
                 Ce que contient le Pack Révision Express
               </h2>
               <p className="mt-4 leading-7 text-slate-700">
-                Pour les élèves qui entrent en Terminale spécialité maths et
-                veulent reprendre leurs bases, identifier leurs lacunes et
-                commencer l&apos;année avec une méthode de travail structurée.
+                Pour les élèves de Terminale spécialité maths qui veulent
+                reprendre leurs bases, identifier leurs lacunes et réviser
+                avec une méthode de travail structurée.
               </p>
               <div className="mt-5 rounded-xl border border-blue-100 bg-blue-50 p-5">
                 <h3 className="font-bold text-slate-950">À qui s&apos;adresse le pack ?</h3>
                 <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-6 text-slate-700">
-                  <li>Élèves qui entrent en Terminale spécialité maths.</li>
+                  <li>Élèves de Terminale spécialité maths.</li>
                   <li>Élèves qui ont des bases fragiles ou manquent de méthode.</li>
-                  <li>Élèves autonomes qui veulent prendre de l&apos;avance sans réviser au hasard.</li>
+                  <li>Élèves autonomes qui veulent réviser régulièrement sans réviser au hasard.</li>
                 </ul>
               </div>
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -826,7 +826,7 @@ export default function BacMaths2027Page() {
 
           <section className="rounded-2xl bg-blue-950 p-8 text-center text-white">
             <h2 className="text-3xl font-bold">
-              Commence la Terminale avec un parcours déjà structuré
+              Avance dans ta Terminale avec un parcours déjà structuré
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-blue-100">
               Le Pack Révision Express réunit les questions, méthodes,
