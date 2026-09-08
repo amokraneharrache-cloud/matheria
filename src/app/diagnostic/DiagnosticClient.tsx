@@ -22,6 +22,7 @@ import {
   type DiagnosticAnswers,
   type DiagnosticScore,
 } from "@/lib/diagnostic";
+import { PACK_REVISION_EXPRESS_PRICE } from "@/lib/offers";
 import {
   trackDiagnosticCompleted,
   trackDiagnosticEmailRequest,
@@ -684,6 +685,11 @@ function ProfileNextStep({ result }: { result: DiagnosticScore }) {
       <p className="mt-3 leading-7 text-blue-900">
         Le Pack Révision Express peut t’aider à structurer les notions à consolider avec
         des sessions courtes et des exercices guidés. Il reste facultatif.
+      </p>
+      <p className="mt-2 text-sm leading-6 text-blue-900">
+        {PACK_REVISION_EXPRESS_PRICE} € en paiement unique, sans abonnement. Tes
+        résultats et les corrections restent gratuits. Tu peux prendre le temps de
+        regarder l’offre avec un parent avant de décider.
       </p>
       <Link
         href="/bac-maths-2027#offre"
