@@ -222,18 +222,47 @@ const visibleExercises: Exercise[] = [
       </div>
     ),
   },
+  {
+    id: "exercice-quotient",
+    heading: "Exercice 4 : dériver un quotient",
+    label: "Dérivée d’un quotient",
+    statement: (
+      <>
+        On considère la fonction f définie par f(x) = (2x-1)/(x+3).
+      </>
+    ),
+    tasks: [
+      "Déterminer l'ensemble de définition de f.",
+      "Calculer f'(x) à l'aide de la formule du quotient.",
+      "En déduire les variations de f.",
+    ],
+    guidedStep:
+      "On pose u(x)=2x-1 et v(x)=x+3, avec u'(x)=2 et v'(x)=1. La formule du quotient donne (u/v)'=(u'v-uv')/v².",
+    method:
+      "f est définie tant que le dénominateur n'est pas nul : il faut exclure la valeur qui annule v(x) avant de calculer la dérivée.",
+    correction: [
+      "Domaine : x+3≠0, donc f est définie sur ]-∞;-3[ ∪ ]-3;+∞[.",
+      "u'v-uv' = 2(x+3) - (2x-1)×1 = 2x+6-2x+1 = 7.",
+      "f'(x) = 7/(x+3)², qui est strictement positive pour tout x du domaine.",
+      "f est donc strictement croissante sur ]-∞;-3[ et strictement croissante sur ]-3;+∞[.",
+    ],
+    pitfall:
+      "Attention au signe devant uv' : c'est -uv' et non +uv'. Ici -uv' = -(2x-1)×1 = -2x+1 ; c'est ce signe négatif qui fait disparaître le terme en x. Ne conclus jamais « croissante sur R » : x=-3 est exclu du domaine, donc les deux intervalles restent distincts.",
+    revealDetail:
+      "Le réflexe SprintMaths : pour un quotient, identifie toujours u et v avant de dériver, exclus la valeur qui annule v, puis vérifie que le signe de f' ne dépend que du numérateur une fois v² au dénominateur.",
+  },
 ];
 
 const lockedExercises = [
   {
     id: "exercice-4",
-    heading: "Exercice 4 : utiliser la dérivée seconde",
+    heading: "Exercice 5 : utiliser la dérivée seconde",
     label: "Aperçu verrouillé",
     text: "Calculer f''(x), étudier son signe et relier le résultat à la convexité de la courbe.",
   },
   {
     id: "exercice-5",
-    heading: "Exercice 5 : convexité et point d’inflexion",
+    heading: "Exercice 6 : convexité et point d’inflexion",
     label: "Aperçu verrouillé",
     text: "Repérer un changement de signe de f''(x), puis justifier proprement l'existence d'un point d'inflexion.",
   },
