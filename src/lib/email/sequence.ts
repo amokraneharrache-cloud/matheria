@@ -595,9 +595,9 @@ ${planning}
 
 Le contenu pédagogique est le même auteur et la même exigence. Ce que le
 pack ajoute : un ordre décidé à l'avance, des exercices guidés découpés
-étape par étape, un mode bac chronométré, et le suivi de ce que tu as déjà
-travaillé. C'est de l'organisation, pas du contenu secret. Si ce n'est pas
-ton problème, garde tes 39 €.
+étape par étape, et le suivi de ce que tu as déjà travaillé. C'est de
+l'organisation, pas du contenu secret. Si ce n'est pas ton problème, garde
+tes ${PACK_REVISION_EXPRESS_PRICE} €.
 
 Si c'est ton problème :
 ${offre}
@@ -621,7 +621,7 @@ L'équipe SprintMaths${textFooter(context, { marketing: true })}`;
 ${secondaryLink("Reprendre le planning", planning)}
 
 <p style="font-weight:700;margin-top:26px;">« Quelle différence avec les ressources gratuites ? »</p>
-<p>Le contenu pédagogique est le même auteur et la même exigence. Ce que le pack ajoute : un ordre décidé à l'avance, des exercices guidés découpés étape par étape, un mode bac chronométré, et le suivi de ce que tu as déjà travaillé. C'est de l'organisation, pas du contenu secret. Si ce n'est pas ton problème, garde tes ${PACK_REVISION_EXPRESS_PRICE} €.</p>
+<p>Le contenu pédagogique est le même auteur et la même exigence. Ce que le pack ajoute : un ordre décidé à l'avance, des exercices guidés découpés étape par étape, et le suivi de ce que tu as déjà travaillé. C'est de l'organisation, pas du contenu secret. Si ce n'est pas ton problème, garde tes ${PACK_REVISION_EXPRESS_PRICE} €.</p>
 ${button("Voir le pack", offre)}
 
 <div style="margin:28px 0 0;padding:16px 18px;background:#f8fafc;border-radius:8px;">
