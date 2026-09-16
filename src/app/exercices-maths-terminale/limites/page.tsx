@@ -177,18 +177,47 @@ const visibleExercises: Exercise[] = [
     revealDetail:
       "La conclusion attendue ne s'arrête pas au nombre 4 si l'énoncé demande une interprétation graphique.",
   },
+  {
+    id: "exercice-4-limites-laterales",
+    heading: "Exercice 4 : limites latérales en un point",
+    label: "Limites latérales",
+    statement: (
+      <>
+        On considère la fonction f définie sur ]-∞;2[ ∪ ]2;+∞[ par
+        f(x) = 1 / (x - 2). Calculer la limite de f(x) quand x tend vers 2
+        par valeurs inférieures, puis quand x tend vers 2 par valeurs
+        supérieures.
+      </>
+    ),
+    tasks: [
+      "Déterminer l'ensemble de définition de f.",
+      "Étudier le signe de x-2 selon que x est inférieur ou supérieur à 2.",
+      "Conclure sur chaque limite latérale et sur l'asymptote associée.",
+    ],
+    firstStep:
+      "En x=2, le dénominateur s'annule : f n'est pas définie en 2, donc il faut étudier séparément la limite à gauche et la limite à droite de ce point.",
+    method:
+      "Le numérateur vaut 1, constant et positif. Il suffit d'étudier le signe de x-2 : négatif quand x tend vers 2 par valeurs inférieures, positif quand x tend vers 2 par valeurs supérieures.",
+    correction: [
+      "Quand x tend vers 2 par valeurs inférieures, x-2 tend vers 0 en restant négatif : f(x) tend vers moins l'infini.",
+      "Quand x tend vers 2 par valeurs supérieures, x-2 tend vers 0 en restant positif : f(x) tend vers plus l'infini.",
+      "Les deux limites latérales sont différentes : f n'a pas de limite en 2, et la droite d'équation x=2 est asymptote verticale à la courbe de f.",
+    ],
+    revealDetail:
+      "Le piège évité : ne jamais annoncer une seule limite globale en 2. Dès qu'un dénominateur change de signe autour de la valeur interdite, les deux limites latérales doivent être traitées séparément.",
+  },
 ];
 
 const lockedExercises = [
   {
     id: "exercice-4",
-    heading: "Exercice 4 : limite avec logarithme",
+    heading: "Exercice 5 : limite avec logarithme",
     label: "Aperçu verrouillé",
     text: "Reconnaître le domaine, utiliser les limites de référence de ln et conclure proprement.",
   },
   {
     id: "exercice-5",
-    heading: "Exercice 5 : croissance comparée",
+    heading: "Exercice 6 : croissance comparée",
     label: "Aperçu verrouillé",
     text: "Comparer une exponentielle et une puissance dans une limite type bac.",
   },
