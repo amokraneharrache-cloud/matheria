@@ -606,6 +606,32 @@ export default function PlanningRevisionBacMathsPage() {
             </div>
           </section>
 
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            <div className="flex items-center gap-3">
+              <ListChecks className="h-7 w-7 text-blue-800" />
+              <h2 className="text-2xl font-bold text-slate-950">
+                Exemple : adapter la séance suivante après une erreur
+              </h2>
+            </div>
+            <p className="mt-4 max-w-3xl leading-7 text-slate-700">
+              Exemple pédagogique fictif, pour illustrer la méthode : un
+              élève repère une erreur récurrente sur un exercice de
+              dérivation, où le calcul est correct mais le signe n&apos;est
+              pas interprété pour déduire les variations. La séance
+              suivante peut durer environ 20 minutes, à répartir selon le
+              rythme de l&apos;élève et les consignes du professeur : un
+              rappel bref de la méthode (environ 5 minutes), un exercice
+              ciblé sur le même type de calcul (environ 10 minutes), puis
+              une correction active avec une note écrite de l&apos;erreur à
+              reprendre (environ 5 minutes). Lors de la séance suivante, un
+              contrôle rapide de ce point permet de vérifier qu&apos;il est
+              acquis avant de continuer sur un autre chapitre. Ces durées
+              sont une proposition d&apos;organisation, pas une mesure ni
+              une fonctionnalité du site, et ne garantissent ni note ni
+              chapitre au sujet.
+            </p>
+          </section>
+
           <section className="rounded-2xl bg-slate-50 p-6 sm:p-8">
             <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
               Prioriser sans deviner le sujet
