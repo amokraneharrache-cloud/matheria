@@ -10,6 +10,13 @@ type SendAccessCodeEmailParams = {
   accessCode: string;
   siteUrl: string;
   customerEmail?: string;
+  /**
+   * Clé d'idempotence fournisseur (J74). Envoyée en en-tête `Idempotency-Key`
+   * par le SDK Resend : une reprise de cet envoi, avec la même clé et le même
+   * payload, n'expédie pas un second email pendant la fenêtre documentée par
+   * le fournisseur (24 h). Sans clé, une reprise pourrait doubler l'envoi.
+   */
+  idempotencyKey?: string;
 };
 
 type SendPlanningRevisionEmailParams = {
@@ -198,12 +205,17 @@ L'équipe SprintMaths`;
     </div>
   `;
 
-  return getResendClient().emails.send({
-    from,
-    to: params.to,
-    replyTo,
-    subject: "Votre accès au Pack Révision Express SprintMaths",
-    html,
-    text,
-  });
+  return getResendClient().emails.send(
+    {
+      from,
+      to: params.to,
+      replyTo,
+      subject: "Votre accès au Pack Révision Express SprintMaths",
+      html,
+      text,
+    },
+    // Payload stable pour une clé donnée : Resend refuse (409) une même clé
+    // associée à un contenu différent.
+    params.idempotencyKey ? { idempotencyKey: params.idempotencyKey } : undefined,
+  );
 }

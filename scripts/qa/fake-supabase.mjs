@@ -1,6 +1,14 @@
 // Fake @supabase/supabase-js : client Postgres en mémoire.
-// Couvre les chaînes du webhook (access_codes: select/eq/maybeSingle, insert/select/single)
-// et de la route leads/planning (leads: `await insert([...])` sans .single()).
+// Couvre les chaînes du webhook (access_codes: select/eq/maybeSingle, insert/select/single),
+// la route leads/planning (leads: `await insert([...])` sans .single())
+// et l'état d'envoi J74 (access_code_deliveries: insert unique + update
+// conditionnel `.eq(...).eq(status).select("id")`, qui porte le compare-and-swap).
+//
+// LIMITE ASSUMÉE : ces fakes reproduisent les CONDITIONS atomiques attendues
+// (violation d'unicité 23505, update filtré ne touchant que les lignes encore
+// dans l'état lu) dans un process mono-thread. Ils ne prouvent PAS les
+// garanties réelles de Postgres (index UNIQUE, atomicité de l'UPDATE) : cela
+// se vérifie sur une base, pas ici.
 import { store } from "./store.mjs";
 
 const UNIQUE_VIOLATION = "23505";
@@ -40,6 +48,7 @@ class Query {
     const s = store();
     if (this.table === "leads") return s.leads;
     if (this.table === "email_sequence_sends") return s.sequenceSends;
+    if (this.table === "access_code_deliveries") return s.accessCodeDeliveries;
     return s.accessCodes;
   }
   _match(r) {
@@ -68,6 +77,10 @@ class Query {
       if (s.selectError) {
         return { data: null, error: s.selectError };
       }
+      // J74 : panne ciblée sur la lecture de l'état d'envoi.
+      if (this.table === "access_code_deliveries" && s.deliveriesSelectError) {
+        return { data: null, error: s.deliveriesSelectError };
+      }
       const found = this._rows().filter((r) => this._match(r));
       // Sans .single()/.maybeSingle(), Supabase renvoie un tableau de lignes.
       if (kind === null) {
@@ -83,6 +96,11 @@ class Query {
       return { data: row, error: null };
     }
     if (this._op === "update") {
+      // J74 : panne ciblée sur l'écriture de l'état d'envoi (réservation,
+      // enregistrement d'un succès...).
+      if (this.table === "access_code_deliveries" && s.deliveriesUpdateError) {
+        return { data: null, error: s.deliveriesUpdateError };
+      }
       const matched = this._rows().filter((r) => this._match(r));
       for (const row of matched) {
         Object.assign(row, this._patch);
@@ -105,6 +123,24 @@ class Query {
         }
         row.id = "seq_" + ++s.idSeq;
         s.sequenceSends.push(row);
+        return { data: { id: row.id }, error: null };
+      }
+      if (this.table === "access_code_deliveries") {
+        if (s.deliveriesInsertError) {
+          return { data: null, error: s.deliveriesInsertError };
+        }
+        const row = { ...this._insertRow };
+        // Reproduit UNIQUE(access_code_id, channel) : c'est cet index qui
+        // porte la réservation atomique en production.
+        if (
+          s.accessCodeDeliveries.some(
+            (r) => r.access_code_id === row.access_code_id && r.channel === row.channel,
+          )
+        ) {
+          return { data: null, error: { code: UNIQUE_VIOLATION, message: "duplicate delivery" } };
+        }
+        row.id = "del_" + ++s.idSeq;
+        s.accessCodeDeliveries.push(row);
         return { data: { id: row.id }, error: null };
       }
       if (this.table === "leads") {

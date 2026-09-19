@@ -7,6 +7,12 @@ export type CreatedAccessCode = {
   id: string;
   code: string;
   alreadyExisted: boolean;
+  /**
+   * false = code créé avant le suivi d'envoi J74 (`delivery_tracking_started_at`
+   * NULL). Son état d'envoi est inconnu : il ne doit jamais être réexpédié
+   * automatiquement. Voir `src/lib/accessCodeDelivery.ts`.
+   */
+  deliveryTracked: boolean;
 };
 
 export type CreateAccessCodeForEmailParams = {
@@ -48,7 +54,7 @@ export async function findAccessCodeByStripeSessionId(stripeSessionId: string) {
 
   const { data, error } = await supabaseAdmin
     .from("access_codes")
-    .select("id, code")
+    .select("id, code, delivery_tracking_started_at")
     .eq("stripe_session_id", stripeSessionId)
     .maybeSingle();
 
@@ -56,7 +62,14 @@ export async function findAccessCodeByStripeSessionId(stripeSessionId: string) {
     throw new Error(`Impossible de vérifier l'idempotence Stripe: ${error.message}`);
   }
 
-  return data ? { id: data.id as string, code: data.code as string } : null;
+  return data
+    ? {
+        id: data.id as string,
+        code: data.code as string,
+        // NULL => code legacy, antérieur au suivi d'envoi.
+        deliveryTracked: Boolean(data.delivery_tracking_started_at),
+      }
+    : null;
 }
 
 export async function createAccessCodeForEmail(
@@ -90,6 +103,9 @@ export async function createAccessCodeForEmail(
         stripe_payment_intent_id: params.stripePaymentIntentId?.trim() || null,
         amount_total: params.amountTotal ?? null,
         currency: normalizeCurrency(params.currency),
+        // Marque ce code comme pris en charge par le suivi d'envoi : lui seul
+        // peut être repris après un échec. Les codes historiques restent NULL.
+        delivery_tracking_started_at: new Date().toISOString(),
       })
       .select("id, code")
       .single();
@@ -99,6 +115,7 @@ export async function createAccessCodeForEmail(
         id: data.id as string,
         code: data.code as string,
         alreadyExisted: false,
+        deliveryTracked: true,
       };
     }
 

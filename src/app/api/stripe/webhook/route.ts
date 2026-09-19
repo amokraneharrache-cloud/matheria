@@ -1,5 +1,11 @@
 import type Stripe from "stripe";
 import { createAccessCodeForEmail } from "@/lib/accessCodes";
+import {
+  claimAccessCodeEmailDelivery,
+  classifyProviderError,
+  markDeliveryAccepted,
+  markDeliveryOutcome,
+} from "@/lib/accessCodeDelivery";
 import { sendAccessCodeEmail } from "@/lib/email/resend";
 import { PACK_REVISION_EXPRESS_OFFER_ID } from "@/lib/offers";
 import { stripe } from "@/lib/stripe";
@@ -46,9 +52,14 @@ function getPaymentIntentId(session: Stripe.Checkout.Session) {
   return session.payment_intent.id;
 }
 
-function shouldResendDuplicateEmail() {
-  return process.env.RESEND_ACCESS_CODE_ON_DUPLICATE === "true";
-}
+/**
+ * J74 — `RESEND_ACCESS_CODE_ON_DUPLICATE` n'est plus lu.
+ *
+ * C'était un interrupteur GLOBAL : l'activer pour rattraper un envoi échoué
+ * aurait aussi réexpédié les emails déjà correctement livrés, à chaque rejeu
+ * Stripe. La reprise est désormais décidée ligne par ligne, à partir de l'état
+ * d'envoi réel (`access_code_deliveries`). Ne pas réintroduire ce flag.
+ */
 
 function logServerFunnelEvent(event: string, params: Record<string, unknown>) {
   console.info("SprintMaths server funnel event:", {
@@ -173,43 +184,138 @@ export async function POST(request: Request) {
       });
     }
 
-    if (createdCode.alreadyExisted && !shouldResendDuplicateEmail()) {
-      console.info("Stripe webhook replay ignored, access code already exists:", {
-        sessionId: session.id,
-        accessCodeId: createdCode.id,
-      });
-      return Response.json({ received: true, duplicate: true });
-    }
-
-    const emailResult = await sendAccessCodeEmail({
-      to: customerEmail,
-      customerEmail,
-      accessCode: createdCode.code,
-      siteUrl: getSiteUrl(),
+    // Réservation de l'envoi AVANT tout appel au fournisseur. Tant qu'on ne
+    // sait pas écrire l'état, on n'envoie rien : c'est ce qui rend la reprise
+    // possible sans risquer un doublon.
+    const claim = await claimAccessCodeEmailDelivery({
+      accessCodeId: createdCode.id,
+      stripeSessionId: session.id,
+      deliveryTracked: createdCode.deliveryTracked,
     });
 
-    const emailSent = !emailResult.error;
+    const replyBase = {
+      received: true,
+      accessCodeCreated: !createdCode.alreadyExisted,
+      duplicate: createdCode.alreadyExisted,
+    };
+
+    if (claim.outcome === "unavailable") {
+      // État non enregistrable : 5xx pour que Stripe rejoue l'événement.
+      console.error("Access code delivery state unavailable, no email attempted:", {
+        stripeSessionId: session.id,
+        accessCodeId: createdCode.id,
+        reason: claim.reason,
+      });
+      return Response.json(
+        { ...replyBase, emailSent: false, deliveryState: "unavailable" },
+        { status: 503 },
+      );
+    }
+
+    if (claim.outcome !== "claimed") {
+      // already_sent / busy / ambiguous / legacy_untracked : aucun envoi.
+      console.info("Access code email not re-sent:", {
+        stripeSessionId: session.id,
+        accessCodeId: createdCode.id,
+        deliveryState: claim.outcome,
+        reason: claim.outcome === "ambiguous" ? claim.reason : undefined,
+      });
+      return Response.json({
+        ...replyBase,
+        emailSent: false,
+        deliveryState: claim.outcome,
+      });
+    }
+
+    let emailResult: Awaited<ReturnType<typeof sendAccessCodeEmail>>;
+
+    try {
+      emailResult = await sendAccessCodeEmail({
+        to: customerEmail,
+        customerEmail,
+        accessCode: createdCode.code,
+        siteUrl: getSiteUrl(),
+        idempotencyKey: claim.idempotencyKey,
+      });
+    } catch (error) {
+      // Coupure réseau : le message a PEUT-ÊTRE été accepté. Résultat ambigu,
+      // jamais un échec certain.
+      console.error("Resend access code email threw, outcome unknown:", {
+        stripeSessionId: session.id,
+        accessCodeId: createdCode.id,
+        error: getSafeErrorLogDetails(error),
+      });
+      await markDeliveryOutcome({
+        deliveryId: claim.deliveryId,
+        status: "unknown",
+        reason: "send_threw",
+      });
+      return Response.json(
+        { ...replyBase, emailSent: false, deliveryState: "unknown" },
+        { status: 503 },
+      );
+    }
 
     if (emailResult.error) {
+      const classified = classifyProviderError(emailResult.error);
       console.error("Resend access code email failed:", {
         stripeSessionId: session.id,
         accessCodeId: createdCode.id,
+        deliveryAttempt: claim.attempt,
+        failureKind: classified.kind,
         error: getSafeErrorLogDetails(emailResult.error),
       });
-    } else {
-      logServerFunnelEvent("access_code_email_sent", {
-        ...baseLogParams,
+
+      await markDeliveryOutcome({
+        deliveryId: claim.deliveryId,
+        status: classified.kind === "rejected" ? "failed" : "unknown",
+        reason: classified.code || "provider_error",
+      });
+
+      // Refus transitoire ou résultat ambigu : laisser Stripe rejouer.
+      // Refus définitif (payload/clé invalides) : un rejeu échouerait pareil,
+      // la ligne reste `failed` pour une reprise manuelle.
+      const retryable = classified.kind === "ambiguous" || classified.transient;
+
+      return Response.json(
+        {
+          ...replyBase,
+          emailSent: false,
+          deliveryState: classified.kind === "rejected" ? "failed" : "unknown",
+        },
+        retryable ? { status: 503 } : undefined,
+      );
+    }
+
+    const accepted = await markDeliveryAccepted({
+      deliveryId: claim.deliveryId,
+      providerMessageId: emailResult.data?.id ?? null,
+    });
+
+    logServerFunnelEvent("access_code_email_sent", {
+      ...baseLogParams,
+      accessCodeId: createdCode.id,
+      resendEmailId: emailResult.data?.id ?? null,
+      duplicate: createdCode.alreadyExisted,
+      deliveryAttempt: claim.attempt,
+      deliveryStateRecorded: accepted.recorded,
+    });
+
+    if (!accepted.recorded) {
+      // Email accepté par le fournisseur, état non écrit : la ligne reste
+      // `pending`. Une reprise ultérieure refera l'appel avec la MÊME clé
+      // d'idempotence, que Resend dédoublonne pendant 24 h.
+      console.error("Access code email accepted but delivery state not recorded:", {
+        stripeSessionId: session.id,
         accessCodeId: createdCode.id,
-        resendEmailId: emailResult.data.id,
-        duplicate: createdCode.alreadyExisted,
+        reason: accepted.error,
       });
     }
 
     return Response.json({
-      received: true,
-      accessCodeCreated: !createdCode.alreadyExisted,
-      duplicate: createdCode.alreadyExisted,
-      emailSent,
+      ...replyBase,
+      emailSent: true,
+      deliveryState: accepted.recorded ? "sent" : "sent_state_unrecorded",
     });
   } catch (error) {
     console.error("Stripe webhook checkout.session.completed error:", getSafeErrorLogDetails(error));

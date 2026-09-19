@@ -89,6 +89,23 @@ ALTER TABLE practice_sessions ENABLE ROW LEVEL SECURITY;
 -- ce qui bypass le RLS. Cela garantit que personne ne peut lire/écrire publiquement depuis le navigateur.
 
 -- ---------------------------------------------------------------------------
+-- J74 : état d'envoi du code d'accès (reprise après échec Resend).
+-- Le détail est dans supabase/migrations/2026-09-19-access-code-delivery-state.sql
+-- (migration additive et idempotente, à appliquer AVANT le déploiement du code).
+--
+-- Colonne ajoutée à `access_codes` :
+--   delivery_tracking_started_at timestamptz  (NULL = code legacy)
+--
+-- Table ajoutée : access_code_deliveries, UNIQUE(access_code_id, channel).
+--   statuts : pending | sent | failed | unknown
+--
+-- RÈGLE MÉTIER : un code legacy (delivery_tracking_started_at NULL, sans ligne
+-- de livraison) n'est JAMAIS réexpédié automatiquement — son état d'envoi est
+-- inconnu, pas « à renvoyer ». Aucun backfill n'est autorisé, ni en échec ni
+-- en succès.
+-- ---------------------------------------------------------------------------
+
+-- ---------------------------------------------------------------------------
 -- J58 : consentement marketing, désinscription et séquence email.
 -- Le détail est dans supabase/migrations/2026-08-26-email-consent-and-sequence.sql
 -- (migration idempotente, à appliquer sur les bases existantes).

@@ -7,6 +7,8 @@ export function store() {
       leads: [],
       // J58 : état de séquence email (table email_sequence_sends).
       sequenceSends: [],
+      // J74 : état d'envoi du code d'accès (table access_code_deliveries).
+      accessCodeDeliveries: [],
       emails: [],
       idSeq: 0,
       leadClientModes: [],
@@ -20,6 +22,19 @@ export function store() {
       // Contrôle de test : simuler un échec Resend sur emails.send
       // (null = envoi normal capturé dans `emails`).
       emailsSendError: null,
+      // J74 : simuler une coupure réseau (throw) au lieu d'une réponse
+      // d'erreur. Le résultat de l'envoi est alors AMBIGU.
+      emailsSendThrow: null,
+      // J74 : clés d'idempotence déjà vues par le fournisseur (clé -> id de
+      // message). Reproduit le dédoublonnage Resend, sans quoi les tests de
+      // reprise ne prouveraient rien.
+      resendIdempotency: new Map(),
+      // J74 : toutes les clés reçues, dans l'ordre (assertions de test).
+      resendIdempotencyKeys: [],
+      // J74 : contrôles d'erreur ciblés sur access_code_deliveries.
+      deliveriesSelectError: null,
+      deliveriesInsertError: null,
+      deliveriesUpdateError: null,
       // Contrôles de test pour le healthcheck : simuler une erreur ou une
       // lenteur sur un SELECT (null / 0 = lecture normale immédiate).
       selectError: null,
