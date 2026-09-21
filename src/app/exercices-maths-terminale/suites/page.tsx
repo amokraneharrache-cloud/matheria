@@ -75,6 +75,12 @@ const faqItems: FaqItem[] = [
       "Une suite est géométrique lorsque chaque terme s'obtient en multipliant le précédent par une même raison q. Si v0 est le premier terme, alors v(n) = v0 x q^n.",
   },
   {
+    question:
+      "Comment étudier une suite définie par u(n+1) = a x u(n) + b ?",
+    answer:
+      "On cherche d'abord le nombre L qui vérifie L = aL + b, puis on pose v(n) = u(n) - L. La suite (v(n)) est géométrique de raison a : on écrit sa formule explicite, puis on revient à u(n) = v(n) + L. Attention, la suite de départ n'est pas géométrique, seule la suite auxiliaire l'est.",
+  },
+  {
     question: "Comment réussir une récurrence ?",
     answer:
       "Il faut rédiger trois moments : vérifier l'initialisation, supposer la propriété vraie au rang n, puis démontrer qu'elle est vraie au rang n+1 avant de conclure pour tout entier naturel n.",
@@ -101,6 +107,10 @@ type Exercise = {
   method: string;
   correction: string[];
   revealDetail: string;
+  transfer?: {
+    question: string;
+    solution: string;
+  };
 };
 
 const visibleExercises: Exercise[] = [
@@ -186,18 +196,57 @@ const visibleExercises: Exercise[] = [
     revealDetail:
       "Le piège évité : on ne calcule pas seulement les premiers termes. La récurrence sert à justifier la propriété pour tous les rangs.",
   },
+  {
+    id: "exercice-4-suite-auxiliaire",
+    heading: "Exercice 4 : suite auxiliaire, formule explicite et limite",
+    label: "Suite auxiliaire",
+    statement: (
+      <>
+        On considère la suite (u_n) définie par u_0 = 10 et, pour tout entier
+        naturel n, u_(n+1) = 0,8u_n + 6. On pose v_n = u_n - 30.
+      </>
+    ),
+    tasks: [
+      "Calculer u_1, u_2 et u_3, puis vérifier que (u_n) n'est pas géométrique.",
+      "Démontrer que (v_n) est géométrique, puis donner sa raison et son premier terme.",
+      "En déduire l'expression de u_n en fonction de n.",
+      "Étudier le sens de variation de (u_n) et montrer que u_n < 30 pour tout entier naturel n.",
+      "Déterminer la limite de la suite (u_n).",
+    ],
+    firstStep:
+      "Cherche d'abord le nombre qui ne bouge plus : si x = 0,8x + 6, alors 0,2x = 6, donc x = 30. C'est exactement ce 30 que l'énoncé retire pour construire (v_n), et ce n'est pas un choix arbitraire.",
+    method:
+      "Pour une suite définie par u_(n+1) = au_n + b avec a différent de 1, on résout L = aL + b. En posant v_n = u_n - L, la suite (v_n) est géométrique de raison a : on calcule v_n avec la formule géométrique, puis on revient à la suite de départ en écrivant u_n = v_n + L.",
+    correction: [
+      "u_1 = 0,8 x 10 + 6 = 14, u_2 = 0,8 x 14 + 6 = 17,2 et u_3 = 0,8 x 17,2 + 6 = 19,76.",
+      "(u_n) n'est pas géométrique : u_1 / u_0 = 1,4 alors que u_2 / u_1 = 17,2 / 14 ≈ 1,23. Le quotient n'est pas constant.",
+      "v_(n+1) = u_(n+1) - 30 = 0,8u_n + 6 - 30 = 0,8u_n - 24 = 0,8(u_n - 30) = 0,8v_n. Donc (v_n) est géométrique de raison 0,8, avec v_0 = 10 - 30 = -20.",
+      "On en déduit v_n = -20 x 0,8^n, puis u_n = v_n + 30 = 30 - 20 x 0,8^n.",
+      "u_(n+1) - u_n = 20 x 0,8^n - 20 x 0,8^(n+1) = 20 x 0,8^n x (1 - 0,8) = 4 x 0,8^n > 0 : la suite est strictement croissante.",
+      "Comme 20 x 0,8^n > 0, on a u_n = 30 - 20 x 0,8^n < 30 : la suite est majorée par 30. Elle est croissante et majorée.",
+      "Comme 0 < 0,8 < 1, 0,8^n tend vers 0 quand n tend vers plus l'infini, donc u_n tend vers 30.",
+    ],
+    revealDetail:
+      "Le piège le plus coûteux : écrire u_n = 10 x 0,8^n parce qu'on a vu apparaître 0,8. Cette formule donnerait u_1 = 8 alors que u_1 = 14. Seule la suite auxiliaire (v_n) est géométrique ; la suite (u_n), elle, ne l'est pas. La bonne réponse reste u_n = 30 - 20 x 0,8^n.",
+    transfer: {
+      question:
+        "À toi : on considère la suite (w_n) définie par w_0 = 100 et, pour tout entier naturel n, w_(n+1) = 0,25w_n + 45. En suivant la même méthode, donne l'expression de w_n en fonction de n, son sens de variation et sa limite.",
+      solution:
+        "L = 0,25L + 45 donne 0,75L = 45, donc L = 60. On pose t_n = w_n - 60 : t_(n+1) = 0,25w_n + 45 - 60 = 0,25(w_n - 60) = 0,25t_n, donc (t_n) est géométrique de raison 0,25 avec t_0 = 100 - 60 = 40. Ainsi t_n = 40 x 0,25^n et w_n = 60 + 40 x 0,25^n. Ici w_(n+1) - w_n = -30 x 0,25^n < 0 : la suite est décroissante et minorée par 60, et comme 0 < 0,25 < 1, w_n tend vers 60. Le signe de w_0 - L a changé, donc le sens de variation aussi.",
+    },
+  },
 ];
 
 const lockedExercises = [
   {
     id: "exercice-4",
-    heading: "Exercice 4 : sens de variation d’une suite",
+    heading: "Exercice 5 : sens de variation d’une suite",
     label: "Aperçu verrouillé",
     text: "Étudier le signe de u_(n+1) - u_n pour conclure sur le sens de variation d'une suite définie explicitement.",
   },
   {
     id: "exercice-5",
-    heading: "Exercice 5 : limite d’une suite",
+    heading: "Exercice 6 : limite d’une suite",
     label: "Aperçu verrouillé",
     text: "Reconnaître une limite simple, par exemple une suite du type 2 + 3/(n+1), puis rédiger une conclusion claire.",
   },
@@ -273,6 +322,21 @@ function ExerciseSection({ exercise }: { exercise: Exercise }) {
             </ul>
           </div>
         </div>
+
+        {exercise.transfer ? (
+          <div className="mt-5 border-t border-slate-200 pt-5">
+            <h3 className="font-bold text-slate-950">Question de transfert</h3>
+            <p className="mt-2 leading-7 text-slate-700">
+              {exercise.transfer.question}
+            </p>
+            <h3 className="mt-4 font-bold text-slate-950">
+              Solution de la question de transfert
+            </h3>
+            <p className="mt-2 leading-7 text-slate-700">
+              {exercise.transfer.solution}
+            </p>
+          </div>
+        ) : null}
 
         <ChapterExerciseReveal
           chapter="suites"
@@ -374,9 +438,10 @@ export default function ExercicesSuitesTerminalePage() {
                 </p>
                 <p>
                   Cette page réunit des exercices suites Terminale corrigés, avec
-                  un exercice de suite arithmétique, un exercice de suite géométrique
-                  et un exercice de récurrence pour s&apos;entraîner avant un exercice
-                  type bac sur les suites.
+                  un exercice de suite arithmétique, un exercice de suite géométrique,
+                  un exercice de récurrence et un exercice complet de suite auxiliaire
+                  qui mène à la formule explicite puis à la limite, pour s&apos;entraîner
+                  avant un exercice type bac sur les suites.
                 </p>
                 <p>
                   Les exemples ci-dessous ne sont pas des annales officielles. Ils
