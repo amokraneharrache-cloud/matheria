@@ -74,6 +74,11 @@ const faqItems: FaqItem[] = [
       "On vérifie d'abord que x > 0, puis on utilise le fait que la fonction exponentielle est la réciproque de ln : ln(x)=a équivaut à x=e^a.",
   },
   {
+    question: "Comment résoudre une équation du type ln(A)+ln(B)=ln(C) ?",
+    answer:
+      "On commence par le domaine : chaque expression placée dans un logarithme doit être strictement positive, ce qui donne une condition sur x. Sur ce domaine seulement, on regroupe la somme avec ln(A)+ln(B)=ln(AB), puis on utilise que ln est strictement croissante sur ]0,+∞[ : ln(AB)=ln(C) équivaut alors à AB=C. On termine en éliminant les solutions de cette équation qui ne sont pas dans le domaine de départ.",
+  },
+  {
     question: "Quelle est la dérivée de ln(x) ?",
     answer:
       "Sur ]0,+∞[, la dérivée de ln(x) est 1/x. Pour une expression composée ln(u(x)), la dérivée est u'(x)/u(x), sur les intervalles où u(x) > 0.",
@@ -101,6 +106,10 @@ type Exercise = {
   correction: string[];
   pitfall: string;
   revealDetail: string;
+  transfer?: {
+    question: string;
+    solution: string;
+  };
 };
 
 const visibleExercises: Exercise[] = [
@@ -175,18 +184,57 @@ const visibleExercises: Exercise[] = [
     revealDetail:
       "Le détail qui rapporte des points : indiquer le domaine ]0,+∞[ justifie l'utilisation de la dérivée de ln(x), puis la simplification x×(1/x)=1.",
   },
+  {
+    id: "exercice-4-equation-deux-logarithmes",
+    heading: "Exercice 4 : équation avec deux logarithmes et racine à rejeter",
+    label: "Deux ln et domaine",
+    statement: (
+      <>
+        Résoudre l&apos;équation ln(x-1)+ln(x+1)=ln(8).
+      </>
+    ),
+    tasks: [
+      "Déterminer l'ensemble des valeurs de x pour lesquelles l'équation a un sens.",
+      "Regrouper le membre de gauche en un seul logarithme.",
+      "Résoudre l'équation obtenue.",
+      "Conclure en ne gardant que les solutions acceptables, puis vérifier.",
+    ],
+    guidedStep:
+      "Il y a deux logarithmes, donc deux conditions à écrire, pas une seule : il faut à la fois x-1 > 0 et x+1 > 0.",
+    method:
+      "On pose d'abord le domaine en imposant la stricte positivité de chaque expression placée dans un ln. Sur ce domaine uniquement, on utilise ln(a)+ln(b)=ln(ab). Comme ln est strictement croissante sur ]0,+∞[, l'égalité ln(A)=ln(B) équivaut ensuite à A=B. Les valeurs trouvées à la fin doivent être confrontées au domaine du départ.",
+    correction: [
+      "Conditions de définition : x-1>0 et x+1>0, c'est-à-dire x>1 et x>-1. Les deux conditions sont vérifiées en même temps lorsque x>1 : le domaine est ]1,+∞[.",
+      "Sur ]1,+∞[, les deux facteurs sont strictement positifs, donc ln(x-1)+ln(x+1)=ln((x-1)(x+1)).",
+      "L'équation devient ln((x-1)(x+1))=ln(8). Comme ln est strictement croissante sur ]0,+∞[, elle équivaut à (x-1)(x+1)=8.",
+      "(x-1)(x+1)=x²-1, donc x²-1=8, puis x²=9 : les solutions de cette équation sont x=-3 et x=3.",
+      "x=-3 n'appartient pas à ]1,+∞[ : il faut la rejeter, car ln(-3-1)=ln(-4) n'existe pas.",
+      "La seule solution est x=3, et l'ensemble des solutions est {3}.",
+      "Vérification : ln(3-1)+ln(3+1)=ln(2)+ln(4)=ln(2×4)=ln(8). L'égalité est bien vérifiée.",
+    ],
+    pitfall:
+      "Ne garde pas x=-3 sous prétexte que le produit reste positif. Pour x=-3, on a bien (x-1)(x+1)=(-4)×(-2)=8, donc le produit est positif, mais chacun des deux logarithmes du départ porte sur un nombre négatif : ln(-4) et ln(-2) n'existent pas. Un produit positif ne suffit jamais à définir les deux logarithmes de la somme initiale.",
+    revealDetail:
+      "L'étape que les correcteurs attendent : écrire le domaine ]1,+∞[ avant toute transformation, puis justifier le regroupement ln(x-1)+ln(x+1)=ln((x-1)(x+1)) par la stricte positivité de chaque facteur sur ce domaine. Sans cette phrase, le passage de la somme au produit n'est pas justifié, même si le résultat final x=3 est juste.",
+    transfer: {
+      question:
+        "À toi : résoudre ln(x-2)+ln(x)=ln(8). Écris le domaine, regroupe les deux logarithmes, résous l'équation obtenue puis conclus.",
+      solution:
+        "Conditions : x-2>0 et x>0, donc le domaine est ]2,+∞[. Sur ce domaine, l'équation devient ln(x(x-2))=ln(8), donc x(x-2)=8, c'est-à-dire x²-2x-8=0. On reconnaît (x-4)(x+2)=0, donc x=4 ou x=-2. La valeur -2 n'est pas dans ]2,+∞[ et donne ln(-4) : on la rejette, même si le produit (-2)×(-4)=8 est positif. L'ensemble des solutions est {4}, et on vérifie : ln(4-2)+ln(4)=ln(2)+ln(4)=ln(8).",
+    },
+  },
 ];
 
 const lockedExercises = [
   {
     id: "exercice-4",
-    heading: "Exercice 4 : variations d’une fonction avec ln",
+    heading: "Exercice 5 : variations d’une fonction avec ln",
     label: "Aperçu verrouillé",
     text: "Déterminer le domaine, calculer une dérivée avec ln, étudier son signe puis construire le tableau de variation.",
   },
   {
     id: "exercice-5",
-    heading: "Exercice 5 : limite avec logarithme",
+    heading: "Exercice 6 : limite avec logarithme",
     label: "Aperçu verrouillé",
     text: "Utiliser les limites de référence de ln, par exemple en +∞ ou en 0+, puis rédiger une conclusion compatible avec le domaine.",
   },
@@ -276,6 +324,21 @@ function ExerciseSection({ exercise }: { exercise: Exercise }) {
             <p className="mt-2 leading-7 text-slate-700">{exercise.pitfall}</p>
           </div>
         </div>
+
+        {exercise.transfer ? (
+          <div className="mt-5 border-t border-slate-200 pt-5">
+            <h3 className="font-bold text-slate-950">Question de transfert</h3>
+            <p className="mt-2 leading-7 text-slate-700">
+              {exercise.transfer.question}
+            </p>
+            <h3 className="mt-4 font-bold text-slate-950">
+              Solution de la question de transfert
+            </h3>
+            <p className="mt-2 leading-7 text-slate-700">
+              {exercise.transfer.solution}
+            </p>
+          </div>
+        ) : null}
 
         <ChapterExerciseReveal
           chapter="logarithme"
