@@ -79,6 +79,11 @@ const faqItems: FaqItem[] = [
       "On vérifie qu'une même expérience de Bernoulli est répétée n fois de façon indépendante, avec la même probabilité de succès p. Si X compte le nombre de succès, alors X suit une loi binomiale B(n ; p).",
   },
   {
+    question: "Comment trouver le nombre minimal d’essais avec une loi binomiale ?",
+    answer:
+      "On passe par l'événement contraire : si X suit B(n ; p) avec 0 < p < 1, alors P(X ≥ 1) = 1 − (1 − p)ⁿ. Pour atteindre par exemple 0,9, on résout (1 − p)ⁿ ≤ 0,1 en appliquant ln, strictement croissante sur ]0,+∞[. Comme ln(1 − p) < 0, diviser par ce nombre change le sens de l'inégalité. On retient le plus petit entier n qui convient, puis on vérifie cet entier et le précédent.",
+  },
+  {
     question: "Faut-il connaître les formules par cœur ?",
     answer:
       "Oui, les formules de base sont indispensables, mais elles doivent être reliées à une méthode : identifier les événements, choisir la bonne formule, justifier l'indépendance ou le schéma binomial, puis conclure avec les mots de l'énoncé.",
@@ -101,6 +106,11 @@ type Exercise = {
   correction: string[];
   pitfall: string;
   revealDetail: string;
+  transfer?: {
+    question: string;
+    solution: string;
+  };
+  resource?: ReactNode;
 };
 
 const visibleExercises: Exercise[] = [
@@ -189,18 +199,74 @@ const visibleExercises: Exercise[] = [
     revealDetail:
       "Pour une copie solide, ne te contente pas d'écrire la loi : cite les mots-clés de l'énoncé, notamment “deux issues” et “indépendantes”.",
   },
+  {
+    id: "exercice-4-seuil-binomial",
+    heading: "Exercice 4 : combien d’essais pour au moins 90 % de chances de gagner ?",
+    label: "Seuil et loi binomiale",
+    statement: (
+      <>
+        Une machine à pince de fête foraine fait gagner une peluche avec la
+        probabilité 0,2 à chaque essai, indépendamment des essais précédents. Un
+        joueur fait n essais, où n est un entier naturel non nul, et on note X le
+        nombre d&apos;essais gagnants.
+      </>
+    ),
+    tasks: [
+      "Justifier que X suit une loi binomiale et donner ses paramètres.",
+      "Montrer que P(X ≥ 1) = 1 − 0,8ⁿ.",
+      "Déterminer le plus petit entier n tel que P(X ≥ 1) ≥ 0,9.",
+      "Vérifier ce résultat avec n = 10 et n = 11, puis l’interpréter.",
+    ],
+    guidedStep:
+      "« Au moins un essai gagnant » a pour événement contraire « aucun essai gagnant », c'est-à-dire X = 0. On calcule donc P(X = 0), qui tient en une seule puissance, au lieu d'additionner P(X = 1), P(X = 2), …, P(X = n).",
+    method:
+      "Quand l'inconnue n est en exposant, on isole d'abord la puissance 0,8ⁿ. On applique ensuite ln, strictement croissante sur ]0,+∞[, ce qui conserve le sens de l'inégalité. Puis on divise par ln(0,8), qui est strictement négatif : le sens de l'inégalité change. On termine par le plus petit entier qui convient et on contrôle les deux entiers voisins.",
+    correction: [
+      "Chaque essai est une épreuve de Bernoulli dont le succès « gagner » a pour probabilité p = 0,2. Les n essais sont identiques et indépendants, et X compte les succès : X suit la loi binomiale B(n ; 0,2).",
+      "L'événement contraire de X ≥ 1 est X = 0 : aucun essai gagnant. Chaque essai est perdu avec la probabilité 1 − 0,2 = 0,8, donc P(X = 0) = 0,8ⁿ et P(X ≥ 1) = 1 − P(X = 0) = 1 − 0,8ⁿ.",
+      "On cherche n tel que 1 − 0,8ⁿ ≥ 0,9, ce qui équivaut à 0,8ⁿ ≤ 0,1.",
+      "Les deux membres sont strictement positifs et ln est strictement croissante sur ]0,+∞[, donc 0,8ⁿ ≤ 0,1 équivaut à ln(0,8ⁿ) ≤ ln(0,1), soit n × ln(0,8) ≤ ln(0,1).",
+      "Comme 0 < 0,8 < 1, ln(0,8) < 0. En divisant par ce nombre négatif, on change le sens de l'inégalité : n ≥ ln(0,1) / ln(0,8).",
+      "À la calculatrice, ln(0,1) / ln(0,8) ≈ 10,3189 (valeur arrondie au dix-millième). Comme n est un entier, le plus petit entier qui convient est n = 11.",
+      "Vérification : pour n = 10, 1 − 0,8¹⁰ = 0,8926258176 < 0,9 ; pour n = 11, 1 − 0,8¹¹ = 0,91410065408 ≥ 0,9. Comme 0,8ⁿ diminue quand n augmente, 1 − 0,8ⁿ augmente : tout n ≥ 11 convient et aucun n ≤ 10 ne convient.",
+      "Conclusion : il faut faire au moins 11 essais pour que la probabilité de gagner au moins une peluche atteigne 90 %. Ce n'est pas une garantie : avec 11 essais, la probabilité de ne rien gagner vaut encore 0,8¹¹ ≈ 0,086, soit environ 8,6 %.",
+    ],
+    pitfall:
+      "Quatre erreurs coûtent des points. Écrire 1 − 0,2ⁿ : 0,2ⁿ est la probabilité de gagner à tous les essais, pas celle de ne gagner à aucun. Oublier l'indépendance des essais, sans laquelle 0,8ⁿ n'est pas justifié. Diviser par ln(0,8) sans changer le sens : on obtiendrait n ≤ 10,3…, conclusion absurde puisque faire plus d'essais augmente les chances. Arrondir 10,3189 à 10 : pour n = 10, la probabilité vaut environ 0,893, sous le seuil.",
+    revealDetail:
+      "Les deux phrases que les correcteurs attendent : « ln est strictement croissante sur ]0,+∞[ » au moment d'appliquer ln, puis « ln(0,8) < 0, donc le sens de l'inégalité change » au moment de diviser. Termine par le contrôle n = 10 / n = 11 : il confirme que 11 est bien le plus petit entier et te protège d'une erreur d'arrondi.",
+    transfer: {
+      question:
+        "À toi : avec la même machine, combien d'essais faut-il faire au minimum pour que la probabilité de gagner au moins une peluche soit supérieure ou égale à 0,8 ? Résous l'inéquation, puis vérifie les deux entiers voisins.",
+      solution:
+        "On cherche n tel que 1 − 0,8ⁿ ≥ 0,8, c'est-à-dire 0,8ⁿ ≤ 0,2. Comme ln est strictement croissante sur ]0,+∞[, cela équivaut à n × ln(0,8) ≤ ln(0,2), puis, comme ln(0,8) < 0, à n ≥ ln(0,2) / ln(0,8) ≈ 7,2126 (valeur arrondie au dix-millième). Le plus petit entier qui convient est n = 8. Vérification : pour n = 7, 1 − 0,8⁷ = 0,7902848 < 0,8 ; pour n = 8, 1 − 0,8⁸ = 0,83222784 ≥ 0,8. Il faut donc faire au moins 8 essais.",
+    },
+    resource: (
+      <>
+        Pour revoir la traduction de « au moins » et les calculs avec la formule
+        de la loi binomiale, consulte la{" "}
+        <Link
+          href="/articles/probabilites-loi-binomiale-terminale"
+          className="font-bold text-blue-900 hover:underline"
+        >
+          méthode complète sur la loi binomiale
+        </Link>
+        .
+      </>
+    ),
+  },
 ];
 
 const lockedExercises = [
   {
     id: "exercice-4",
-    heading: "Exercice 4 : calculer avec une loi binomiale",
+    heading: "Exercice 5 : calculer avec une loi binomiale",
     label: "Aperçu verrouillé",
     text: "Calculer P(X=3) pour une variable X qui suit une loi binomiale, en utilisant la formule avec le coefficient binomial, p^3 et (1-p)^(n-3).",
   },
   {
     id: "exercice-5",
-    heading: "Exercice 5 : interpréter une espérance",
+    heading: "Exercice 6 : interpréter une espérance",
     label: "Aperçu verrouillé",
     text: "Utiliser E(X)=np dans une loi binomiale, puis expliquer ce que cette valeur moyenne signifie dans le contexte de l'exercice.",
   },
@@ -301,6 +367,27 @@ function ExerciseSection({ exercise }: { exercise: Exercise }) {
             <p className="mt-2 leading-7 text-slate-700">{exercise.pitfall}</p>
           </div>
         </div>
+
+        {exercise.transfer ? (
+          <div className="mt-5 border-t border-slate-200 pt-5">
+            <h3 className="font-bold text-slate-950">Question de transfert</h3>
+            <p className="mt-2 leading-7 text-slate-700">
+              {exercise.transfer.question}
+            </p>
+            <h3 className="mt-4 font-bold text-slate-950">
+              Solution de la question de transfert
+            </h3>
+            <p className="mt-2 leading-7 text-slate-700">
+              {exercise.transfer.solution}
+            </p>
+          </div>
+        ) : null}
+
+        {exercise.resource ? (
+          <p className="mt-5 border-t border-slate-200 pt-5 leading-7 text-slate-700">
+            {exercise.resource}
+          </p>
+        ) : null}
 
         <ChapterExerciseReveal
           chapter="probabilites"
@@ -413,7 +500,8 @@ export default function ExercicesProbabilitesTerminalePage() {
                   Cette page réunit des probabilités Terminale exercices corrigés
                   pour travailler les automatismes de base : probabilité
                   conditionnelle, arbre pondéré et reconnaissance d&apos;une loi
-                  binomiale.
+                  binomiale, puis un exercice complet de seuil qui combine
+                  événement contraire et logarithme.
                 </p>
                 <p>
                   Les exemples ci-dessous ne sont pas des annales officielles. Ils
