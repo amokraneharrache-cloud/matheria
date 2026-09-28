@@ -74,6 +74,11 @@ const faqItems: FaqItem[] = [
       "On remplace les coordonnées du point dans l’équation cartésienne du plan. Si l’égalité donne 0, le point appartient au plan. Sinon, il n’appartient pas au plan.",
   },
   {
+    question: "Comment trouver l’intersection d’une droite et d’un plan ?",
+    answer:
+      "On remplace x, y et z dans l’équation cartésienne du plan par la représentation paramétrique de la droite, avec le même paramètre t pour les trois coordonnées. Si l’équation obtenue a une unique solution, on reporte cette valeur de t dans la représentation paramétrique pour obtenir le point d’intersection, puis on vérifie qu’il satisfait l’équation du plan. Si t disparaît, l’égalité obtenue est soit toujours fausse : aucun point commun, la droite est strictement parallèle au plan ; soit toujours vraie : la droite est incluse dans le plan.",
+  },
+  {
     question: "À quoi sert un vecteur normal ?",
     answer:
       "Un vecteur normal est orthogonal au plan. Dans une équation ax + by + cz + d = 0, le vecteur n(a,b,c) est un vecteur normal du plan et sert à étudier l’orthogonalité ou à construire l’équation du plan.",
@@ -101,6 +106,11 @@ type Exercise = {
   correction: string[];
   pitfall: string;
   revealDetail: string;
+  transfer?: {
+    question: string;
+    solution: string;
+  };
+  resource?: ReactNode;
 };
 
 const visibleExercises: Exercise[] = [
@@ -176,18 +186,71 @@ const visibleExercises: Exercise[] = [
     revealDetail:
       "Le bon ordre : test du point d’abord, lecture du vecteur normal ensuite. Ici, les coefficients 2, -1 et 1 se lisent directement dans 2x - y + z - 5 = 0.",
   },
+  {
+    id: "exercice-4-intersection-droite-plan",
+    heading: "Exercice 4 : intersection d’une droite et d’un plan",
+    label: "Intersection droite/plan",
+    statement: (
+      <>
+        Dans un repère orthonormé de l’espace, on considère la droite d de
+        représentation paramétrique x = 1 + 2t, y = 2 − t, z = 3 + t, avec t
+        réel, et le plan P d’équation cartésienne 2x − y + z − 9 = 0.
+      </>
+    ),
+    tasks: [
+      "Montrer que la droite d coupe le plan P en un unique point I, puis calculer ses coordonnées.",
+      "Vérifier que I appartient à la fois à d et à P.",
+      "Comparer un vecteur directeur de d et un vecteur normal de P, puis en déduire la position de d par rapport à P.",
+    ],
+    guidedStep:
+      "Un point M appartient à d lorsqu’il existe un réel t tel que M(1 + 2t ; 2 − t ; 3 + t). On remplace x, y et z par ces trois expressions, avec le même t, dans l’équation de P : on obtient une équation dont la seule inconnue est t.",
+    method:
+      "Pour chercher l’intersection d’une droite et d’un plan, on injecte la représentation paramétrique de la droite dans l’équation cartésienne du plan. Si l’équation en t a une unique solution, la droite et le plan sont sécants : on remplace t par cette valeur pour obtenir le point commun. Si t disparaît, deux cas restent : une égalité toujours fausse (aucun point commun, la droite est strictement parallèle au plan) ou toujours vraie (la droite est incluse dans le plan).",
+    correction: [
+      "Un point de d a pour coordonnées (1 + 2t ; 2 − t ; 3 + t). Il appartient à P si et seulement si 2(1 + 2t) − (2 − t) + (3 + t) − 9 = 0.",
+      "En développant : 2 + 4t − 2 + t + 3 + t − 9 = 0, soit 6t − 6 = 0, donc t = 1.",
+      "Cette équation a une seule solution, car le coefficient de t, 6, n’est pas nul : d et P ont exactement un point commun, obtenu pour t = 1.",
+      "Pour t = 1 : x = 1 + 2 × 1 = 3, y = 2 − 1 = 1 et z = 3 + 1 = 4. Le point d’intersection est I(3 ; 1 ; 4).",
+      "Vérification : I est le point de d de paramètre t = 1, et 2 × 3 − 1 + 4 − 9 = 0, donc I appartient aussi à P.",
+      "Les coefficients de t donnent un vecteur directeur de d : u(2 ; −1 ; 1). Les coefficients de x, y et z donnent un vecteur normal de P : n(2 ; −1 ; 1). Ici u = n, donc un vecteur directeur de d est colinéaire à un vecteur normal de P : la droite d est orthogonale (on dit aussi perpendiculaire) au plan P, qu’elle coupe en I.",
+      "Remarque : le coefficient 6 de t est exactement le produit scalaire u · n = 2 × 2 + (−1) × (−1) + 1 × 1 = 6. Un produit u · n non nul garantit seulement que la droite coupe le plan en un point ; c’est la colinéarité de u et n qui montre qu’elle lui est orthogonale.",
+    ],
+    pitfall:
+      "Trois erreurs reviennent souvent. Utiliser un paramètre différent pour x, y et z : un point de d correspond à une seule valeur de t, la même dans les trois coordonnées. S’arrêter à t = 1 : la réponse attendue est le point I(3 ; 1 ; 4), pas la valeur du paramètre. Enfin, croire qu’un produit scalaire nul entre un vecteur directeur et un vecteur normal rend la droite perpendiculaire au plan : c’est l’inverse, u · n = 0 signifie que la droite est parallèle au plan, strictement parallèle ou incluse. Elle est orthogonale au plan quand son vecteur directeur est colinéaire à un vecteur normal.",
+    revealDetail:
+      "Le passage sensible du calcul est la parenthèse −(2 − t), qui devient −2 + t : une erreur de signe à cet endroit donne un faux paramètre. Pour t’en protéger, termine toujours par le contrôle 2 × 3 − 1 + 4 − 9 = 0 : un point d’intersection qui ne vérifie pas l’équation du plan signale une erreur de calcul.",
+    transfer: {
+      question:
+        "À toi : on garde le plan P. Étudie son intersection avec la droite d₂ : x = 1 + s, y = 2 + 2s, z = 3, puis avec la droite d₃ : x = 3 + s, y = 1 + 2s, z = 4, avec s réel. Dans chaque cas, calcule aussi le produit scalaire d’un vecteur directeur de la droite avec n(2 ; −1 ; 1).",
+      solution:
+        "Pour d₂ : 2(1 + s) − (2 + 2s) + 3 − 9 = −6 quel que soit s. L’équation −6 = 0 n’a aucune solution : d₂ et P n’ont aucun point commun. Un vecteur directeur de d₂ est v(1 ; 2 ; 0) et v · n = 2 × 1 + (−1) × 2 + 1 × 0 = 0 : d₂ est parallèle à P, et même strictement parallèle puisqu’il n’y a aucun point commun. Pour d₃, qui passe par I(3 ; 1 ; 4) avec le même vecteur directeur v : 2(3 + s) − (1 + 2s) + 4 − 9 = 0 quel que soit s. Tous les points de d₃ vérifient l’équation de P : d₃ est incluse dans P. Dans les deux cas v · n = 0, et aucune de ces droites n’est orthogonale à P : un produit scalaire nul entre un vecteur directeur et un vecteur normal signale une droite parallèle au plan, jamais une droite orthogonale au plan.",
+    },
+    resource: (
+      <>
+        Pour revoir la lecture d’un vecteur normal et l’écriture d’une
+        représentation paramétrique, consulte la{" "}
+        <Link
+          href="/methodes-maths-terminale/geometrie-espace"
+          className="font-bold text-blue-900 hover:underline"
+        >
+          méthode géométrie dans l’espace
+        </Link>
+        .
+      </>
+    ),
+  },
 ];
 
 const lockedExercises = [
   {
     id: "exercice-4",
-    heading: "Exercice 4 : vecteur normal et orthogonalité",
+    heading: "Exercice 5 : vecteur normal et orthogonalité",
     label: "Aperçu verrouillé",
-    text: "Utiliser un vecteur normal et un produit scalaire nul pour montrer qu’une droite est orthogonale à un plan ou qu’un vecteur est perpendiculaire à une direction donnée.",
+    text: "Montrer qu’une droite est orthogonale à un plan en prouvant que son vecteur directeur est colinéaire à un vecteur normal du plan, puis utiliser un produit scalaire nul pour montrer qu’un vecteur est orthogonal à une direction donnée.",
   },
   {
     id: "exercice-5",
-    heading: "Exercice 5 : produit scalaire dans l’espace",
+    heading: "Exercice 6 : produit scalaire dans l’espace",
     label: "Aperçu verrouillé",
     text: "Combiner produit scalaire et intersection droite/plan : remplacer la représentation paramétrique dans l’équation du plan, résoudre le paramètre, puis vérifier la cohérence géométrique.",
   },
@@ -285,6 +348,27 @@ function ExerciseSection({ exercise }: { exercise: Exercise }) {
             <p className="mt-2 leading-7 text-slate-700">{exercise.pitfall}</p>
           </div>
         </div>
+
+        {exercise.transfer ? (
+          <div className="mt-5 border-t border-slate-200 pt-5">
+            <h3 className="font-bold text-slate-950">Question de transfert</h3>
+            <p className="mt-2 leading-7 text-slate-700">
+              {exercise.transfer.question}
+            </p>
+            <h3 className="mt-4 font-bold text-slate-950">
+              Solution de la question de transfert
+            </h3>
+            <p className="mt-2 leading-7 text-slate-700">
+              {exercise.transfer.solution}
+            </p>
+          </div>
+        ) : null}
+
+        {exercise.resource ? (
+          <p className="mt-5 border-t border-slate-200 pt-5 leading-7 text-slate-700">
+            {exercise.resource}
+          </p>
+        ) : null}
 
         <ChapterExerciseReveal
           chapter="geometrie-espace"
@@ -404,7 +488,9 @@ export default function ExercicesGeometrieEspacePage() {
                   corrigés pour travailler les questions fréquentes : vecteur AB,
                   représentation paramétrique droite Terminale exercice, équation
                   cartésienne plan Terminale exercice et vecteur normal plan
-                  Terminale exercice.
+                  Terminale exercice. Un exercice complet d’intersection d’une
+                  droite et d’un plan distingue ensuite les trois positions
+                  possibles : sécante, strictement parallèle ou incluse.
                 </p>
                 <p>
                   Les exemples ci-dessous sont des exercices d’entraînement. Ils
