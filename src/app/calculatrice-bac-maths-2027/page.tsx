@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AlertTriangle, BatteryCharging, Calculator, ShieldCheck } from "lucide-react";
+import { BatteryCharging, Calculator, ShieldCheck } from "lucide-react";
 import {
   ChapterHero,
   ChapterInternalLinks,
@@ -18,9 +18,9 @@ import { absoluteUrl, SITE_NAME } from "@/lib/site";
 import { breadcrumbJsonLd, faqJsonLd, type FaqItem } from "@/lib/seo";
 
 const pagePath = "/calculatrice-bac-maths-2027";
-const title = "Calculatrice Bac Maths 2027 : autorisation et mode examen";
+const title = "Calculatrice autorisée au Bac Maths 2027 ? Les règles par épreuve";
 const description =
-  "La page de garde du sujet précise si la calculatrice est autorisée au Bac Maths 2027. Comprends le mode examen, le matériel conforme et les interdictions.";
+  "Spécialité maths en Terminale : la page de garde du sujet dit si la calculatrice est autorisée. Épreuve anticipée de Première : interdite sur toute l’épreuve.";
 
 const calculatorRuleUrl =
   "https://www.education.gouv.fr/bo/15/Hebdo42/MENS1523092C.htm";
@@ -28,6 +28,12 @@ const terminalExamsUrl =
   "https://eduscol.education.gouv.fr/5706/les-epreuves-terminales-du-baccalaureat-general";
 const earlyMathUrl =
   "https://eduscol.education.gouv.fr/5688/epreuve-anticipee-de-mathematiques-aux-baccalaureats-general-et-technologique";
+const specialtyExamNoteUrl =
+  "https://www.education.gouv.fr/bo/2026/Hebdo4/MENE2622642N";
+const earlyMathNoteUrl =
+  "https://www.education.gouv.fr/bo/2026/Special4/MENE2622640N";
+const examDates2027Url =
+  "https://eduscol.education.gouv.fr/5697/dates-des-examens-2027";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -107,17 +113,17 @@ export default function CalculatriceBacMaths2027Page() {
       />
 
       <ChapterHero
-        eyebrow="Réglementation des examens — session 2027"
-        title="Calculatrice au Bac Maths 2027 : ce qu’il faut savoir"
-        description="Pour l’épreuve terminale de spécialité mathématiques, l’autorisation n’est pas garantie à l’avance : la page de garde du sujet doit indiquer expressément si la calculatrice est autorisée ou interdite."
-        secondaryDescription="Quand elle est autorisée, une calculatrice avec mémoire doit disposer d’un mode examen conforme ; une calculatrice non programmable sans mémoire alphanumérique peut aussi être admise."
+        eyebrow="Réglementation des examens — épreuves de juin 2027"
+        title="Calculatrice autorisée au Bac Maths 2027 ? Les règles par épreuve"
+        description="Deux épreuves de maths ont lieu en juin 2027 et leurs règles diffèrent : en spécialité maths de Terminale, la page de garde du sujet indique si la calculatrice est autorisée ; à l’épreuve anticipée de Première, elle est interdite sur toute l’épreuve."
+        secondaryDescription="Quand le sujet de spécialité l’autorise, une calculatrice avec mémoire doit disposer d’un mode examen conforme ; une calculatrice non programmable sans mémoire alphanumérique peut aussi être admise."
         ctas={[]}
       />
 
       <ResourceToc
         label="Sommaire calculatrice Bac Maths 2027"
         items={[
-          { href: "#autorisation", label: "Autorisation" },
+          { href: "#autorisation", label: "Règle par épreuve" },
           { href: "#verification", label: "Où vérifier" },
           { href: "#mode-examen", label: "Mode examen" },
           { href: "#types", label: "Types de calculatrices" },
@@ -128,33 +134,60 @@ export default function CalculatriceBacMaths2027Page() {
 
       <section className="px-4 py-14">
         <div className="mx-auto max-w-6xl space-y-14">
-          <div id="autorisation" className="scroll-mt-24">
-            <QuickAnswer title="Calculatrice autorisée ou non ?" tone="amber">
+          <div id="autorisation" className="scroll-mt-24 space-y-6">
+            <QuickAnswer title="Calculatrice autorisée ? Tout dépend de l’épreuve" tone="amber">
               <p>
-                Pour la spécialité maths de Terminale, <strong>lis la page de garde
-                du sujet</strong> : c&apos;est elle qui doit dire si l&apos;usage de la
-                calculatrice est autorisé ou interdit.
+                <strong>Spécialité maths, en Terminale</strong> : autorisée seulement
+                si la page de garde du sujet le prévoit. Cette autorisation ne peut
+                donc pas être garantie avant la publication du sujet.
+              </p>
+              <p>
+                <strong>Épreuve anticipée de maths, en Première</strong> : interdite
+                sur toute l&apos;épreuve, oral de contrôle compris.
               </p>
               <p className="text-base">
-                La réglementation générale ne permet donc pas d&apos;écrire que la
-                calculatrice sera « garantie autorisée » au Bac 2027 avant la
-                publication du sujet.
+                En cursus normal, les élèves de Terminale 2026-2027 ont déjà passé
+                l&apos;épreuve anticipée en fin de Première : en juin 2027, seule la
+                règle de la spécialité les concerne s&apos;ils l&apos;ont gardée.
               </p>
             </QuickAnswer>
-          </div>
 
-          <section className="rounded-2xl border-2 border-red-200 bg-red-50 p-6 sm:p-8">
-            <AlertTriangle className="h-7 w-7 text-red-700" aria-hidden="true" />
-            <h2 className="mt-4 text-2xl font-bold text-red-950">
-              Attention à l’épreuve anticipée de mathématiques de Première
-            </h2>
-            <p className="mt-4 leading-7 text-red-950">
-              Pour cette nouvelle épreuve, passée en fin de Première au titre de la
-              session 2027, la définition officielle précise que la calculatrice
-              n&apos;est autorisée sur aucune partie. Cette règle ne doit pas être
-              confondue avec celle de l&apos;épreuve de spécialité en Terminale.
+            <ResourceTable
+              prominent
+              caption="Calculatrice : la règle de chaque épreuve de maths de juin 2027"
+              headers={["Épreuve", "Calculatrice", "Où vérifier", "Mode examen"]}
+              rows={[
+                {
+                  key: "specialite",
+                  cells: [
+                    "Spécialité mathématiques (Terminale générale) : écrit de 4 h, pendant les écrits de spécialité des 16, 17 et 18 juin 2027",
+                    "Autorisée seulement si le sujet le prévoit. À l’oral de contrôle, elle est autorisée dans les conditions des textes en vigueur.",
+                    "La page de garde du sujet, qui doit indiquer si l’usage de la calculatrice est autorisé ou interdit.",
+                    "Si le sujet l’autorise : une machine avec mémoire alphanumérique ou écran graphique doit avoir un mode examen conforme, activé seulement sur instruction du surveillant.",
+                  ],
+                },
+                {
+                  key: "anticipee",
+                  cells: [
+                    "Épreuve anticipée de mathématiques (Première générale ou technologique) : écrit de 2 h, lundi 21 juin 2027 au matin, au titre de la session 2028 en cursus normal",
+                    "Interdite sur l’ensemble de l’épreuve, automatismes comme exercices, et à l’oral de contrôle.",
+                    "La définition officielle de l’épreuve : la règle est la même dans les textes des sessions 2027 et 2028.",
+                    "Sans objet : même en mode examen, la calculatrice n’est pas autorisée.",
+                  ],
+                },
+              ]}
+            />
+
+            <p className="text-sm leading-6 text-slate-600">
+              Règles vérifiées le 29 septembre 2026 dans les notes de service du
+              11 septembre 2026 (BO spécial n° 4 du 17 septembre 2026), la circulaire
+              n° 2015-178 et le calendrier 2027 publié sur Éduscol : voir les{" "}
+              <a href="#sources" className="font-semibold text-blue-900 underline">
+                sources officielles
+              </a>
+              .
             </p>
-          </section>
+          </div>
 
           <section id="verification" className="scroll-mt-24 grid gap-8 lg:grid-cols-[0.72fr_1fr]">
             <div>
@@ -165,9 +198,9 @@ export default function CalculatriceBacMaths2027Page() {
             </div>
             <div className="space-y-4 text-lg leading-8 text-slate-700">
               <p>
-                La mention décisive figure sur la <strong>page de garde du sujet</strong>.
-                Elle indique explicitement si l&apos;usage de la calculatrice est
-                autorisé ou interdit.
+                En spécialité maths, la mention décisive figure sur la{" "}
+                <strong>page de garde du sujet</strong>. Elle indique explicitement si
+                l&apos;usage de la calculatrice est autorisé ou interdit.
               </p>
               <p>
                 Relis aussi ta convocation et les consignes de ton centre pour les
@@ -339,29 +372,46 @@ export default function CalculatriceBacMaths2027Page() {
 
           <StaticFaq items={faqItems} />
 
-          <OfficialSources
-            sources={[
-              {
-                href: calculatorRuleUrl,
-                label: "Circulaire n° 2015-178 relative aux calculatrices aux examens",
-                description: "Autorisation par le sujet, matériels conformes, mode examen et déroulement de l’épreuve.",
-              },
-              {
-                href: terminalExamsUrl,
-                label: "Épreuves terminales du baccalauréat général",
-                description: "Page Éduscol regroupant les caractéristiques des épreuves et le texte relatif aux calculatrices.",
-              },
-              {
-                href: earlyMathUrl,
-                label: "Définition de l’épreuve anticipée de mathématiques",
-                description: "Éduscol précise l’interdiction de la calculatrice sur l’ensemble de cette épreuve de Première.",
-              },
-            ]}
-          />
+          <div id="sources" className="scroll-mt-24">
+            <OfficialSources
+              sources={[
+                {
+                  href: specialtyExamNoteUrl,
+                  label: "Note de service du 11 septembre 2026 : épreuve de spécialité mathématiques",
+                  description: "Le sujet précise si l’usage de la calculatrice est autorisé ; à l’oral de contrôle, la calculatrice est autorisée dans les conditions des textes en vigueur.",
+                },
+                {
+                  href: earlyMathNoteUrl,
+                  label: "Note de service du 11 septembre 2026 : épreuve anticipée de mathématiques",
+                  description: "Texte de la session 2028 : calculatrice non autorisée sur l’ensemble de l’épreuve écrite et à l’oral de contrôle, comme dans le texte de la session 2027.",
+                },
+                {
+                  href: calculatorRuleUrl,
+                  label: "Circulaire n° 2015-178 relative aux calculatrices aux examens",
+                  description: "Autorisation par le sujet, matériels conformes, mode examen et déroulement de l’épreuve.",
+                },
+                {
+                  href: examDates2027Url,
+                  label: "Dates des examens 2027",
+                  description: "Écrits de spécialité les 16, 17 et 18 juin 2027 ; épreuve anticipée de mathématiques le lundi 21 juin 2027 au matin.",
+                },
+                {
+                  href: terminalExamsUrl,
+                  label: "Épreuves terminales du baccalauréat général",
+                  description: "Page Éduscol regroupant les caractéristiques des épreuves et le texte relatif aux calculatrices.",
+                },
+                {
+                  href: earlyMathUrl,
+                  label: "Présentation de l’épreuve anticipée de mathématiques",
+                  description: "Éduscol précise l’interdiction de la calculatrice sur l’ensemble de cette épreuve de Première.",
+                },
+              ]}
+            />
+          </div>
 
           <p className="text-sm leading-6 text-slate-600">
-            Cette page présente les textes disponibles au 10 août 2026. Le jour de
-            l&apos;épreuve, la mention du sujet et les instructions du surveillant restent
+            Textes officiels vérifiés le 29 septembre 2026. Le jour de l&apos;épreuve,
+            la mention du sujet et les instructions du surveillant restent
             déterminantes.
           </p>
 
