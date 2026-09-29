@@ -143,7 +143,7 @@ export default function CalculatriceBacMaths2027Page() {
               </p>
               <p>
                 <strong>Épreuve anticipée de maths, en Première</strong> : interdite
-                sur toute l&apos;épreuve, oral de contrôle compris.
+                sur toute l’épreuve, oral de contrôle compris.
               </p>
               <p className="text-base">
                 En cursus normal, les élèves de Terminale 2026-2027 ont déjà passé
