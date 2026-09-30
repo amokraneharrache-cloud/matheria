@@ -173,54 +173,54 @@ export default function EpreuveAnticipeeMathsPremierePage() {
             <div className="mt-7">
               <ResourceTable
                 caption="Première édition et épreuve de juin 2027 : les différences officielles"
-                headers={["Point", "Juin 2026 · session 2027", "Juin 2027 · session 2028"]}
+                headers={["Point", "Juin 2027 · session 2028", "Juin 2026 · session 2027"]}
                 rows={[
                   {
                     key: "texte",
                     cells: [
                       "Texte officiel",
-                      "Note de service du 10 juin 2025",
                       "Note de service du 11 septembre 2026",
+                      "Note de service du 10 juin 2025",
                     ],
                   },
                   {
                     key: "partie-1",
                     cells: [
                       "Partie 1 (6 points)",
-                      "Questionnaire à choix multiples",
                       "Liste de questions à réponses courtes",
+                      "Questionnaire à choix multiples",
                     ],
                   },
                   {
                     key: "partie-2",
                     cells: [
                       "Partie 2 (14 points)",
-                      "Deux ou trois exercices indépendants",
                       "Inchangée",
+                      "Deux ou trois exercices indépendants",
                     ],
                   },
                   {
                     key: "langue",
                     cells: [
                       "Maîtrise de la langue",
-                      "Pas de mention dans le texte",
                       "2 points sur les 20",
+                      "Pas de mention dans le texte",
                     ],
                   },
                   {
                     key: "cadre",
                     cells: [
                       "Durée, coefficient, calculatrice",
-                      "2 h, coefficient 2, calculatrice interdite",
                       "Inchangés",
+                      "2 h, coefficient 2, calculatrice interdite",
                     ],
                   },
                   {
                     key: "date",
                     cells: [
                       "Date de l’écrit",
-                      "Juin 2026",
                       "Lundi 21 juin 2027, 8 h – 10 h",
+                      "Juin 2026",
                     ],
                   },
                 ]}
@@ -313,8 +313,8 @@ export default function EpreuveAnticipeeMathsPremierePage() {
                 Ils sont compris dans les 20 points. La note de service les consacre à
                 l’orthographe et à la syntaxe, mais aussi à « la capacité à formuler un
                 raisonnement et à utiliser un vocabulaire juste et adapté ». Sa grille
-                annexe observe quatre critères, de « très insuffisant » à « très
-                satisfaisant » :
+                annexe observe quatre critères, chacun situé sur quatre niveaux, de
+                « très insuffisant » à « très satisfaisant ».
               </p>
               <ul className="mt-4 grid gap-2 leading-7 text-slate-800 sm:grid-cols-2">
                 <li className="rounded-xl bg-white p-4">Orthographe lexicale et grammaticale.</li>
