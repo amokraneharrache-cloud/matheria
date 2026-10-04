@@ -20,14 +20,14 @@ export const metadata: Metadata = {
     absolute: "SprintMaths | Réviser le brevet et le bac de maths",
   },
   description:
-    "SprintMaths aide les élèves à réviser les maths avec des exercices ciblés, un programme par chapitre, un plan de révision et un suivi de progression.",
+    "Réviser les maths du brevet au bac : mini-test gratuit de 10 questions, méthodes et exercices par chapitre, pack d'entraînement Terminale en option.",
   alternates: {
     canonical: absoluteUrl("/"),
   },
   openGraph: {
     title: "SprintMaths | Réviser le brevet et le bac de maths",
     description:
-      "Exercices ciblés, plan de révision, programme par chapitre et progression pour préparer le brevet, le bac de Première et le bac Terminale.",
+      "Mini-test gratuit, méthodes, exercices ciblés et programme par chapitre pour préparer le brevet, le bac de Première et le bac Terminale, avec un pack d'entraînement Terminale en option.",
     url: absoluteUrl("/"),
     siteName: SITE_NAME,
     locale: "fr_FR",
@@ -83,15 +83,16 @@ export default function Home() {
         <section className="px-4 py-20 text-center bg-gradient-to-b from-blue-50 to-white">
           <div className="container mx-auto max-w-4xl">
             <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-blue-100 text-blue-900 mb-6">
-              Rentrée 2026 — Objectif Bac Maths 2027
+              Objectif Bac Maths 2027
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
-              Prépare ta Terminale spécialité maths <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-violet-600">avant la rentrée</span>
+              Révise la Terminale spécialité maths <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-violet-600">chapitre par chapitre</span>
             </h1>
             <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
-              Un parcours structuré avec planning, méthodes, exercices guidés
-              et sujets type bac corrigés pour commencer l&apos;année avec des
-              bases claires.
+              Repère ce qui bloque avec un mini-test gratuit de 10 questions,
+              reprends le chapitre concerné avec les méthodes et les corrigés
+              du site, puis entraîne-toi sur des exercices et des sujets type
+              bac.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-6">
               <TrackedLink
@@ -140,8 +141,35 @@ export default function Home() {
             <div className="mb-8">
               <h2 className="text-3xl font-bold text-slate-900">Révisions par objectif</h2>
               <p className="mt-3 text-slate-600 text-lg">
-                Choisissez le parcours adapté à l&apos;examen préparé par votre enfant.
+                Choisissez le parcours adapté à l’examen préparé : Brevet, bac
+                de Première ou Terminale spécialité maths.
               </p>
+            </div>
+            <div className="mb-8 grid gap-5 md:grid-cols-2">
+              <Card className="border-emerald-200 bg-emerald-50/50">
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-bold text-slate-900">Gratuit, sans compte</h3>
+                  <p className="mt-2 text-slate-700">
+                    Le mini-test de 10 questions affiche tout de suite le
+                    score, cinq sous-scores et les corrections, sans email.
+                    Les programmes par chapitre, les fiches méthodes et les
+                    sujets corrigés publiés sur le site se lisent librement ;
+                    le planning sur 30 jours est gratuit lui aussi.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="border-blue-200 bg-blue-50/50">
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-bold text-slate-900">Pack Terminale, facultatif</h3>
+                  <p className="mt-2 text-slate-700">
+                    Réservé à la Terminale spécialité maths : questions
+                    d’entraînement, exercices guidés étape par étape, sujets
+                    type bac dans le Mode Bac, plans de révision et suivi de
+                    progression, pour {PACK_REVISION_EXPRESS_PRICE} € en
+                    paiement unique. Il ne couvre ni le Brevet ni la Première.
+                  </p>
+                </CardContent>
+              </Card>
             </div>
             <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {[
@@ -154,8 +182,8 @@ export default function Home() {
                 {
                   href: "/preparer-entree-terminale-specialite-maths",
                   icon: BookOpen,
-                  title: "Entrée en Terminale",
-                  text: "Les prérequis de Première à revoir avant septembre avec un programme léger sur 14 jours.",
+                  title: "Prérequis pour la Terminale",
+                  text: "Les bases de Première à reprendre quand un chapitre de Terminale bloque en cours d'année, avec un programme de remise à niveau sur 14 jours.",
                 },
                 {
                   href: "/planning-revision-bac-maths",
