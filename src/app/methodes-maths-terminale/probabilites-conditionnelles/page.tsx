@@ -80,6 +80,7 @@ const probabilityNotations = [
 
 const commonMistakes = [
   "Confondre P(A ∩ B) et P_A(B).",
+  "Confondre P_A(B) et P_B(A) : la condition n’est pas la même.",
   "Oublier de multiplier les branches.",
   "Additionner des probabilités qui ne correspondent pas à des chemins différents.",
   "Oublier le complémentaire.",
@@ -90,6 +91,7 @@ const commonMistakes = [
 const finalChecklist = [
   "J’ai défini chaque événement par une phrase.",
   "J’ai distingué P(A), P_A(B) et P(A ∩ B).",
+  "J’ai repéré la condition : P_A(B) et P_B(A) n’ont pas le même dénominateur.",
   "À chaque nœud de l’arbre, la somme des branches vaut 1.",
   "J’ai multiplié les probabilités d’un même chemin.",
   "J’ai additionné uniquement des chemins incompatibles menant à l’événement demandé.",
@@ -122,6 +124,11 @@ const faqItems: FaqItem[] = [
     question: "Comment utiliser la formule des probabilités totales ?",
     answer:
       "On découpe l'événement demandé selon des cas incompatibles qui couvrent toute la situation. Par exemple, P(R) = P(A ∩ R) + P(non A ∩ R).",
+  },
+  {
+    question: "Comment calculer P_R(A) quand l'énoncé donne P_A(R) ?",
+    answer:
+      "On revient à la définition : si P(R) > 0, P_R(A) = P(A ∩ R) / P(R). On calcule P(A ∩ R) en multipliant le chemin A puis R, et P(R) avec la formule des probabilités totales. Dans l'exemple 3 de cette page, P_A(R) = 0,8 alors que P_R(A) = 0,24 / 0,59 = 24/59 ≈ 0,407 : les deux probabilités n'ont pas le même dénominateur.",
   },
   {
     question: "Que faire si je bloque sur un exercice de probabilités ?",
@@ -611,10 +618,11 @@ export default function MethodeProbabilitesConditionnellesPage() {
               </h2>
               <p className="mt-4 text-lg leading-8 text-slate-700">
                 On applique la méthode sur un énoncé court, avec un arbre implicite
-                et la formule des probabilités totales.
+                et la formule des probabilités totales. La dernière question change
+                de condition : on passe de P_A(R) à P_R(A).
               </p>
             </div>
-            <article className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+            <article className="min-w-0 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <p className="text-lg font-bold leading-8 text-slate-950">
                 Dans une population, 30 % des personnes utilisent une application A.
                 Parmi les utilisateurs de A, 80 % réussissent un test. Parmi les
@@ -632,6 +640,7 @@ export default function MethodeProbabilitesConditionnellesPage() {
                     <li>Donner P_A(R).</li>
                     <li>Calculer P(A ∩ R).</li>
                     <li>Calculer P(R).</li>
+                    <li>Calculer P_R(A), la probabilité de A sachant R.</li>
                   </ul>
                 </div>
 
@@ -644,6 +653,7 @@ export default function MethodeProbabilitesConditionnellesPage() {
                     <p>P(non A) = 0,7.</p>
                     <p>P(non A ∩ R) = 0,7 × 0,5 = 0,35.</p>
                     <p className="font-bold">P(R) = 0,24 + 0,35 = 0,59.</p>
+                    <p className="font-bold">P_R(A) = 0,24 / 0,59 ≈ 0,407.</p>
                   </div>
                 </div>
               </div>
@@ -667,6 +677,172 @@ export default function MethodeProbabilitesConditionnellesPage() {
                 probabilité qu’une personne choisie au hasard réussisse le test est
                 donc égale à 0,59.
               </p>
+
+              <div
+                id="changer-de-condition"
+                className="mt-8 scroll-mt-24 border-t border-slate-200 pt-6"
+              >
+                <p className="text-sm font-bold uppercase tracking-wide text-blue-800">
+                  Question 5 — changer de condition
+                </p>
+                <h3 className="mt-2 text-xl font-bold text-slate-950">
+                  Parmi les personnes qui réussissent, quelle proportion utilise A ?
+                </h3>
+                <p className="mt-3 rounded-lg bg-emerald-50 p-4 leading-7 text-emerald-950">
+                  <strong>Réponse courte :</strong> parmi les personnes qui
+                  réussissent, 24 sur 59 utilisent l’application. Donc P_R(A) = 24/59
+                  ≈ 0,407, soit environ 40,7 %. Ce n’est pas 80 % : 80 % est P_A(R),
+                  la proportion de réussite parmi les utilisateurs.
+                </p>
+
+                <div className="mt-5 space-y-3 leading-7 text-slate-700">
+                  <p>
+                    La question commence par “parmi les personnes qui réussissent” :
+                    la condition est maintenant R, et non plus A. On cherche la
+                    probabilité de A sachant R, notée P_R(A) ou P(A | R).
+                  </p>
+                  <p>
+                    Comme P(R) = 0,59 &gt; 0, cette probabilité est définie. On
+                    divise l’intersection par la probabilité de la condition :
+                  </p>
+                  <p className="rounded-lg bg-slate-50 px-4 py-3 text-center font-mono font-bold text-slate-950">
+                    <span className="block">P_R(A) = P(A ∩ R) / P(R)</span>
+                    <span className="block">= 0,24 / 0,59 = 24/59.</span>
+                  </p>
+                  <p>
+                    La valeur exacte est 24/59 ; arrondie au millième, elle vaut
+                    0,407. Les deux nombres utiles sont déjà dans la correction :
+                    P(A ∩ R) vient du chemin A puis R, et P(R) de la formule des
+                    probabilités totales. Aucune formule supplémentaire n’est
+                    nécessaire.
+                  </p>
+                </div>
+
+                <p className="mt-6 font-bold text-slate-950">
+                  Le même calcul sur 100 personnes fictives
+                </p>
+                <p className="mt-2 leading-7 text-slate-700">
+                  Pour voir le dénominateur changer, imagine 100 personnes qui
+                  respectent exactement les pourcentages de l’énoncé : 30 utilisent
+                  A, dont 24 réussissent ; 70 n’utilisent pas A, dont 35 réussissent.
+                </p>
+                <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200">
+                  <table className="w-full border-collapse text-center text-sm sm:text-base">
+                    <caption className="caption-top border-b border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm leading-6 text-slate-700">
+                      Répartition de 100 personnes fictives. A : utilise
+                      l’application ; R : réussit le test.
+                    </caption>
+                    <thead>
+                      <tr className="border-b border-slate-200 text-slate-950">
+                        <td className="bg-slate-50 px-3 py-3" />
+                        <th scope="col" className="bg-emerald-50 px-3 py-3 font-bold text-emerald-950">
+                          R
+                        </th>
+                        <th scope="col" className="bg-slate-50 px-3 py-3 font-bold">
+                          non R
+                        </th>
+                        <th scope="col" className="bg-slate-50 px-3 py-3 font-bold">
+                          Total
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                      <tr>
+                        <th scope="row" className="bg-slate-50 px-3 py-3 text-left font-bold text-slate-950">
+                          A
+                        </th>
+                        <td className="bg-emerald-50 px-3 py-3 font-bold text-emerald-950">
+                          24
+                        </td>
+                        <td className="px-3 py-3 text-slate-700">6</td>
+                        <td className="px-3 py-3 font-semibold text-slate-950">30</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" className="bg-slate-50 px-3 py-3 text-left font-bold text-slate-950">
+                          non A
+                        </th>
+                        <td className="bg-emerald-50 px-3 py-3 text-emerald-950">35</td>
+                        <td className="px-3 py-3 text-slate-700">35</td>
+                        <td className="px-3 py-3 font-semibold text-slate-950">70</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" className="bg-slate-50 px-3 py-3 text-left font-bold text-slate-950">
+                          Total
+                        </th>
+                        <td className="bg-emerald-50 px-3 py-3 font-bold text-emerald-950">
+                          59
+                        </td>
+                        <td className="px-3 py-3 font-semibold text-slate-950">41</td>
+                        <td className="px-3 py-3 font-semibold text-slate-950">100</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                    <p className="font-bold text-slate-950">
+                      P_A(R) : on lit la ligne A
+                    </p>
+                    <p className="mt-2 leading-7 text-slate-700">
+                      Parmi les 30 utilisateurs, 24 réussissent : 24/30 = 0,8, soit
+                      80 %.
+                    </p>
+                  </div>
+                  <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+                    <p className="font-bold text-emerald-950">
+                      P_R(A) : on lit la colonne R
+                    </p>
+                    <p className="mt-2 leading-7 text-emerald-950">
+                      Parmi les 59 personnes qui réussissent, 24 utilisent A : 24/59
+                      ≈ 0,407, soit environ 40,7 %.
+                    </p>
+                  </div>
+                </div>
+                <p className="mt-4 leading-7 text-slate-700">
+                  Le numérateur est le même, 24 : ce sont les personnes qui utilisent
+                  A et qui réussissent. Seul le groupe de référence change, 30
+                  utilisateurs dans un cas, 59 personnes qui réussissent dans
+                  l’autre.
+                </p>
+
+                <div className="mt-5 rounded-xl border-l-4 border-amber-400 bg-amber-50 p-5 leading-7 text-amber-950">
+                  <p className="font-bold">
+                    Erreur fréquente : se tromper de dénominateur
+                  </p>
+                  <p className="mt-2">
+                    Répondre 0,8, c’est diviser par 30, le nombre d’utilisateurs : on
+                    obtient P_A(R). Répondre 0,24, c’est diviser par 100, toute la
+                    population : on obtient P(A ∩ R). La question porte sur les
+                    personnes qui réussissent, donc le dénominateur est 59.
+                  </p>
+                </div>
+
+                <div className="mt-5 rounded-xl bg-blue-50 p-5">
+                  <p className="font-bold text-blue-950">Question de vérification</p>
+                  <p className="mt-2 leading-7 text-blue-950">
+                    Parmi les personnes qui ne réussissent pas, quelle proportion
+                    utilise A ? Cherche d’abord le bon dénominateur dans le tableau.
+                  </p>
+                  <details className="mt-4 rounded-lg bg-white p-4">
+                    <summary className="cursor-pointer font-bold text-blue-900 focus-visible:outline-2 focus-visible:outline-offset-4">
+                      Voir la réponse
+                    </summary>
+                    <p className="mt-3 border-l-4 border-emerald-600 pl-4 leading-7 text-slate-700">
+                      La condition est non R, et P(non R) = 1 − 0,59 = 0,41 &gt; 0.
+                      Donc P(A | non R) = P(A ∩ non R) / P(non R) = 0,06 / 0,41 =
+                      6/41 ≈ 0,146. Dans le tableau, on lit la colonne non R : 6
+                      personnes sur 41, soit environ 14,6 %.
+                    </p>
+                  </details>
+                </div>
+
+                <p className="mt-5 text-sm leading-6 text-slate-600">
+                  Les données de cet exemple sont inventées pour l’exercice. Elles
+                  décrivent une répartition : elles ne permettent pas de conclure que
+                  l’application est la cause de la réussite.
+                </p>
+              </div>
             </article>
           </section>
 
