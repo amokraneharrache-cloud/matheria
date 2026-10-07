@@ -95,6 +95,11 @@ const faqItems: FaqItem[] = [
     answer:
       "Commence par calculer les premiers termes et par réécrire la définition avec n puis n+1. Si le blocage reste flou, fais un exercice guidé ou un diagnostic pour savoir quelle étape retravailler.",
   },
+  {
+    question: "Une suite croissante tend-elle forcément vers +∞ ?",
+    answer:
+      "Non. Une suite croissante et majorée converge vers un nombre réel : c'est le théorème de convergence monotone. Par exemple, la suite définie par u0 = 0 et u(n+1) = (u(n) + 1) / 2 est croissante, majorée par 1, et elle converge vers 1. Seule une suite croissante non majorée, comme u(n) = 1 + 3n, tend vers +∞.",
+  },
 ];
 
 const internalLinks = [
@@ -470,6 +475,305 @@ export default function MethodeEtudierUneSuitePage() {
                   conclut alors que la formule est vraie pour tout entier naturel n.
                 </p>
               </div>
+            </article>
+          </section>
+
+          <section
+            id="suite-croissante-convergente"
+            className="grid scroll-mt-24 gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start"
+          >
+            <div>
+              <LineChart className="h-7 w-7 text-blue-800" />
+              <h2 className="mt-4 text-3xl font-bold text-slate-950">
+                Une suite croissante peut-elle converger&nbsp;?
+              </h2>
+              <p className="mt-4 text-lg leading-8 text-slate-700">
+                Second exemple guidé, avec une preuve complète : cette fois, la
+                suite monte sans jamais atteindre 1.
+              </p>
+            </div>
+            <article className="min-w-0 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <p className="rounded-lg bg-emerald-50 p-4 leading-7 text-emerald-950">
+                <strong>Réponse courte :</strong> oui, à condition d’être majorée.
+                La suite définie par <span className="whitespace-nowrap font-mono">u0 = 0</span> et{" "}
+                <span className="font-mono">u(n+1) = (u(n) + 1) / 2</span> est
+                croissante, tous ses termes restent strictement inférieurs à 1, et
+                elle converge vers 1. “Croissante” ne veut donc pas dire “tend vers
+                +∞” : une suite croissante tend vers +∞ seulement si elle n’est pas
+                majorée, comme <span className="whitespace-nowrap font-mono">u(n) = 1 + 3n</span> dans
+                l’exemple précédent.
+              </p>
+
+              <p className="mt-6 text-lg font-bold text-slate-950">
+                On considère la suite définie par{" "}
+                <span className="whitespace-nowrap font-mono">u0 = 0</span> et, pour tout entier
+                naturel n, <span className="font-mono">u(n+1) = (u(n) + 1) / 2</span>.
+              </p>
+
+              <h3 className="mt-6 font-bold text-slate-950">Premiers termes</h3>
+              <div className="mt-3 overflow-x-auto rounded-xl border border-slate-200">
+                <table className="w-full border-collapse text-center text-sm sm:text-base">
+                  <caption className="caption-top border-b border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm leading-6 text-slate-700">
+                    Cinq premiers termes de la suite et écart à 1.
+                  </caption>
+                  <thead>
+                    <tr className="border-b border-slate-200 text-slate-950">
+                      <th scope="col" className="bg-slate-50 px-3 py-3 font-bold">
+                        n
+                      </th>
+                      <th scope="col" className="bg-emerald-50 px-3 py-3 font-mono font-bold text-emerald-950">
+                        u(n)
+                      </th>
+                      <th scope="col" className="bg-slate-50 px-3 py-3 font-mono font-bold">
+                        1 - u(n)
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-200">
+                    {[
+                      { rank: "0", term: "0", gap: "1" },
+                      { rank: "1", term: "0,5", gap: "0,5" },
+                      { rank: "2", term: "0,75", gap: "0,25" },
+                      { rank: "3", term: "0,875", gap: "0,125" },
+                      { rank: "4", term: "0,9375", gap: "0,0625" },
+                    ].map((row) => (
+                      <tr key={row.rank}>
+                        <th scope="row" className="bg-slate-50 px-3 py-3 font-bold text-slate-950">
+                          {row.rank}
+                        </th>
+                        <td className="bg-emerald-50 px-3 py-3 font-semibold text-emerald-950">
+                          {row.term}
+                        </td>
+                        <td className="px-3 py-3 text-slate-700">{row.gap}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p className="mt-4 leading-7 text-slate-700">
+                Chaque terme est la moyenne du précédent et de 1, donc l’écart à 1
+                est divisé par 2 à chaque rang. La suite semble croissante et semble
+                se rapprocher de 1. Ce tableau donne une intuition, pas une preuve :
+                il reste à démontrer ces deux observations pour tous les rangs.
+              </p>
+
+              <ol className="mt-6 space-y-6">
+                <li>
+                  <div className="flex items-center gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-900 text-sm font-bold text-white"
+                    >
+                      1
+                    </span>
+                    <h3 className="font-bold text-slate-950">Encadrer les termes par récurrence</h3>
+                  </div>
+                  <div className="mt-3 space-y-2 leading-7 text-slate-700">
+                    <p>
+                      Propriété à démontrer pour tout entier naturel n :{" "}
+                      <span className="whitespace-nowrap font-mono text-slate-950">0 ≤ u(n) &lt; 1</span>.
+                    </p>
+                    <p>
+                      <strong>Initialisation :</strong>{" "}
+                      <span className="whitespace-nowrap font-mono">u0 = 0</span>, donc{" "}
+                      <span className="whitespace-nowrap font-mono">0 ≤ u0 &lt; 1</span>.
+                    </p>
+                    <p>
+                      <strong>Hérédité :</strong> on suppose{" "}
+                      <span className="whitespace-nowrap font-mono">0 ≤ u(n) &lt; 1</span> pour un
+                      entier naturel n fixé. On ajoute 1 :{" "}
+                      <span className="whitespace-nowrap font-mono">1 ≤ u(n) + 1 &lt; 2</span>. On
+                      divise par 2, qui est positif :{" "}
+                      <span className="whitespace-nowrap font-mono">1/2 ≤ u(n+1) &lt; 1</span>. En
+                      particulier, <span className="whitespace-nowrap font-mono">0 ≤ u(n+1) &lt; 1</span>.
+                    </p>
+                    <p>
+                      <strong>Conclusion :</strong> pour tout entier naturel n,{" "}
+                      <span className="whitespace-nowrap font-mono">0 ≤ u(n) &lt; 1</span>. La suite
+                      est majorée par 1.
+                    </p>
+                  </div>
+                </li>
+                <li>
+                  <div className="flex items-center gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-900 text-sm font-bold text-white"
+                    >
+                      2
+                    </span>
+                    <h3 className="font-bold text-slate-950">Montrer que la suite est croissante</h3>
+                  </div>
+                  <div className="mt-3 space-y-2 leading-7 text-slate-700">
+                    <p className="rounded-lg bg-slate-50 px-4 py-3 text-center font-mono text-sm font-bold text-slate-950 sm:text-base">
+                      <span className="block">u(n+1) - u(n)</span>
+                      <span className="block">= (u(n) + 1) / 2 - u(n)</span>
+                      <span className="block">= (1 - u(n)) / 2.</span>
+                    </p>
+                    <p>
+                      D’après l’étape 1, <span className="whitespace-nowrap font-mono">u(n) &lt; 1</span>,
+                      donc <span className="whitespace-nowrap font-mono">1 - u(n) &gt; 0</span>. La
+                      différence est strictement positive pour tout entier naturel
+                      n : la suite est strictement croissante.
+                    </p>
+                  </div>
+                </li>
+                <li>
+                  <div className="flex items-center gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-900 text-sm font-bold text-white"
+                    >
+                      3
+                    </span>
+                    <h3 className="font-bold text-slate-950">Conclure que la suite converge</h3>
+                  </div>
+                  <p className="mt-3 leading-7 text-slate-700">
+                    La suite est croissante et majorée par 1. D’après le théorème de
+                    convergence monotone (toute suite croissante et majorée
+                    converge), elle converge vers un nombre réel L. À ce stade, on
+                    sait que L existe, mais on ne connaît pas encore sa valeur.
+                  </p>
+                </li>
+                <li>
+                  <div className="flex items-center gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-900 text-sm font-bold text-white"
+                    >
+                      4
+                    </span>
+                    <h3 className="font-bold text-slate-950">Passer à la limite pour calculer L</h3>
+                  </div>
+                  <div className="mt-3 space-y-2 leading-7 text-slate-700">
+                    <p>
+                      Quand n tend vers +∞, <span className="whitespace-nowrap font-mono">u(n)</span>{" "}
+                      tend vers L, donc <span className="whitespace-nowrap font-mono">u(n+1)</span>{" "}
+                      tend aussi vers L, et{" "}
+                      <span className="whitespace-nowrap font-mono">(u(n) + 1) / 2</span> tend vers{" "}
+                      <span className="whitespace-nowrap font-mono">(L + 1) / 2</span>. Or{" "}
+                      <span className="font-mono">u(n+1) = (u(n) + 1) / 2</span>{" "}
+                      pour tout n : ces deux limites sont donc égales.
+                    </p>
+                    <p className="rounded-lg bg-slate-50 px-4 py-3 text-center font-mono text-sm font-bold text-slate-950 sm:text-base">
+                      <span className="block">L = (L + 1) / 2</span>
+                      <span className="block">2L = L + 1</span>
+                      <span className="block">L = 1.</span>
+                    </p>
+                    <p>Donc la suite converge vers 1.</p>
+                  </div>
+                </li>
+              </ol>
+
+              <div className="mt-6 rounded-xl border-l-4 border-amber-400 bg-amber-50 p-5 leading-7 text-amber-950">
+                <p className="font-bold">
+                  Erreur fréquente : résoudre L = (L + 1) / 2 trop tôt
+                </p>
+                <p className="mt-2">
+                  Cette équation dit seulement : si la suite converge, alors sa
+                  limite vaut 1. Elle ne prouve pas la convergence. Contre-exemple :
+                  avec <span className="whitespace-nowrap font-mono">v0 = 1</span> et{" "}
+                  <span className="whitespace-nowrap font-mono">v(n+1) = 2v(n)</span>, l’équation{" "}
+                  <span className="whitespace-nowrap font-mono">L = 2L</span> donne L = 0, alors que{" "}
+                  <span className="whitespace-nowrap font-mono">v(n) = 2^n</span> tend vers +∞.
+                  L’étape 3 doit donc venir avant l’étape 4.
+                </p>
+              </div>
+
+              <h3 className="mt-6 font-bold text-slate-950">
+                Vérification par une formule explicite
+              </h3>
+              <div className="mt-3 space-y-2 leading-7 text-slate-700">
+                <p>
+                  On peut contrôler le résultat par un autre chemin : pour tout
+                  entier naturel n,{" "}
+                  <span className="whitespace-nowrap font-mono font-bold text-slate-950">
+                    u(n) = 1 - (1/2)^n
+                  </span>
+                  .
+                </p>
+                <p>
+                  Preuve par récurrence. Au rang 0 :{" "}
+                  <span className="font-mono">1 - (1/2)^0 = 1 - 1 = 0</span>, et{" "}
+                  <span className="whitespace-nowrap font-mono">u0 = 0</span>. Si{" "}
+                  <span className="whitespace-nowrap font-mono">u(n) = 1 - (1/2)^n</span> pour un
+                  entier naturel n fixé, alors :
+                </p>
+                <p className="rounded-lg bg-slate-50 px-4 py-3 text-center font-mono text-sm font-bold text-slate-950 sm:text-base">
+                  <span className="block">u(n+1) = (1 - (1/2)^n + 1) / 2</span>
+                  <span className="block">= (2 - (1/2)^n) / 2</span>
+                  <span className="block">= 1 - (1/2)^(n+1).</span>
+                </p>
+                <p>
+                  La formule est donc vraie pour tout entier naturel n. Comme{" "}
+                  <span className="whitespace-nowrap font-mono">-1 &lt; 1/2 &lt; 1</span>,{" "}
+                  <span className="whitespace-nowrap font-mono">(1/2)^n</span> tend vers 0, donc{" "}
+                  <span className="whitespace-nowrap font-mono">u(n)</span> tend vers 1 : c’est la
+                  même limite. Contrôle au rang 4 :{" "}
+                  <span className="whitespace-nowrap font-mono">1 - 1/16 = 0,9375</span>, comme dans
+                  le tableau.
+                </p>
+              </div>
+
+              <h3 className="mt-6 font-bold text-slate-950">
+                Croissante ou croissante et majorée : la différence
+              </h3>
+              <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="font-bold text-slate-950">
+                    Croissante, non majorée
+                  </p>
+                  <p className="mt-2 leading-7 text-slate-700">
+                    <span className="whitespace-nowrap font-mono">u(n) = 1 + 3n</span> finit par
+                    dépasser n’importe quel nombre fixé : la suite diverge vers +∞.
+                  </p>
+                </div>
+                <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+                  <p className="font-bold text-emerald-950">
+                    Croissante et majorée
+                  </p>
+                  <p className="mt-2 leading-7 text-emerald-950">
+                    <span className="whitespace-nowrap font-mono">u(n) = 1 - (1/2)^n</span> augmente
+                    aussi, mais reste sous 1 : la suite converge, ici vers 1.
+                  </p>
+                </div>
+              </div>
+              <p className="mt-4 leading-7 text-slate-700">
+                Attention : un majorant n’est pas une limite. Le nombre 1 est un
+                majorant de cette suite, mais 2 et 10 aussi. Le théorème donne
+                l’existence de la limite ; sa valeur demande un calcul.
+              </p>
+
+              <div className="mt-5 rounded-xl bg-blue-50 p-5">
+                <p className="font-bold text-blue-950">Question de vérification</p>
+                <p className="mt-2 leading-7 text-blue-950">
+                  2 est aussi un majorant de cette suite : la limite vaut-elle
+                  2&nbsp;? Réponds en une phrase justifiée avant d’ouvrir la
+                  correction.
+                </p>
+                <details className="mt-4 rounded-lg bg-white p-4">
+                  <summary className="cursor-pointer font-bold text-blue-900 focus-visible:outline-2 focus-visible:outline-offset-4">
+                    Voir la réponse
+                  </summary>
+                  <p className="mt-3 border-l-4 border-emerald-600 pl-4 leading-7 text-slate-700">
+                    Non. 2 est bien un majorant, puisque{" "}
+                    <span className="whitespace-nowrap font-mono">u(n) &lt; 1 &lt; 2</span> pour tout
+                    n, mais le théorème de convergence monotone ne dit pas que la
+                    limite est égale au majorant choisi. La valeur vient de
+                    l’étape 4 : l’équation{" "}
+                    <span className="font-mono">L = (L + 1) / 2</span> a une seule
+                    solution, L = 1, et 2 ne la vérifie pas, car{" "}
+                    <span className="font-mono">(2 + 1) / 2 = 1,5</span>. Autre
+                    argument : tous les termes sont inférieurs à 1, donc la limite
+                    ne peut pas dépasser 1.
+                  </p>
+                </details>
+              </div>
+
+              <p className="mt-5 text-sm leading-6 text-slate-600">
+                Exemple construit pour cette méthode : ce n’est pas un extrait de
+                sujet officiel.
+              </p>
             </article>
           </section>
 
