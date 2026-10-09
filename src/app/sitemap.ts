@@ -6,6 +6,7 @@ import { absoluteUrl, legalRoutes, publicSeoRoutes } from "@/lib/site";
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date("2026-06-14T00:00:00.000Z");
   const routeLastModified = new Map<string, Date>([
+    ["/", new Date("2026-10-04T00:00:00.000Z")],
     ["/formules-bac-maths-terminale", new Date("2026-07-29T00:00:00.000Z")],
     ["/diagnostic", new Date("2026-08-30T00:00:00.000Z")],
     ["/redaction-bac-maths-terminale", new Date("2026-07-29T00:00:00.000Z")],
@@ -26,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/sujets-grand-oral-maths", new Date("2026-09-01T00:00:00.000Z")],
     ["/questions-jury-grand-oral-maths", new Date("2026-08-13T00:00:00.000Z")],
     ["/annales-bac-maths-terminale", new Date("2026-08-31T00:00:00.000Z")],
-    ["/annales-bac-maths-par-chapitre", new Date("2026-08-31T00:00:00.000Z")],
+    ["/annales-bac-maths-par-chapitre", new Date("2026-10-02T00:00:00.000Z")],
     ["/sujet-bac-maths-2024-corrige", new Date("2026-08-15T00:00:00.000Z")],
     ["/sujet-bac-maths-2025-corrige", new Date("2026-08-15T00:00:00.000Z")],
     ["/sujet-bac-maths-2026-corrige", new Date("2026-08-15T00:00:00.000Z")],
@@ -42,7 +43,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ],
     [
       "/methodes-maths-terminale/probabilites-conditionnelles",
-      new Date("2026-08-04T00:00:00.000Z"),
+      new Date("2026-10-06T00:00:00.000Z"),
+    ],
+    [
+      "/methodes-maths-terminale/etudier-une-suite",
+      new Date("2026-10-07T00:00:00.000Z"),
     ],
   ]);
 
