@@ -142,6 +142,79 @@ const typeBacDemoCorrection = [
   "Comme 0,5^n tend vers 0, la suite u_n converge vers 6.",
 ];
 
+const expExerciseSectionId = "exercice-fonction-exponentielle";
+const closedInterval = "[0\u00a0;\u00a04]";
+const openInterval = "]0\u00a0;\u00a04[";
+
+const expExerciseQuestions = [
+  `Calculer f′(x), puis dresser le tableau de variations de f sur ${closedInterval}.`,
+  `Montrer que l’équation f(x) = 1 admet une unique solution α dans ${openInterval}, puis donner un encadrement de α d’amplitude 0,01.`,
+  `Calculer f″(x), puis étudier la convexité de f sur ${closedInterval}.`,
+  `Déterminer une équation de la tangente T à la courbe de f au point d’abscisse 0, puis montrer que f(x) ≥ 2 − x pour tout x de ${closedInterval}.`,
+];
+
+const expExerciseHints = [
+  "Question 1 : f est un produit. Avec v(x) = e⁻ˣ, on a v′(x) = −e⁻ˣ.",
+  "Question 2 : trois arguments à écrire, la continuité, la stricte monotonie, et le fait que 1 est compris entre f(4) et f(0).",
+  "Question 3 : le signe de f″ sur l’intervalle donne la convexité.",
+  "Question 4 : la courbe d’une fonction convexe est située au-dessus de ses tangentes.",
+];
+
+const expExerciseCorrection = [
+  {
+    title: "Question 1 — Dérivée et variations",
+    showVariationTable: true,
+    lines: [
+      `f est dérivable sur ${closedInterval} comme produit de fonctions dérivables. On pose u(x) = x + 2 et v(x) = e⁻ˣ, donc u′(x) = 1 et v′(x) = −e⁻ˣ.`,
+      "f′(x) = 1 × e⁻ˣ + (x + 2) × (−e⁻ˣ) = (1 − x − 2)e⁻ˣ = −(x + 1)e⁻ˣ.",
+      `Sur ${closedInterval}, x + 1 > 0 et e⁻ˣ > 0, donc f′(x) < 0 : f est strictement décroissante sur ${closedInterval}.`,
+      "Aux bornes : f(0) = 2 et f(4) = 6e⁻⁴ ≈ 0,11.",
+    ],
+  },
+  {
+    title: "Question 2 — Équation f(x) = 1",
+    showVariationTable: false,
+    lines: [
+      `f est continue sur ${closedInterval}, car elle y est dérivable, et elle y est strictement décroissante.`,
+      "f(0) = 2 et f(4) = 6e⁻⁴ ≈ 0,11 : le nombre 1 est compris entre f(4) et f(0).",
+      `D’après le corollaire du théorème des valeurs intermédiaires, l’équation f(x) = 1 admet une unique solution α dans ${closedInterval}. Comme f(0) ≠ 1 et f(4) ≠ 1, α appartient à ${openInterval}.`,
+      "À la calculatrice, f(1,14) ≈ 1,0042 et f(1,15) ≈ 0,9974. Puisque f est décroissante, 1,14 < α < 1,15.",
+      "Ces valeurs sont des arrondis : on écrit un encadrement de α, pas une égalité.",
+    ],
+  },
+  {
+    title: "Question 3 — Convexité",
+    showVariationTable: false,
+    lines: [
+      "On dérive f′(x) = −(x + 1)e⁻ˣ, qui est encore un produit : f″(x) = −e⁻ˣ + (x + 1)e⁻ˣ = xe⁻ˣ.",
+      `Sur ${closedInterval}, x ≥ 0 et e⁻ˣ > 0, donc f″(x) ≥ 0 : f est convexe sur ${closedInterval}.`,
+      `f″ s’annule en 0, mais 0 est une borne de l’intervalle et f″ ne change pas de signe sur ${closedInterval} : on ne conclut à aucun point d’inflexion sur cet intervalle.`,
+    ],
+  },
+  {
+    title: "Question 4 — Tangente et inégalité",
+    showVariationTable: false,
+    lines: [
+      "T a pour équation y = f′(0)(x − 0) + f(0). Or f′(0) = −1 et f(0) = 2, donc T : y = 2 − x.",
+      `f est convexe sur ${closedInterval} : sa courbe est au-dessus de chacune de ses tangentes sur cet intervalle, en particulier de T. Donc f(x) ≥ 2 − x pour tout x de ${closedInterval}.`,
+      "2 − x est une approximation affine de f(x) près de 0, pas une égalité : f(1) = 3e⁻¹ ≈ 1,10 alors que 2 − 1 = 1, et f(4) ≈ 0,11 alors que 2 − 4 = −2. L’écart grandit quand x s’éloigne de 0.",
+    ],
+  },
+];
+
+// Garde f′(x), f″(x), u′(x)… sur une seule ligne sur mobile.
+function renderFormulaText(text: string) {
+  return text.split(/([a-z][′″]\([^)]*\))/g).map((part, index) =>
+    index % 2 === 1 ? (
+      <span key={`${index}-${part}`} className="whitespace-nowrap">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
+}
+
 const chapters = [
   "Suites",
   "Limites",
@@ -453,6 +526,147 @@ export default function ExercicesTypeBacMathsTerminalePage() {
 
       <section className="px-4 py-14 sm:py-16">
         <div className="mx-auto max-w-6xl space-y-16">
+          <section id={expExerciseSectionId} className="scroll-mt-24">
+            <div className="max-w-3xl">
+              <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+                Exercice corrigé gratuit
+              </p>
+              <h2 className="mt-3 text-3xl font-bold text-slate-950">
+                Exercice type bac corrigé : étude d’une fonction exponentielle
+              </h2>
+              <p className="mt-4 leading-7 text-slate-700">
+                Un exercice complet à chercher au brouillon : dérivée, variations,
+                équation, convexité et tangente. Lis les quatre questions, cherche,
+                puis compare avec la correction rédigée. C’est un exercice original
+                SprintMaths, écrit dans l’esprit d’un exercice de bac ; ce n’est pas
+                une annale officielle.
+              </p>
+            </div>
+
+            <div className="mt-6 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+              <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                <ClipboardList className="h-6 w-6 text-blue-800" />
+                <h3 className="mt-3 text-xl font-bold text-slate-950">Énoncé</h3>
+                <p className="mt-4 border-l-4 border-blue-800 pl-4 leading-7 text-slate-700">
+                  On considère la fonction f définie sur l’intervalle{" "}
+                  {closedInterval} par{" "}
+                  <span className="whitespace-nowrap font-semibold text-slate-950">
+                    f(x) = (x + 2)e⁻ˣ
+                  </span>
+                  .
+                </p>
+                <ol className="mt-5 list-decimal space-y-3 pl-5 leading-7 text-slate-800">
+                  {expExerciseQuestions.map((question) => (
+                    <li key={question}>{renderFormulaText(question)}</li>
+                  ))}
+                </ol>
+              </article>
+
+              <article className="rounded-lg border border-blue-100 bg-blue-50 p-5 shadow-sm">
+                <PenTool className="h-6 w-6 text-blue-800" />
+                <h3 className="mt-3 text-xl font-bold text-slate-950">
+                  Indications de méthode
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-blue-950">
+                  À lire seulement si tu restes bloqué sur une question.
+                </p>
+                <ul className="mt-4 space-y-2 text-sm leading-6 text-blue-950">
+                  {expExerciseHints.map((hint) => (
+                    <li key={hint}>{renderFormulaText(hint)}</li>
+                  ))}
+                </ul>
+              </article>
+            </div>
+
+            <h3 className="mt-8 text-2xl font-bold text-slate-950">
+              Correction détaillée
+            </h3>
+            <div className="mt-4 grid gap-4 lg:grid-cols-2">
+              {expExerciseCorrection.map((part) => (
+                <article
+                  key={part.title}
+                  className="rounded-lg border border-emerald-200 bg-emerald-50 p-5 shadow-sm"
+                >
+                  <h4 className="text-lg font-bold text-slate-950">{part.title}</h4>
+                  <div className="mt-3 space-y-3 break-words leading-7 text-slate-800">
+                    {part.lines.map((line) => (
+                      <p key={line}>{renderFormulaText(line)}</p>
+                    ))}
+                  </div>
+                  {part.showVariationTable ? (
+                    <div className="mt-4 overflow-x-auto rounded-lg border border-emerald-200 bg-white">
+                      <table className="w-full border-collapse text-center text-sm sm:text-base">
+                        <caption className="caption-top border-b border-emerald-200 px-4 py-3 text-left text-sm leading-6 text-slate-700">
+                          Tableau de variations de f sur {closedInterval}.
+                        </caption>
+                        <thead>
+                          <tr className="border-b border-emerald-200 text-slate-950">
+                            <th scope="col" className="px-3 py-3 font-bold">
+                              x
+                            </th>
+                            <th scope="col" className="px-3 py-3 font-bold">
+                              0
+                            </th>
+                            <th scope="col" className="px-3 py-3 font-bold">
+                              <span className="sr-only">entre 0 et 4</span>
+                            </th>
+                            <th scope="col" className="px-3 py-3 font-bold">
+                              4
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-emerald-200">
+                          <tr>
+                            <th scope="row" className="px-3 py-3 font-bold text-slate-950">
+                              {renderFormulaText("Signe de f′(x)")}
+                            </th>
+                            <td className="px-3 py-3" />
+                            <td className="px-3 py-3 font-semibold text-slate-950">
+                              <span aria-hidden="true">−</span>
+                              <span className="sr-only">négatif</span>
+                            </td>
+                            <td className="px-3 py-3" />
+                          </tr>
+                          <tr>
+                            <th scope="row" className="px-3 py-3 font-bold text-slate-950">
+                              Variations de f
+                            </th>
+                            <td className="px-3 py-3 font-semibold text-slate-950">2</td>
+                            <td className="px-3 py-3 font-semibold text-slate-950">
+                              <span aria-hidden="true">↘</span>
+                              <span className="sr-only">strictement décroissante</span>
+                            </td>
+                            <td className="px-3 py-3 font-semibold text-slate-950">
+                              6e⁻⁴ ≈ 0,11
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : null}
+                </article>
+              ))}
+            </div>
+
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <div className="border-l-4 border-amber-500 pl-4">
+                <p className="font-bold text-slate-950">Erreur fréquente</p>
+                <p className="mt-1 leading-7 text-slate-700">
+                  {renderFormulaText(
+                    "Dériver e⁻ˣ en e⁻ˣ. On obtiendrait f′(x) = (x + 3)e⁻ˣ, toujours positive, donc une fonction croissante : impossible, puisque f(0) = 2 et f(4) ≈ 0,11. La dérivée de e⁻ˣ est −e⁻ˣ.",
+                  )}
+                </p>
+              </div>
+              <div className="border-l-4 border-blue-800 pl-4">
+                <p className="font-bold text-slate-950">Réflexe de vérification</p>
+                <p className="mt-1 leading-7 text-slate-700">
+                  Contrôle ton tableau de variations avec deux valeurs calculées :
+                  ici f(0) = 2 et f(4) ≈ 0,11 confirment la décroissance.
+                </p>
+              </div>
+            </div>
+          </section>
+
           <section className="grid gap-8 lg:grid-cols-[0.85fr_1fr] lg:items-start">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
