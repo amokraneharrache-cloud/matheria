@@ -28,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/questions-jury-grand-oral-maths", new Date("2026-08-13T00:00:00.000Z")],
     ["/annales-bac-maths-terminale", new Date("2026-08-31T00:00:00.000Z")],
     ["/annales-bac-maths-par-chapitre", new Date("2026-10-02T00:00:00.000Z")],
+    ["/exercices-type-bac-maths-terminale", new Date("2026-10-10T00:00:00.000Z")],
     ["/sujet-bac-maths-2024-corrige", new Date("2026-08-15T00:00:00.000Z")],
     ["/sujet-bac-maths-2025-corrige", new Date("2026-08-15T00:00:00.000Z")],
     ["/sujet-bac-maths-2026-corrige", new Date("2026-08-15T00:00:00.000Z")],
