@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import {
   ArrowRight,
   BookOpenCheck,
@@ -150,6 +151,28 @@ const faqItems: FaqItem[] = [
       "Il faut refaire plusieurs exercices courts en classant les erreurs : opération directe, terme dominant, factorisation, signe ou conclusion. Cette classification rend la méthode beaucoup plus stable.",
   },
 ];
+
+// Garde une expression courte sur une seule ligne, y compris sur mobile.
+function Formula({ children }: { children: ReactNode }) {
+  return (
+    <span className="whitespace-nowrap font-semibold text-slate-950">
+      {children}
+    </span>
+  );
+}
+
+// Calcul mis en évidence : une ligne par étape, jamais coupée au milieu.
+function FormulaLines({ lines }: { lines: string[] }) {
+  return (
+    <p className="rounded-lg bg-slate-50 px-4 py-3 text-center font-semibold text-slate-950">
+      {lines.map((line) => (
+        <span key={line} className="block whitespace-nowrap">
+          {line}
+        </span>
+      ))}
+    </p>
+  );
+}
 
 export default function MethodeCalculerUneLimitePage() {
   return (
@@ -320,6 +343,216 @@ export default function MethodeCalculerUneLimitePage() {
                 </p>
               </div>
             </article>
+          </section>
+
+          <section
+            id="trois-limites-corrigees"
+            className="grid scroll-mt-24 gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start"
+          >
+            <div className="lg:sticky lg:top-24">
+              <ListChecks className="h-7 w-7 text-blue-800" />
+              <h2 className="mt-4 text-3xl font-bold text-slate-950">
+                Trois limites corrigées pas à pas
+              </h2>
+              <p className="mt-4 text-lg leading-8 text-slate-700">
+                L’exemple guidé traite un quotient de polynômes. Voici trois
+                situations où factoriser par le plus haut degré ne suffit pas :
+                un produit avec l’exponentielle, un encadrement et une fonction
+                composée. Ce sont des exemples originaux SprintMaths, rédigés
+                comme sur une copie.
+              </p>
+              <p className="mt-4 leading-7 text-slate-700">
+                Dans les trois cas, la rédaction suit le même ordre : la forme
+                reconnue, la transformation, puis la conclusion avec la borne.
+              </p>
+            </div>
+
+            <div className="min-w-0 space-y-6">
+              <article
+                id="limite-produit-exponentielle"
+                className="min-w-0 scroll-mt-24 rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+              >
+                <h3 className="text-xl font-bold text-slate-950">
+                  1. Produit avec l’exponentielle : la forme «&nbsp;∞&nbsp;×&nbsp;0&nbsp;»
+                </h3>
+                <p className="mt-3 font-bold text-slate-950">
+                  Calculer la limite de <Formula>(x² − 3x)eˣ</Formula>{" "}
+                  quand x
+                  tend vers −∞.
+                </p>
+                <div className="mt-4 space-y-3 leading-7 text-slate-700">
+                  <p>
+                    <strong>Forme reconnue :</strong>{" "}
+                    quand x tend vers −∞,{" "}
+                    <Formula>x²</Formula> et <Formula>−3x</Formula>{" "}
+                    tendent vers
+                    +∞, donc <Formula>x² − 3x</Formula>{" "}
+                    tend vers +∞, tandis que{" "}
+                    <Formula>eˣ</Formula>{" "}
+                    tend vers 0. Le produit est une forme
+                    indéterminée «&nbsp;∞&nbsp;×&nbsp;0&nbsp;».
+                  </p>
+                  <p>
+                    <strong>Transformation :</strong>{" "}
+                    on développe pour faire
+                    apparaître deux limites de référence.
+                  </p>
+                  <FormulaLines lines={["(x² − 3x)eˣ", "= x²eˣ − 3xeˣ"]} />
+                  <p>
+                    Par croissance comparée, <Formula>x²eˣ</Formula>{" "}
+                    et{" "}
+                    <Formula>xeˣ</Formula>{" "}
+                    tendent vers 0 quand x tend vers −∞.
+                    Pour s’en convaincre, on écrit{" "}
+                    <Formula>x²eˣ = (−x)²/e⁻ˣ</Formula>{" "}
+                    : quand x tend vers −∞,{" "}
+                    <Formula>−x</Formula>{" "}
+                    tend vers +∞, et l’exponentielle
+                    l’emporte sur toute puissance.
+                  </p>
+                  <p>
+                    <strong>Conclusion :</strong>{" "}
+                    par somme, la limite de{" "}
+                    <Formula>(x² − 3x)eˣ</Formula>{" "}
+                    quand x tend vers −∞ vaut{" "}
+                    <Formula>0 − 3 × 0 = 0</Formula>. L’axe des abscisses est
+                    asymptote horizontale à la courbe en −∞.
+                  </p>
+                </div>
+                <p className="mt-4 rounded-lg bg-amber-50 p-4 leading-7 text-amber-950">
+                  <strong>Erreur à éviter :</strong>{" "}
+                  écrire «&nbsp;∞&nbsp;×&nbsp;0&nbsp;=&nbsp;0&nbsp;» sans
+                  justification. Le résultat est juste ici, mais pas grâce à
+                  cette règle, qui n’existe pas :{" "}
+                  <Formula>e⁻ˣ × eˣ</Formula>{" "}
+                  est aussi de la forme «&nbsp;∞&nbsp;×&nbsp;0&nbsp;»
+                  en −∞, et vaut pourtant 1 pour tout x.
+                </p>
+              </article>
+
+              <article
+                id="limite-par-encadrement"
+                className="min-w-0 scroll-mt-24 rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+              >
+                <h3 className="text-xl font-bold text-slate-950">
+                  2. Encadrement : quand sin&nbsp;x n’a pas de limite
+                </h3>
+                <p className="mt-3 font-bold text-slate-950">
+                  Calculer la limite de <Formula>(2x + sin x)/x</Formula>{" "}
+                  quand
+                  x tend vers +∞.
+                </p>
+                <div className="mt-4 space-y-3 leading-7 text-slate-700">
+                  <p>
+                    <strong>Forme reconnue :</strong>{" "}
+                    sin&nbsp;x n’a pas de limite en
+                    +∞, donc les opérations sur les limites ne permettent pas de
+                    conclure. En revanche, sin&nbsp;x est borné :{" "}
+                    <Formula>−1 ≤ sin x ≤ 1</Formula>{" "}
+                    pour tout réel x. C’est le
+                    signal d’un encadrement.
+                  </p>
+                  <p>
+                    <strong>Transformation :</strong>{" "}
+                    pour x&nbsp;&gt;&nbsp;0, on sépare
+                    la fraction en deux.
+                  </p>
+                  <FormulaLines lines={["(2x + sin x)/x", "= 2 + (sin x)/x"]} />
+                  <p>
+                    Comme x&nbsp;&gt;&nbsp;0, diviser par x conserve le sens des
+                    inégalités : <Formula>−1/x ≤ (sin x)/x ≤ 1/x</Formula>. On
+                    ajoute 2 à chaque membre.
+                  </p>
+                  <FormulaLines
+                    lines={["2 − 1/x ≤ (2x + sin x)/x", "≤ 2 + 1/x"]}
+                  />
+                  <p>
+                    <strong>Conclusion :</strong>{" "}
+                    <Formula>2 − 1/x</Formula>{" "}
+                    et{" "}
+                    <Formula>2 + 1/x</Formula>{" "}
+                    tendent tous les deux vers 2 quand
+                    x tend vers +∞. D’après le théorème des gendarmes, la limite
+                    de <Formula>(2x + sin x)/x</Formula>{" "}
+                    quand x tend vers +∞
+                    vaut 2. La droite d’équation <Formula>y = 2</Formula>{" "}
+                    est
+                    asymptote horizontale à la courbe en +∞, même si la courbe
+                    la traverse chaque fois que sin&nbsp;x s’annule.
+                  </p>
+                </div>
+                <p className="mt-4 rounded-lg bg-amber-50 p-4 leading-7 text-amber-950">
+                  <strong>Erreur à éviter :</strong>{" "}
+                  affirmer « sin&nbsp;x n’a pas de
+                  limite, donc le quotient non plus ». C’est faux : sin&nbsp;x reste
+                  entre −1 et 1, et une quantité bornée divisée par x tend vers
+                  0. Seul l’encadrement justifie la conclusion.
+                </p>
+              </article>
+
+              <article
+                id="limite-fonction-composee"
+                className="min-w-0 scroll-mt-24 rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+              >
+                <h3 className="text-xl font-bold text-slate-950">
+                  3. Fonction composée : une limite dans l’exposant
+                </h3>
+                <p className="mt-3 font-bold text-slate-950">
+                  Calculer la limite de{" "}
+                  <Formula>exp((1 − x)/(x + 2))</Formula>{" "}
+                  quand x tend vers +∞.
+                </p>
+                <div className="mt-4 space-y-3 leading-7 text-slate-700">
+                  <p>
+                    <strong>Forme reconnue :</strong>{" "}
+                    c’est une fonction
+                    composée. On calcule d’abord{" "}
+                    <Formula>(1 − x)/(x + 2)</Formula>, puis on en prend
+                    l’exponentielle. Cet exposant est un quotient de la forme
+                    «&nbsp;∞/∞&nbsp;» : le numérateur tend vers −∞ et le dénominateur
+                    vers +∞.
+                  </p>
+                  <p>
+                    <strong>Transformation :</strong>{" "}
+                    on lève d’abord
+                    l’indétermination de l’exposant. Pour x&nbsp;&gt;&nbsp;0, on factorise
+                    par x en haut et en bas : <Formula>1 − x = x(1/x − 1)</Formula>{" "}
+                    et <Formula>x + 2 = x(1 + 2/x)</Formula>. Après
+                    simplification par x :
+                  </p>
+                  <FormulaLines
+                    lines={["(1 − x)/(x + 2)", "= (1/x − 1)/(1 + 2/x)"]}
+                  />
+                  <p>
+                    Quand x tend vers +∞, <Formula>1/x</Formula>{" "}
+                    et{" "}
+                    <Formula>2/x</Formula>{" "}
+                    tendent vers 0 : l’exposant tend vers{" "}
+                    <Formula>(0 − 1)/(1 + 0) = −1</Formula>.
+                  </p>
+                  <p>
+                    <strong>Conclusion :</strong>{" "}
+                    la fonction exponentielle est
+                    continue en −1, donc <Formula>exp(u)</Formula>{" "}
+                    tend vers{" "}
+                    <Formula>exp(−1)</Formula>{" "}
+                    quand u tend vers −1. Par
+                    composition, la limite de{" "}
+                    <Formula>exp((1 − x)/(x + 2))</Formula>{" "}
+                    quand x tend vers +∞
+                    vaut <Formula>e⁻¹ = 1/e ≈ 0,368</Formula>.
+                  </p>
+                </div>
+                <p className="mt-4 rounded-lg bg-amber-50 p-4 leading-7 text-amber-950">
+                  <strong>Erreur à éviter :</strong>{" "}
+                  remplacer x par l’infini
+                  dans l’exposant, ou ne regarder que le numérateur : «&nbsp;1&nbsp;−&nbsp;x
+                  tend vers −∞, donc l’exponentielle tend vers 0 ». Le
+                  dénominateur compte autant : l’exposant tend vers −1, pas vers
+                  −∞, et la limite vaut 1/e, pas 0.
+                </p>
+              </article>
+            </div>
           </section>
 
           <section className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start">
