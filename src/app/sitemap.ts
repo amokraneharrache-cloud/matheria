@@ -54,6 +54,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       "/methodes-maths-terminale/calculer-une-limite",
       new Date("2026-10-11T00:00:00.000Z"),
     ],
+    [
+      "/methodes-maths-terminale/tableau-variation",
+      new Date("2026-10-12T00:00:00.000Z"),
+    ],
   ]);
 
   const staticRoutes: MetadataRoute.Sitemap = publicSeoRoutes.map((route) => ({
