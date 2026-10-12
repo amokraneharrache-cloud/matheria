@@ -650,7 +650,7 @@ export default function MethodeTableauVariationPage() {
                 entre dérivée, signe et variations.
               </p>
             </div>
-            <article className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+            <article className="min-w-0 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <p className="text-lg font-bold text-slate-950">
                 Soit <span className="font-mono">f(x)=x²-4x+1</span> sur{" "}
                 <span className="font-mono">R</span>.
