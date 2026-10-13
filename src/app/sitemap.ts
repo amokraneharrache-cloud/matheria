@@ -58,6 +58,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       "/methodes-maths-terminale/tableau-variation",
       new Date("2026-10-12T00:00:00.000Z"),
     ],
+    [
+      "/methodes-maths-terminale/geometrie-espace",
+      new Date("2026-10-13T00:00:00.000Z"),
+    ],
   ]);
 
   const staticRoutes: MetadataRoute.Sitemap = publicSeoRoutes.map((route) => ({
