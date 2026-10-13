@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import {
   ArrowRight,
   Axis3d,
@@ -182,6 +183,76 @@ const faqItems: FaqItem[] = [
     question: "Que faire si je ne vois pas la figure ?",
     answer:
       "Reviens aux coordonnées. Écris les points, calcule les vecteurs utiles, puis choisis entre représentation paramétrique, équation de plan ou produit scalaire. Le calcul coordonné remplace souvent une figure difficile à visualiser.",
+  },
+];
+
+function Formula({ children }: { children: ReactNode }) {
+  return (
+    <span className="whitespace-nowrap font-semibold text-slate-950">
+      {children}
+    </span>
+  );
+}
+
+function FormulaLines({ lines }: { lines: string[] }) {
+  return (
+    <p className="overflow-x-auto rounded-lg bg-slate-50 px-2 py-3 text-center text-sm font-semibold text-slate-950 sm:px-4 sm:text-base">
+      {lines.map((line) => (
+        <span key={line} className="block whitespace-nowrap">
+          {line}
+        </span>
+      ))}
+    </p>
+  );
+}
+
+function ParametricSystem({
+  name,
+  lines,
+  parameter,
+}: {
+  name: string;
+  lines: string[];
+  parameter: string;
+}) {
+  return (
+    <p className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-lg bg-slate-50 px-3 py-3 font-semibold text-slate-950 sm:px-4">
+      <span className="whitespace-nowrap">Droite {name} :</span>
+      <span className="border-l-2 border-slate-400 pl-3">
+        {lines.map((line) => (
+          <span key={line} className="block whitespace-nowrap">
+            {line}
+          </span>
+        ))}
+      </span>
+      <span className="whitespace-nowrap font-normal text-slate-700">
+        avec {parameter} réel
+      </span>
+    </p>
+  );
+}
+
+const intersectionCases = [
+  {
+    coefficients: "α ≠ 0",
+    equation: "une seule solution",
+    example: "d₁ : 3t − 3 = 0",
+    commonPoints: "un seul",
+    conclusion: "droite sécante au plan",
+  },
+  {
+    coefficients: "α = 0 et β ≠ 0",
+    equation: "égalité toujours fausse",
+    example: "d₂ : −3 = 0",
+    commonPoints: "aucun",
+    conclusion: "droite strictement parallèle au plan",
+  },
+  {
+    coefficients: "α = 0 et β = 0",
+    equation: "égalité toujours vraie",
+    example: "d₃ : 0 = 0",
+    commonPoints: "tous ceux de la droite",
+    conclusion: "droite incluse dans le plan",
   },
 ];
 
@@ -516,6 +587,351 @@ export default function MethodeGeometrieEspaceTerminalePage() {
                   </p>
                 </div>
               </div>
+            </div>
+          </section>
+
+          <section
+            id="intersection-droite-plan"
+            className="grid scroll-mt-24 gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start"
+          >
+            <div className="lg:sticky lg:top-24">
+              <Axis3d className="h-7 w-7 text-blue-800" />
+              <h2 className="mt-4 text-3xl font-bold text-slate-950">
+                Intersection d’une droite et d’un plan : les trois cas
+              </h2>
+              <p className="mt-4 text-lg leading-8 text-slate-700">
+                L’exemple guidé teste un seul point. Avec une droite, la
+                question devient : combien de points a-t-elle en commun avec le
+                plan ? Un seul, aucun, ou tous. La réponse se lit toujours au
+                même endroit : dans l’équation obtenue en remplaçant x, y et z
+                par la représentation paramétrique de la droite.
+              </p>
+              <p className="mt-4 leading-7 text-slate-700">
+                Les trois études qui suivent gardent le même plan et changent
+                seulement la droite. Ce sont des exemples originaux SprintMaths,
+                rédigés comme sur une copie, dans un repère orthonormé de
+                l’espace.
+              </p>
+            </div>
+
+            <div className="min-w-0 space-y-6">
+              <div className="rounded-xl bg-blue-50 p-4 leading-7 text-blue-950 sm:p-6">
+                <p className="text-lg font-bold">
+                  Plan P : <Formula>2x + y − z − 7 = 0</Formula>
+                </p>
+                <p className="mt-3">
+                  Les coefficients de x, y et z donnent un vecteur normal :{" "}
+                  <Formula>n(2 ; 1 ; −1)</Formula>.
+                </p>
+                <p className="mt-3">
+                  Pour chaque droite, la démarche est la même : remplacer x, y
+                  et z dans le membre de gauche de l’équation, simplifier, lire
+                  l’équation obtenue, dont l’inconnue est le paramètre, puis
+                  conclure par une phrase.
+                </p>
+              </div>
+
+              <article
+                id="droite-secante-plan"
+                className="min-w-0 scroll-mt-24 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
+              >
+                <h3 className="text-xl font-bold text-slate-950">
+                  1. Une seule solution : la droite coupe le plan
+                </h3>
+                <div className="mt-4 space-y-3 leading-7 text-slate-700">
+                  <ParametricSystem
+                    name="d₁"
+                    lines={["x = 2 + t", "y = t", "z = 0"]}
+                    parameter="t"
+                  />
+                  <p>
+                    <strong>Substitution :</strong>{" "}
+                    dans <Formula>2x + y − z − 7</Formula>, on remplace x par{" "}
+                    <Formula>2 + t</Formula>, y par t et z par 0.
+                  </p>
+                  <FormulaLines
+                    lines={[
+                      "2(2 + t) + t − 0 − 7",
+                      "= 4 + 2t + t − 7",
+                      "= 3t − 3",
+                    ]}
+                  />
+                  <p>
+                    <strong>Résolution :</strong>{" "}
+                    l’équation du plan devient <Formula>3t − 3 = 0</Formula>,
+                    donc <Formula>t = 1</Formula>. Une seule valeur du paramètre
+                    convient : un seul point de d₁ est dans P.
+                  </p>
+                  <p>
+                    <strong>Coordonnées du point :</strong>{" "}
+                    t = 1 est la valeur du paramètre, pas encore la réponse. On
+                    la reporte dans les trois coordonnées, avec le même t.
+                  </p>
+                  <FormulaLines lines={["x = 2 + 1 = 3", "y = 1", "z = 0"]} />
+                  <p>
+                    <strong>Contrôle :</strong>{" "}
+                    <Formula>2 × 3 + 1 − 0 − 7 = 0</Formula>. Le point trouvé
+                    vérifie l’équation de P.
+                  </p>
+                </div>
+                <p className="mt-4 rounded-xl bg-emerald-50 p-4 leading-7 text-emerald-950 sm:p-5">
+                  Donc d₁ et P sont sécants : ils ont un seul point commun,{" "}
+                  <Formula>I(3 ; 1 ; 0)</Formula>.
+                </p>
+                <div className="mt-4 space-y-3 leading-7 text-slate-700">
+                  <p>
+                    <strong>Lecture avec les vecteurs :</strong>{" "}
+                    <Formula>u₁(1 ; 1 ; 0)</Formula> dirige d₁.
+                  </p>
+                  <FormulaLines
+                    lines={["n · u₁", "= 2 × 1 + 1 × 1 + (−1) × 0", "= 3"]}
+                  />
+                  <p>
+                    Ce produit scalaire n’est pas nul, et c’est exactement le
+                    coefficient de t dans <Formula>3t − 3</Formula>. Le
+                    paramètre ne peut donc pas disparaître : la droite traverse
+                    le plan.
+                  </p>
+                </div>
+              </article>
+
+              <article
+                id="droite-strictement-parallele-plan"
+                className="min-w-0 scroll-mt-24 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
+              >
+                <h3 className="text-xl font-bold text-slate-950">
+                  2. Aucune solution : la droite est strictement parallèle au
+                  plan
+                </h3>
+                <div className="mt-4 space-y-3 leading-7 text-slate-700">
+                  <ParametricSystem
+                    name="d₂"
+                    lines={["x = 2 + s", "y = −2s", "z = 0"]}
+                    parameter="s"
+                  />
+                  <p>
+                    <strong>Substitution :</strong>{" "}
+                    on remplace x par <Formula>2 + s</Formula>, y par{" "}
+                    <Formula>−2s</Formula> et z par 0.
+                  </p>
+                  <FormulaLines
+                    lines={[
+                      "2(2 + s) + (−2s) − 0 − 7",
+                      "= 4 + 2s − 2s − 7",
+                      "= −3",
+                    ]}
+                  />
+                  <p>
+                    <strong>Résolution :</strong>{" "}
+                    le paramètre s a disparu. L’équation du plan devient{" "}
+                    <Formula>−3 = 0</Formula>, ce qui est faux quelle que soit
+                    la valeur de s. Aucun point de d₂ n’est dans P.
+                  </p>
+                </div>
+                <p className="mt-4 rounded-xl bg-emerald-50 p-4 leading-7 text-emerald-950 sm:p-5">
+                  Donc d₂ et P n’ont aucun point commun : la droite d₂ est
+                  strictement parallèle au plan P.
+                </p>
+                <div className="mt-4 space-y-3 leading-7 text-slate-700">
+                  <p>
+                    <strong>Lecture avec les vecteurs :</strong>{" "}
+                    <Formula>u₂(1 ; −2 ; 0)</Formula> dirige d₂.
+                  </p>
+                  <FormulaLines
+                    lines={["n · u₂", "= 2 × 1 + 1 × (−2) + (−1) × 0", "= 0"]}
+                  />
+                  <p>
+                    Ce produit scalaire nul explique la disparition de s : la
+                    droite est parallèle au plan. Le −3 qui reste est la valeur
+                    obtenue avec le point de départ{" "}
+                    <Formula>(2 ; 0 ; 0)</Formula> de d₂, celui de s = 0 :{" "}
+                    <Formula>2 × 2 + 0 − 0 − 7 = −3</Formula>. Ce point n’est
+                    pas dans P, et aucun autre point de d₂ ne l’est.
+                  </p>
+                </div>
+              </article>
+
+              <article
+                id="droite-incluse-plan"
+                className="min-w-0 scroll-mt-24 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
+              >
+                <h3 className="text-xl font-bold text-slate-950">
+                  3. Égalité toujours vraie : la droite est incluse dans le plan
+                </h3>
+                <div className="mt-4 space-y-3 leading-7 text-slate-700">
+                  <ParametricSystem
+                    name="d₃"
+                    lines={["x = 3 + r", "y = 1 − 2r", "z = 0"]}
+                    parameter="r"
+                  />
+                  <p>
+                    <strong>Substitution :</strong>{" "}
+                    on remplace x par <Formula>3 + r</Formula>, y par{" "}
+                    <Formula>1 − 2r</Formula> et z par 0.
+                  </p>
+                  <FormulaLines
+                    lines={[
+                      "2(3 + r) + (1 − 2r) − 0 − 7",
+                      "= 6 + 2r + 1 − 2r − 7",
+                      "= 0",
+                    ]}
+                  />
+                  <p>
+                    <strong>Résolution :</strong>{" "}
+                    le paramètre r a disparu lui aussi, mais cette fois
+                    l’équation du plan devient <Formula>0 = 0</Formula> : elle
+                    est vraie quelle que soit la valeur de r. Tous les points de
+                    d₃ vérifient l’équation de P.
+                  </p>
+                </div>
+                <p className="mt-4 rounded-xl bg-emerald-50 p-4 leading-7 text-emerald-950 sm:p-5">
+                  Donc la droite d₃ est incluse dans le plan P : tous ses points
+                  sont des points communs.
+                </p>
+                <div className="mt-4 space-y-3 leading-7 text-slate-700">
+                  <p>
+                    <strong>Lecture avec les vecteurs :</strong>{" "}
+                    d₃ a le même vecteur directeur u₂ que d₂, donc le même
+                    produit scalaire nul : elle est aussi parallèle à P. Seul le
+                    point de départ change. Pour r = 0, on obtient{" "}
+                    <Formula>(3 ; 1 ; 0)</Formula> : c’est le point I, qui
+                    appartient à P.
+                  </p>
+                  <p className="rounded-lg bg-amber-50 p-4 text-amber-950">
+                    <strong>À ne pas écrire :</strong>{" "}
+                    « d₃ coupe P en I ». Ici, I est un point commun parmi une
+                    infinité. Par exemple, r = 1 donne le point{" "}
+                    <Formula>(4 ; −1 ; 0)</Formula>, qui vérifie aussi
+                    l’équation : <Formula>2 × 4 − 1 − 0 − 7 = 0</Formula>.
+                  </p>
+                </div>
+              </article>
+
+              <article
+                id="synthese-droite-plan"
+                className="min-w-0 scroll-mt-24 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
+              >
+                <h3 className="text-xl font-bold text-slate-950">
+                  À retenir : tout se lit dans l’équation αt + β = 0
+                </h3>
+                <div className="mt-4 space-y-3 leading-7 text-slate-700">
+                  <p>
+                    Prends une droite dont la représentation paramétrique part
+                    d’un point A, avec un vecteur directeur u, et un plan
+                    d’équation{" "}
+                    <Formula>ax + by + cz + d = 0</Formula>, de vecteur normal{" "}
+                    <Formula>n(a ; b ; c)</Formula>. Après substitution, on
+                    obtient toujours une équation de la forme{" "}
+                    <Formula>αt + β = 0</Formula>, où t est le paramètre.
+                  </p>
+                  <ul className="list-disc space-y-2 pl-5">
+                    <li>
+                      α est le produit scalaire <Formula>n · u</Formula>.
+                    </li>
+                    <li>
+                      β est le nombre obtenu en remplaçant x, y et z par les
+                      coordonnées de A dans <Formula>ax + by + cz + d</Formula>.
+                    </li>
+                  </ul>
+                  <p>
+                    Les vecteurs u et n ne sont jamais nuls, mais α et β peuvent
+                    l’être. C’est ce qui sépare les trois cas.
+                  </p>
+                </div>
+                <div className="mt-5">
+                  <div className="relative overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+                    <table className="w-full min-w-[28rem] border-collapse text-left text-sm">
+                      <caption className="sr-only">
+                        Position d’une droite par rapport à un plan selon les
+                        valeurs de α et β dans l’équation αt + β = 0
+                      </caption>
+                      <thead>
+                        <tr className="border-b border-slate-200 bg-slate-50 text-slate-950">
+                          <th scope="col" className="px-3 py-3 font-bold">
+                            Coefficients
+                          </th>
+                          <th scope="col" className="px-3 py-3 font-bold">
+                            Équation obtenue
+                          </th>
+                          <th scope="col" className="px-3 py-3 font-bold">
+                            Points communs
+                          </th>
+                          <th scope="col" className="px-3 py-3 font-bold">
+                            Conclusion
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {intersectionCases.map((item) => (
+                          <tr
+                            key={item.coefficients}
+                            className="border-b border-slate-200 align-top last:border-b-0"
+                          >
+                            <th
+                              scope="row"
+                              className="whitespace-nowrap px-3 py-3 font-bold text-slate-950"
+                            >
+                              {item.coefficients}
+                            </th>
+                            <td className="px-3 py-3 text-slate-700">
+                              {item.equation}
+                              <span className="mt-1 block whitespace-nowrap font-semibold text-slate-950">
+                                {item.example}
+                              </span>
+                            </td>
+                            <td className="px-3 py-3 text-slate-700">
+                              {item.commonPoints}
+                            </td>
+                            <td className="px-3 py-3 font-semibold text-slate-950">
+                              {item.conclusion}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="mt-2 text-xs text-slate-500 sm:hidden">
+                    Si le tableau dépasse du cadre, fais-le glisser vers la
+                    gauche.
+                  </p>
+                </div>
+                <div className="mt-4 rounded-lg bg-amber-50 p-4 leading-7 text-amber-950">
+                  <p>
+                    <strong>Trois confusions à éviter :</strong>
+                  </p>
+                  <ul className="mt-2 list-disc space-y-2 pl-5">
+                    <li>
+                      Lire « perpendiculaire » dans{" "}
+                      <Formula>n · u = 0</Formula>. Ce produit scalaire nul dit
+                      que la direction de la droite est orthogonale à la normale
+                      du plan : la droite est donc parallèle au plan. Une droite
+                      perpendiculaire au plan a au contraire un vecteur
+                      directeur colinéaire à n.
+                    </li>
+                    <li>
+                      S’arrêter à <Formula>n · u = 0</Formula>. Le produit
+                      scalaire seul ne sépare pas « strictement parallèle » et
+                      « incluse » : d₂ et d₃ ont le même vecteur directeur.
+                      C’est le test d’un point de la droite dans l’équation du
+                      plan qui tranche.
+                    </li>
+                    <li>
+                      Donner la valeur du paramètre comme réponse.{" "}
+                      <Formula>t = 1</Formula> est un nombre,{" "}
+                      <Formula>I(3 ; 1 ; 0)</Formula> est un point : c’est le
+                      point qu’on demande.
+                    </li>
+                  </ul>
+                </div>
+                <p className="mt-4 leading-7 text-slate-700">
+                  <strong>Vocabulaire :</strong>{" "}
+                  « parallèle au plan », sans précision, couvre les deux cas où{" "}
+                  <Formula>n · u = 0</Formula>, y compris la droite incluse.
+                  « Strictement parallèle » ajoute qu’il n’y a aucun point
+                  commun. Sur une copie, écris « strictement parallèle » ou
+                  « incluse » pour que la conclusion ne laisse aucun doute.
+                </p>
+              </article>
             </div>
           </section>
 
