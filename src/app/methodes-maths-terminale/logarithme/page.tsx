@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import {
   ArrowRight,
   BookOpenCheck,
@@ -142,6 +143,115 @@ const faqItems: FaqItem[] = [
       "Il faut isoler l'étape qui coince : domaine, propriété de ln, équation, dérivée ou limite. Un exercice guidé ou le diagnostic permet de retravailler seulement la brique fragile au lieu de tout reprendre.",
   },
 ];
+
+// Garde une expression courte sur une seule ligne, y compris sur mobile.
+function Formula({ children }: { children: ReactNode }) {
+  return (
+    <span className="whitespace-nowrap font-semibold text-slate-950">
+      {children}
+    </span>
+  );
+}
+
+// Calcul mis en évidence : une ligne par étape, jamais coupée au milieu.
+function FormulaLines({ lines }: { lines: string[] }) {
+  return (
+    <p className="overflow-x-auto rounded-lg bg-slate-50 px-2 py-3 text-center text-sm font-semibold text-slate-950 sm:px-4 sm:text-base">
+      {lines.map((line) => (
+        <span key={line} className="block whitespace-nowrap">
+          {line}
+        </span>
+      ))}
+    </p>
+  );
+}
+
+const domainRoutine = [
+  {
+    step: "Domaine",
+    text: "écrire toutes les conditions d’existence de l’énoncé de départ, avant de transformer quoi que ce soit.",
+  },
+  {
+    step: "Transformations valides",
+    text: "regrouper, séparer ou comparer des ln seulement là où chaque logarithme utilisé existe.",
+  },
+  {
+    step: "Solutions candidates",
+    text: "résoudre l’équation ou l’inéquation obtenue, qui ne contient plus de ln.",
+  },
+  {
+    step: "Intersection et vérification",
+    text: "ne garder que les candidats situés dans le domaine, puis contrôler sur une valeur.",
+  },
+];
+
+// Signes de x − 1, de x + 2 et du quotient : bornes −∞, −2, 1, +∞ et une
+// cellule par intervalle. « ‖ » marque la valeur interdite x = −2.
+const quotientSignRows = [
+  { label: "x − 1", cells: ["−", "", "−", "0", "+"] },
+  { label: "x + 2", cells: ["−", "0", "+", "", "+"] },
+  { label: "quotient", cells: ["+", "‖", "−", "0", "+"] },
+];
+
+function signCellClass(value: string) {
+  if (value === "+") return "text-emerald-700";
+  if (value === "−") return "text-red-700";
+  return "text-slate-950";
+}
+
+function QuotientSignTable() {
+  const rowHeaderClass =
+    "whitespace-nowrap border-r border-slate-200 bg-slate-50 px-2 py-2 text-left font-bold text-slate-950";
+  const boundaryClass = "whitespace-nowrap px-1 py-2 font-semibold text-slate-700";
+
+  return (
+    <div className="relative overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+      <table className="w-full border-collapse text-center text-sm">
+        <caption className="sr-only">
+          Tableau de signes de x − 1, de x + 2 et du quotient (x − 1)/(x + 2)
+        </caption>
+        <tbody>
+          <tr className="border-b border-slate-200">
+            <th scope="row" className={rowHeaderClass}>
+              x
+            </th>
+            <td className={boundaryClass}>−∞</td>
+            <td />
+            <td className={boundaryClass}>−2</td>
+            <td />
+            <td className={boundaryClass}>1</td>
+            <td />
+            <td className={boundaryClass}>+∞</td>
+          </tr>
+          {quotientSignRows.map((row) => (
+            <tr key={row.label} className="border-b border-slate-200 last:border-b-0">
+              <th scope="row" className={rowHeaderClass}>
+                {row.label}
+              </th>
+              <td />
+              {row.cells.map((cell, index) => (
+                <td
+                  key={index}
+                  className={`px-1 py-2 text-base font-bold ${signCellClass(cell)}`}
+                >
+                  {cell === "‖" ? (
+                    <>
+                      <span aria-hidden="true">‖</span>
+                      <span className="sr-only">valeur interdite</span>
+                    </>
+                  ) : (
+                    cell
+                  )}
+                </td>
+              ))}
+              <td />
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
 export default function MethodeLogarithmeTerminalePage() {
   return (
@@ -445,6 +555,257 @@ export default function MethodeLogarithmeTerminalePage() {
                 </p>
               </div>
             </article>
+          </section>
+
+          <section
+            id="equations-inequations-ln-domaine"
+            className="grid scroll-mt-24 gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start"
+          >
+            <div className="lg:sticky lg:top-24">
+              <Sigma className="h-7 w-7 text-blue-800" />
+              <h2 className="mt-4 text-3xl font-bold text-slate-950">
+                Équations et inéquations avec ln : garder le bon domaine
+              </h2>
+              <p className="mt-4 text-lg leading-8 text-slate-700">
+                Dans l’exemple guidé, la valeur trouvée tombait d’elle-même dans le
+                domaine. Ce n’est pas toujours le cas. Regrouper deux ln peut
+                agrandir le domaine et faire apparaître une solution impossible ;
+                séparer un ln peut au contraire le réduire et faire perdre des
+                solutions.
+              </p>
+              <p className="mt-4 leading-7 text-slate-700">
+                Les deux résolutions qui suivent sont des exemples originaux
+                SprintMaths, rédigés comme sur une copie. Dans les deux cas, le
+                domaine est écrit en premier et décide de la réponse finale.
+              </p>
+            </div>
+
+            <div className="min-w-0 space-y-6">
+              <div className="rounded-xl bg-blue-50 p-4 leading-7 text-blue-950 sm:p-6">
+                <p className="text-lg font-bold">La routine en quatre temps</p>
+                <ol className="mt-3 space-y-2">
+                  {domainRoutine.map((item, index) => (
+                    <li key={item.step} className="flex gap-3">
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-900 text-sm font-bold text-white">
+                        {index + 1}
+                      </span>
+                      <span>
+                        <strong>{item.step}</strong>
+                        {" : "}
+                        {item.text}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <article
+                id="equation-ln-racine-rejetee"
+                className="min-w-0 scroll-mt-24 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
+              >
+                <h3 className="text-xl font-bold text-slate-950">
+                  1. Une équation où une racine doit être rejetée
+                </h3>
+                <p className="mt-3 font-bold text-slate-950">
+                  Résoudre dans ℝ : <Formula>ln(x − 3) + ln(x + 2) = ln(14)</Formula>.
+                </p>
+                <div className="mt-4 space-y-3 leading-7 text-slate-700">
+                  <p>
+                    <strong>Domaine :</strong>
+                    {" "}
+                    les deux logarithmes doivent exister, donc{" "}
+                    <Formula>{"x − 3 > 0"}</Formula> et{" "}
+                    <Formula>{"x + 2 > 0"}</Formula>, c’est-à-dire{" "}
+                    <Formula>{"x > 3"}</Formula> et <Formula>{"x > −2"}</Formula>.
+                    Les deux conditions ensemble donnent{" "}
+                    <Formula>D = ]3 ; +∞[</Formula>.
+                  </p>
+                  <p>
+                    <strong>Transformation valide :</strong>
+                    {" "}
+                    sur D, les nombres x − 3 et x + 2 sont strictement positifs. On
+                    peut donc regrouper la somme en un seul logarithme.
+                  </p>
+                  <FormulaLines
+                    lines={[
+                      "ln(x − 3) + ln(x + 2)",
+                      "= ln((x − 3)(x + 2))",
+                      "donc ln((x − 3)(x + 2)) = ln(14)",
+                    ]}
+                  />
+                  <p>
+                    Comme ln est strictement croissante sur ]0 ; +∞[, deux nombres
+                    strictement positifs qui ont le même logarithme sont égaux. Sur
+                    D, l’équation équivaut donc à :
+                  </p>
+                  <FormulaLines
+                    lines={[
+                      "(x − 3)(x + 2) = 14",
+                      "x² + 2x − 3x − 6 = 14",
+                      "x² − x − 20 = 0",
+                      "(x − 5)(x + 4) = 0",
+                    ]}
+                  />
+                  <p>
+                    <strong>Solutions candidates :</strong>
+                    {" "}
+                    <Formula>x = 5</Formula> ou <Formula>x = −4</Formula>. On
+                    vérifie la factorisation en développant :{" "}
+                    <Formula>(x − 5)(x + 4) = x² − x − 20</Formula>.
+                  </p>
+                  <p>
+                    <strong>Intersection avec le domaine :</strong>
+                    {" "}
+                    5 est dans D = ]3 ; +∞[, mais −4 n’y est pas.
+                  </p>
+                  <p>
+                    <strong>Contrôle :</strong>
+                    {" "}
+                    pour x = 5, on obtient{" "}
+                    <Formula>ln(2) + ln(7) = ln(2 × 7) = ln(14)</Formula>.
+                  </p>
+                </div>
+                <div className="mt-4 rounded-xl border border-red-100 bg-red-50/60 p-4 leading-7 text-slate-700 sm:p-5">
+                  <p className="font-bold text-slate-950">Pourquoi rejeter −4 ?</p>
+                  <p className="mt-2">
+                    Pour x = −4, on a x − 3 = −7 et x + 2 = −2. Leur produit vaut
+                    bien 14, donc ln((x − 3)(x + 2)) existe. Mais dans l’équation
+                    de départ, ln(−7) et ln(−2) n’existent pas dans ℝ. Le
+                    regroupement a agrandi le domaine : −4 vérifie l’équation
+                    transformée, pas celle de l’énoncé.
+                  </p>
+                </div>
+                <p className="mt-4 rounded-xl bg-emerald-50 p-4 leading-7 text-emerald-950 sm:p-5">
+                  Conclusion : l’équation a une seule solution,{" "}
+                  <Formula>S = {"{5}"}</Formula>.
+                </p>
+              </article>
+
+              <article
+                id="inequation-ln-quotient"
+                className="min-w-0 scroll-mt-24 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
+              >
+                <h3 className="text-xl font-bold text-slate-950">
+                  2. Une inéquation dont le domaine a deux morceaux
+                </h3>
+                <p className="mt-3 font-bold text-slate-950">
+                  Résoudre dans ℝ : <Formula>ln((x − 1)/(x + 2)) ≥ 0</Formula>.
+                </p>
+                <div className="mt-4 space-y-3 leading-7 text-slate-700">
+                  <p>
+                    <strong>Domaine :</strong>
+                    {" "}
+                    il faut <Formula>x ≠ −2</Formula> pour que le quotient existe,
+                    et <Formula>{"(x − 1)/(x + 2) > 0"}</Formula> pour que son
+                    logarithme existe. Le signe d’un quotient se lit dans un
+                    tableau de signes.
+                  </p>
+                  <QuotientSignTable />
+                  <p>
+                    Le quotient est positif quand x − 1 et x + 2 ont le même signe :
+                    tous deux négatifs pour x {"<"} −2, tous deux positifs pour
+                    x {">"} 1. En x = −2, le dénominateur s’annule : valeur
+                    interdite. En x = 1, le quotient vaut 0, et ln(0) n’existe pas.
+                    Le domaine est donc{" "}
+                    <Formula>D = ]−∞ ; −2[ ∪ ]1 ; +∞[</Formula>.
+                  </p>
+                  <p>
+                    <strong>Transformation valide :</strong>
+                    {" "}
+                    on écrit 0 = ln(1). Comme ln est strictement croissante, pour
+                    tout x de D :
+                  </p>
+                  <FormulaLines
+                    lines={[
+                      "ln((x − 1)/(x + 2)) ≥ ln(1)",
+                      "⟺ (x − 1)/(x + 2) ≥ 1",
+                    ]}
+                  />
+                  <p>
+                    On ne multiplie pas par x + 2, dont le signe change sur D. On
+                    passe tout du même côté et on réduit au même dénominateur :
+                  </p>
+                  <FormulaLines
+                    lines={[
+                      "(x − 1)/(x + 2) − 1 ≥ 0",
+                      "(x − 1 − (x + 2))/(x + 2) ≥ 0",
+                      "−3/(x + 2) ≥ 0",
+                    ]}
+                  />
+                  <p>
+                    <strong>Solutions candidates :</strong>
+                    {" "}
+                    le numérateur −3 est négatif et ne s’annule jamais. Le quotient
+                    −3/(x + 2) est donc positif ou nul exactement quand x + 2 est
+                    strictement négatif, c’est-à-dire pour{" "}
+                    <Formula>{"x < −2"}</Formula>.
+                  </p>
+                  <p>
+                    <strong>Intersection avec le domaine :</strong>
+                    {" "}
+                    ]−∞ ; −2[ est entièrement contenu dans D. Sur ]1 ; +∞[, le
+                    quotient s’écrit 1 − 3/(x + 2), qui reste strictement inférieur
+                    à 1 : aucune solution de ce côté.
+                  </p>
+                  <p>
+                    <strong>Contrôle :</strong>
+                    {" "}
+                    pour x = −3, le quotient vaut (−4)/(−1) = 4 et{" "}
+                    <Formula>{"ln(4) > 0"}</Formula> : −3 est bien solution. Pour
+                    x = 2, il vaut 1/4 et <Formula>{"ln(1/4) < 0"}</Formula> : 2
+                    n’est pas solution. Ces deux valeurs illustrent le résultat ;
+                    la preuve, elle, est le calcul fait sur tout D.
+                  </p>
+                </div>
+                <div className="mt-4 rounded-xl border border-red-100 bg-red-50/60 p-4 leading-7 text-slate-700 sm:p-5">
+                  <p className="font-bold text-slate-950">
+                    Le piège : séparer le ln dès le départ
+                  </p>
+                  <p className="mt-2">
+                    L’égalité ln((x − 1)/(x + 2)) = ln(x − 1) − ln(x + 2) n’est vraie
+                    que si x − 1 et x + 2 sont tous deux strictement positifs,
+                    c’est-à-dire pour x {">"} 1. Pour x {"<"} −2, ln(x − 1)
+                    n’existe pas. En séparant, on travaille donc sans le dire sur
+                    ]1 ; +∞[ seulement : on obtient x − 1 ≥ x + 2, soit −1 ≥ 2,
+                    impossible, et on conclut à tort qu’il n’y a aucune solution.
+                    Toute la branche x {"<"} −2 est perdue.
+                  </p>
+                </div>
+                <p className="mt-4 rounded-xl bg-emerald-50 p-4 leading-7 text-emerald-950 sm:p-5">
+                  Conclusion : l’ensemble des solutions est{" "}
+                  <Formula>S = ]−∞ ; −2[</Formula>.
+                </p>
+              </article>
+
+              <div className="rounded-xl bg-slate-50 p-4 leading-7 text-slate-700 sm:p-6">
+                <p className="text-lg font-bold text-slate-950">À retenir</p>
+                <ul className="mt-3 space-y-2">
+                  <li className="flex gap-3">
+                    <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-emerald-600" />
+                    <span>
+                      Le domaine se lit sur l’énoncé de départ, jamais sur une
+                      expression transformée.
+                    </span>
+                  </li>
+                  <li className="flex gap-3">
+                    <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-emerald-600" />
+                    <span>
+                      Regrouper ln(a) + ln(b) en ln(ab) peut faire apparaître des
+                      candidats en trop : on les élimine par intersection avec le
+                      domaine.
+                    </span>
+                  </li>
+                  <li className="flex gap-3">
+                    <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-emerald-600" />
+                    <span>
+                      Séparer ln(a/b) en ln(a) − ln(b) peut faire perdre des
+                      solutions : on ne le fait que là où a et b sont tous deux
+                      strictement positifs.
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </section>
 
           <section>
