@@ -90,7 +90,7 @@ function SubjectCard({
   return (
     <article
       id={`sujet-grand-oral-${subject.id}`}
-      className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm [contain-intrinsic-size:auto_420px] [content-visibility:auto] sm:p-6"
+      className="min-w-0 scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm [contain-intrinsic-block-size:auto_420px] [content-visibility:auto] sm:p-6"
     >
       <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wide">
         <span className="rounded-full bg-blue-100 px-3 py-1 text-blue-900">
