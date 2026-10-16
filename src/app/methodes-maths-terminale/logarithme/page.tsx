@@ -541,7 +541,7 @@ export default function MethodeLogarithmeTerminalePage() {
               </p>
               <div className="mt-4 space-y-3 leading-7 text-slate-700">
                 <p>
-                  <span className="font-semibold text-slate-950">Domaine :</span> il
+                  <span className="font-semibold text-slate-950">Domaine :</span>{" "}il
                   faut x − 1 &gt; 0, donc x &gt; 1. Le domaine est ]1 ; +∞[.
                 </p>
                 <p>

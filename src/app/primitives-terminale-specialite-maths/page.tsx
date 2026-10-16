@@ -260,7 +260,7 @@ export default function PrimitivesTerminalePage() {
             <div className="space-y-4 text-lg leading-8 text-slate-700">
               <p>
                 <strong>F est une primitive de f sur un intervalle I si F est
-                dérivable sur I et si F’(x)=f(x) pour tout x de I.</strong> La
+                dérivable sur I et si F’(x)=f(x) pour tout x de I.</strong>{" "}La
                 mention de I est indispensable : une formule peut être valable sur
                 un intervalle qui n&apos;inclut pas une valeur interdite.
               </p>
