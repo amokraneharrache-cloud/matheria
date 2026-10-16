@@ -269,6 +269,29 @@ export default function BacTerminaleMathsPage() {
             </div>
           </section>
 
+          <section>
+            <h2 className="text-3xl font-bold text-slate-950">
+              Annales du bac de maths
+            </h2>
+            <p className="mt-3 text-slate-700">
+              Les sujets officiels et leurs corrections se retrouvent dans les{" "}
+              <Link
+                href="/annales-bac-maths-terminale"
+                className="font-bold text-blue-900 hover:underline"
+              >
+                annales du bac de maths corrigées
+              </Link>
+              . Pour travailler un thème précis, les{" "}
+              <Link
+                href="/annales-bac-maths-par-chapitre"
+                className="font-bold text-blue-900 hover:underline"
+              >
+                annales classées par chapitre
+              </Link>{" "}
+              regroupent les exercices des sujets de Métropole 2024, 2025 et 2026.
+            </p>
+          </section>
+
           <section className="grid gap-8 lg:grid-cols-2">
             <div>
               <h2 className="text-3xl font-bold text-slate-950">

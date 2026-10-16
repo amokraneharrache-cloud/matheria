@@ -221,6 +221,18 @@ export default function Home() {
                   title: "Brevet",
                   text: "Fractions, équations, fonctions, géométrie, Pythagore, Thalès et progression par chapitre.",
                 },
+                {
+                  href: "/annales-bac-maths-terminale",
+                  icon: ClipboardList,
+                  title: "Annales du bac de maths corrigées",
+                  text: "Les sujets officiels et leurs corrigés, classés par session.",
+                },
+                {
+                  href: "/annales-bac-maths-par-chapitre",
+                  icon: BookOpen,
+                  title: "Annales classées par chapitre",
+                  text: "Les exercices des sujets de Métropole 2024, 2025 et 2026, regroupés par thème.",
+                },
               ].map((item) => (
                 <Link key={item.href} href={item.href} className="group block">
                   <Card className="h-full border-slate-200 transition-colors group-hover:border-blue-200 group-hover:bg-blue-50/40">
