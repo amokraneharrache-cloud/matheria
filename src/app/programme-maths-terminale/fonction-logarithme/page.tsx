@@ -4,9 +4,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   BookOpenCheck,
-  CheckCircle2,
   ClipboardList,
-  LineChart,
   ListChecks,
   PlayCircle,
   Sigma,
@@ -17,6 +15,7 @@ import {
   ChapterInternalLinks,
 } from "@/components/marketing/ChapterSeoPage";
 import { FaqAccordion } from "@/components/marketing/FaqAccordion";
+import { OfficialSources, QuickAnswer } from "@/components/marketing/J42SeoBlocks";
 import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
@@ -25,10 +24,16 @@ import { breadcrumbJsonLd, faqJsonLd, type FaqItem } from "@/lib/seo";
 
 const pagePath = "/programme-maths-terminale/fonction-logarithme";
 
-const title =
-  "Fonction logarithme en Terminale : programme, méthodes et exercices";
+const title = "Logarithme en Terminale : programme et compétences à maîtriser";
 const description =
-  "Résumé du chapitre Fonction logarithme en Terminale spécialité maths : définition de ln, propriétés, dérivée, variations, équations, limites et exercices corrigés.";
+  "Logarithme en Terminale spécialité : ce que le programme officiel exige (contenus, capacités, démonstrations), les prérequis et un test rapide par compétence.";
+
+const currentProgramUrl =
+  "https://eduscol.education.gouv.fr/sites/default/files/document/spe246annexe1158907pdf-84159.pdf";
+const futureProgramUrl =
+  "https://www.education.gouv.fr/bo/2026/Hebdo14/MENE2602919A";
+const methodPath = "/methodes-maths-terminale/logarithme";
+const exercisesPath = "/exercices-maths-terminale/logarithme";
 
 export const metadata: Metadata = {
   title: {
@@ -52,37 +57,233 @@ export const metadata: Metadata = {
   },
 };
 
+// Garde chaque opérateur sur la même ligne que ce qui le suit (« x > 0 » ne se coupe pas après « > »).
+function mathText(text: string) {
+  return text.replace(/ ([=<>≤≥⇔→×]) /g, " $1\u00a0").replace(/ ([;:])/g, "\u00a0$1");
+}
+
 const chapterEventParams = {
   chapter: "logarithme",
   level: "terminale",
   source_page: pagePath,
 };
 
-const notionChecklist = [
-  "vérifier le domaine de définition",
-  "utiliser les propriétés de ln",
-  "résoudre ln(x) = a",
-  "transformer une équation logarithmique",
-  "dériver une expression contenant ln",
-  "étudier une variation avec ln",
-  "calculer une limite simple",
-  "éviter les erreurs de domaine",
+const officialBlocks = [
+  {
+    title: "Contenus",
+    items: [
+      "la fonction logarithme népérien, notée ln, construite comme réciproque de la fonction exponentielle ;",
+      "les propriétés algébriques du logarithme ;",
+      "la fonction dérivée de ln et ses variations ;",
+      "les limites en 0 et en +∞, la courbe représentative et son lien avec celle de l’exponentielle ;",
+      "la croissance comparée de ln et de x ↦ xⁿ en 0 et en +∞.",
+    ],
+  },
+  {
+    title: "Capacités attendues",
+    items: [
+      "utiliser l’équation fonctionnelle de l’exponentielle ou du logarithme pour transformer une écriture, résoudre une équation ou une inéquation ;",
+      "dans une résolution de problème, utiliser les propriétés des fonctions exponentielle et logarithme.",
+    ],
+  },
+  {
+    title: "Démonstrations et algorithme",
+    items: [
+      "démonstration : calcul de la dérivée de ln, sa dérivabilité étant admise ;",
+      "démonstration : limite en 0 de x ↦ x ln(x) ;",
+      "exemple d’algorithme : l’algorithme de Briggs pour calculer un logarithme.",
+    ],
+  },
 ];
 
-const equationSteps = [
-  "Déterminer le domaine de définition : tout ce qui est dans un ln doit être strictement positif.",
-  "Utiliser les propriétés de ln pour regrouper les logarithmes d'un seul côté.",
-  "Se ramener à une forme du type ln(A) = ln(B) ou ln(A) = a.",
-  "Résoudre en utilisant que ln est strictement croissante (donc ln(A) = ln(B) équivaut à A = B).",
-  "Vérifier que les solutions trouvées appartiennent bien au domaine de départ.",
+const prerequisites = [
+  {
+    status: "Texte officiel",
+    title: "La fonction exponentielle de Première",
+    text: "Le programme introduit ln comme réciproque de l’exponentielle étudiée en Première. Il faut donc maîtriser exp(a + b) = exp(a) × exp(b), le fait que exp(x) > 0 pour tout réel x, la stricte croissance de exp et l’allure de sa courbe.",
+  },
+  {
+    status: "Programme de Terminale, autres chapitres",
+    title: "Dérivée d’une composée et opérations sur les limites",
+    text: "La formule (v ∘ u)′ = (v′ ∘ u) × u′ et les opérations sur les limites figurent dans les chapitres dérivation et limites. Elles servent à dériver ln(u) et à lever les formes indéterminées.",
+  },
+  {
+    status: "Conseil SprintMaths",
+    title: "Signe d’une expression et tableau de signes",
+    text: "Chaque ln impose une condition du type u(x) > 0. Savoir résoudre une inéquation du premier ou du second degré donne directement le domaine de travail.",
+  },
+  {
+    status: "Conseil SprintMaths",
+    title: "Signe de la dérivée et tableau de variation",
+    text: "Calculer une dérivée, étudier son signe puis dresser un tableau de variation : c’est le cadre de presque toute étude de fonction contenant ln.",
+  },
+];
+
+type SkillRow = {
+  source: string;
+  skill: string;
+  know: string;
+  check: string;
+  answer: string;
+  resource: { href: string; label: string };
+};
+
+const skillRows: SkillRow[] = [
+  {
+    source: "Contenu",
+    skill: "Relier ln et l’exponentielle",
+    know: "Pour x > 0 et y réel, y = ln(x) équivaut à x = exp(y). En pratique : exp(ln x) = x pour x > 0, ln(exp x) = x pour tout réel x, ln(1) = 0 et ln(e) = 1.",
+    check: "Résous ln(x) = 2, puis eˣ = 5.",
+    answer:
+      "ln(x) = 2 équivaut à x = e², qui est bien strictement positif. eˣ = 5 équivaut à x = ln(5).",
+    resource: {
+      href: `${exercisesPath}#exercice-2`,
+      label: "Exercice corrigé : résoudre une équation avec ln",
+    },
+  },
+  {
+    source: "Contenu",
+    skill: "Utiliser les propriétés algébriques",
+    know: "Transformer ln(ab), ln(a/b), ln(1/a), ln(aⁿ) et ln(√a) pour a et b strictement positifs, sans jamais séparer ln(a + b).",
+    check: "Exprime ln(12) et ln(1/8) en fonction de ln(2) et ln(3).",
+    answer: "ln(12) = ln(4 × 3) = 2 ln(2) + ln(3) et ln(1/8) = −ln(8) = −3 ln(2).",
+    resource: {
+      href: methodPath,
+      label: "Méthode logarithme : utiliser les propriétés de ln",
+    },
+  },
+  {
+    source: "Contenu",
+    skill: "Dériver et étudier les variations",
+    know: "Connaître (ln x)′ = 1/x sur ]0 ; +∞[ et en déduire que ln est strictement croissante. Avec la dérivée d’une composée, dériver ln(u) en u′/u là où u est dérivable et strictement positive.",
+    check: "Dérive f(x) = ln(x² + 1) et donne ses variations.",
+    answer:
+      "x² + 1 > 0 pour tout réel x, donc f est définie et dérivable sur ℝ avec f′(x) = 2x/(x² + 1). f′ a le signe de x : f est décroissante sur ]−∞ ; 0] et croissante sur [0 ; +∞[.",
+    resource: {
+      href: `${exercisesPath}#exercice-3`,
+      label: "Exercice corrigé : dériver une fonction avec logarithme",
+    },
+  },
+  {
+    source: "Contenu",
+    skill: "Limites, courbe et lien avec exp",
+    know: "Quand x tend vers 0⁺, ln(x) tend vers −∞ ; quand x tend vers +∞, ln(x) tend vers +∞. Les courbes de ln et de exp sont symétriques par rapport à la droite d’équation y = x.",
+    check: "Donne le signe de ln(x) selon les valeurs de x.",
+    answer:
+      "ln(x) < 0 sur ]0 ; 1[, ln(1) = 0 et ln(x) > 0 sur ]1 ; +∞[ : c’est la stricte croissance de ln combinée à ln(1) = 0.",
+    resource: {
+      href: methodPath,
+      label: "Méthode logarithme : interpréter limites et variations",
+    },
+  },
+  {
+    source: "Contenu",
+    skill: "Croissances comparées",
+    know: "Pour tout entier n ≥ 1 : ln(x)/xⁿ tend vers 0 quand x tend vers +∞, et xⁿ ln(x) tend vers 0 quand x tend vers 0⁺. La puissance de x l’emporte sur le logarithme.",
+    check: "Calcule la limite de x − ln(x) quand x tend vers +∞.",
+    answer:
+      "C’est une forme indéterminée « +∞ − ∞ ». On factorise : x − ln(x) = x(1 − ln(x)/x). Comme ln(x)/x tend vers 0, la parenthèse tend vers 1, donc x − ln(x) tend vers +∞.",
+    resource: {
+      href: methodPath,
+      label: "Méthode logarithme : limites et croissances comparées",
+    },
+  },
+  {
+    source: "Capacité attendue",
+    skill: "Transformer une écriture, résoudre une équation ou une inéquation",
+    know: "Écrire d’abord le domaine, se ramener à ln(A) = ln(B) ou ln(A) < ln(B), conclure avec la stricte croissance de ln, puis confronter les solutions au domaine.",
+    check: "Résous ln(2x − 1) ≤ 0.",
+    answer:
+      "Domaine : 2x − 1 > 0, soit x > 1/2. Comme 0 = ln(1), l’inéquation équivaut à 2x − 1 ≤ 1, soit x ≤ 1. Avec le domaine : S = ]1/2 ; 1].",
+    resource: {
+      href: `${methodPath}#equations-inequations-ln-domaine`,
+      label: "Méthode : équations et inéquations avec ln, garder le bon domaine",
+    },
+  },
+  {
+    source: "Capacité attendue",
+    skill: "Utiliser ln dans une résolution de problème",
+    know: "Mobiliser ln pour isoler un exposant, par exemple pour savoir à partir de quel rang une suite géométrique passe sous un seuil. Diviser par un logarithme négatif change le sens de l’inégalité.",
+    check: "Trouve le plus petit entier n tel que 0,8ⁿ < 0,01.",
+    answer:
+      "ln étant strictement croissante, 0,8ⁿ < 0,01 équivaut à n ln(0,8) < ln(0,01). Comme ln(0,8) < 0, on obtient n > ln(0,01)/ln(0,8) ≈ 20,6. Le plus petit entier est n = 21 : 0,8²⁰ ≈ 0,0115 et 0,8²¹ ≈ 0,0092.",
+    resource: {
+      href: exercisesPath,
+      label: "Exercices corrigés sur le logarithme",
+    },
+  },
+  {
+    source: "Démonstration",
+    skill: "Refaire les deux démonstrations du programme",
+    know: "Dérivée de ln : la dérivabilité étant admise, on dérive exp(ln x) = x pour x > 0. On obtient (ln x)′ × exp(ln x) = 1, soit (ln x)′ × x = 1, donc (ln x)′ = 1/x.",
+    check: "Démontre que x ln(x) tend vers 0 quand x tend vers 0⁺.",
+    answer:
+      "On pose X = ln(x), donc x = exp(X) et x ln(x) = X exp(X). Quand x tend vers 0⁺, X tend vers −∞. Avec Y = −X, X exp(X) = −Y/exp(Y), et Y/exp(Y) tend vers 0 quand Y tend vers +∞ par croissance comparée de l’exponentielle. Donc x ln(x) tend vers 0.",
+    resource: {
+      href: methodPath,
+      label: "Méthode logarithme : dériver une expression avec ln",
+    },
+  },
+];
+
+const formulaRows = [
+  { formula: "ln(x) existe", condition: "x > 0" },
+  { formula: "ln(u(x)) existe", condition: "u(x) > 0" },
+  { formula: "ln(1) = 0 et ln(e) = 1", condition: "valeurs de référence" },
+  { formula: "exp(ln x) = x", condition: "x > 0" },
+  { formula: "ln(exp x) = x", condition: "x réel quelconque" },
+  {
+    formula: "ln(ab) = ln(a) + ln(b)",
+    condition:
+      "a > 0 et b > 0. Exemple : ln(x(x − 1)) existe aussi pour x < 0, mais ne se sépare en ln(x) + ln(x − 1) que si x > 1.",
+  },
+  {
+    formula: "ln(a/b) = ln(a) − ln(b) et ln(1/b) = −ln(b)",
+    condition: "a > 0 et b > 0",
+  },
+  {
+    formula: "ln(aⁿ) = n ln(a)",
+    condition:
+      "a > 0 et n entier relatif. ln(x²) existe pour tout x ≠ 0, mais vaut 2 ln(|x|), pas 2 ln(x), lorsque x < 0.",
+  },
+  { formula: "ln(√a) = ½ ln(a)", condition: "a > 0" },
+  {
+    formula: "ln(a) = ln(b) ⇔ a = b ; ln(a) < ln(b) ⇔ a < b",
+    condition: "a > 0 et b > 0",
+  },
+  {
+    formula: "ln(x) = k ⇔ x = eᵏ",
+    condition: "k réel quelconque ; la solution eᵏ est automatiquement strictement positive",
+  },
+  { formula: "(ln x)′ = 1/x", condition: "sur ]0 ; +∞[" },
+  {
+    formula: "(ln u)′ = u′/u",
+    condition: "sur un intervalle où u est dérivable et strictement positive",
+  },
+  {
+    formula: "une primitive de 1/x est ln(x)",
+    condition: "sur ]0 ; +∞[",
+  },
+  {
+    formula: "une primitive de u′/u est ln(u)",
+    condition: "sur un intervalle où u est strictement positive et dérivable, avec u′ continue",
+  },
+  {
+    formula: "ln(x) → −∞ quand x → 0⁺ ; ln(x) → +∞ quand x → +∞",
+    condition: "limites aux bornes de ]0 ; +∞[",
+  },
+  {
+    formula: "ln(x)/xⁿ → 0 quand x → +∞ ; xⁿ ln(x) → 0 quand x → 0⁺",
+    condition: "n entier, n ≥ 1",
+  },
 ];
 
 const revisionSteps = [
-  "Revoir le domaine de définition avant tout calcul avec ln.",
-  "Refaire quelques transformations avec les propriétés de ln pour sécuriser les automatismes.",
-  "Travailler les équations ln(x) = a puis les inéquations en gardant l'œil sur le domaine.",
-  "Dériver des expressions contenant ln, puis étudier le signe pour conclure sur les variations.",
-  "Comparer la correction avec ton raisonnement, pas seulement avec le résultat final.",
+  "Fais les tests rapides de la grille sans regarder les réponses : le premier test raté désigne la compétence à reprendre.",
+  "Sécurise d’abord le domaine et les propriétés de ln : beaucoup d’erreurs viennent d’un ln appliqué à une quantité négative ou d’une propriété inventée.",
+  "Travaille ensuite les équations et inéquations, en écrivant toujours le domaine en premier.",
+  "Passe à la dérivation de ln(u) et aux études de variations, puis aux limites et aux croissances comparées.",
+  "Termine par une résolution de problème, comme un seuil de suite géométrique, et par les deux démonstrations du programme.",
 ];
 
 const recommendedExercises = [
@@ -123,34 +324,34 @@ const internalLinks = [
 
 const faqItems: FaqItem[] = [
   {
-    question: "Le logarithme tombe-t-il souvent au Bac ?",
+    question: "Quel programme de logarithme s'applique en Terminale en 2026-2027 ?",
     answer:
-      "La fonction logarithme est un chapitre d'analyse important en Terminale, souvent relié aux limites, à la dérivation et aux études de variations. On ne peut toutefois jamais garantir qu'un chapitre précis tombera le jour du Bac.",
+      "En 2026-2027, la spécialité mathématiques de Terminale suit le programme fixé par l'arrêté du 19 juillet 2019. Un nouveau programme a été publié par l'arrêté du 26 février 2026 (Bulletin officiel n° 14 du 2 avril 2026), mais il n'entre en application qu'à la rentrée 2027-2028.",
   },
   {
-    question: "Quel est le domaine de définition de ln ?",
+    question: "Que demande le programme officiel sur la fonction logarithme ?",
     answer:
-      "La fonction ln est définie sur ]0 ; +∞[. Tout ce qui se trouve à l'intérieur d'un logarithme doit donc être strictement positif : c'est la première vérification à faire dans presque tous les exercices.",
+      "Le programme introduit ln comme réciproque de l'exponentielle et liste ses propriétés algébriques, sa dérivée, ses variations, ses limites en 0 et en +∞, sa courbe et la croissance comparée avec x ↦ xⁿ. Les capacités attendues consistent à transformer une écriture, résoudre une équation ou une inéquation, et utiliser exp et ln dans une résolution de problème.",
   },
   {
-    question: "Comment résoudre une équation avec ln ?",
+    question: "Quelles démonstrations sur le logarithme sont au programme ?",
     answer:
-      "On commence par déterminer le domaine, puis on utilise les propriétés de ln pour se ramener à ln(A) = ln(B) ou ln(A) = a. Comme ln est strictement croissante, ln(A) = ln(B) équivaut à A = B. Il faut enfin vérifier que les solutions appartiennent au domaine.",
+      "Deux démonstrations sont listées : le calcul de la dérivée de ln, sa dérivabilité étant admise, et la limite en 0 de x ln(x). Le programme cite aussi l'algorithme de Briggs comme exemple d'algorithme.",
   },
   {
-    question: "Quelle est la dérivée de ln ?",
+    question: "La formule (ln u)' = u'/u est-elle au programme ?",
     answer:
-      "La dérivée de ln(x) est 1/x sur ]0 ; +∞[. Pour une expression composée ln(u), la dérivée est u'/u, ce qui est très utile dans les études de fonctions.",
+      "La section logarithme ne l'écrit pas telle quelle, mais elle découle de la dérivée d'une composée, (v ∘ u)' = (v' ∘ u) × u', qui figure au programme de Terminale. Elle s'applique sur un intervalle où u est dérivable et strictement positive.",
   },
   {
-    question: "Quelles limites connaître avec ln ?",
+    question: "Quels prérequis revoir avant le chapitre logarithme ?",
     answer:
-      "Les limites classiques sont : ln(x) tend vers −∞ quand x tend vers 0 par valeurs positives, et ln(x) tend vers +∞ quand x tend vers +∞. On utilise aussi les croissances comparées, par exemple ln(x)/x qui tend vers 0 en +∞.",
+      "Le texte officiel s'appuie sur la fonction exponentielle de Première : ses propriétés algébriques, son signe et sa stricte croissance. Il est aussi utile de revoir les tableaux de signes, pour les domaines, et l'étude des variations avec la dérivée.",
   },
   {
-    question: "Que faire si je bloque sur un exercice de logarithme ?",
+    question: "Le logarithme décimal est-il au programme de spécialité en Terminale ?",
     answer:
-      "Il faut isoler l'étape qui bloque : domaine de définition, propriété de ln, équation, dérivée ou limite. Un diagnostic ou un exercice guidé permet de reprendre seulement la brique fragile au lieu de tout recommencer.",
+      "Le texte de spécialité de Terminale ne le mentionne pas : ses contenus portent uniquement sur le logarithme népérien, noté ln.",
   },
 ];
 
@@ -169,20 +370,23 @@ export default function FonctionLogarithmeTerminalePage() {
       />
 
       <ChapterHero
-        eyebrow="Programme logarithme Terminale — fonction ln Terminale"
-        title="Fonction logarithme en Terminale : ce qu'il faut savoir pour le Bac"
+        eyebrow="Programme officiel · Terminale spécialité maths 2026-2027"
+        title="Logarithme en Terminale : programme et compétences à maîtriser"
         description={
           <>
-            Ce guide résume le chapitre fonction logarithme Terminale : définition
-            et domaine de ln, propriétés de calcul, dérivée, variations, équations
-            et limites avec logarithme.
+            En Terminale spécialité, la fonction logarithme népérien ln est
+            introduite comme la réciproque de l’exponentielle vue en Première. Le
+            programme demande d’en connaître les propriétés algébriques, la dérivée,
+            les variations, les limites et les croissances comparées, puis de s’en
+            servir pour résoudre équations, inéquations et problèmes.
           </>
         }
         secondaryDescription={
           <>
-            L&apos;objectif n&apos;est pas de refaire un cours interminable. Il
-            s&apos;agit de comprendre les méthodes qui reviennent avec ln et de
-            savoir quoi travailler en exercices guidés.
+            Cette page distingue ce que le texte officiel exige, les prérequis à
+            vérifier et les conseils SprintMaths, avec un test rapide par compétence
+            pour savoir quoi réviser. La méthode pas à pas et les exercices corrigés
+            ont chacun leur page.
           </>
         }
         ctas={[
@@ -257,218 +461,183 @@ export default function FonctionLogarithmeTerminalePage() {
 
       <div className="px-4 py-14">
         <div className="mx-auto max-w-6xl space-y-14">
-          <section className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start">
-            <div>
-              <Target className="h-7 w-7 text-blue-800" />
-              <h2 className="mt-4 text-3xl font-bold text-slate-950">
-                Pourquoi le logarithme est important au Bac
-              </h2>
+          <QuickAnswer title="Que dit le programme officiel sur le logarithme ?" tone="emerald">
+            <p>
+              En 2026-2027, la Terminale spécialité mathématiques suit le programme
+              fixé par l’arrêté du 19 juillet 2019. Le logarithme y forme une section
+              de la partie Analyse : ln est construite comme la réciproque de la
+              fonction exponentielle, puis étudiée comme une fonction de référence.
+            </p>
+            <p>
+              Un nouveau programme de Terminale a été publié au Bulletin officiel du
+              2 avril 2026, mais il n’entre en application qu’à la rentrée 2027-2028.
+              Il ne décrit donc pas l’année 2026-2027.
+            </p>
+            <p className="text-base">
+              Textes officiels relus le 18 octobre 2026.{" "}
+              <a
+                href={currentProgramUrl}
+                className="font-bold underline underline-offset-4"
+              >
+                Lire le programme applicable (PDF Éduscol)
+              </a>
+            </p>
+          </QuickAnswer>
+
+          <section id="texte-officiel" className="scroll-mt-24">
+            <ClipboardList className="h-7 w-7 text-blue-800" aria-hidden="true" />
+            <h2 className="mt-4 text-3xl font-bold text-slate-950">
+              La section « Fonction logarithme » du programme, en clair
+            </h2>
+            <p className="mt-4 max-w-4xl text-lg leading-8 text-slate-700">
+              Voici ce que liste le texte officiel, reformulé sans rien ajouter. Les
+              conseils SprintMaths viennent après, séparément.
+            </p>
+            <div className="mt-7 grid gap-5 lg:grid-cols-3">
+              {officialBlocks.map((block) => (
+                <article
+                  key={block.title}
+                  className="min-w-0 rounded-2xl border border-emerald-200 bg-emerald-50 p-6"
+                >
+                  <h3 className="text-xl font-bold text-emerald-950">{block.title}</h3>
+                  <ul className="mt-4 list-disc space-y-2 pl-5 leading-7 text-emerald-950">
+                    {block.items.map((item) => (
+                      <li key={item}>{mathText(item)}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
             </div>
-            <div className="space-y-4 text-lg leading-8 text-slate-700">
-              <p>
-                La fonction logarithme Terminale spécialité maths revient
-                régulièrement dans les exercices d&apos;analyse : elle est reliée aux
-                limites, à la dérivation et aux études de variations. Beaucoup de
-                sujets combinent ln avec une étude de fonction ou un calcul de
-                limite.
-              </p>
-              <p>
-                Cela ne veut pas dire qu&apos;on peut prédire le sujet. Aucun
-                chapitre ne peut être garanti au Bac. En revanche, maîtriser le
-                programme logarithme Terminale donne une base solide pour aborder de
-                nombreux exercices d&apos;analyse.
-              </p>
-            </div>
+            <p className="mt-5 max-w-4xl leading-7 text-slate-700">
+              Le chapitre « Primitives, équations différentielles » du même programme
+              cite aussi x ↦ 1/x parmi les primitives de référence : c’est le lien
+              entre ln et le calcul de primitives.
+            </p>
           </section>
 
-          <section className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start">
-            <div>
-              <ClipboardList className="h-7 w-7 text-blue-800" />
-              <h2 className="mt-4 text-3xl font-bold text-slate-950">
-                Les notions à maîtriser
-              </h2>
-              <p className="mt-4 text-lg leading-8 text-slate-700">
-                Cette checklist permet de réviser ln terminale sans se disperser
-                avant de passer aux exercices corrigés.
-              </p>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {notionChecklist.map((item) => (
-                <div
-                  key={item}
-                  className="flex gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+          <section id="prerequis" className="scroll-mt-24">
+            <ListChecks className="h-7 w-7 text-blue-800" aria-hidden="true" />
+            <h2 className="mt-4 text-3xl font-bold text-slate-950">
+              Prérequis à vérifier avant le chapitre
+            </h2>
+            <p className="mt-4 max-w-4xl text-lg leading-8 text-slate-700">
+              Chaque prérequis indique d’où il vient : le texte officiel lui-même,
+              un autre chapitre du programme de Terminale, ou un conseil SprintMaths.
+            </p>
+            <div className="mt-7 grid gap-4 md:grid-cols-2">
+              {prerequisites.map((item) => (
+                <article
+                  key={item.title}
+                  className="min-w-0 rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
                 >
-                  <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-emerald-600" />
-                  <span className="leading-7 text-slate-700">{item}</span>
-                </div>
+                  <p className="text-sm font-bold uppercase tracking-wide text-blue-800">
+                    {item.status}
+                  </p>
+                  <h3 className="mt-2 text-xl font-bold text-slate-950">{item.title}</h3>
+                  <p className="mt-3 leading-7 text-slate-700">{mathText(item.text)}</p>
+                </article>
               ))}
             </div>
           </section>
 
-          <section className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start">
-            <div>
-              <Sigma className="h-7 w-7 text-blue-800" />
-              <h2 className="mt-4 text-3xl font-bold text-slate-950">
-                Définition et domaine de ln
-              </h2>
-            </div>
-            <div className="space-y-4 text-lg leading-8 text-slate-700">
-              <p>
-                La fonction logarithme népérien, notée ln, est définie sur
-                l&apos;intervalle ]0 ; +∞[. Autrement dit, on ne peut calculer ln(x)
-                que pour x strictement positif : c&apos;est la première chose à
-                vérifier dans un exercice.
-              </p>
-              <div className="grid gap-4 md:grid-cols-2">
-                <article className="rounded-xl bg-slate-50 p-5">
-                  <h3 className="text-xl font-bold text-slate-950">
-                    Deux valeurs à connaître
-                  </h3>
-                  <p className="mt-3 leading-7 text-slate-700">
-                    ln(1) = 0 et ln(e) = 1. Ces deux repères servent très souvent
-                    dans les équations et les calculs de limites.
-                  </p>
-                </article>
-                <article className="rounded-xl bg-slate-50 p-5">
-                  <h3 className="text-xl font-bold text-slate-950">
-                    Attention au domaine
-                  </h3>
-                  <p className="mt-3 leading-7 text-slate-700">
-                    Tout ce qui se trouve à l&apos;intérieur d&apos;un ln doit être
-                    strictement positif. La plupart des erreurs de l&apos;élève
-                    viennent d&apos;un domaine oublié.
-                  </p>
-                </article>
-              </div>
-            </div>
-          </section>
-
-          <section className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start">
-            <div>
-              <ListChecks className="h-7 w-7 text-blue-800" />
-              <h2 className="mt-4 text-3xl font-bold text-slate-950">
-                Propriétés de calcul du logarithme
-              </h2>
-              <p className="mt-4 text-lg leading-8 text-slate-700">
-                Ces propriétés sont valables pour des nombres strictement positifs.
-                Elles permettent de transformer une expression avant de résoudre ou
-                de dériver.
-              </p>
-            </div>
-            <div className="grid gap-4 md:grid-cols-3">
-              <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                <h3 className="text-lg font-bold text-slate-950">Produit</h3>
-                <p className="mt-3 leading-7 text-slate-700">
-                  ln(ab) = ln(a) + ln(b), pour a &gt; 0 et b &gt; 0.
-                </p>
-              </article>
-              <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                <h3 className="text-lg font-bold text-slate-950">Quotient</h3>
-                <p className="mt-3 leading-7 text-slate-700">
-                  ln(a/b) = ln(a) − ln(b), pour a &gt; 0 et b &gt; 0.
-                </p>
-              </article>
-              <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                <h3 className="text-lg font-bold text-slate-950">Puissance</h3>
-                <p className="mt-3 leading-7 text-slate-700">
-                  ln(aⁿ) = n × ln(a), pour a &gt; 0 et n entier.
-                </p>
-              </article>
-            </div>
-          </section>
-
-          <section className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start">
-            <div>
-              <LineChart className="h-7 w-7 text-blue-800" />
-              <h2 className="mt-4 text-3xl font-bold text-slate-950">
-                Dérivée et variations de ln
-              </h2>
-            </div>
-            <div className="space-y-4 text-lg leading-8 text-slate-700">
-              <p>
-                La dérivée ln terminale est un grand classique : la dérivée de ln(x)
-                est 1/x sur ]0 ; +∞[. Pour une expression composée ln(u), la dérivée
-                est u&apos;/u, ce qui revient souvent dans les études de fonctions.
-              </p>
-              <div className="grid gap-4 md:grid-cols-2">
-                <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                  <h3 className="text-xl font-bold text-slate-950">
-                    Une fonction croissante
-                  </h3>
-                  <p className="mt-3 leading-7 text-slate-700">
-                    Comme 1/x est strictement positive sur ]0 ; +∞[, la fonction ln
-                    est strictement croissante sur cet intervalle.
-                  </p>
-                </article>
-                <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                  <h3 className="text-xl font-bold text-slate-950">
-                    Utiliser la croissance
-                  </h3>
-                  <p className="mt-3 leading-7 text-slate-700">
-                    La stricte croissance de ln sert à comparer deux logarithmes et à
-                    résoudre les équations et inéquations sans changer le sens.
-                  </p>
-                </article>
-              </div>
-            </div>
-          </section>
-
-          <section className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start">
-            <div>
-              <ListChecks className="h-7 w-7 text-blue-800" />
-              <h2 className="mt-4 text-3xl font-bold text-slate-950">
-                Équations et inéquations avec ln
-              </h2>
-              <p className="mt-4 text-lg leading-8 text-slate-700">
-                Résoudre une équation logarithme terminale suit presque toujours le
-                même enchaînement d&apos;étapes.
-              </p>
-            </div>
-            <ol className="space-y-3">
-              {equationSteps.map((step, index) => (
-                <li
-                  key={step}
-                  className="flex gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+          <section id="competences" className="scroll-mt-24">
+            <Target className="h-7 w-7 text-blue-800" aria-hidden="true" />
+            <h2 className="mt-4 text-3xl font-bold text-slate-950">
+              Compétences à maîtriser : savoir faire, tester, s’entraîner
+            </h2>
+            <p className="mt-4 max-w-4xl text-lg leading-8 text-slate-700">
+              Pour chaque élément du programme : ce qu’il faut savoir faire, un test
+              de deux minutes avec sa réponse, et la ressource SprintMaths pour
+              t’entraîner. Si tu réussis le test sans notes, passe à la ligne
+              suivante ; sinon, ouvre la ressource.
+            </p>
+            <div className="mt-7 grid gap-5 lg:grid-cols-2">
+              {skillRows.map((row) => (
+                <article
+                  key={row.skill}
+                  className="flex min-w-0 flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
                 >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-900 text-sm font-bold text-white">
-                    {index + 1}
-                  </span>
-                  <span className="pt-1 leading-7 text-slate-700">{step}</span>
-                </li>
+                  <p className="text-sm font-bold uppercase tracking-wide text-emerald-700">
+                    Programme · {row.source}
+                  </p>
+                  <h3 className="mt-2 text-xl font-bold text-slate-950">{row.skill}</h3>
+                  <p className="mt-3 leading-7 text-slate-700">{mathText(row.know)}</p>
+                  <div className="mt-4 rounded-xl bg-slate-50 p-4">
+                    <p className="font-bold text-slate-950">Test rapide</p>
+                    <p className="mt-1 leading-7 text-slate-800">{mathText(row.check)}</p>
+                    <details className="mt-3">
+                      <summary className="cursor-pointer rounded font-semibold text-blue-900 underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:ring-offset-2">
+                        Voir la réponse
+                      </summary>
+                      <p className="mt-2 leading-7 text-slate-700">{mathText(row.answer)}</p>
+                    </details>
+                  </div>
+                  <p className="mt-4 leading-7 text-slate-700">
+                    S’entraîner :{" "}
+                    <Link
+                      href={row.resource.href}
+                      className="font-bold text-blue-900 underline underline-offset-4"
+                    >
+                      {row.resource.label}
+                    </Link>
+                  </p>
+                </article>
               ))}
-            </ol>
+            </div>
           </section>
 
-          <section className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start">
-            <div>
-              <LineChart className="h-7 w-7 text-blue-800" />
-              <h2 className="mt-4 text-3xl font-bold text-slate-950">
-                Limites avec logarithme
-              </h2>
+          <section id="formules" className="scroll-mt-24">
+            <Sigma className="h-7 w-7 text-blue-800" aria-hidden="true" />
+            <h2 className="mt-4 text-3xl font-bold text-slate-950">
+              Formules de ln et conditions de validité
+            </h2>
+            <p className="mt-4 max-w-4xl text-lg leading-8 text-slate-700">
+              Une formule de ln n’est juste que sous sa condition. Avant de
+              l’appliquer, vérifie la colonne de droite.
+            </p>
+            <div className="mt-7 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+              <table className="w-full border-collapse text-left">
+                <caption className="bg-blue-950 px-4 py-3 text-left text-sm font-bold uppercase tracking-[0.12em] text-white">
+                  Formule → condition à vérifier
+                </caption>
+                <thead className="bg-slate-100 text-slate-950">
+                  <tr>
+                    <th scope="col" className="px-3 py-3 font-bold sm:px-4">
+                      Formule
+                    </th>
+                    <th scope="col" className="px-3 py-3 font-bold sm:px-4">
+                      Condition
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {formulaRows.map((row) => (
+                    <tr
+                      key={row.formula}
+                      className="border-t border-slate-200 odd:bg-white even:bg-slate-50/70"
+                    >
+                      <td className="px-3 py-3 align-top font-semibold leading-7 text-slate-950 sm:px-4">
+                        {mathText(row.formula)}
+                      </td>
+                      <td className="px-3 py-3 align-top leading-7 text-slate-700 sm:px-4">
+                        {mathText(row.condition)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-            <div className="space-y-4 text-lg leading-8 text-slate-700">
-              <p>
-                Les limites logarithme terminale à connaître concernent surtout les
-                bords du domaine. On retient deux comportements de référence.
-              </p>
-              <div className="grid gap-4 md:grid-cols-2">
-                <article className="rounded-xl bg-slate-50 p-5">
-                  <h3 className="text-xl font-bold text-slate-950">En 0⁺</h3>
-                  <p className="mt-3 leading-7 text-slate-700">
-                    Quand x tend vers 0 par valeurs positives, ln(x) tend vers −∞. La
-                    courbe descend très bas près de 0.
-                  </p>
-                </article>
-                <article className="rounded-xl bg-slate-50 p-5">
-                  <h3 className="text-xl font-bold text-slate-950">En +∞</h3>
-                  <p className="mt-3 leading-7 text-slate-700">
-                    Quand x tend vers +∞, ln(x) tend vers +∞, mais lentement. Les
-                    croissances comparées (comme ln(x)/x qui tend vers 0) servent à
-                    lever certaines formes indéterminées.
-                  </p>
-                </article>
-              </div>
-            </div>
+            <p className="mt-5 max-w-4xl leading-7 text-slate-700">
+              Pour voir ces conditions décider d’une réponse sur des équations
+              rédigées comme sur une copie, lis la{" "}
+              <Link
+                href={`${methodPath}#equations-inequations-ln-domaine`}
+                className="font-bold text-blue-900 underline underline-offset-4"
+              >
+                méthode logarithme sur les domaines
+              </Link>
+              .
+            </p>
           </section>
 
           <section className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-start">
@@ -478,8 +647,8 @@ export default function FonctionLogarithmeTerminalePage() {
                 Comment réviser la fonction logarithme
               </h2>
               <p className="mt-4 text-lg leading-8 text-slate-700">
-                Le plus efficace est d&apos;alterner méthode, exercices courts et
-                correction active.
+                L’ordre conseillé par SprintMaths, qui ne fait pas partie du texte
+                officiel : partir des tests ratés plutôt que tout relire.
               </p>
             </div>
             <ol className="space-y-3">
@@ -602,6 +771,25 @@ export default function FonctionLogarithmeTerminalePage() {
           <ChapterInternalLinks
             title="Continuer dans le cluster fonction logarithme"
             links={internalLinks}
+          />
+
+          <OfficialSources
+            title="Sources officielles (vérifiées le 18 octobre 2026)"
+            sources={[
+              {
+                href: currentProgramUrl,
+                label:
+                  "Programme de spécialité de mathématiques de terminale générale (annexe, Éduscol)",
+                description:
+                  "Texte applicable en 2026-2027, fixé par l’arrêté du 19 juillet 2019. La section « Fonction logarithme » figure dans la partie Analyse.",
+              },
+              {
+                href: futureProgramUrl,
+                label: "Arrêté du 26 février 2026, Bulletin officiel n° 14 du 2 avril 2026",
+                description:
+                  "Nouveau programme de Terminale, applicable à la rentrée 2027-2028 : il ne concerne pas l’année 2026-2027.",
+              },
+            ]}
           />
 
           <FaqAccordion items={faqItems} sourcePage={pagePath} />
