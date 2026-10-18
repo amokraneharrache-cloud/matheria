@@ -73,6 +73,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       "/methodes-maths-terminale/logarithme",
       new Date("2026-10-14T00:00:00.000Z"),
     ],
+    [
+      "/programme-maths-terminale/fonction-logarithme",
+      new Date("2026-10-18T00:00:00.000Z"),
+    ],
   ]);
 
   const staticRoutes: MetadataRoute.Sitemap = publicSeoRoutes.map((route) => ({
