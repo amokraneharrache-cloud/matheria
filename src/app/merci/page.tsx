@@ -48,7 +48,7 @@ export default function MerciPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
+    <main className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
       <PurchaseTracker />
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6">
         <div className="text-center">
@@ -82,9 +82,10 @@ export default function MerciPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email Parent</label>
+            <label htmlFor="merci-parent-email" className="block text-sm font-medium text-gray-700">Email Parent</label>
             <input 
               type="email" 
+              id="merci-parent-email"
               name="parentEmail" 
               required 
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
@@ -92,9 +93,10 @@ export default function MerciPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Pseudo Élève</label>
+            <label htmlFor="merci-student-pseudo" className="block text-sm font-medium text-gray-700">Pseudo Élève</label>
             <input 
               type="text" 
+              id="merci-student-pseudo"
               name="studentPseudo" 
               required 
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
@@ -102,8 +104,9 @@ export default function MerciPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Objectif</label>
+            <label htmlFor="merci-exam-goal" className="block text-sm font-medium text-gray-700">Objectif</label>
             <select 
+              id="merci-exam-goal"
               name="examGoal" 
               required
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 bg-white"
@@ -116,8 +119,9 @@ export default function MerciPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Niveau ressenti en maths</label>
+            <label htmlFor="merci-current-level" className="block text-sm font-medium text-gray-700">Niveau ressenti en maths</label>
             <select 
+              id="merci-current-level"
               name="currentLevel" 
               required
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 bg-white"
@@ -131,9 +135,10 @@ export default function MerciPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Code d’accès</label>
+            <label htmlFor="merci-access-code" className="block text-sm font-medium text-gray-700">Code d’accès</label>
             <input 
               type="text" 
+              id="merci-access-code"
               name="accessCode" 
               required 
               placeholder="MATH-XXXX"
@@ -163,6 +168,6 @@ export default function MerciPage() {
           </button>
         </form>
       </div>
-    </div>
+    </main>
   );
 }

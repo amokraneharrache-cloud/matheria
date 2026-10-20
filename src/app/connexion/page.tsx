@@ -42,7 +42,7 @@ export default function ConnexionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
+    <main className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 space-y-6">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
@@ -61,11 +61,12 @@ export default function ConnexionPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label htmlFor="connexion-parent-email" className="block text-sm font-medium text-gray-700">
               Email parent
             </label>
             <input
               type="email"
+              id="connexion-parent-email"
               name="parentEmail"
               required
               autoComplete="email"
@@ -74,11 +75,12 @@ export default function ConnexionPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label htmlFor="connexion-access-code" className="block text-sm font-medium text-gray-700">
               Code d&apos;accès
             </label>
             <input
               type="text"
+              id="connexion-access-code"
               name="accessCode"
               required
               placeholder="MATH-XXXX"
@@ -122,6 +124,6 @@ export default function ConnexionPage() {
           </p>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

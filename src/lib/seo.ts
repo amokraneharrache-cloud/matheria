@@ -11,11 +11,6 @@ export function websiteJsonLd() {
     "@type": "WebSite",
     name: SITE_NAME,
     url: absoluteUrl("/"),
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${absoluteUrl("/")}?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
   };
 }
 
