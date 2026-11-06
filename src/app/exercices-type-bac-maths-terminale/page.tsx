@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
+  ArrowDownRight,
   ArrowRight,
+  ArrowUpRight,
   BookOpenCheck,
   CalendarDays,
   CheckCircle2,
@@ -214,6 +216,92 @@ function renderFormulaText(text: string) {
     ),
   );
 }
+
+const rationalExerciseSectionId = "exercice-derivation-minimum-tangente";
+const positiveInterval = "]0 ; +∞[";
+
+const rationalExerciseQuestions = [
+  "Déterminer la limite de f en 0 (à droite) et en +∞.",
+  `Montrer que, pour tout x de ${positiveInterval}, f′(x) = (x − 2)(x + 2)/x². En déduire le tableau de variations de f et son minimum.`,
+  `Résoudre dans ${positiveInterval} l’équation f(x) = 5.`,
+  "Déterminer une équation de la tangente T à la courbe C au point d’abscisse 1, puis étudier la position de C par rapport à T.",
+];
+
+const rationalExerciseHints = [
+  {
+    label: "Indice — question 1",
+    text: "En 0, regarde le terme 4/x : son dénominateur tend vers 0 en restant positif. En +∞, compare chaque terme de la somme.",
+  },
+  {
+    label: "Indice — question 2",
+    text: "La dérivée de x ↦ 1/x est x ↦ −1/x². Mets ensuite 1 − 4/x² au même dénominateur et factorise x² − 4.",
+  },
+  {
+    label: "Indice — question 3",
+    text: "Comme x > 0, tu peux multiplier les deux membres par x : tu obtiens une équation du second degré.",
+  },
+  {
+    label: "Indice — question 4",
+    text: "Utilise y = f′(1)(x − 1) + f(1). Pour la position, écris f(x) − (−3x + 8) avec un seul dénominateur et étudie son signe.",
+  },
+];
+
+const rationalExerciseCorrection = [
+  {
+    title: "Question 1 — Limites aux bornes",
+    showVariationTable: false,
+    lines: [
+      "En 0 à droite : x tend vers 0 et, comme x reste positif, 4/x tend vers +∞. Par somme, f(x) tend vers +∞ quand x tend vers 0 par valeurs positives.",
+      "En +∞ : x tend vers +∞ et 4/x tend vers 0. Par somme, f(x) tend vers +∞ quand x tend vers +∞.",
+      "Interprétation : l’axe des ordonnées, d’équation x = 0, est asymptote verticale à la courbe C.",
+    ],
+  },
+  {
+    title: "Question 2 — Dérivée, variations et minimum",
+    showVariationTable: true,
+    lines: [
+      `f est dérivable sur ${positiveInterval} comme somme de fonctions dérivables. La dérivée de x est 1 et celle de 4/x est 4 × (−1/x²) = −4/x².`,
+      "Donc f′(x) = 1 − 4/x² = (x² − 4)/x² = (x − 2)(x + 2)/x².",
+      `Sur ${positiveInterval}, x² > 0 et x + 2 > 0 : f′(x) a le signe de x − 2. Ainsi f′(x) < 0 sur ]0 ; 2[, f′(2) = 0 et f′(x) > 0 sur ]2 ; +∞[.`,
+      "f est strictement décroissante sur ]0 ; 2] puis strictement croissante sur [2 ; +∞[. Elle admet donc un minimum en 2, égal à f(2) = 2 + 4/2 = 4.",
+      `Contrôle facultatif : f″(x) = 8/x³ > 0 sur ${positiveInterval}, donc f est convexe, ce qui est cohérent avec un minimum atteint là où f′ s’annule.`,
+    ],
+  },
+  {
+    title: "Question 3 — Équation f(x) = 5",
+    showVariationTable: false,
+    lines: [
+      "On cherche x > 0 tel que x + 4/x = 5. Comme x > 0, x n’est pas nul : en multipliant les deux membres par x, l’équation équivaut à x² + 4 = 5x, soit x² − 5x + 4 = 0.",
+      "Discriminant : Δ = (−5)² − 4 × 1 × 4 = 9 > 0. Les racines sont (5 − 3)/2 = 1 et (5 + 3)/2 = 4.",
+      `Les deux racines appartiennent à ${positiveInterval} : l’ensemble des solutions est S = {1 ; 4}. Vérification : f(1) = 1 + 4 = 5 et f(4) = 4 + 1 = 5.`,
+      "Cohérence avec la question 2 : 5 est supérieur au minimum 4, et on trouve bien une solution de chaque côté de 2.",
+    ],
+  },
+  {
+    title: "Question 4 — Tangente et position",
+    showVariationTable: false,
+    lines: [
+      "T a pour équation y = f′(1)(x − 1) + f(1). Or f(1) = 5 et f′(1) = 1 − 4 = −3, donc T : y = −3(x − 1) + 5 = −3x + 8.",
+      "Pour x > 0 : f(x) − (−3x + 8) = 4x + 4/x − 8 = (4x² − 8x + 4)/x = 4(x − 1)²/x.",
+      `Sur ${positiveInterval}, 4(x − 1)² ≥ 0 et x > 0 : la différence est positive ou nulle. La courbe C est au-dessus de T, et elle ne la touche qu’au point A(1 ; 5), car la différence ne s’annule qu’en x = 1.`,
+    ],
+  },
+];
+
+const rationalExerciseMistakes = [
+  {
+    title: "Erreur fréquente : la dérivée de 4/x",
+    text: "Écrire que la dérivée de 4/x est 4/x². La dérivée de 1/x est −1/x², donc celle de 4/x est −4/x². Avec le mauvais signe, on obtiendrait f′(x) = 1 + 4/x² > 0, donc f croissante : impossible, puisque f(1) = 5 et f(2) = 4.",
+  },
+  {
+    title: "Erreur fréquente : multiplier par x sans le justifier",
+    text: "On multiplie par x seulement parce que x > 0 sur le domaine : x n’est pas nul et l’équation obtenue reste équivalente. Écris cette justification, puis vérifie que chaque racine appartient bien au domaine.",
+  },
+  {
+    title: "Erreur fréquente : confondre tangente et courbe",
+    text: "T approche C seulement près du point d’abscisse 1. En x = 4, T donne y = −3 × 4 + 8 = −4 alors que f(4) = 5 : on ne remplace pas f par sa tangente loin du point de contact.",
+  },
+];
 
 const chapters = [
   "Suites",
@@ -662,6 +750,193 @@ export default function ExercicesTypeBacMathsTerminalePage() {
                 <p className="mt-1 leading-7 text-slate-700">
                   Contrôle ton tableau de variations avec deux valeurs calculées :
                   ici f(0) = 2 et f(4) ≈ 0,11 confirment la décroissance.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section id={rationalExerciseSectionId} className="scroll-mt-24">
+            <div className="max-w-3xl">
+              <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-900">
+                Exercice corrigé gratuit
+              </p>
+              <h2 className="mt-3 text-3xl font-bold text-slate-950">
+                Exercice type bac corrigé : dérivation, minimum et tangente
+              </h2>
+              <p className="mt-4 leading-7 text-slate-700">
+                Un second exercice complet, centré sur une fonction rationnelle :
+                limites, dérivée, minimum, équation et tangente. Cherche chaque
+                question au brouillon, ouvre l’indice seulement si tu bloques, puis
+                compare avec la correction rédigée. C’est un exercice original
+                SprintMaths, écrit dans l’esprit d’un exercice de bac ; ce n’est pas
+                une annale officielle.
+              </p>
+            </div>
+
+            <div className="mt-6 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+              <article className="min-w-0 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                <ClipboardList className="h-6 w-6 text-blue-800" />
+                <h3 className="mt-3 text-xl font-bold text-slate-950">Énoncé</h3>
+                <p className="mt-4 border-l-4 border-blue-800 pl-4 leading-7 text-slate-700">
+                  On considère la fonction f définie sur l’intervalle{" "}
+                  {positiveInterval} par{" "}
+                  <span className="whitespace-nowrap font-semibold text-slate-950">
+                    f(x) = x + 4/x
+                  </span>
+                  . On note C sa courbe représentative dans un repère.
+                </p>
+                <ol className="mt-5 list-decimal space-y-3 pl-5 leading-7 text-slate-800">
+                  {rationalExerciseQuestions.map((question) => (
+                    <li key={question}>{renderFormulaText(question)}</li>
+                  ))}
+                </ol>
+              </article>
+
+              <article className="min-w-0 rounded-lg border border-blue-100 bg-blue-50 p-5 shadow-sm">
+                <PenTool className="h-6 w-6 text-blue-800" />
+                <h3 className="mt-3 text-xl font-bold text-slate-950">
+                  Indices à déplier
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-blue-950">
+                  Un indice par question, à ouvrir seulement si tu restes bloqué.
+                </p>
+                <div className="mt-4 space-y-2">
+                  {rationalExerciseHints.map((hint) => (
+                    <details
+                      key={hint.label}
+                      className="rounded-lg border border-blue-100 bg-white p-3"
+                    >
+                      <summary className="cursor-pointer rounded text-sm font-bold text-blue-950 outline-none focus-visible:ring-2 focus-visible:ring-blue-900 focus-visible:ring-offset-2">
+                        {hint.label}
+                      </summary>
+                      <p className="mt-2 text-sm leading-6 text-blue-950">
+                        {renderFormulaText(hint.text)}
+                      </p>
+                    </details>
+                  ))}
+                </div>
+              </article>
+            </div>
+
+            <h3 className="mt-8 text-2xl font-bold text-slate-950">
+              Correction détaillée : f(x) = x + 4/x
+            </h3>
+            <div className="mt-4 grid gap-4 lg:grid-cols-2">
+              {rationalExerciseCorrection.map((part) => (
+                <article
+                  key={part.title}
+                  className="min-w-0 rounded-lg border border-emerald-200 bg-emerald-50 p-5 shadow-sm"
+                >
+                  <h4 className="text-lg font-bold text-slate-950">{part.title}</h4>
+                  <div className="mt-3 space-y-3 break-words leading-7 text-slate-800">
+                    {part.lines.map((line) => (
+                      <p key={line}>{renderFormulaText(line)}</p>
+                    ))}
+                  </div>
+                  {part.showVariationTable ? (
+                    <div className="relative mt-4 overflow-x-auto rounded-lg border border-emerald-200 bg-white">
+                      <table className="w-full border-collapse text-center text-sm sm:text-base">
+                        <caption className="caption-top border-b border-emerald-200 px-4 py-3 text-left text-sm leading-6 text-slate-700">
+                          Tableau de variations de f sur {positiveInterval}.
+                        </caption>
+                        <thead>
+                          <tr className="border-b border-emerald-200 text-slate-950">
+                            <th scope="col" className="px-1.5 py-3 font-bold sm:px-3">
+                              x
+                            </th>
+                            <th scope="col" className="px-1.5 py-3 font-bold sm:px-3">
+                              0
+                            </th>
+                            <th scope="col" className="px-1.5 py-3 font-bold sm:px-3">
+                              <span className="sr-only">entre 0 et 2</span>
+                            </th>
+                            <th scope="col" className="px-1.5 py-3 font-bold sm:px-3">
+                              2
+                            </th>
+                            <th scope="col" className="px-1.5 py-3 font-bold sm:px-3">
+                              <span className="sr-only">entre 2 et +∞</span>
+                            </th>
+                            <th
+                              scope="col"
+                              className="whitespace-nowrap px-1.5 py-3 font-bold sm:px-3"
+                            >
+                              +∞
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-emerald-200">
+                          <tr>
+                            <th scope="row" className="px-1.5 py-3 font-bold text-slate-950 sm:px-3">
+                              {renderFormulaText("Signe de f′(x)")}
+                            </th>
+                            <td className="px-1.5 py-3 font-semibold text-slate-950 sm:px-3">
+                              <span aria-hidden="true">‖</span>
+                              <span className="sr-only">valeur interdite</span>
+                            </td>
+                            <td className="px-1.5 py-3 font-semibold text-slate-950 sm:px-3">
+                              <span aria-hidden="true">−</span>
+                              <span className="sr-only">négatif</span>
+                            </td>
+                            <td className="px-1.5 py-3 font-semibold text-slate-950 sm:px-3">
+                              0
+                            </td>
+                            <td className="px-1.5 py-3 font-semibold text-slate-950 sm:px-3">
+                              <span aria-hidden="true">+</span>
+                              <span className="sr-only">positif</span>
+                            </td>
+                            <td className="px-1.5 py-3 sm:px-3" />
+                          </tr>
+                          <tr>
+                            <th scope="row" className="px-1.5 py-3 font-bold text-slate-950 sm:px-3">
+                              Variations de f
+                            </th>
+                            <td className="whitespace-nowrap px-1.5 py-3 font-semibold text-slate-950 sm:px-3">
+                              +∞
+                            </td>
+                            <td className="px-1.5 py-3 font-semibold text-slate-950 sm:px-3">
+                              <ArrowDownRight
+                                aria-hidden="true"
+                                className="mx-auto h-5 w-5 text-slate-950"
+                              />
+                              <span className="sr-only">strictement décroissante</span>
+                            </td>
+                            <td className="px-1.5 py-3 font-semibold text-slate-950 sm:px-3">
+                              4<span className="sr-only"> (minimum)</span>
+                            </td>
+                            <td className="px-1.5 py-3 font-semibold text-slate-950 sm:px-3">
+                              <ArrowUpRight
+                                aria-hidden="true"
+                                className="mx-auto h-5 w-5 text-slate-950"
+                              />
+                              <span className="sr-only">strictement croissante</span>
+                            </td>
+                            <td className="whitespace-nowrap px-1.5 py-3 font-semibold text-slate-950 sm:px-3">
+                              +∞
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : null}
+                </article>
+              ))}
+            </div>
+
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {rationalExerciseMistakes.map((mistake) => (
+                <div key={mistake.title} className="border-l-4 border-amber-500 pl-4">
+                  <p className="font-bold text-slate-950">{mistake.title}</p>
+                  <p className="mt-1 leading-7 text-slate-700">
+                    {renderFormulaText(mistake.text)}
+                  </p>
+                </div>
+              ))}
+              <div className="border-l-4 border-blue-800 pl-4">
+                <p className="font-bold text-slate-950">Réflexe de vérification</p>
+                <p className="mt-1 leading-7 text-slate-700">
+                  Calcule quelques valeurs pour contrôler ton tableau : f(0,5) = 8,5 ;
+                  f(1) = 5 ; f(2) = 4 ; f(4) = 5 ; f(8) = 8,5. Elles diminuent
+                  jusqu’à x = 2 puis augmentent, comme prévu.
                 </p>
               </div>
             </div>
