@@ -67,6 +67,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       canonical: absoluteUrl(path),
     },
     openGraph: {
+      images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: "SprintMaths — Exercices corrigés et méthodes de maths, avec une courbe stylisée sur fond bleu." }],
       title: article.title,
       description: article.description,
       url: absoluteUrl(path),

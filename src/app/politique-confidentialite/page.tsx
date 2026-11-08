@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     canonical: absoluteUrl(pagePath),
   },
   openGraph: {
+    images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: "SprintMaths — Exercices corrigés et méthodes de maths, avec une courbe stylisée sur fond bleu." }],
     title: `Politique de confidentialité | ${SITE_NAME}`,
     description:
       "Informations sur le traitement des données personnelles dans SprintMaths.",

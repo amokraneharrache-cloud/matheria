@@ -38,6 +38,7 @@ export const metadata: Metadata = {
     canonical: absoluteUrl(pagePath),
   },
   openGraph: {
+    images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: "SprintMaths — Exercices corrigés et méthodes de maths, avec une courbe stylisée sur fond bleu." }],
     title: "Planning Révision Bac Maths 2027 : programme 30 jours gratuit",
     description,
     url: absoluteUrl(pagePath),

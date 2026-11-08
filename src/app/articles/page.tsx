@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     canonical: absoluteUrl(pagePath),
   },
   openGraph: {
+    images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: "SprintMaths — Exercices corrigés et méthodes de maths, avec une courbe stylisée sur fond bleu." }],
     title: "Articles maths Terminale — SprintMaths",
     description:
       "Guides de révision pour préparer le bac de maths Terminale avec méthode.",

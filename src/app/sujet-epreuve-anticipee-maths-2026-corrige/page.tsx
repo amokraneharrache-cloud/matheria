@@ -20,7 +20,7 @@ const eduscolExamUrl = "https://eduscol.education.gouv.fr/5688/epreuve-anticipee
 export const metadata: Metadata = {
   title: { absolute: title }, description,
   alternates: { canonical: absoluteUrl(pagePath) },
-  openGraph: { title, description, url: absoluteUrl(pagePath), siteName: SITE_NAME, locale: "fr_FR", type: "website" },
+  openGraph: { images: [{ url: "/opengraph-image.png", width: 1200, height: 630, alt: "SprintMaths — Exercices corrigés et méthodes de maths, avec une courbe stylisée sur fond bleu." }], title, description, url: absoluteUrl(pagePath), siteName: SITE_NAME, locale: "fr_FR", type: "website" },
   robots: { index: true, follow: true },
 };
 
