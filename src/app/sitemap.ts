@@ -7,7 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date("2026-06-14T00:00:00.000Z");
   const routeLastModified = new Map<string, Date>([
     ["/", new Date("2026-10-04T00:00:00.000Z")],
-    ["/formules-bac-maths-terminale", new Date("2026-07-29T00:00:00.000Z")],
+    ["/formules-bac-maths-terminale", new Date("2026-11-09T09:12:56.523Z")],
     ["/diagnostic", new Date("2026-08-30T00:00:00.000Z")],
     ["/redaction-bac-maths-terminale", new Date("2026-07-29T00:00:00.000Z")],
     [
