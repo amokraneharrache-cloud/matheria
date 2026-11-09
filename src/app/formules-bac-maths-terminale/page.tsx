@@ -662,12 +662,12 @@ const formulaChapters: FormulaChapter[] = [
         methodLabel: "Méthode : géométrie dans l’espace",
       },
       {
-        name: "Distance d’un point à un plan — formule pratique",
+        name: "Distance d’un point à un plan — formule de vérification",
         formula: "d(M, P) = |ax_M + by_M + cz_M + d| / √(a² + b² + c²)",
         conditions:
           "Le repère est orthonormé et P a pour équation ax + by + cz + d = 0 avec (a, b, c) ≠ (0, 0, 0).",
         explanation:
-          "Cette formule se déduit du projeté orthogonal de M sur le plan. La valeur absolue rend la distance positive et le dénominateur normalise le vecteur normal.",
+          "Construis le projeté orthogonal avec la méthode ci-dessous, puis utilise cette formule pour vérifier la distance. La valeur absolue donne une distance positive ou nulle et le dénominateur normalise le vecteur normal.",
         mistake:
           "Oublier la valeur absolue ou utiliser les coefficients d’une équation qui ne représente pas le plan.",
         methodHref: "/methodes-maths-terminale/geometrie-espace",
@@ -906,6 +906,69 @@ export default function FormulesBacMathsTerminalePage() {
                     </article>
                   ))}
                 </div>
+                {chapter.id === "geometrie" && (
+                  <aside
+                    aria-labelledby="distance-projete-title"
+                    className="mt-7 min-w-0 rounded-2xl border border-blue-100 bg-blue-50 p-5 sm:p-6"
+                  >
+                    <h3 id="distance-projete-title" className="text-2xl font-bold text-slate-950">
+                      Distance point-plan : construire le projeté orthogonal
+                    </h3>
+                    <p className="mt-4 leading-7 text-slate-700">
+                      Comment passer de l’équation du plan à la distance ? Dans un
+                      repère orthonormé, le projeté H de A sur P appartient à P et
+                      la droite (AH) est perpendiculaire à P lorsque A n’est pas
+                      dans P. La distance cherchée est AH. Si A appartient à P,
+                      alors H = A et la distance vaut 0.
+                    </p>
+                    <p className="mt-4 leading-7 text-slate-700">
+                      <strong>Exemple original.</strong> A(1 ; 2 ; 3) et le plan
+                      P : x + 2y + 2z − 5 = 0. Cherche les coordonnées de H,
+                      puis calcule d(A, P).
+                    </p>
+                    <ol className="mt-5 list-decimal space-y-4 pl-5 leading-7 text-slate-800">
+                      <li>
+                        <strong>Lire une normale non nulle.</strong> Les coefficients
+                        du plan donnent le vecteur n = (1 ; 2 ; 2).
+                      </li>
+                      <li>
+                        <strong>Écrire la droite normale passant par A.</strong>{" "}
+                        Son vecteur directeur est n : x = 1 + t, y = 2 + 2t,
+                        z = 3 + 2t, avec t réel.
+                      </li>
+                      <li>
+                        <strong>Trouver son intersection avec P.</strong> En
+                        remplaçant dans l’équation du plan : (1 + t) + 2(2 + 2t)
+                        + 2(3 + 2t) − 5 = 0, soit 6 + 9t = 0. Ainsi t = −2/3
+                        et H(1/3 ; 2/3 ; 5/3). Vérification : 1/3 + 4/3 + 10/3 − 5 = 0.
+                        H appartient à P et le vecteur AH = (−2/3)n est normal à P : H est
+                        bien le projeté orthogonal de A.
+                      </li>
+                      <li>
+                        <strong>Calculer la norme AH.</strong> Le vecteur AH = (−2/3 ; −4/3 ; −4/3),
+                        donc AH² = 4/9 + 16/9 + 16/9 = 4. On obtient d(A, P) = AH = 2.
+                        La formule de vérification donne aussi |1 + 4 + 6 − 5| / √9 = 6/3 = 2.
+                      </li>
+                    </ol>
+                    <p className="mt-5 rounded-xl bg-amber-50 p-3 leading-7 text-amber-950">
+                      <strong>Deux erreurs à éviter.</strong> Le directeur de la
+                      droite normale doit être colinéaire à n ; lui être orthogonal
+                      ne convient pas. Le paramètre |t| n’est pas la distance : ici
+                      ||n|| = 3, donc AH = |t| × 3 = 2.
+                    </p>
+                    <p className="mt-4 text-sm leading-6 text-slate-600">
+                      La projection orthogonale pour déterminer une distance figure
+                      dans le{" "}
+                      <a
+                        href="https://eduscol.education.gouv.fr/sites/default/files/document/spe246annexe1158907pdf-84159.pdf#page=8"
+                        className="font-bold text-blue-900 underline underline-offset-4"
+                      >
+                        programme officiel de Terminale spécialité
+                      </a>
+                      , rubrique « Orthogonalité et distances dans l’espace ».
+                    </p>
+                  </aside>
+                )}
               </section>
             ))}
 
