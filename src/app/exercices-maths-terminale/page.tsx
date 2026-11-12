@@ -17,7 +17,7 @@ import { guidedExercises } from "@/data/guidedExercises";
 import { getProgram } from "@/data/programs";
 import { getAvailableTopics } from "@/data/questions";
 import { absoluteUrl } from "@/lib/site";
-import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd } from "@/lib/seo";
 
 const pagePath = "/exercices-maths-terminale";
 const subjectsTypeBacPath = "/sujets-type-bac-maths-terminale";
@@ -138,7 +138,6 @@ export default function ExercicesMathsTerminalePage() {
     <SeoPageLayout urgencySourcePage={pagePath}>
       <JsonLd
         data={[
-          productJsonLd(pagePath),
           breadcrumbJsonLd([
             { name: "Accueil", path: "/" },
             { name: "Bac Terminale maths", path: "/bac-terminale-maths" },

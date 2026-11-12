@@ -9,7 +9,7 @@ import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { getProgram } from "@/data/programs";
 import { absoluteUrl } from "@/lib/site";
-import { breadcrumbJsonLd, faqJsonLd, productJsonLd, type FaqItem } from "@/lib/seo";
+import { breadcrumbJsonLd, faqJsonLd, type FaqItem } from "@/lib/seo";
 
 const pagePath = "/brevet-maths";
 
@@ -61,7 +61,6 @@ export default function BrevetMathsPage() {
     <SeoPageLayout>
       <JsonLd
         data={[
-          productJsonLd(pagePath),
           faqJsonLd(faqItems),
           breadcrumbJsonLd([
             { name: "Accueil", path: "/" },

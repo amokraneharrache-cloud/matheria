@@ -8,7 +8,7 @@ import { SeoPageLayout } from "@/components/marketing/SeoPageLayout";
 import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { methods } from "@/data/methods";
 import { absoluteUrl } from "@/lib/site";
-import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd } from "@/lib/seo";
 
 const pagePath = "/methodes-maths-terminale";
 
@@ -114,7 +114,6 @@ export default function MethodesMathsTerminalePage() {
     <SeoPageLayout urgencySourcePage={pagePath}>
       <JsonLd
         data={[
-          productJsonLd(pagePath),
           breadcrumbJsonLd([
             { name: "Accueil", path: "/" },
             { name: "Bac Terminale maths", path: "/bac-terminale-maths" },
