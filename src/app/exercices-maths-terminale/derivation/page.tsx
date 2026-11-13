@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import {
+  ArrowDownRight,
   ArrowRight,
+  ArrowUpRight,
   BookOpenCheck,
   CalendarDays,
   CheckCircle2,
@@ -364,6 +366,340 @@ function ExerciseSection({ exercise }: { exercise: Exercise }) {
   );
 }
 
+const typeBacExerciseId = "exercice-type-bac-exponentielle";
+const typeBacInterval = "[0\u00a0;\u00a04]";
+
+function ExpPower({ exponent }: { exponent: string }) {
+  return (
+    <span className="whitespace-nowrap">
+      e<sup>{exponent}</sup>
+    </span>
+  );
+}
+
+type TypeBacLine = { key: string; content: ReactNode };
+
+const typeBacQuestions: TypeBacLine[] = [
+  {
+    key: "question-derivee",
+    content: (
+      <>
+        Montrer que, pour tout x de {typeBacInterval}, f′(x) = (2 − x²)<ExpPower exponent="−x" />.
+      </>
+    ),
+  },
+  {
+    key: "question-signe",
+    content: <>Étudier le signe de f′(x) sur {typeBacInterval}.</>,
+  },
+  {
+    key: "question-variations",
+    content: (
+      <>
+        Dresser le tableau de variations de f sur {typeBacInterval}, avec les valeurs exactes de f(0), de f(4) et du maximum de f.
+      </>
+    ),
+  },
+  {
+    key: "question-tangente",
+    content: <>Déterminer une équation de la tangente T à la courbe C au point d’abscisse 0.</>,
+  },
+];
+
+const typeBacCorrection: {
+  key: string;
+  title: string;
+  lines: TypeBacLine[];
+  showTable?: boolean;
+}[] = [
+  {
+    key: "correction-derivee",
+    title: "Question 1 — dériver un produit",
+    lines: [
+      {
+        key: "produit",
+        content: (
+          <>
+            f est de la forme u × v avec u(x) = x² + 2x et v(x) = <ExpPower exponent="−x" />.
+          </>
+        ),
+      },
+      {
+        key: "derivees",
+        content: (
+          <>
+            u′(x) = 2x + 2. Pour v, on utilise (<ExpPower exponent="ax + b" />)′ = a × <ExpPower exponent="ax + b" /> avec a = −1 : v′(x) = −<ExpPower exponent="−x" />.
+          </>
+        ),
+      },
+      {
+        key: "formule",
+        content: (
+          <>
+            f′(x) = u′(x)v(x) + u(x)v′(x) = (2x + 2)<ExpPower exponent="−x" /> − (x² + 2x)<ExpPower exponent="−x" />.
+          </>
+        ),
+      },
+      {
+        key: "factorisation",
+        content: (
+          <>
+            On factorise par <ExpPower exponent="−x" /> : f′(x) = <ExpPower exponent="−x" />[(2x + 2) − (x² + 2x)] = <ExpPower exponent="−x" />(2x + 2 − x² − 2x), donc f′(x) = (2 − x²)<ExpPower exponent="−x" />.
+          </>
+        ),
+      },
+    ],
+  },
+  {
+    key: "correction-signe",
+    title: "Question 2 — signe de la dérivée",
+    lines: [
+      {
+        key: "exponentielle-positive",
+        content: (
+          <>
+            Pour tout réel x, <ExpPower exponent="−x" />
+            {" > 0 : f′(x) a donc le même signe que 2 − x²."}
+          </>
+        ),
+      },
+      {
+        key: "factorisation-signe",
+        content: (
+          <>
+            {"2 − x² = (√2 − x)(√2 + x). Sur [0\u00a0;\u00a04], √2 + x > 0 : f′(x) a donc le signe de √2 − x."}
+          </>
+        ),
+      },
+      {
+        key: "conclusion-signe",
+        content: (
+          <>{"f′(x) > 0 sur [0\u00a0;\u00a0√2[, f′(√2) = 0 et f′(x) < 0 sur ]√2\u00a0;\u00a04]."}</>
+        ),
+      },
+      {
+        key: "racine-exclue",
+        content: (
+          <>
+            La valeur −√2 annule aussi 2 − x², mais elle n’appartient pas à {typeBacInterval} : on ne la place pas dans le tableau.
+          </>
+        ),
+      },
+    ],
+  },
+  {
+    key: "correction-variations",
+    title: "Question 3 — tableau de variations",
+    showTable: true,
+    lines: [
+      {
+        key: "sens-variation",
+        content: (
+          <>
+            {"f est strictement croissante sur [0\u00a0;\u00a0√2] et strictement décroissante sur [√2\u00a0;\u00a04]."}
+          </>
+        ),
+      },
+      {
+        key: "valeurs-bornes",
+        content: (
+          <>
+            f(0) = 0 et f(4) = (16 + 8)<ExpPower exponent="−4" /> = 24<ExpPower exponent="−4" /> ≈ 0,44.
+          </>
+        ),
+      },
+      {
+        key: "valeur-maximum",
+        content: (
+          <>
+            f(√2) = ((√2)² + 2√2)<ExpPower exponent="−√2" /> = (2 + 2√2)<ExpPower exponent="−√2" /> ≈ 1,17.
+          </>
+        ),
+      },
+      {
+        key: "maximum",
+        content: (
+          <>
+            Sur {typeBacInterval}, f admet donc un maximum égal à (2 + 2√2)<ExpPower exponent="−√2" />, atteint en x = √2.
+          </>
+        ),
+      },
+    ],
+  },
+  {
+    key: "correction-tangente",
+    title: "Question 4 — équation de la tangente",
+    lines: [
+      {
+        key: "formule-tangente",
+        content: (
+          <>
+            La tangente au point d’abscisse a a pour équation y = f′(a)(x − a) + f(a).
+          </>
+        ),
+      },
+      {
+        key: "valeurs-en-zero",
+        content: (
+          <>
+            Ici f(0) = (0² + 2 × 0)<ExpPower exponent="0" /> = 0 et f′(0) = (2 − 0²)<ExpPower exponent="0" /> = 2.
+          </>
+        ),
+      },
+      {
+        key: "equation-tangente",
+        content: <>Donc T : y = 2(x − 0) + 0, c’est-à-dire y = 2x.</>,
+      },
+    ],
+  },
+];
+
+function TypeBacVariationTable() {
+  const headerCell = "border border-slate-200 bg-slate-50 px-1 py-2 font-bold text-slate-950 sm:px-3";
+  const cell = "border border-slate-200 px-1 py-2 sm:px-3";
+
+  return (
+    <div
+      role="region"
+      aria-label={`Tableau de variations de f sur ${typeBacInterval}`}
+      tabIndex={0}
+      className="relative mt-4 w-full max-w-full overflow-x-auto rounded-lg border border-slate-200 bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-800"
+    >
+      <table className="w-full border-collapse text-center text-[13px] sm:text-base">
+        <caption className="caption-top px-3 py-2 text-left text-sm leading-6 text-slate-700">
+          Tableau de variations de f sur {typeBacInterval}.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col" className={headerCell}>
+              x
+            </th>
+            <th scope="col" className={headerCell}>
+              0
+            </th>
+            <th scope="col" className={headerCell}>
+              <span className="sr-only">entre 0 et √2</span>
+            </th>
+            <th scope="col" className={headerCell}>
+              √2
+            </th>
+            <th scope="col" className={headerCell}>
+              <span className="sr-only">entre √2 et 4</span>
+            </th>
+            <th scope="col" className={headerCell}>
+              4
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" className={headerCell}>
+              Signe de <span className="whitespace-nowrap">f′(x)</span>
+            </th>
+            <td className={cell} />
+            <td className={`${cell} font-semibold text-emerald-700`}>
+              <span aria-hidden="true">+</span>
+              <span className="sr-only">positif</span>
+            </td>
+            <td className={`${cell} text-slate-700`}>0</td>
+            <td className={`${cell} font-semibold text-red-700`}>
+              <span aria-hidden="true">−</span>
+              <span className="sr-only">négatif</span>
+            </td>
+            <td className={cell} />
+          </tr>
+          <tr>
+            <th scope="row" className={headerCell}>
+              Variations de f
+            </th>
+            <td className={`${cell} font-semibold text-slate-950`}>0</td>
+            <td className={cell}>
+              <ArrowUpRight aria-hidden="true" className="mx-auto h-5 w-5 text-slate-950" />
+              <span className="sr-only">strictement croissante</span>
+            </td>
+            <td className={`${cell} whitespace-nowrap font-semibold text-slate-950`}>
+              (2 + 2√2)<ExpPower exponent="−√2" />
+            </td>
+            <td className={cell}>
+              <ArrowDownRight aria-hidden="true" className="mx-auto h-5 w-5 text-slate-950" />
+              <span className="sr-only">strictement décroissante</span>
+            </td>
+            <td className={`${cell} whitespace-nowrap font-semibold text-slate-950`}>
+              24<ExpPower exponent="−4" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function TypeBacExponentialProblem() {
+  return (
+    <section id={typeBacExerciseId} className="scroll-mt-24">
+      <h2 className="text-3xl font-bold text-slate-950">
+        Exercice type bac de dérivation : exponentielle, variations et tangente
+      </h2>
+      <p className="mt-4 max-w-3xl leading-7 text-slate-700">
+        Ce problème original réunit dans un seul énoncé de type bac les réflexes des exercices précédents : dériver un produit avec l’exponentielle, étudier un signe, dresser un tableau de variations puis écrire une tangente. Ce n’est pas une annale officielle. Cherche chaque question avant de lire la correction détaillée.
+      </p>
+
+      <article className="mt-5 rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <p className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase text-blue-800">
+          <ClipboardList className="h-4 w-4" />
+          Problème complet
+        </p>
+        <h3 className="mt-4 text-xl font-bold text-slate-950">Énoncé</h3>
+        <p className="mt-2 leading-7 text-slate-700">
+          On considère la fonction f définie sur l’intervalle {typeBacInterval} par{" "}
+          <span className="whitespace-nowrap font-semibold text-slate-950">
+            f(x) = (x² + 2x)<ExpPower exponent="−x" />
+          </span>
+          . On note C sa courbe représentative dans un repère.
+        </p>
+        <ol className="mt-4 list-decimal space-y-2 pl-5 leading-7 text-slate-700">
+          {typeBacQuestions.map((question) => (
+            <li key={question.key}>{question.content}</li>
+          ))}
+        </ol>
+      </article>
+
+      <h3 className="mt-8 text-2xl font-bold text-slate-950">Correction détaillée</h3>
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        {typeBacCorrection.map((part) => (
+          <article
+            key={part.key}
+            className="min-w-0 rounded-lg border border-emerald-200 bg-emerald-50 p-5 shadow-sm"
+          >
+            <h4 className="text-lg font-bold text-slate-950">{part.title}</h4>
+            <div className="mt-3 space-y-3 break-words leading-7 text-slate-800">
+              {part.lines.map((line) => (
+                <p key={line.key}>{line.content}</p>
+              ))}
+            </div>
+            {part.showTable ? <TypeBacVariationTable /> : null}
+          </article>
+        ))}
+      </div>
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div className="border-l-4 border-amber-500 pl-4">
+          <p className="font-bold text-slate-950">Piège du moins</p>
+          <p className="mt-1 leading-7 text-slate-700">
+            Le signe − de v′(x) porte sur toute la parenthèse : −(x² + 2x) = −x² − 2x. Écrire −x² + 2x donne (−x² + 4x + 2)<ExpPower exponent="−x" />, et dériver <ExpPower exponent="−x" /> en <ExpPower exponent="−x" /> donne (x² + 4x + 2)<ExpPower exponent="−x" />. Ces deux expressions restent positives sur {typeBacInterval} : on conclurait à tort que f est croissante, alors que f(4) ≈ 0,44 est inférieur à f(√2) ≈ 1,17.
+          </p>
+        </div>
+        <div className="border-l-4 border-blue-800 pl-4">
+          <p className="font-bold text-slate-950">Réflexe de vérification</p>
+          <p className="mt-1 leading-7 text-slate-700">
+            Relis le tableau comme une histoire : f part de 0, monte jusqu’à environ 1,17 en x = √2 ≈ 1,41, puis redescend vers environ 0,44 en x = 4. Les arrondis servent à contrôler les flèches ; dans la copie, garde les valeurs exactes.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function ExercicesDerivationTerminalePage() {
   return (
     <SeoPageLayout showUrgencyBanner={false} urgencySourcePage={pagePath}>
@@ -475,6 +811,8 @@ export default function ExercicesDerivationTerminalePage() {
           {visibleExercises.map((exercise) => (
             <ExerciseSection key={exercise.id} exercise={exercise} />
           ))}
+
+          <TypeBacExponentialProblem />
 
           {lockedExercises.map((exercise) => (
             <section key={exercise.heading} id={exercise.id} className="scroll-mt-24">
