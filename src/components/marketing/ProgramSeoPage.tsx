@@ -430,7 +430,7 @@ export function ProgramSeoPage({ goal, h1, intro }: ProgramSeoPageProps) {
                     },
                     variant: "outline",
                   }
-                : undefined
+                : false
             }
           />
           <InternalLinks currentPath={pagePath} />

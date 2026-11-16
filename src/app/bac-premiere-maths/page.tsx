@@ -221,6 +221,7 @@ export default function BacPremiereMathsPage() {
           <SeoCta
             title="Construire un plan de révision Première"
             description="Le diagnostic gratuit aide à identifier les priorités avant de commencer les sessions par chapitre."
+            secondaryCta={false}
           />
           <SeoFaq items={faqItems} />
           <InternalLinks currentPath={pagePath} />

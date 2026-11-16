@@ -190,6 +190,7 @@ export default function BrevetMathsPage() {
           <SeoCta
             title="Démarrer les révisions du brevet"
             description="Le diagnostic gratuit aide à repérer les chapitres à traiter en priorité avant de lancer les sessions."
+            secondaryCta={false}
           />
           <SeoFaq items={faqItems} />
           <InternalLinks currentPath={pagePath} />
