@@ -34,6 +34,7 @@ export function productJsonLd(path: string, options: ProductJsonLdOptions = {}) 
     name: "Pack Révision Express SprintMaths",
     description:
       "Pack de révision de mathématiques avec exercices ciblés, programme par chapitre, plan de révision et suivi de progression.",
+    image: absoluteUrl("/images/screenshots/sprintmaths-guided-exercise.png"),
     brand: {
       "@type": "Brand",
       name: SITE_NAME,
