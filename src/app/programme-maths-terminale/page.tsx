@@ -1,3 +1,4 @@
+import { TrackedLink } from "@/components/tracking/TrackedLink";
 import { DiagnosticCta } from "@/components/marketing/DiagnosticCta";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -511,6 +512,60 @@ export default function ProgrammeMathsTerminalePage() {
               Voir le planning de révision
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
+          </section>
+
+          <section id="programme-vers-typebac" className="scroll-mt-24 rounded-2xl border border-blue-200 bg-blue-50 p-6 sm:p-8">
+            <h2 className="text-3xl font-bold text-slate-950">
+              Passer du programme à un exercice type bac
+            </h2>
+            <p className="mt-4 max-w-4xl text-lg leading-8 text-slate-700">
+              Un chapitre révisé devient utile quand tu sais choisir une méthode et
+              rédiger sa justification. Prends une notion que tu viens de travailler,
+              puis transforme-la en une question précise : déterminer le domaine,
+              étudier des variations ou écrire une tangente. Tu peux ainsi repérer
+              ce que tu sais faire sans relire tout le cours.
+            </p>
+            <ol className="mt-5 list-decimal space-y-4 pl-6 text-lg leading-8 text-slate-700">
+              <li>
+                Choisis une seule question dans un énoncé et cache la correction.
+                Note le domaine, les données utiles et ce que la consigne demande
+                de démontrer avant de commencer les calculs.
+              </li>
+              <li>
+                Écris une première réponse complète. Pour une étude de fonction,
+                une dérivée calculée ne suffit pas : explique son signe sur le
+                domaine, puis relie ce signe aux variations. Pour une tangente,
+                précise le point de contact et la pente utilisée.
+              </li>
+              <li>
+                Si tu bloques, ouvre seulement l’indice de cette question. Compare
+                ensuite ta rédaction avec la correction et identifie une étape
+                manquante : condition, calcul, argument de signe ou conclusion.
+              </li>
+              <li>
+                Referme l’aide et réécris cette étape avec tes propres mots. Vérifie
+                enfin que ta conclusion répond exactement à la question, avec le
+                bon intervalle et les valeurs nécessaires.
+              </li>
+            </ol>
+            <p className="mt-5 max-w-4xl text-lg leading-8 text-slate-700">
+              Les énoncés, indices et corrections gratuits sur l’exponentielle et
+              la fonction x + 4/x permettent cet entraînement. Ce sont des exercices
+              originaux SprintMaths, distincts des annales officielles et du pack payant.
+            </p>
+            <TrackedLink
+              href="/exercices-type-bac-maths-terminale"
+              eventName="click_exercises"
+              eventParams={{
+                source_page: pagePath,
+                level: "terminale",
+                destination_page: "/exercices-type-bac-maths-terminale",
+                cta_location: "programme_typebac_context",
+              }}
+              className="mt-5 inline-flex min-h-12 items-center font-bold text-blue-900 underline underline-offset-4"
+            >
+              Chercher un exercice type bac avec indices et correction gratuits
+            </TrackedLink>
           </section>
 
           <ChapterInternalLinks
