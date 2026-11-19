@@ -6,12 +6,9 @@ name: Prod health
 # Secret requis  : HEALTHCHECK_TOKEN (même valeur que la variable Vercel Production).
 # Variable (opt.): PROD_BASE_URL (défaut https://www.sprintmaths.com).
 
+# Lancement manuel uniquement (onglet Actions > Prod health > Run workflow).
 on:
   workflow_dispatch:
-  schedule:
-    # Toutes les 6 heures (4 exécutions/jour). Heure UTC, décalée de l'heure pile
-    # pour éviter les pics de charge des runners GitHub.
-    - cron: "17 */6 * * *"
 
 # Un seul run à la fois : un check en retard ne doit pas s'empiler.
 concurrency:
