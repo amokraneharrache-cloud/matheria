@@ -51,7 +51,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ],
     [
       "/methodes-maths-terminale/probabilites-conditionnelles",
-      new Date("2026-10-06T00:00:00.000Z"),
+      new Date("2026-11-20T13:43:37.581Z"),
     ],
     [
       "/methodes-maths-terminale/etudier-une-suite",
