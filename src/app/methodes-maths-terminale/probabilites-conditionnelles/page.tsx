@@ -847,6 +847,105 @@ export default function MethodeProbabilitesConditionnellesPage() {
             </article>
           </section>
 
+          <section
+            id="exercice-sans-remise"
+            aria-labelledby="titre-exercice-sans-remise"
+            className="min-w-0 scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8"
+          >
+            <h2
+              id="titre-exercice-sans-remise"
+              className="text-3xl font-bold text-slate-950"
+            >
+              Exercice corrigé — deux tirages sans remise
+            </h2>
+            <p className="mt-4 text-lg leading-8 text-slate-700">
+              Une urne contient 3 boules rouges et 2 bleues, indiscernables au
+              toucher. On tire successivement deux boules au hasard, sans remettre
+              la première. Chaque boule présente dans l’urne a la même chance
+              d’être tirée. Cet exercice original utilise des données fictives.
+              On note A : « la première boule est rouge », et B : « la seconde
+              boule est rouge ».
+            </p>
+
+            <h3 className="mt-6 text-xl font-bold text-slate-950">Questions</h3>
+            <ol className="mt-3 list-decimal space-y-2 pl-5 leading-7 text-slate-700">
+              <li>Compléter l’arbre pondéré des deux tirages.</li>
+              <li>Calculer la probabilité de deux rouges, puis d’exactement une rouge.</li>
+              <li>
+                Calculer P(B), tester l’indépendance de A et B et déterminer si
+                le nombre X de rouges suit B(2 ; 3/5).
+              </li>
+            </ol>
+
+            <h3 className="mt-6 text-xl font-bold text-slate-950">
+              Arbre : la composition change
+            </h3>
+            <p className="mt-3 leading-7 text-slate-700">
+              Après le premier tirage, il reste seulement quatre boules. Les
+              branches du second niveau dépendent donc de la couleur déjà sortie :
+            </p>
+            <ul className="mt-4 grid gap-4 sm:grid-cols-2">
+              <li className="min-w-0 rounded-xl bg-slate-50 p-4 leading-7 text-slate-700">
+                <p className="font-bold text-slate-950">A : rouge, probabilité 3/5</p>
+                <p className="mt-2">Il reste 2 rouges et 2 bleues.</p>
+                <ul className="mt-2 list-disc space-y-1 pl-5">
+                  <li>B : rouge, P_A(B) = 2/4.</li>
+                  <li>non B : bleue, P_A(non B) = 2/4.</li>
+                </ul>
+              </li>
+              <li className="min-w-0 rounded-xl bg-slate-50 p-4 leading-7 text-slate-700">
+                <p className="font-bold text-slate-950">non A : bleue, probabilité 2/5</p>
+                <p className="mt-2">Il reste 3 rouges et 1 bleue.</p>
+                <ul className="mt-2 list-disc space-y-1 pl-5">
+                  <li>B : rouge, P_non A(B) = 3/4.</li>
+                  <li>non B : bleue, P_non A(non B) = 1/4.</li>
+                </ul>
+              </li>
+            </ul>
+            <p className="mt-3 leading-7 text-slate-700">
+              À chaque nœud, la somme vaut 1 : 3/5 + 2/5, puis 2/4 + 2/4 ou
+              3/4 + 1/4.
+            </p>
+
+            <h3 className="mt-6 text-xl font-bold text-slate-950">
+              Correction : multiplier, puis additionner
+            </h3>
+            <p className="mt-3 leading-7 text-slate-700">
+              Dans les chemins ci-dessous, R signifie rouge et B signifie bleue ;
+              ces lettres désignent ici les couleurs, pas les événements A et B.
+            </p>
+            <ul className="mt-3 space-y-2 rounded-xl bg-emerald-50 p-4 leading-7 text-emerald-950">
+              <li>RR : (3/5) × (2/4) = 3/10.</li>
+              <li>RB : (3/5) × (2/4) = 3/10.</li>
+              <li>BR : (2/5) × (3/4) = 3/10.</li>
+              <li>BB : (2/5) × (1/4) = 1/10.</li>
+            </ul>
+            <p className="mt-4 leading-7 text-slate-700">
+              Ces quatre chemins incompatibles couvrent toutes les possibilités ;
+              leur somme vaut 1. Deux rouges correspondent à RR : la probabilité
+              est 3/10. Exactement une rouge correspond à RB ou BR, donc
+              3/10 + 3/10 = 3/5. Pour obtenir une rouge au second tirage, on
+              additionne RR et BR : P(B) = 3/5.
+            </p>
+
+            <h3 className="mt-6 text-xl font-bold text-slate-950">
+              Indépendance et piège binomial
+            </h3>
+            <p className="mt-3 leading-7 text-slate-700">
+              Pourtant P_A(B) = 1/2, différent de P(B) = 3/5 : A et B ne sont
+              pas indépendants. Les deux tirages ont la même probabilité globale
+              de rouge, mais connaître le premier résultat change la probabilité
+              du second.
+            </p>
+            <p className="mt-3 leading-7 text-slate-700">
+              Ici, X ne suit pas B(2 ; 3/5) : cette loi donnerait
+              P(X = 2) = (3/5)² = 9/25, alors que l’arbre donne 3/10.
+              Le piège serait de conserver 3/5 sur toutes les branches rouges.
+              Avant d’utiliser une loi binomiale, vérifie l’indépendance des essais
+              et la constance de la probabilité de succès.
+            </p>
+          </section>
+
           <section>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div>
