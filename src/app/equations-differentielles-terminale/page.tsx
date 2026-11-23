@@ -403,6 +403,127 @@ export default function EquationsDifferentiellesTerminalePage() {
             </div>
           </section>
 
+          <section id="exercice-second-membre-fonctionnel" className="scroll-mt-24">
+            <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <p className="text-sm font-bold uppercase tracking-[0.14em] text-blue-800">
+                Complément Terminale — second membre non constant
+              </p>
+              <h2 className="mt-3 text-3xl font-bold text-slate-950">
+                Exercice corrigé — second membre fonctionnel y’ = ay + f(x)
+              </h2>
+              <p className="mt-4 leading-7 text-slate-700">
+                Au programme de Terminale spécialité mathématiques, une équation différentielle linéaire du premier ordre peut comporter un second membre qui dépend de x : y’ = ay + f(x), où a est un réel non nul et f une fonction continue sur ℝ. Dans ce cas, on ne cherche plus une solution particulière constante, mais une solution particulière adaptée à la forme de f, puis on ajoute les solutions de l’équation homogène associée y’ = ay.
+              </p>
+              <div className="mt-5 rounded-xl bg-slate-50 p-4 leading-7 text-slate-800">
+                <p>
+                  <strong>Énoncé :</strong> On considère sur ℝ l’équation différentielle (E) :{" "}
+                  <span className="font-mono font-semibold">y’ = 2y − 4x + 2</span>.
+                </p>
+                <ol className="mt-3 list-decimal space-y-1 pl-5">
+                  <li>Déterminer une fonction affine g(x) = mx + p qui soit solution particulière de (E) sur ℝ.</li>
+                  <li>En déduire l’ensemble de toutes les solutions de (E) sur ℝ.</li>
+                  <li>Déterminer l’unique solution y de (E) vérifiant la condition initiale y(0) = 3, puis vérifier le résultat.</li>
+                </ol>
+              </div>
+
+              <div className="mt-6 grid gap-5 lg:grid-cols-2">
+                <div className="min-w-0 space-y-5">
+                  <div className="min-w-0">
+                    <h3 className="text-xl font-bold text-slate-950">
+                      1. Solution particulière affine g(x) = mx + p
+                    </h3>
+                    <div className="mt-2 space-y-2 leading-7 text-slate-700">
+                      <p>
+                        La fonction g : x ↦ mx + p est dérivable sur ℝ et sa dérivée vaut{" "}
+                        <span className="font-mono">g’(x) = m</span>. On calcule séparément le membre droit de (E) :
+                      </p>
+                      <p className="overflow-x-auto rounded-lg bg-slate-950 px-4 py-3 font-mono text-sm text-white">
+                        2g(x) − 4x + 2 = 2(mx + p) − 4x + 2 = (2m − 4)x + (2p + 2)
+                      </p>
+                      <p>
+                        Pour que g vérifie (E) pour tout réel x, il faut{" "}
+                        <span className="font-mono">(2m − 4)x + (2p + 2) = m</span> pour tout x ∈ ℝ. En identifiant les coefficients des termes en x et les constantes, on obtient le système :
+                      </p>
+                      <p className="font-mono text-sm text-slate-900">
+                        2m − 4 = 0 ⇒ m = 2, puis 2p + 2 = m = 2 ⇒ 2p = 0 ⇒ p = 0.
+                      </p>
+                      <p>
+                        La fonction <strong className="font-mono">g(x) = 2x</strong> est donc une solution particulière de (E) sur ℝ. Vérification : pour tout x ∈ ℝ,{" "}
+                        <span className="font-mono">g’(x) = 2</span> et{" "}
+                        <span className="font-mono">2g(x) − 4x + 2 = 2(2x) − 4x + 2 = 2</span>.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="min-w-0">
+                    <h3 className="text-xl font-bold text-slate-950">
+                      2. Ensemble des solutions générales sur ℝ
+                    </h3>
+                    <div className="mt-2 space-y-2 leading-7 text-slate-700">
+                      <p>
+                        Soit y une fonction dérivable sur ℝ et <span className="font-mono">z = y − g</span>. Puisque g vérifie (E), on a l’équivalence :
+                      </p>
+                      <p className="font-mono text-sm text-slate-900">
+                        y solution de (E) ⇔ (y − g)’ = 2(y − g) ⇔ z’ = 2z ⇔ z(x) = Ce^(2x), C ∈ ℝ.
+                      </p>
+                      <p>
+                        Les solutions générales de (E) sur ℝ sont donc exactement les fonctions définies par{" "}
+                        <strong className="font-mono">y(x) = 2x + Ce^(2x)</strong>, où C ∈ ℝ.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="min-w-0 space-y-4">
+                  <div className="min-w-0 rounded-xl bg-blue-50 p-4 text-blue-950">
+                    <h3 className="text-lg font-bold">
+                      3. Condition initiale y(0) = 3 et double vérification
+                    </h3>
+                    <div className="mt-2 space-y-2 leading-7">
+                      <p>
+                        En remplaçant x par 0 dans <span className="font-mono">y(x) = 2x + Ce^(2x)</span>, on écrit{" "}
+                        <span className="font-mono">y(0) = 2 × 0 + Ce^0 = C</span>. La condition y(0) = 3 impose donc{" "}
+                        <strong className="font-mono">C = 3</strong>.
+                      </p>
+                      <p>
+                        L’unique solution cherchée sur ℝ est{" "}
+                        <strong className="font-mono">y(x) = 2x + 3e^(2x)</strong>.
+                      </p>
+                      <p>
+                        <strong>Double vérification :</strong> d’une part, pour tout x ∈ ℝ,{" "}
+                        <span className="font-mono">y’(x) = 2 + 6e^(2x)</span> et{" "}
+                        <span className="font-mono">2y(x) − 4x + 2 = 2(2x + 3e^(2x)) − 4x + 2 = 2 + 6e^(2x)</span> ; d’autre part,{" "}
+                        <span className="font-mono">y(0) = 0 + 3e^0 = 3</span>.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="min-w-0 rounded-xl bg-red-50 p-4 text-red-950">
+                    <h3 className="text-lg font-bold">
+                      Piège classique à éviter : ne pas appliquer −b/a à un second membre fonctionnel
+                    </h3>
+                    <p className="mt-2 leading-7">
+                      La formule <span className="font-mono">−b/a</span> ne vaut que lorsque le second membre b est constant, car la dérivée d’une constante est nulle. Appliquer mécaniquement{" "}
+                      <span className="font-mono">−f(x)/a</span> avec{" "}
+                      <span className="font-mono">f(x) = −4x + 2</span> et <span className="font-mono">a = 2</span> donnerait{" "}
+                      <span className="font-mono">h(x) = −(−4x + 2)/2 = 2x − 1</span>. Or{" "}
+                      <span className="font-mono">h’(x) = 2</span>, alors que{" "}
+                      <span className="font-mono">2h(x) − 4x + 2 = 2(2x − 1) − 4x + 2 = 0 ≠ 2</span>. La fonction{" "}
+                      <span className="font-mono">2x − 1</span> n’est donc pas solution de (E) : il faut toujours dériver le candidat et identifier terme à terme.
+                    </p>
+                  </div>
+
+                  <div className="min-w-0 rounded-xl bg-emerald-50 p-4 text-emerald-950">
+                    <h3 className="text-lg font-bold">Méthode à retenir pour y’ = ay + f(x)</h3>
+                    <p className="mt-2 leading-7">
+                      Vérifier la dérivabilité sur ℝ, déterminer une solution particulière g adaptée à f (ici affine), résoudre l’équation homogène z’ = az, additionner y = g + z, puis seulement fixer C avec la condition initiale et contrôler les deux égalités.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+
           <section className="grid gap-6 lg:grid-cols-2">
             <article className="rounded-2xl border-2 border-blue-200 bg-blue-50 p-6">
               <ListChecks className="h-7 w-7 text-blue-800" aria-hidden="true" />
