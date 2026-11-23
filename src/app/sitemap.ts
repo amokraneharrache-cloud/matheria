@@ -16,7 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ],
     ["/demonstrations-bac-maths-terminale", new Date("2026-08-04T00:00:00.000Z")],
     ["/python-bac-maths-terminale", new Date("2026-08-06T00:00:00.000Z")],
-    ["/equations-differentielles-terminale", new Date("2026-08-06T00:00:00.000Z")],
+    ["/equations-differentielles-terminale", new Date("2026-11-23T14:37:57.000Z")],
     ["/quiz-maths-terminale-specialite", new Date("2026-08-06T00:00:00.000Z")],
     ["/denombrement-terminale-specialite-maths", new Date("2026-08-07T00:00:00.000Z")],
     ["/primitives-terminale-specialite-maths", new Date("2026-08-07T00:00:00.000Z")],
